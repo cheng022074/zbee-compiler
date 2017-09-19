@@ -10,10 +10,14 @@
     }
 },{
     "folder":"script",
-    "contains":"welcome.js"
+    "contains":{
+        "file":"welcome.js"
+    }
 },{
     "folder":"css",
-    "contains":"welcome.css"
+    "contains":{
+        "file":"welcome.css"
+    }
 },{
     "folder":"view",
     "contains":{
