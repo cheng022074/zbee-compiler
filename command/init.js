@@ -9,25 +9,55 @@ const FS = require('fs'),
 
 module.exports = (name = 'default') =>{
 
-    let path = join(COMPILER_PATH , 'init' , `${name}.json`) ;
+    let APPLICATION_PATH ;
 
-    if(is_file(path)){
+    try{
 
-        let APPLICATION_PATH ;
+        APPLICATION_PATH = require('../src/path/application') ;
 
-        try{
+    }catch(err){
 
-            APPLICATION_PATH = require('../src/path/application') ;
+        console.log(err.message) ;
 
-        }catch(err){
+        return ;
+    }
 
-            console.log(err.message) ;
+    {
+        let path = join(APPLICATION_PATH , 'init.json') ;
 
+        if(is_file(path)){
+    
+            result(generate(APPLICATION_PATH , read_json_file(path))) ;
+            
             return ;
         }
+    }
 
-        generate(APPLICATION_PATH , read_json_file(path)) ;
-
+    {
+        let path = join(COMPILER_PATH , 'init' , `${name}.json`) ;
+        
+        if(is_file(path)){
+    
+            result(generate(APPLICATION_PATH , read_json_file(path))) ;
+    
+        }
     }
     
+}
+
+function result(paths){
+
+    if(paths.length === 0){
+
+        return ;
+    }
+
+    console.log('初始化开始')
+
+    for(let path of paths){
+
+        console.log('初始化' , path) ;
+    }
+
+    console.log('初始化结束') ;
 }

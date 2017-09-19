@@ -1,8 +1,14 @@
 const {
-    writeFileSync
-} = require('fs') ;
+        writeFileSync
+    } = require('fs'),
+    is_file = require('../../is/file');
 
 module.exports = (path , data) =>{
 
-    writeFileSync(path , data) ;
+    if(!is_file(path)){
+
+        writeFileSync(path , data) ;
+    }
+
+    return path ;
 }
