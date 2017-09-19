@@ -1,0 +1,29 @@
+{
+  "name": "zbee",
+  "version": "0.0.1",
+  "description": "基于控制台的代码设计工具",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cheng022074/zbee-compiler.git"
+  },
+  "bin": {
+    "1010": "./bin/zb.js"
+  },
+  "keywords": [
+    "cli"
+  ],
+  "files": [
+    "bin",
+    "src",
+    "command"
+  ],
+  "author": "nero chen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cheng022074/zbee-compiler/issues"
+  },
+  "homepage": "https://github.com/cheng022074/zbee-compiler#readme",
+  "engines": {
+    "node": ">= 8.5"
+  }
+}
