@@ -1,6 +1,6 @@
-const write_file = require('./writeFile') ;
+const create_file = require('../create') ;
 
 module.exports = path =>{
 
-    write_file(path , '') ;
+    create_file(path , '') ;
 }
