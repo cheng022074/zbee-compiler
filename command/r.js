@@ -1,6 +1,7 @@
 const {
     defined:is_defined,
-    file:is_file
+    file:is_file,
+    function:is_function
 } = require('../src/is'),
     {
         join:path_join
@@ -9,7 +10,7 @@ const {
         name2path
     } = require('../src/path');
 
-module.exports = (name , bootPath = process.cwd()) =>{
+module.exports = (name , ...args) =>{
 
     if(!is_defined(name)){
 
@@ -17,6 +18,9 @@ module.exports = (name , bootPath = process.cwd()) =>{
 
         return false;
     }
+
+    let bootPath = process.cwd() ;
+    
 
     let path = path_join(bootPath , `${name2path(name)}.js`) ;
 
@@ -29,7 +33,7 @@ module.exports = (name , bootPath = process.cwd()) =>{
 
     try{
 
-        let result = doExecute(target) ;
+        let result = doExecute(path , args) ;
     
         if(result instanceof Promise){
 
@@ -51,17 +55,25 @@ module.exports = (name , bootPath = process.cwd()) =>{
     return true ;
 }
 
-function doExecute(target){
+function doExecute(path , args){
 
+    let target = require(path) ;
 
+    if(is_function(target)){
+
+        return target(...args) ;
+    }
 }
 
 function doSuccess(result){
 
+    if(is_defined(result)){
 
+        console.log(result) ;
+    }
 }
 
 function doFailure(error){
 
-
+    console.log(error) ;
 }

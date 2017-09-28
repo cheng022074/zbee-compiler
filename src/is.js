@@ -37,3 +37,8 @@ exports.string = data =>{
 
     return is_type(data , 'string') ;
 }
+
+exports.function = data =>{
+
+    return is_type(data , 'function') ;
+}
