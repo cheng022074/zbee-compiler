@@ -13,7 +13,12 @@ const {
 
 const cache = {} ;
 
-exports.get = (name , key) =>{
+exports.get = (name , key , isRefresh = false) =>{
+
+    if(isRefresh){
+
+        delete cache[name] ;
+    }
 
     if(!cache.hasOwnProperty(name)){
 
@@ -26,11 +31,4 @@ exports.get = (name , key) =>{
 
         return object_get(config , key) ;
     }
-}
-
-exports.reget = (name , key) =>{
-
-    delete cache[name] ;
-
-    return exports.get(name , key) ;
 }
