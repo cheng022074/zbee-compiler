@@ -3,12 +3,15 @@ const {
     file:is_file,
     function:is_function
 } = require('../src/is'),
-    {
-        join:path_join
-    } = require('path'),
-    {
-        name2path
-    } = require('../src/path');
+{
+    join:path_join
+} = require('path'),
+{
+    name2path
+} = require('../src/path'),
+{
+    get:properties_get
+} = require('../src/properties');
 
 module.exports = (name , ...args) =>{
 
@@ -19,14 +22,22 @@ module.exports = (name , ...args) =>{
         return false;
     }
 
-    let bootPath = process.cwd() ;
-    
+    let bootPath = properties_get('run.bootPath') ;
+
+    if(is_defined(bootPath)){
+
+        bootPath = path_join(process.cwd() , bootPath) ;
+
+    }else{
+
+        bootPath = process.cwd() ;
+    }
 
     let path = path_join(bootPath , `${name2path(name)}.js`) ;
 
     if(!is_file(path)){
 
-        console.error(`${name}不是一个可以运行的程序`) ;
+        console.error(`${name} 不是一个可以运行的程序`) ;
 
         return false;
     }
