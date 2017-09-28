@@ -6,7 +6,7 @@ const {
 } = require('path'),
 {
     name2path,
-    getFilePaths,
+    getFilePath,
     extname,
     replaceSuffix
 } = require('../src/path'),
@@ -31,7 +31,7 @@ module.exports = (name , compilePath) =>{
 
     if(!is_defined(name)){
 
-        console.error('未指定类名称') ;
+        console.error('未指定名称') ;
 
         return false;
     }
@@ -46,10 +46,9 @@ module.exports = (name , compilePath) =>{
     }
 
     let bootPath = process.cwd(),
-        path = path_join(bootPath , name2path(name)),
-        paths = getFilePaths(path);
+        path = getFilePath(path_join(bootPath , name2path(name)));
 
-    for(let path of paths){
+    if(path){
 
         let suffix = extname(path),
             config = config_get('suffix' , suffix) ;
@@ -63,11 +62,11 @@ module.exports = (name , compilePath) =>{
                 let filePath = replaceSuffix(path , config.suffix).replace(bootPath , compilePath) ;
 
                 writeTextFile(filePath , result) ;
-
-                console.log('已编译' , filePath) ;
             }
         }
+
+        return true ;
     }
 
-    return true ;
+    console.error(name , '不是一个有效的代码文件') ;
 }

@@ -37,7 +37,7 @@ module.exports = (name , ...args) =>{
 
     if(!is_file(path)){
 
-        console.error(`${name} 不是一个可以运行的程序`) ;
+        console.error(name , '不是一个可以运行的程序') ;
 
         return false;
     }
