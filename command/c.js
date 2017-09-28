@@ -25,9 +25,12 @@ const {
 } = require('../src/fs'),
 {
     apply
-} = require('../src/template');
+} = require('../src/template'),
+{
+    get:properties_get
+} = require('../src/properties');
 
-module.exports = (name , compilePath) =>{
+module.exports = name =>{
 
     if(!is_defined(name)){
 
@@ -35,6 +38,8 @@ module.exports = (name , compilePath) =>{
 
         return false;
     }
+
+    let compilePath = properties_get('compile.path') ;
 
     if(is_defined(compilePath)){
 

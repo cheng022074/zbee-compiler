@@ -22,7 +22,7 @@ module.exports = (name , ...args) =>{
         return false;
     }
 
-    let bootPath = properties_get('run.bootPath') ;
+    let bootPath = properties_get('run.path') ;
 
     if(is_defined(bootPath)){
 
