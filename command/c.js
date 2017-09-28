@@ -39,7 +39,7 @@ module.exports = name =>{
         return false;
     }
 
-    let compilePath = properties_get('compile.path') ;
+    let compilePath = properties_get('compile.path.dist') ;
 
     if(is_defined(compilePath)){
 
@@ -50,8 +50,8 @@ module.exports = name =>{
         compilePath = process.cwd() ;
     }
 
-    let bootPath = process.cwd(),
-        path = getFilePath(path_join(bootPath , name2path(name)));
+    let sourcePath = properties_get('compile.path.source') || process.cwd(),
+        path = getFilePath(path_join(sourcePath , name2path(name)));
 
     if(path){
 
@@ -64,7 +64,7 @@ module.exports = name =>{
 
             if(result){
 
-                let filePath = replaceSuffix(path , config.suffix).replace(bootPath , compilePath) ;
+                let filePath = replaceSuffix(path , config.suffix).replace(sourcePath , compilePath) ;
 
                 writeTextFile(filePath , result) ;
             }

@@ -5,5 +5,12 @@
             "file":"generate.file.script.function"
         },
         "suffix":".js"
+    },
+    ".fn.xml":{
+        "data":"template.generate.script.function.assembly",
+        "template":{
+            "file":"generate.file.script.function"
+        },
+        "suffix":".js"
     }
 }

@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "babel-core": "^6.26.0",
-    "ejs": "^2.5.7"
+    "ejs": "^2.5.7",
+    "elementtree": "^0.1.7"
   }
 }
