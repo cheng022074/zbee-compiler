@@ -1,13 +1,13 @@
 {
   "name": "zbee",
-  "version": "0.0.1",
-  "description": "基于控制台的代码设计工具",
+  "version": "0.0.2",
+  "description": "基于控制台的代码设计辅助工具",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cheng022074/zbee-compiler.git"
   },
   "bin": {
-    "1010": "./bin/zb.js"
+    "zb": "./bin/zb.js"
   },
   "keywords": [
     "cli"
@@ -15,7 +15,9 @@
   "files": [
     "bin",
     "src",
-    "command"
+    "command",
+    "config",
+    "template"
   ],
   "author": "nero chen",
   "license": "ISC",
@@ -27,6 +29,7 @@
     "node": ">= 8.5"
   },
   "dependencies": {
-    "babel-core": "^6.26.0"
+    "babel-core": "^6.26.0",
+    "ejs": "^2.5.7"
   }
 }

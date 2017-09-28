@@ -1,0 +1,9 @@
+{
+    ".fn.js":{
+        "data":"template.generate.script.function",
+        "template":{
+            "file":"generate.file.script.function"
+        },
+        "suffix":".js"
+    }
+}
