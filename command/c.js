@@ -60,7 +60,7 @@ module.exports = name =>{
 
         if(config){
 
-            let result = apply(object_get(config , 'template.file') , script_get(config.data)(readTextFile(path))) ;
+            let result = apply(object_get(config , 'template.file') , script_get(config.data)(readTextFile(path) , path)) ;
 
             if(result){
 

@@ -12,5 +12,12 @@
             "file":"generate.file.script.function"
         },
         "suffix":".js"
+    },
+    ".class.js":{
+        "data":"template.generate.script.class",
+        "template":{
+            "file":"generate.file.script.class"
+        },
+        "suffix":".js"
     }
 }
