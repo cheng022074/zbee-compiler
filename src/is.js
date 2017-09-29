@@ -38,7 +38,14 @@ exports.string = data =>{
     return is_type(data , 'string') ;
 }
 
+const classRe = /^class/ ;
+
 exports.function = data =>{
 
-    return is_type(data , 'function') ;
+    return is_type(data , 'function') && !classRe.test(data.toString());
+}
+
+exports.class = data =>{
+
+    return is_type(data , 'function') && classRe.test(data.toString());
 }

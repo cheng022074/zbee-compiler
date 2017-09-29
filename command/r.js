@@ -1,6 +1,7 @@
 const {
     defined:is_defined,
     file:is_file,
+    class:is_class,
     function:is_function
 } = require('../src/is'),
 {
@@ -73,6 +74,15 @@ function doExecute(path , args){
     if(is_function(target)){
 
         return target(...args) ;
+
+    }else if(is_class(target)){
+
+        let main = target.main ;
+
+        if(is_function(main)){
+
+            return main(...args) ;
+        }
     }
 }
 
