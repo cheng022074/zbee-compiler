@@ -12,7 +12,11 @@ const {
 } = require('../src/path'),
 {
     get:properties_get
-} = require('../src/properties');
+} = require('../src/properties'),
+{
+    execute:script_execute,
+    has:script_has
+} = require('../src/script');
 
 module.exports = (name , ...args) =>{
 
@@ -23,20 +27,7 @@ module.exports = (name , ...args) =>{
         return false;
     }
 
-    let bootPath = properties_get('run.path') ;
-
-    if(is_defined(bootPath)){
-
-        bootPath = path_join(process.cwd() , bootPath) ;
-
-    }else{
-
-        bootPath = process.cwd() ;
-    }
-
-    let path = path_join(bootPath , `${name2path(name)}.js`) ;
-
-    if(!is_file(path)){
+    if(!script_has(name)){
 
         console.error(name , '不是一个可以运行的程序') ;
 
@@ -45,7 +36,7 @@ module.exports = (name , ...args) =>{
 
     try{
 
-        let result = doExecute(path , args) ;
+        let result = script_execute(name , args) ;
     
         if(result instanceof Promise){
 
@@ -65,25 +56,6 @@ module.exports = (name , ...args) =>{
     
 
     return true ;
-}
-
-function doExecute(path , args){
-
-    let target = require(path) ;
-
-    if(is_function(target)){
-
-        return target(...args) ;
-
-    }else if(is_class(target)){
-
-        let main = target.main ;
-
-        if(is_function(main)){
-
-            return main(...args) ;
-        }
-    }
 }
 
 function doSuccess(result){

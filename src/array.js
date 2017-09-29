@@ -1,7 +1,9 @@
-const is_empty = require('../is/empty'),
-      is_string = require('../is/string');
+const {
+    empty:is_empty,
+    string:is_string
+} = require('./is') ;
 
-module.exports = (data) =>{
+exports.from = data =>{
 
     if(is_empty(data)){
 
@@ -17,4 +19,4 @@ module.exports = (data) =>{
     return [
         data
     ];
-};
+}

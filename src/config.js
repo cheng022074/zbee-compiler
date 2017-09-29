@@ -13,9 +13,9 @@ const {
 
 const cache = {} ;
 
-exports.get = (name , key , isRefresh = false) =>{
+exports.get = (name , key , isCache = true) =>{
 
-    if(isRefresh){
+    if(isCache === false){
 
         delete cache[name] ;
     }
