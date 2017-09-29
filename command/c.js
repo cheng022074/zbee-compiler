@@ -65,9 +65,17 @@ module.exports = name =>{
 
             if(result){
 
-                let filePath = replaceSuffix(path , config.suffix).replace(sourcePath , compilePath) ;
+                let suffix = config.suffix,
+                    filePath = replaceSuffix(path , config.suffix).replace(sourcePath , compilePath) ;
 
-                writeTextFile(filePath , script_format(result)) ;
+                switch(suffix){
+
+                    case '.js':
+
+                        result = script_format(result) ;
+                }
+
+                writeTextFile(filePath , result) ;
             }
         }
 
