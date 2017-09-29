@@ -17,7 +17,8 @@ const {
     get:object_get
 } = require('../src/object'),
 {
-    get:script_get
+    get:script_get,
+    format:script_format
 } = require('../src/script'),
 {
     readTextFile,
@@ -66,7 +67,7 @@ module.exports = name =>{
 
                 let filePath = replaceSuffix(path , config.suffix).replace(sourcePath , compilePath) ;
 
-                writeTextFile(filePath , result) ;
+                writeTextFile(filePath , script_format(result)) ;
             }
         }
 

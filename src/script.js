@@ -100,3 +100,15 @@ exports.execute = (name , ...args) =>{
         }
     }
 }
+
+exports.format = data =>{
+
+    try{
+        
+        return require('js-beautify').js_beautify(data) ;
+
+    }catch(err){
+    }
+
+    return data ;
+}
