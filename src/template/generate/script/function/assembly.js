@@ -12,8 +12,17 @@ module.exports = data =>{
 
     try{
 
-        let childEls = parse(data).find('body').getchildren(),
-            codes = [];
+        let root = parse(data).getroot();
+
+        if(root.tag !== 'function'){
+
+            return {
+                body:''
+            } ;
+        }
+
+        let codes = [],
+            childEls = root.find('body').getchildren() ;
 
         for(let childEl of childEls){
 

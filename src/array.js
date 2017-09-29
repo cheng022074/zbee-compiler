@@ -20,3 +20,15 @@ exports.from = data =>{
         data
     ];
 }
+
+exports.flat = data =>{
+
+    console.log(data) ;
+
+    return [] ;
+}
+
+exports.unique = data =>{
+    
+    return [] ;
+}

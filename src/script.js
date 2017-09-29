@@ -126,9 +126,22 @@ useStrictRe = /^\'use\sstrict\';/;
 
 exports.compile = data =>{
 
-    return transform(data , {
+    let {
+        code,
+        ast
+    } = transform(data , {
         presets: [
             BABEL_PRESET_ENV
         ]
-    }).code.replace(useStrictRe , '') ;
+    }) ;
+    
+    return {
+        code:code.replace(useStrictRe , ''),
+        ast
+    }
+}
+
+exports.importNames = path =>{
+
+    return [] ;
 }

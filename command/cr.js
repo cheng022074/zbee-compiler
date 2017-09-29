@@ -1,10 +1,10 @@
 const compile = require('./c'),
       run = require('./r');
 
-module.exports = (name , bootPath) =>{
+module.exports = (name , ...args) =>{
 
-    if(compile(name , bootPath)){
+    if(compile(name)){
 
-        run(name , bootPath) ;
+        run(name , ...args) ;
     }
 }

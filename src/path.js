@@ -9,6 +9,11 @@ const dotRe = /\./g ;
 
 exports.name2path = (name , suffix) =>{
 
+    if(name === '*'){
+
+        return '*' ;
+    }
+
     return `${name.replace(dotRe , sep)}${suffix ? suffix : ''}` ;
 }
 
@@ -16,6 +21,7 @@ const {
     readdirSync
 } = require('fs'),
 {
+    file:is_file,
     directory:is_directory
 } = require('./is');
 
@@ -51,9 +57,14 @@ exports.getFilePaths = path =>{
 
         for(let fileName of fileNames){
 
-            if(fileName.indexOf(name) === 0){
+            if(name === '*' || fileName.indexOf(name) === 0){
 
-                result.push(path_join(folderPath , fileName)) ; 
+                let path = path_join(folderPath , fileName) ;
+
+                if(is_file(path)){
+
+                    result.push(path) ; 
+                }
             }
         }
 

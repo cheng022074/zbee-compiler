@@ -76,7 +76,7 @@ module.exports = name =>{
 
                     case '.js':
 
-                        result = `${template_get('generate.file.script.require').template}${script_compile(result)}` ;
+                        result = `${template_get('generate.file.script.require').template}${script_compile(result).code}` ;
                 }
 
                 writeTextFile(filePath , result) ;
