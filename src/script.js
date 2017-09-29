@@ -101,14 +101,34 @@ exports.execute = (name , ...args) =>{
     }
 }
 
+const {
+    js_beautify
+} = require('js-beautify') ;
+
 exports.format = data =>{
 
     try{
         
-        return require('js-beautify').js_beautify(data) ;
+        return js_beautify(data) ;
 
     }catch(err){
     }
 
     return data ;
+}
+
+const {
+    transform,
+    transformFromAst
+} = require('babel-core'),
+BABEL_PRESET_ENV = require('babel-preset-env'),
+useStrictRe = /^\'use\sstrict\';/;
+
+exports.compile = data =>{
+
+    return transform(data , {
+        presets: [
+            BABEL_PRESET_ENV
+        ]
+    }).code.replace(useStrictRe , '') ;
 }

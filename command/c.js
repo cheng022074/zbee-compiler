@@ -18,7 +18,8 @@ const {
 } = require('../src/object'),
 {
     get:script_get,
-    format:script_format
+    compile:script_compile,
+    convert
 } = require('../src/script'),
 {
     readTextFile,
@@ -29,7 +30,10 @@ const {
 } = require('../src/template'),
 {
     get:properties_get
-} = require('../src/properties');
+} = require('../src/properties'),
+{
+    get:template_get
+} = require('../src/template');
 
 module.exports = name =>{
 
@@ -72,7 +76,7 @@ module.exports = name =>{
 
                     case '.js':
 
-                        result = script_format(result) ;
+                        result = `${template_get('generate.file.script.require').template}${script_compile(result)}` ;
                 }
 
                 writeTextFile(filePath , result) ;

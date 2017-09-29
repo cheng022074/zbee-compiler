@@ -10,12 +10,12 @@ const {
 
 exports.file = path =>{
 
-    return existsSync(path) && statSync(path).isFile() ;
+    return path && existsSync(path) && statSync(path).isFile() ;
 }
 
 exports.directory = path =>{
 
-    return existsSync(path) && statSync(path).isDirectory() ;
+    return path && existsSync(path) && statSync(path).isDirectory() ;
 }
 
 function is_type(data , type){

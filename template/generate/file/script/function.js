@@ -1,4 +1,6 @@
-module.exports = () =>{
+<%- body %>
 
-    <%- body %>
+if(typeof main === 'function'){
+
+    module.exports = main ;
 }
