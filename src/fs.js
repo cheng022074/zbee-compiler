@@ -11,7 +11,10 @@ const {
     readFileSync,
     writeFileSync,
     mkdirSync
-} = require('fs');
+} = require('fs'),
+{
+    parse:xml_parse
+} = require('elementtree');
 
 const folderRe = /(?:^\/)|(?:[^\/\\]+(?:[\/\\]|$))/g;
 
@@ -57,6 +60,21 @@ exports.readJSONFile = (path , validExists) =>{
         try{
 
             return JSON.parse(data) ;
+
+        }catch(err){
+        }
+    }
+}
+
+exports.readXMLFile = (path , validExists) =>{
+
+    let data = exports.readTextFile(path , validExists) ;
+    
+    if(data){
+
+        try{
+
+            return xml_parse(data) ;
 
         }catch(err){
         }

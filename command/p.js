@@ -7,14 +7,14 @@ const {
 {
     name2path,
     getFilePaths,
+    COMPILE_SOURCE_PATH
 } = require('../src/path'),
 {
     from:array_from,
-    flat:array_flat,
     unique:array_unique
 } = require('../src/array'),
 {
-    importNames
+    importPaths
 } = require('../src/script');
 
 module.exports = (name = 'default') =>{
@@ -24,39 +24,23 @@ module.exports = (name = 'default') =>{
     if(config){
 
         let importNames = array_from(config.imports),
-            paths = [],
-            bootPath = properties_get('compile.path.source');
+            scriptPaths = [];
 
         for(let importName of importNames){
 
-            paths.push(getFilePaths(path_join(bootPath , name2path(importName)))) ;
-        }
+            let paths = getFilePaths(path_join(COMPILE_SOURCE_PATH , name2path(importName))) ;
 
-        paths = array_unique(array_flat(paths)) ;
+            for(let path of paths){
 
-        let extraImportNames = [] ;
+                scriptPaths.push(...importPaths(path)) ;
 
-        for(let path of paths){
-
-            let names = importNames(path) ;
-
-            for(let name of names){
-
-                if(!importNames.includes(name) && !extraImportNames.includes(name)){
-
-                    extraImportNames.push(name) ;
-                }
+                scriptPaths.push(path) ;
             }
         }
 
-        for(let importName of extraImportNames){
+        scriptPaths = array_unique(scriptPaths) ;
 
-            paths.push(getFilePaths(importName)) ;
-        }
-
-        paths = array_unique(array_flat(paths)) ;
-
-        console.log(paths) ;
+        console.log(scriptPaths) ;
 
     }else{
 

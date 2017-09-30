@@ -21,14 +21,7 @@ exports.from = data =>{
     ];
 }
 
-exports.flat = data =>{
-
-    console.log(data) ;
-
-    return [] ;
-}
-
 exports.unique = data =>{
     
-    return [] ;
+    return Array.from(new Set(data)) ;
 }

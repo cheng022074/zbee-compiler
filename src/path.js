@@ -3,7 +3,10 @@ const {
     dirname,
     basename,
     join:path_join
-} = require('path') ;
+} = require('path'),
+{
+    get:properties_get
+} = require('./properties');
 
 const dotRe = /\./g ;
 
@@ -92,3 +95,5 @@ exports.replaceSuffix = (path , suffix) =>{
 
     return path.replace(suffixRe , suffix) ;
 }
+
+exports.COMPILE_SOURCE_PATH = path_join(process.cwd() , properties_get('compile.path.source')) ;

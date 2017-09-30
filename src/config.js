@@ -9,7 +9,10 @@ const {
 } = require('./fs'),
 {
     get:object_get
-} = require('./object');
+} = require('./object'),
+{
+    defined:is_defined
+} = require('./is');
 
 const cache = {} ;
 
@@ -29,6 +32,11 @@ exports.get = (name , key , isCache = true) =>{
     
     if(config){
 
-        return object_get(config , key) ;
+        if(is_defined(key)){
+
+            return object_get(config , key) ;
+        }
+
+        return Object.keys(config) ;
     }
 }
