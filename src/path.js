@@ -106,7 +106,12 @@ exports.basename = (path , folderPath) =>{
 
 exports.replaceSuffix = (path , suffix) =>{
 
-    return path.replace(suffixRe , suffix) ;
+    if(suffixRe.test(path)){
+
+        return path.replace(suffixRe , suffix) ;
+    }
+
+    return `${path}${suffix}` ;
 }
 
 exports.getApplicationPath = path =>{

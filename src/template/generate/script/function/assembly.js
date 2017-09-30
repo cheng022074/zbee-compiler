@@ -44,7 +44,9 @@ module.exports = (data , path) =>{
             return {
                 name,
                 className,
-                body:codes.join('\n')
+                body:`function main(){
+                        ${codes.join('')}
+                }`
             } ;
         }
 

@@ -5,6 +5,7 @@ const {
 {
     name2path,
     getFilePath,
+    replaceSuffix,
     COMPILE_SOURCE_PATH
 } = require('./path'),
 {
@@ -75,7 +76,12 @@ function get(name , isCache = true){
         }
     }
 
-    return cache[name] = require(path_join(__dirname , name2path(name))) ;
+    path = replaceSuffix(path_join(__dirname , name2path(name)) , '.js') ;
+
+    if(is_file(path)){
+
+        return cache[name] = require(path) ;
+    }
 }
 
 exports.has = name =>{

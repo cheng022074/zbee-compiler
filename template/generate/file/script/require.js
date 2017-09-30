@@ -10,6 +10,6 @@
             return script.get(name) ;
         }
 
-        return originRequire(path) ;
+        return originRequire(name) ;
     }
 }
