@@ -6,43 +6,47 @@ const {
     execute:script_execute
 } = require('../../../../script'),{
     string:is_string
-} = require('../../../../is');
+} = require('../../../../is'),
+generate_params = require('../../script');
 
-module.exports = data =>{
+module.exports = (data , path) =>{
+
+    let {
+        name,
+        className
+    } = generate_params(data , path) ;
 
     try{
 
         let root = parse(data).getroot();
 
-        if(root.tag !== 'function'){
+        if(root.tag === 'function'){
+            
+            let codes = [],
+                childEls = root.find('body').getchildren() ;
 
-            return {
-                body:''
-            } ;
-        }
+            for(let childEl of childEls){
 
-        let codes = [],
-            childEls = root.find('body').getchildren() ;
+                let tag = childEl.tag,
+                    className = config_get('component.script' , tag) ;
 
-        for(let childEl of childEls){
+                if(className){
 
-            let tag = childEl.tag,
-                className = config_get('component.script' , tag) ;
+                    let code = script_execute(className , childEl.attrib) ;
 
-            if(className){
+                    if(is_string(code)){
 
-                let code = script_execute(className , childEl.attrib) ;
-
-                if(is_string(code)){
-
-                    codes.push(code) ;
+                        codes.push(code) ;
+                    }
                 }
             }
-        }
 
-        return {
-            body:codes.join('\n')
-        } ;
+            return {
+                name,
+                className,
+                body:codes.join('\n')
+            } ;
+        }
 
     }catch(err){
 
@@ -52,6 +56,8 @@ module.exports = data =>{
     }
 
     return {
+        name,
+        className,
         body:''
     } ;
 }

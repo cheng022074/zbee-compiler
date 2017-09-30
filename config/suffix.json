@@ -1,22 +1,25 @@
 {
     ".fn.js":{
-        "data":"template.generate.script.function",
+        "data":"template.generate.script",
         "template":{
-            "file":"generate.file.script.function"
+            "file":"generate.file.script.function",
+            "package":"generate.package.script.function"
         },
         "suffix":".js"
     },
     ".fn.xml":{
         "data":"template.generate.script.function.assembly",
         "template":{
-            "file":"generate.file.script.function"
+            "file":"generate.file.script.function",
+            "package":"generate.package.script.function"
         },
         "suffix":".js"
     },
     ".class.js":{
-        "data":"template.generate.script.class",
+        "data":"template.generate.script",
         "template":{
-            "file":"generate.file.script.class"
+            "file":"generate.file.script.class",
+            "package":"generate.package.script.class"
         },
         "suffix":".js"
     }

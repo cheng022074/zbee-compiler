@@ -128,7 +128,7 @@ const {
     transformFileSync
 } = require('babel-core'),
 BABEL_PRESET_ENV = require('babel-preset-env'),
-useStrictRe = /^\'use\sstrict\';/;
+useStrictRe = /^[\'\"]use\sstrict[\'\"];/;
 
 function process_compile_result({
     code,

@@ -60,8 +60,7 @@ module.exports = name =>{
 
     if(path){
 
-        let suffix = extname(path),
-            config = config_get('suffix' , suffix) ;
+        let config = config_get('suffix' , extname(path)) ;
 
         if(config){
 

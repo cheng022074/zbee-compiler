@@ -6,7 +6,10 @@ const {
 } = require('path'),
 {
     get:properties_get
-} = require('./properties');
+} = require('./properties'),
+{
+    defined:is_defined
+} = require('./is');
 
 const dotRe = /\./g ;
 
@@ -91,9 +94,24 @@ exports.extname = path =>{
     return '' ;
 }
 
+exports.basename = (path , folderPath) =>{
+
+    if(is_defined(folderPath)){
+
+        return path.replace(suffixRe , '').replace(folderPath , '').replace(/^[\\//]/ , '').replace(/[\/\\]/g , '.') ;
+    }
+
+    return basename(path) ;
+}
+
 exports.replaceSuffix = (path , suffix) =>{
 
     return path.replace(suffixRe , suffix) ;
 }
 
-exports.COMPILE_SOURCE_PATH = path_join(process.cwd() , properties_get('compile.path.source')) ;
+exports.getApplicationPath = path =>{
+
+    return path_join(process.cwd() , path) ;
+}
+
+exports.COMPILE_SOURCE_PATH = exports.getApplicationPath(properties_get('compile.path.source')) ;

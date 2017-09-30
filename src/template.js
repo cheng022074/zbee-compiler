@@ -11,7 +11,10 @@ const {
 } = require('./fs'),
 {
     compile
-} = require('ejs');
+} = require('ejs'),
+{
+    defined:is_defined
+} = require('./is');
 
 const applyCache = {} ;
 
@@ -19,7 +22,7 @@ exports.apply = (name , data) =>{
 
     if(applyCache.hasOwnProperty(name)){
 
-        return cache[name](data) ;
+        return applyCache[name](data) ;
     }
 
     let {
@@ -33,25 +36,35 @@ exports.apply = (name , data) =>{
             rmWhitespace:extname(path) === '.html'
         }))(data);
     }
+
+    return '' ;
 }
 
 const getCache = {} ;
 
 exports.get = name =>{
 
-    if(getCache.hasOwnProperty(name)){
+    if(is_defined(name)){
 
-        return getCache[name] ;
+        if(getCache.hasOwnProperty(name)){
+    
+            return getCache[name] ;
+        }
+    
+        let path = getFilePath(path_join(__dirname , '..' , 'template' , name2path(name))),
+            template = readTextFile(path);
+    
+        if(template){
+    
+            return {
+                path,
+                template:template.trim()
+            } ;
+        }
     }
 
-    let path = getFilePath(path_join(__dirname , '..' , 'template' , name2path(name))),
-        template = readTextFile(path).trim();
-
-    if(template){
-
-        return {
-            path,
-            template
-        } ;
-    }
+    return {
+        path:null,
+        template:''
+    } ;
 }
