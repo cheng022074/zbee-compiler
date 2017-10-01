@@ -22,7 +22,10 @@ const {
 } = require('./properties'),
 {
     readXMLFile
-} = require('./fs');
+} = require('./fs'),
+{
+    get:config_get
+} = require('./config');
 
 const libraries = [] ;
 
@@ -210,7 +213,7 @@ function get_import_paths(uris){
 
         }else{
 
-            scriptPath = getFilePath(path_join(COMPILE_SOURCE_PATH , name2path(uri))) ;
+            scriptPath = getFilePath(path_join(COMPILE_SOURCE_PATH , name2path(uri)) , config_get('suffix')) ;
 
             if(scriptPath){
 

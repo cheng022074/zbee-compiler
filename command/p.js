@@ -48,7 +48,7 @@ module.exports = (name = 'default') =>{
 
         for(let importName of importNames){
 
-            let paths = getFilePaths(path_join(COMPILE_SOURCE_PATH , name2path(importName))) ;
+            let paths = getFilePaths(path_join(COMPILE_SOURCE_PATH , name2path(importName)) , config_get('suffix')) ;
 
             for(let path of paths){
 

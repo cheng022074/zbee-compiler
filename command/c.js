@@ -56,7 +56,7 @@ module.exports = name =>{
     }
 
     let sourcePath = properties_get('compile.path.source') || process.cwd(),
-        path = getFilePath(path_join(sourcePath , name2path(name)));
+        path = getFilePath(path_join(sourcePath , name2path(name)) , config_get('suffix'));
 
     if(path){
 

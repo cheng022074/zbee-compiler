@@ -31,7 +31,7 @@ const {
     directory:is_directory
 } = require('./is');
 
-exports.getFilePath = path =>{
+exports.getFilePath = (path , suffixes) =>{
 
     let folderPath = dirname(path) ;
     
@@ -45,13 +45,20 @@ exports.getFilePath = path =>{
 
             if(fileName.indexOf(name) === 0){
 
+                if(suffixes && !suffixes.includes(exports.extname(fileName))){
+
+                    continue ;
+                }
+
                 return path_join(folderPath , fileName) ; 
             }
         }
     }
 }
 
-exports.getFilePaths = path =>{
+const suffixRe = /(?:\.[^\.\/\\]+)+$/ ;
+
+exports.getFilePaths = (path , suffixes) =>{
 
     let folderPath = dirname(path) ;
 
@@ -59,7 +66,8 @@ exports.getFilePaths = path =>{
 
         let name = basename(path),
             fileNames = readdirSync(folderPath),
-            result = [];
+            result = [],
+            classNames = [];
 
         for(let fileName of fileNames){
 
@@ -69,7 +77,19 @@ exports.getFilePaths = path =>{
 
                 if(is_file(path)){
 
-                    result.push(path) ; 
+                    if(suffixes && !suffixes.includes(exports.extname(fileName))){
+
+                        continue ;
+                    }
+
+                    let className = exports.basename(path , folderPath) ;
+
+                    if(!classNames.includes(className)){
+
+                        classNames.push(className) ;
+
+                        result.push(path) ; 
+                    }
                 }
             }
         }
@@ -79,8 +99,6 @@ exports.getFilePaths = path =>{
 
     return [] ;
 }
-
-const suffixRe = /(?:\.[^\.\/\\]+)+$/ ;
 
 exports.extname = path =>{
 
