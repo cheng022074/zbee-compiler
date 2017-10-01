@@ -34,7 +34,7 @@ const {
 exports.getFilePath = (path , suffixes) =>{
 
     let folderPath = dirname(path) ;
-    
+
     if(is_directory(folderPath)){
 
         let name = basename(path),
@@ -138,3 +138,5 @@ exports.getApplicationPath = path =>{
 }
 
 exports.COMPILE_SOURCE_PATH = exports.getApplicationPath(properties_get('compile.path.source')) ;
+
+exports.COMPILE_DIST_PATH = exports.getApplicationPath(properties_get('compile.path.dist')) ;

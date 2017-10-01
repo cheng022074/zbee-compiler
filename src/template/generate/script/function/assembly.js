@@ -9,6 +9,7 @@ const {
 } = require('../../../../is'),
 generate_params = require('../../script');
 
+// 目前尚未有参数设置
 module.exports = (data , path) =>{
 
     let {

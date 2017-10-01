@@ -7,6 +7,8 @@ const {
 {
     name2path,
     getFilePath,
+    COMPILE_SOURCE_PATH,
+    COMPILE_DIST_PATH,
     extname,
     replaceSuffix
 } = require('../src/path'),
@@ -44,18 +46,7 @@ module.exports = name =>{
         return false;
     }
 
-    let compilePath = properties_get('compile.path.dist') ;
-
-    if(is_defined(compilePath)){
-
-        compilePath = path_join(process.cwd() , compilePath) ;
-
-    }else{
-
-        compilePath = process.cwd() ;
-    }
-
-    let sourcePath = properties_get('compile.path.source') || process.cwd(),
+    let sourcePath = COMPILE_SOURCE_PATH,
         path = getFilePath(path_join(sourcePath , name2path(name)) , config_get('suffix'));
 
     if(path){
@@ -69,7 +60,7 @@ module.exports = name =>{
             if(result){
 
                 let suffix = config.suffix,
-                    filePath = replaceSuffix(path , config.suffix).replace(sourcePath , compilePath) ;
+                    filePath = replaceSuffix(path , config.suffix).replace(sourcePath , COMPILE_DIST_PATH) ;
 
                 switch(suffix){
 
