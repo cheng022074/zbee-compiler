@@ -22,13 +22,5 @@
             "package":"generate.package.script.class"
         },
         "suffix":".js"
-    },
-    ".html":{
-        "data":"template.generate.html",
-        "template":{
-            "file":"generate.file.html",
-            "package":"generate.package.html"
-        },
-        "suffix":".js"
     }
 }

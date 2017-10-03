@@ -137,6 +137,13 @@ exports.getApplicationPath = path =>{
     return path_join(process.cwd() , path) ;
 }
 
+exports.getCompilerPath = path =>{
+
+    return path_join(__dirname , '..' , path) ;
+}
+
 exports.COMPILE_SOURCE_PATH = exports.getApplicationPath(properties_get('compile.path.source')) ;
 
 exports.COMPILE_DIST_PATH = exports.getApplicationPath(properties_get('compile.path.dist')) ;
+
+exports.WEB_ROOT_PATH = exports.getApplicationPath(properties_get('web.path.root')) ;

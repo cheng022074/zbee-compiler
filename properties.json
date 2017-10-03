@@ -1,0 +1,23 @@
+{
+    "compile":{
+        "path":{
+            "source":"src",
+            "dist":"bin"
+        }
+    },
+    "run":{
+        "path":{
+            "bin":"bin"
+        }
+    },
+    "web":{
+        "path":{
+            "root":"bin"
+        },
+        "port":3000,
+        "domain":"localhost",
+        "url":{
+            "boot":"index.html"
+        }
+    }
+}

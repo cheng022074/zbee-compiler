@@ -4,20 +4,24 @@ const {
 {
     join:path_join
 } = require('path'),
+PATH = require('./path'),
 {
     get:object_get
 } = require('./object'),
 {
     defined:is_defined
-} = require('./is'),
-config = readJSONFile(path_join(process.cwd() , 'properties.json')) || {},
-defaultKeys = {
-    'compile.path.source':'src',
-    'compile.path.dist':'bin',
-    'run.path.bin':'bin'
-};
+} = require('./is') ;
+
+
+let config,
+    defaultConfig;
 
 exports.get = key =>{
+
+    if(!config){
+
+        config = readJSONFile(PATH.getApplicationPath('properties.json')) || {} ;
+    }
 
     let value = object_get(config , key) ;
 
@@ -26,8 +30,10 @@ exports.get = key =>{
         return value ;
     }
 
-    if(defaultKeys.hasOwnProperty(key)){
+    if(!defaultConfig){
 
-        return defaultKeys[key] ;
+        defaultConfig = readJSONFile(PATH.getCompilerPath('properties.json')) ;
     }
+
+    return object_get(defaultConfig , key) ;
 }
