@@ -1,7 +1,9 @@
 const Koa = require('koa'),
-      KOA_STATIC = require('koa-static'),
+      Koa_static = require('koa-static'),
+      koa_mount = require('koa-mount'),
+      koa_send = require('koa-send'),
       {
-        WEB_ROOT_PATH
+        getApplicationPath
       } = require('../src/path'),
       {
           BOOT_URL
@@ -9,13 +11,41 @@ const Koa = require('koa'),
       {
           get:properties_get
       } = require('../src/properties'),
-      open = require('opn');
+      open = require('opn'),
+      {
+          file:is_file,
+          directory:is_directory
+      } = require('../src/is');
 
 module.exports = () =>{
 
     const app = new Koa();
 
-    app.use(KOA_STATIC(WEB_ROOT_PATH));
+    {
+        let config = properties_get('web.url'),
+            urls = Object.keys(config);
+        
+        for(let url of urls){
+    
+            let path = config[url];
+    
+            if(is_file(path)){
+    
+                app.use(koa_mount(url , async function(ctx){
+    
+                    await koa(ctx , PATH.basename(path) , {
+                        root:PATH.dirname(path)
+                    }) ;
+    
+                })) ;
+    
+            }else if(is_directory(path)){
+    
+                app.use(koa_mount(url , Koa_static(path))) ;
+            }
+    
+        }
+    }
 
     let port = properties_get('web.port') ;
 

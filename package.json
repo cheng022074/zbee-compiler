@@ -13,6 +13,7 @@
     "cli"
   ],
   "files": [
+    "properties.json",
     "bin",
     "src",
     "command",
@@ -26,7 +27,7 @@
   },
   "homepage": "https://github.com/cheng022074/zbee-compiler#readme",
   "engines": {
-    "node": ">= 8.5"
+    "node": ">= 8.6"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
@@ -36,6 +37,8 @@
     "elementtree": "^0.1.7",
     "js-beautify": "^1.7.3",
     "koa": "^2.0.0-alpha.8",
+    "koa-mount": "^3.0.0",
+    "koa-send": "^4.1.1",
     "koa-static": "^4.0.1",
     "opn": "^5.1.0"
   }

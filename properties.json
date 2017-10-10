@@ -11,13 +11,13 @@
         }
     },
     "web":{
-        "path":{
-            "root":"bin"
+        "url":{
+            "/":"bin"
         },
         "port":3000,
         "domain":"localhost",
-        "url":{
-            "boot":"index.html"
+        "boot":{
+            "url":"index.html"
         }
     }
 }

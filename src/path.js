@@ -122,6 +122,17 @@ exports.basename = (path , folderPath) =>{
     return basename(path) ;
 }
 
+/**
+ * 
+ * 替换文件路径的后缀名
+ * 
+ * @param {String} path 文件路径
+ * 
+ * @param {String} suffix 后缀名
+ * 
+ * @return {String} 修改文件路径后缀名
+ * 
+ */
 exports.replaceSuffix = (path , suffix) =>{
 
     if(suffixRe.test(path)){
@@ -129,9 +140,16 @@ exports.replaceSuffix = (path , suffix) =>{
         return path.replace(suffixRe , suffix) ;
     }
 
-    return `${path}${suffix}` ;
+    return `${path.replace(/[\\\/]$/ , '')}${suffix}` ;
 }
 
+/**
+ * 
+ * 拼接出以当前工程路径为根的完整路径
+ * 
+ * @param path 文件路径
+ * 
+ */
 exports.getApplicationPath = path =>{
 
     return path_join(process.cwd() , path) ;
@@ -145,5 +163,3 @@ exports.getCompilerPath = path =>{
 exports.COMPILE_SOURCE_PATH = exports.getApplicationPath(properties_get('compile.path.source')) ;
 
 exports.COMPILE_DIST_PATH = exports.getApplicationPath(properties_get('compile.path.dist')) ;
-
-exports.WEB_ROOT_PATH = exports.getApplicationPath(properties_get('web.path.root')) ;
