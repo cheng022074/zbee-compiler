@@ -1,7 +1,8 @@
 const {
     empty:is_empty,
     object:is_object,
-    iterable:is_iterable
+    iterable:is_iterable,
+    number:is_number
 } = require('./is') ;
 
 const entityDotRe = /&dot;/g,
@@ -24,9 +25,18 @@ exports.keyJoin = (...keys) =>{
     return result.join('.') ;
 } ;
 
+const numberRe = /^\d+$/ ;
+
 function decode(key){
 
-    return key.replace(entityDotRe , '.') ;
+    key = key.replace(entityDotRe , '.') ;
+
+    if(numberRe.test(key)){
+
+        return Number(key) ;
+    }
+
+    return key ;
 }
 
 exports.get = (data , key) =>{
@@ -53,7 +63,7 @@ exports.get = (data , key) =>{
     
         value = value[decode(key)] ;
     
-        if(!is_object(value)){
+        if(!is_object(value) && !is_iterable(value)){
     
             return ;
         }
@@ -61,6 +71,52 @@ exports.get = (data , key) =>{
     }
     
     return value[key] ;
+}
+
+exports.set = (data , key , value) =>{
+
+    if(is_empty(key) || key === '.'){
+        
+        return data;
+    }
+
+    if(data.hasOwnProperty(key)){
+
+        data[key] = value ;
+
+        return data ;
+    }
+        
+    let keys = key.split('.') ;
+    
+    key = decode(keys[keys.length - 1]) ;
+    
+    keys.pop() ;
+    
+    let target = data;
+    
+    for(let key of keys){
+
+        key = decode(key) ;
+
+        if(!is_object(target) && !is_iterable(target)){
+    
+            if(is_number(key)){
+
+                target = [] ;
+            
+            }else{
+
+                target = {} ;
+            }
+        }
+    
+        target = target[key] ;
+    }
+    
+    target[key] = value;
+
+    return data ;
 }
 
 function get_keys(data , rootKey = ''){
