@@ -12,6 +12,18 @@ function encode(key){
     return key.replace(dotRe , '&dot;') ;
 }
 
+exports.keyJoin = (...keys) =>{
+
+    let result = [] ;
+
+    for(let key of keys){
+
+        result.push(encode(key)) ;
+    }
+
+    return result.join('.') ;
+} ;
+
 function decode(key){
 
     return key.replace(entityDotRe , '.') ;
