@@ -1,4 +1,8 @@
-module.exports = () =>{
+const {
+    get
+} = require('../src/request') ;
 
-    console.log('调试服务') ;
+module.exports = async function(){
+
+    console.log(await get('http://www.baidu.com')) ;
 }

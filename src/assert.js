@@ -21,20 +21,20 @@ const {
     from:array_from
 } = require('./array');
 
-exports.length = (data , length) =>{
+exports.length = (actual , expected) =>{
 
-    if(!is_iterable(data)){
+    if(!is_iterable(actual)){
 
         throw new AssertionError({
             message:`实际数据不是迭代类型`
         }) ;
     }
 
-    if(is_number(length)){
+    if(is_number(expected)){
 
-        let len = data.length ;
+        let length = actual.length ;
 
-        equal(len , length , message || `迭代长度与预期不符 , 实际长度: ${len}, 预期长度: ${length}`) ;
+        equal(length , expected , message || `迭代长度与预期不符 , 实际长度: ${length}, 预期长度: ${expected}`) ;
     }
 }
 
@@ -109,6 +109,16 @@ exports.strictIncludes = (actual , expected) =>{
     includes(actual , expected , exports.deepStrictEqual) ;
 } ;
 
+exports.completeIncludes = (actual , expected) =>{
+
+    includes(actual , expected , deepEqual) ;
+}
+
+exports.strictCompleteIncludes = (actual , expected) =>{
+
+    includes(actual , expected , deepStrictEqual) ;
+}
+
 function recordsetEqual(actual , expected , includesFn){
 
     if(is_recordset(actual)){
@@ -156,7 +166,17 @@ exports.recordsetEqual = (actual , expected) =>{
     recordsetEqual(actual , expected , exports.includes) ;
 }
 
-exports.recordsetStrictEqual = (actual , expected) =>{
+exports.strictRecordsetEqual = (actual , expected) =>{
 
     recordsetEqual(actual , expected , exports.strictIncludes) ;
+}
+
+exports.completeRecordsetEqual = (actual , expected) =>{
+
+    recordsetEqual(actual , expected , exports.completeIncludes) ;
+}
+
+exports.strictCompleteRecordsetEqual = (actual , expected) =>{
+
+    recordsetEqual(actual , expected , exports.strictCompleteIncludes) ;
 }
