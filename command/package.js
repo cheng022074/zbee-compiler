@@ -28,7 +28,7 @@ const {
     get:object_get
 } = require('../src/object'),
 {
-    apply,
+    template_apply,
     get:template_get
 } = require('../src/template'),
 {
@@ -64,9 +64,10 @@ module.exports = (name = 'default') =>{
 
         for(let scriptPath of scriptPaths){
 
-            let config = config_get('suffix' , extname(scriptPath)) ;
+            let config = config_get('suffix' , extname(scriptPath)),
+                templateName = object_get(config , 'template.package');
 
-            if(config){
+            if(templateName){
 
                 let sourceCode ;
 
@@ -83,7 +84,7 @@ module.exports = (name = 'default') =>{
                         sourceCode = readTextFile(scriptPath) ;
                 }
 
-                let code = apply(object_get(config , 'template.package') , script_get(config.data)(sourceCode , scriptPath)) ;
+                let code = template_apply(templateName , script_get(config.data)(sourceCode , scriptPath)) ;
 
                 if(code){
 

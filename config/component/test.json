@@ -1,0 +1,4 @@
+{
+    "assert":"template.generate.script.assembly.test.assert",
+    "api":"template.generate.script.assembly.test.api"
+}

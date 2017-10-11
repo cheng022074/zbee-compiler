@@ -8,7 +8,7 @@
         "suffix":".js"
     },
     ".fn.xml":{
-        "data":"template.generate.script.function.assembly",
+        "data":"template.generate.script.assembly.function",
         "template":{
             "file":"generate.file.script.function",
             "package":"generate.package.script.function"
@@ -20,6 +20,13 @@
         "template":{
             "file":"generate.file.script.class",
             "package":"generate.package.script.class"
+        },
+        "suffix":".js"
+    },
+    ".test.xml":{
+        "data":"template.generate.script.assembly.test",
+        "template":{
+            "file":"empty.script"
         },
         "suffix":".js"
     }

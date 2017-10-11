@@ -1,7 +1,7 @@
 const {
     apply:apply
 } = require('../../../../../template'),
-process_expression = require('./expression');
+process_expression = require('../expression');
 
 module.exports = attrs =>{
 

@@ -43,7 +43,7 @@ exports.getFilePath = (path , suffixes) =>{
 
         for(let fileName of fileNames){
 
-            if(fileName.indexOf(name) === 0){
+            if(fileName.indexOf(name) === 0 && fileName !== name){
 
                 if(suffixes && !suffixes.includes(exports.extname(fileName))){
 
