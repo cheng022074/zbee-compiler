@@ -18,7 +18,7 @@ module.exports = (el , type) =>{
 
         if(className){
 
-            let code = script_execute(className , childEl.attrib , childEl.text) ;
+            let code = script_execute(className , childEl.attrib , childEl) ;
 
             if(is_string(code)){
 

@@ -43,6 +43,21 @@ exports.toTimestamp = data =>{
     }
 }
 
+const booleanRe = /^true|false$/,
+      {
+          empty:is_empty
+      } = require('./is');
+
+exports.toBoolean = data =>{
+
+    if(booleanRe.test(data)){
+
+        return data === 'true' ;
+    }
+
+    return is_empty(data) ;
+}
+
 exports.toString = data =>{
 
     return data ;

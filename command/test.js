@@ -1,4 +1,8 @@
 module.exports = () =>{
 
-    console.log('测试文件装载') ;
+    const {
+        URL
+    } = require('url') ;
+
+    console.log(new URL('http://login/login')) ;
 }

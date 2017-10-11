@@ -2,9 +2,6 @@ const {
     input
 } = require('../../src/web/api'),
 {
-    get:properties_get
-} = require('../../src/properties'),
-{
     string:is_string
 } = require('../../src/is'),
 {
@@ -20,8 +17,6 @@ string = require('../../src/string'),
 argRe = /^([^\:]+)\:{2}([^\:]+)\:([^\:]+)(?:\:([^\:]+))?$/;
 
 module.exports = async function(method , uri , ...args){
-
-    let url = `${properties_get('web.api.domain')}/${uri}` ;
 
     let options = {} ;
 
@@ -74,7 +69,7 @@ module.exports = async function(method , uri , ...args){
 
     console.log('已请求' , method.toUpperCase() , url) ;
 
-    let body = await input(url , method , options) ;
+    let body = await input(uri , method , options) ;
 
     console.log('返回结果:') ;
 

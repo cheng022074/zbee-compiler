@@ -12,7 +12,8 @@ const {
     function:is_function,
     class:is_class,
     file:is_file,
-    defined:is_defined
+    defined:is_defined,
+    simpleObject:is_simpleObject
 } = require('./is'),
 {
     from:array_from
@@ -105,7 +106,7 @@ exports.execute = (name , ...args) =>{
 
         return target(...args) ;
 
-    }else if(is_class(target)){
+    }else if(is_class(target) || is_simpleObject(target)){
 
         let main = target.main ;
 

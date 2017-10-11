@@ -1,6 +1,9 @@
 const {
     apply:apply
 } = require('../../../../../template'),
+{
+    toBoolean
+} = require('../../../../../string'),
 process_expression = require('../expression');
 
 module.exports = attrs =>{
@@ -13,6 +16,7 @@ module.exports = attrs =>{
     }
 
     return apply('generate.file.script.assembly.out' , {
-        expression
+        expression,
+        json_format:toBoolean(attrs['json-format'])
     }) ;
 }

@@ -2,9 +2,9 @@
 <%
     if(bootstrap){
 %>
-exports.main = () =>{
+exports.main = async function(){
 
-    exports['<%- bootstrap %>']() ;
+    await exports['<%- bootstrap %>']() ;
 }
 <%
     }

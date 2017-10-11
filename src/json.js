@@ -1,4 +1,20 @@
+const {
+    simpleObject:is_simpleObject
+} = require('./is') ;
+
 exports.format = data =>{
 
-    return JSON.stringify(data , null , 2) ;
+    if(is_simpleObject(data)){
+
+        try{
+
+            return JSON.stringify(data , null , 2) ;
+
+        }catch(err){
+
+
+        }
+    }
+
+    return data ;
 }

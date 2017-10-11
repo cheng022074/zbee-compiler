@@ -1,4 +1,4 @@
-exports['<%- name %>'] = () =>{
+exports['<%- name %>'] = async function(){
 
     <%- code %>
 }

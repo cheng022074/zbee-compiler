@@ -20,6 +20,8 @@ const {
 
 module.exports = (name , ...args) =>{
 
+    require('babel-polyfill') ;
+
     if(!is_defined(name)){
 
         console.info('未指定类名称') ;
@@ -37,7 +39,7 @@ module.exports = (name , ...args) =>{
     try{
 
         let result = script_execute(name , args) ;
-    
+
         if(result instanceof Promise){
 
             result
