@@ -16,16 +16,11 @@ const {
 {
     set:object_set
 } = require('../../src/object'),
-{
-    format:json_format
-} = require('../../src/json'),
 argRe = /^([^\:]+)\:{2}([^\:]+)\:([^\:]+)$/;
 
 module.exports = async function(method , uri , ...args){
 
     let url = `${properties_get('web.api.domain')}/${uri}` ;
-
-    console.log('已请求' , method.toUpperCase() , url) ;
 
     let options = {} ;
 
@@ -43,27 +38,31 @@ module.exports = async function(method , uri , ...args){
                 case 'path':
                 case 'body':
 
-                    object_set(`${optionType}.${match[2].trim()}` , match[3].trim()) ;
+                    object_set(options , `${optionType}.${match[2].trim()}` , match[3].trim()) ;
             }
         }
     }
 
     if(options.hasOwnProperty('query')){
 
-        print_params('查询参数' , options.query) ;
+        print_params('查询参数:' , options.query) ;
     }
 
     if(options.hasOwnProperty('path')){
 
-        print_params('路径参数' , options.path) ;
+        print_params('路径参数:' , options.path) ;
     }
 
     if(options.hasOwnProperty('body')){
 
-        print_params('主体参数' , options.body) ;
+        print_params('主体参数:' , options.body) ;
     }
 
-    let body = await input(url , method) ;
+    console.log('已请求' , method.toUpperCase() , url) ;
+
+    let body = await input(url , method , options) ;
+
+    console.log('返回结果:') ;
 
     if(is_string(body)){
 

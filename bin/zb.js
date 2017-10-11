@@ -11,5 +11,23 @@ global.zb = {
 
 if(args.length >= 3){
 
-    require(`../command/${name2path(args[2])}`)(...args.slice(3)) ;
+    try{
+
+        let result = require(`../command/${name2path(args[2])}`)(...args.slice(3)) ;
+        
+        if(result instanceof Promise){
+    
+            result.catch(err =>{
+    
+                console.log(err) ;
+    
+            }) ;
+        }
+    
+    }catch(err){
+
+        console.log(err) ;
+    }
+
+    
 }

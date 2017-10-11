@@ -117,6 +117,12 @@ exports.execute = (name , ...args) =>{
 }
 
 const {
+    js:removeComments
+} = require('strip-comment') ;
+
+exports.removeComments = removeComments ;
+
+const {
     js_beautify
 } = require('js-beautify') ;
 

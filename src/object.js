@@ -93,7 +93,9 @@ exports.set = (data , key , value) =>{
     
     keys.pop() ;
     
-    let target = data;
+    let target = data,
+        prevTarget,
+        prevKey;
     
     for(let key of keys){
 
@@ -103,17 +105,33 @@ exports.set = (data , key , value) =>{
     
             if(is_number(key)){
 
-                target = [] ;
+                target = prevTarget[prevKey] = [] ;
             
             }else{
 
-                target = {} ;
+                target = prevTarget[prevKey] = {} ;
             }
         }
+
+        prevTarget = target ;
     
         target = target[key] ;
+
+        prevKey = key ;
     }
-    
+
+    if(!is_object(target) && !is_iterable(target)){
+
+        if(is_number(key)){
+
+            target = prevTarget[prevKey] = [] ;
+        
+        }else{
+
+            target = prevTarget[prevKey] = {} ;
+        }
+    }
+
     target[key] = value;
 
     return data ;

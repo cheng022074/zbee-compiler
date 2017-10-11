@@ -9,28 +9,28 @@ exports.get = (uri , {
 } = {}) =>{
 
     return request({
-        uri:uri,
+        uri,
         qs:query,
         headers,
         json: true
     }) ;
 }
 
-exports.delete = (url , {
+exports.delete = (uri , {
     query,
     path
 } = {}) =>{
 
     return request({
         method:'DELETE',
-        uri:uri,
+        uri,
         qs:query,
         headers,
         json: true
     }) ;
 }
 
-exports.post = (url , {
+exports.post = (uri , {
     query,
     path,
     body
@@ -38,7 +38,7 @@ exports.post = (url , {
 
     return request({
         method:'POST',
-        uri:uri,
+        uri,
         qs:query,
         body,
         headers,
@@ -46,7 +46,7 @@ exports.post = (url , {
     }) ;
 }
 
-exports.put = (url , {
+exports.put = (uri , {
     query,
     path,
     body
@@ -54,7 +54,7 @@ exports.put = (url , {
 
     return request({
         method:'PUT',
-        uri:uri,
+        uri,
         qs:query,
         body,
         headers,

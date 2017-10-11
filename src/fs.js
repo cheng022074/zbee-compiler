@@ -59,7 +59,7 @@ exports.readJSONFile = (path , validExists) =>{
 
         try{
 
-            return JSON.parse(data) ;
+            return JSON.parse(require('./script').removeComments(data)) ;
 
         }catch(err){
         }
