@@ -1,10 +1,10 @@
 const {
     apply:apply
-} = require('../../../../../template'),
+} = require('../../../../template'),
 {
     toBoolean
-} = require('../../../../../string'),
-process_expression = require('../expression');
+} = require('../../../../string'),
+process_expression = require('./expression');
 
 module.exports = attrs =>{
 

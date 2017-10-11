@@ -1,5 +1,5 @@
 {
     "assert":"template.generate.script.assembly.test.assert",
-    "web-api":"template.generate.script.assembly.test.web.api",
-    "out":"template.generate.script.assembly.function.out"
+    "web-api":"template.generate.script.assembly.web.api",
+    "out":"template.generate.script.assembly.out"
 }

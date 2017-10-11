@@ -1,9 +1,9 @@
 const {
     apply:tempate_apply
-} = require('../../../../../../template'),
+} = require('../../../../../template'),
 {
     set:object_set
-} = require('../../../../../../object');
+} = require('../../../../../object');
 
 module.exports = (attrs , node) =>{
 
@@ -16,7 +16,7 @@ module.exports = (attrs , node) =>{
 
     process_options(options , 'query' , node) ;
 
-    return tempate_apply('generate.file.script.assembly.test.web.api' , {
+    return tempate_apply('generate.file.script.assembly.web.api' , {
         varName,
         uri,
         method:method || 'get',
