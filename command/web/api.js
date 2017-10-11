@@ -16,7 +16,8 @@ const {
 {
     set:object_set
 } = require('../../src/object'),
-argRe = /^([^\:]+)\:{2}([^\:]+)\:([^\:]+)$/;
+string = require('../../src/string'),
+argRe = /^([^\:]+)\:{2}([^\:]+)\:([^\:]+)(?:\:([^\:]+))?$/;
 
 module.exports = async function(method , uri , ...args){
 
@@ -38,7 +39,20 @@ module.exports = async function(method , uri , ...args){
                 case 'path':
                 case 'body':
 
-                    object_set(options , `${optionType}.${match[2].trim()}` , match[3].trim()) ;
+                    let value = match[3].trim()
+                        datatype = match[4];
+
+                    if(datatype){
+
+                        let method = `to${string.capitalize(datatype)}` ;
+
+                        if(string.hasOwnProperty(method)){
+
+                            value = string[method](value) ;
+                        }
+                    }
+
+                    object_set(options , `${optionType}.${match[2].trim()}` , value) ;
             }
         }
     }

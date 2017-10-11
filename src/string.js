@@ -1,3 +1,8 @@
+exports.capitalize = data =>{
+
+    return `${data.charAt(0).toUpperCase()}${data.substr(1)}` ;
+}
+
 const intRe = /^\d+$/ ;
 
 exports.toInt = data =>{
