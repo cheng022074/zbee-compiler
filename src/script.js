@@ -267,6 +267,8 @@ function import_all_paths(path , allPaths , codes = {}){
     }
 }
 
+// 考虑到兼容 typescript
+
 exports.importPaths = path =>{
 
     let paths = [
