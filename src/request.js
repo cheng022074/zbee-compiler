@@ -6,12 +6,13 @@ const request = require('request-promise'),
         get:properties_get
       } = require('./properties'),
       {
-        isValid:url_valid
+        isValid:url_valid,
+        DEFAULT_API_URL
       } = require('./url');
 
 function process_uri(uri){
 
-    return `${url_valid(uri) ? uri : properties_get('web.api.domain')}/${uri}` ;
+    return `${url_valid(uri) ? uri : DEFAULT_API_URL}/${uri}` ;
 }
 
 exports.get = (uri , {
