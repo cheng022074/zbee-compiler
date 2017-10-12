@@ -6,17 +6,29 @@ const PROCESS = require('../src/process'),
 if(command){
 
     const  {
-        name2path
-      } = require('../src/path') ;
+        name2path,
+        getCompilerPath
+      } = require('../src/path'),
+      {
+          get:properties_get
+      } = require('../src/properties'),
+      {
+          readJSONFile
+      } = require('../src/fs'),
+      {
+        get:object_get
+      } = require('../src/object');
 
     const {
         argv,
         execArgv
     } = PROCESS ;
 
-    if(execArgv.hasOwnProperty('env')){
+    let env = object_get(readJSONFile(getCompilerPath('command.json')) , `${command}.env`) || execArgv.env;
 
-        require('../src/environment').set(execArgv.env) ;
+    if(env){
+
+        require('../src/environment').set(env) ;
     }
 
     global.zb = {

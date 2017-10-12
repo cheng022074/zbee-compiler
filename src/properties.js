@@ -15,7 +15,6 @@ PATH = require('./path'),
     getConfig:get_config
 } = require('./environment');
 
-
 let defaultConfig;
 
 exports.get = key =>{

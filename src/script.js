@@ -2,12 +2,7 @@ const {
     join:path_join,
     extname
 } = require('path'),
-{
-    name2path,
-    getFilePath,
-    replaceSuffix,
-    COMPILE_SOURCE_PATH
-} = require('./path'),
+PATH = require('./path'),
 {
     function:is_function,
     class:is_class,
@@ -28,21 +23,35 @@ const {
     get:config_get
 } = require('./config');
 
-const libraries = [] ;
+const {
+        name2path,
+        getFilePath,
+        replaceSuffix,
+    } = PATH;
 
-{
-    let paths = array_from(properties_get('run.path.libraries')),
-        rootPath = process.cwd();
+let libraries ;
 
-    for(let path of paths){
+function get_libraries(){
 
-        path = path_join(rootPath , path) ;
+    if(!libraries){
 
-        if(is_file(path)){
+        libraries = [] ;
 
-            libraries.push(require(path)) ;
+        let paths = array_from(properties_get('run.path.libraries')),
+            rootPath = process.cwd();
+
+        for(let path of paths){
+
+            path = path_join(rootPath , path) ;
+
+            if(is_file(path)){
+
+                libraries.push(require(path)) ;
+            }
         }
     }
+
+    return libraries ;
 }
 
 const cache = {} ;
@@ -71,6 +80,8 @@ function get(name , isCache = true){
 
         return cache[name] = require(path) ;
     }
+
+    let libraries = get_libraries() ;
 
     for(let library of libraries){
 
@@ -209,6 +220,8 @@ function get_import_uris(ast){
 function get_import_paths(uris){
 
     let result = [];
+
+    const COMPILE_SOURCE_PATH = PATH.COMPILE_SOURCE_PATH ;
 
     for(let uri of uris){
 
