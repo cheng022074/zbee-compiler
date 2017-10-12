@@ -1,14 +1,8 @@
 const {
-    TEST,
-    set:env_set
-} = require('../src/environment') ;
+    BOOT_URL
+} = require('../src/url') ;
+
 module.exports = () =>{
 
-    env_set(TEST) ;
-
-    const {
-        BOOT_URL
-    } = require('../src/url') ;
-
-    console.log(BOOT_URL) ;
+   console.log(BOOT_URL) ;
 }

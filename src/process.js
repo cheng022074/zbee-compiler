@@ -1,27 +1,41 @@
-Object.defineProperties(exports , {
+const argv = process.argv ;
 
-    command:{
+if(argv.length >= 3){
 
-        get:() =>{
+    let args = argv.slice(2);
 
-            return '';
-        }
-    },
+    {
+        let argv = exports.argv = [],
+            execArgv = exports.execArgv = {};
 
-    argv:{
+        const execArgvRe = /^\-{2}([^\-\=]+)(?:\=(.+))?$/ ;
 
-        get:() =>{
+        for(let arg of args){
+            
+            let match = arg.match(execArgvRe) ;
 
-            return process.argv ;
-        }
-    },
+            if(match){
 
-    execArgv:{
+                let value = match[2],
+                    name = match[1].trim();
 
-        get:() =>{
+                if(value){
 
-            return process.argv ;
-        }
+                    execArgv[name] = value ;
+                
+                }else{
+
+                    execArgv[name] = undefined ;
+                }
+
+            }else if(!exports.hasOwnProperty('command')){
+
+                exports.command = arg ;
+
+            }else{
+
+                argv.push(arg) ;
+            }
+        }   
     }
-
-}) ;
+}

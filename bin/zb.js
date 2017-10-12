@@ -1,24 +1,31 @@
 #!/usr/bin/env node
 
-const args = Array.from(process.argv),
-      {
+const PROCESS = require('../src/process'),
+      command = PROCESS.command;
+
+if(command){
+
+    const  {
         name2path
-      } = require('../src/path'),
-      {
-          command,
-          argv,
-          execArgv
-      } = require('../src/dev');
+      } = require('../src/path') ;
 
-global.zb = {
-    script:require('../src/script')
-} ;
+    const {
+        argv,
+        execArgv
+    } = PROCESS ;
 
-if(args.length >= 3){
+    if(execArgv.hasOwnProperty('env')){
+
+        require('../src/environment').set(execArgv.env) ;
+    }
+
+    global.zb = {
+        script:require('../src/script')
+    } ;
 
     try{
-
-        let result = require(`../command/${name2path(args[2])}`)(...args.slice(3)) ;
+        
+        let result = require(`../command/${name2path(command)}`)(...argv) ;
         
         if(result instanceof Promise){
     
@@ -32,5 +39,5 @@ if(args.length >= 3){
     }catch(err){
 
         console.log(err) ;
-    } 
+    }
 }
