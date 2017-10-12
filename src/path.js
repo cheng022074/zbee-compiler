@@ -160,6 +160,22 @@ exports.getCompilerPath = path =>{
     return path_join(__dirname , '..' , path) ;
 }
 
-exports.COMPILE_SOURCE_PATH = exports.getApplicationPath(properties_get('compile.path.source')) ;
+Object.defineProperties(exports , {
 
-exports.COMPILE_DIST_PATH = exports.getApplicationPath(properties_get('compile.path.dist')) ;
+    COMPILE_SOURCE_PATH:{
+
+        get:() =>{
+
+            return exports.getApplicationPath(properties_get('compile.path.source')) ;
+        }
+    },
+
+    COMPILE_DIST_PATH:{
+
+        get:() =>{
+
+            return exports.getApplicationPath(properties_get('compile.path.dist')) ;
+        }
+    }
+
+}) ;

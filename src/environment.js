@@ -1,23 +1,25 @@
-exports.TESTING = 'testing' ;
+exports.TEST = 'test' ;
 
-exports.DEVELOPMENT = 'development' ;
+exports.DEVELOPMENT = 'dev' ;
 
 exports.DEMO = 'demo' ;
 
 exports.FORMAL = 'formal' ;
 
-let environment ;
+let environment = exports.FORMAL;
 
-exports.reset() ;
+const configs = {} ;
 
 exports.set = env =>{
 
+    let uris = Object.keys(configs) ;
+
+    for(let uri of uris){
+
+        delete configs[uri] ;
+    }
+
     environment = env ;
-}
-
-exports.reset = () =>{
-
-    environment = exports.DEVELOPMENT ;
 }
 
 exports.get = () =>{
@@ -25,12 +27,40 @@ exports.get = () =>{
     return environment ;
 }
 
-exports.getPropertiesPath = () =>{
+const {
+    readJSONFile
+} = require('./fs'),
+PATH = require('./path'),
+{
+    deepApply:object_apply
+} = require('./object');
 
+exports.getConfig = (path , isCache = true) =>{
 
+    path = PATH.replaceSuffix(path , '') ;
+
+    if(isCache === false){
+
+        delete configs[path] ;
+    }
+
+    if(configs.hasOwnProperty(path)){
+
+        return configs[path] ;
+    }
+
+    let config = {} ;
+    
+    object_apply(config , getConfig(`${path}.json`)) ;
+
+    object_apply(config , getConfig(`${path}@${environment}.json`)) ;
+
+    configs[path] = config ;
+
+    return config ;
 }
 
-exports.getConfigPath = () =>{
+function getConfig(path){
 
-
+    return readJSONFile(path) || {} ;
 }

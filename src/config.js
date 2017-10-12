@@ -5,38 +5,23 @@ const {
     name2path
 } = require('./path'),
 {
-    readJSONFile
-} = require('./fs'),
-{
     get:object_get
 } = require('./object'),
 {
     defined:is_defined
-} = require('./is');
+} = require('./is'),
+{
+    getConfig:get_config
+} = require('./environment');
 
-const cache = {} ;
+exports.get = (name , key , isCache) =>{
 
-exports.get = (name , key , isCache = true) =>{
-
-    if(isCache === false){
-
-        delete cache[name] ;
-    }
-
-    if(!cache.hasOwnProperty(name)){
-
-        cache[name] = readJSONFile(path_join(__dirname , '..' , 'config' , name2path(name , '.json')));
-    }
-
-    let config = cache[name] ;
+    let config = get_config(path_join(__dirname , '..' , 'config' , name2path(name)) , isCache) ;
     
-    if(config){
+    if(is_defined(key)){
 
-        if(is_defined(key)){
-
-            return object_get(config , key) ;
-        }
-
-        return Object.keys(config) ;
+        return object_get(config , key) ;
     }
+
+    return Object.keys(config) ;
 }

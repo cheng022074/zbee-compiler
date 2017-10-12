@@ -1,8 +1,14 @@
+const {
+    TEST,
+    set:env_set
+} = require('../src/environment') ;
 module.exports = () =>{
 
-    const {
-        URL
-    } = require('url') ;
+    env_set(TEST) ;
 
-    console.log(new URL('http://login/login')) ;
+    const {
+        BOOT_URL
+    } = require('../src/url') ;
+
+    console.log(BOOT_URL) ;
 }

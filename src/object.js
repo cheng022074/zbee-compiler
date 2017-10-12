@@ -137,7 +137,7 @@ exports.set = (data , key , value) =>{
     return data ;
 }
 
-function get_keys(data , rootKey = ''){
+function get_keys(data , iterableByValue = false , rootKey = ''){
 
     if(is_object(data)){
 
@@ -146,21 +146,21 @@ function get_keys(data , rootKey = ''){
 
         for(let key of keys){
 
-            result.push(...get_keys(data[key] , `${rootKey}${encode(key)}.`)) ;
+            result.push(...get_keys(data[key] , iterableByValue , `${rootKey}${encode(key)}.`)) ;
         }
 
         return result ;
 
     }
     
-    if(is_iterable(data)){
+    if(iterableByValue && is_iterable(data)){
 
         let len = data.length,
             result = [];
 
         for(let i = 0 ; i < len ; i ++){
 
-            result.push(...get_keys(data[i] , `${rootKey}${i}.`)) ;
+            result.push(...get_keys(data[i] , iterableByValue , `${rootKey}${i}.`)) ;
         }
 
         return result ;
@@ -172,3 +172,17 @@ function get_keys(data , rootKey = ''){
 }
 
 exports.keys = get_keys ;
+
+exports.deepApply = (dest , source) =>{
+
+    let keys = get_keys(source),
+        set = exports.set,
+        get = exports.get;
+
+    for(let key of keys){
+
+        set(dest , key , get(source , key)) ;
+    }
+
+    return dest ;
+}

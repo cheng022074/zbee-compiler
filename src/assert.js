@@ -46,7 +46,7 @@ function deepEqual(actual , expected , equalFn){
     
     }else{
 
-        let keys = get_keys(actual) ;
+        let keys = get_keys(actual , true) ;
 
         for(let key of keys){
 

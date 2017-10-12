@@ -10,18 +10,19 @@ PATH = require('./path'),
 } = require('./object'),
 {
     defined:is_defined
-} = require('./is') ;
+} = require('./is'),
+{
+    getConfig:get_config
+} = require('./environment');
 
 
-let config,
-    defaultConfig;
+let defaultConfig;
 
 exports.get = key =>{
 
-    if(!config){
+    console.log(key) ;
 
-        config = readJSONFile(PATH.getApplicationPath('properties.json')) || {} ;
-    }
+    config = get_config(PATH.getApplicationPath('properties')) ;
 
     let value = object_get(config , key) ;
 

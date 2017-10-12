@@ -3,7 +3,12 @@
 const args = Array.from(process.argv),
       {
         name2path
-      } = require('../src/path');
+      } = require('../src/path'),
+      {
+          command,
+          argv,
+          execArgv
+      } = require('../src/dev');
 
 global.zb = {
     script:require('../src/script')
@@ -27,7 +32,5 @@ if(args.length >= 3){
     }catch(err){
 
         console.log(err) ;
-    }
-
-    
+    } 
 }
