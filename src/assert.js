@@ -15,7 +15,7 @@ const {
 } = require('assert'),
 {
     keys:get_keys,
-    get:object_keys
+    get:object_get
 } = require('./object'),
 {
     from:array_from
@@ -50,10 +50,10 @@ function doDeepEqual(actual , expected , equalFn){
 
         for(let key of keys){
 
-            let actualValue = object_key(actual , key),
-                expectedValue = object_key(expected , key) ;
+            let actualValue = object_get(actual , key),
+                expectedValue = object_get(expected , key) ;
 
-            equalFn(actualValue , expectedValue , message || `键名称为 ${key} 的值与预期不符 , 实际值: ${actualValue} , 预期值: ${expectedValue}`) ;
+            equalFn(actualValue , expectedValue , `键名称为 ${key} 的值与预期不符 , 实际值: ${actualValue} , 预期值: ${expectedValue}`) ;
         }
     }
 }
@@ -70,33 +70,38 @@ exports.deepStrictEqual = (actual , expected) =>{
 
 function includes(actual , expected , equalFn){
 
-    if(is_recordset(actual)){
+    if(!is_recordset(actual)){
         
         throw new AssertionError({
             message:'实际数据不是记录集类型'
         }) ;
     }
 
-    if(is_simpleObject(expected)){
+    if(!is_simpleObject(expected)){
         
         throw new AssertionError({
             message:'预期数据不是记录类型'
         }) ;
     }
 
-    try{
+    for(let record of actual){
 
-        for(let record of actual){
+        try{
 
             equalFn(record , expected) ;
+
+        }catch(err){
+
+            continue ;
         }
 
-    }catch(err){
-
-        throw new AssertionError({
-            message:`预期数据在实际数据中不存在`
-        }) ;
+        return ;
     }
+
+
+    throw new AssertionError({
+        message:'预期数据在实际数据中不存在'
+    }) ;
 }
 
 exports.includes = (actual , expected) =>{
@@ -121,7 +126,7 @@ exports.strictCompleteIncludes = (actual , expected) =>{
 
 function recordsetEqual(actual , expected , includesFn){
 
-    if(is_recordset(actual)){
+    if(!is_recordset(actual)){
 
         throw new AssertionError({
             message:'实际数据不是记录集类型'
@@ -133,7 +138,7 @@ function recordsetEqual(actual , expected , includesFn){
         expected = array_from(expected) ;
     }
 
-    if(is_recordset(expected)){
+    if(!is_recordset(expected)){
         
         throw new AssertionError({
             message:'预期数据不是记录集类型'
@@ -150,15 +155,11 @@ function recordsetEqual(actual , expected , includesFn){
 
         }catch(err){
 
-            continue ;
+            throw new AssertionError({
+                message:'预期数据在实际数据中不存在'
+            }) ;
         }
-
-        return ;
     }
-
-    throw new AssertionError({
-        message:'预期数据在实际数据中不存在'
-    }) ;
 }
 
 exports.recordsetEqual = (actual , expected) =>{
