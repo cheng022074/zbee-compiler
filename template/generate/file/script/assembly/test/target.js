@@ -10,9 +10,13 @@ exports['<%- name %>'] = async function(){
 
     try{
 
+        console.log('--------------------------------------') ;
+
         <%- code %>
 
         console.log('成功' , '<%- name %>') ;
+
+        console.log('--------------------------------------') ;
 
     }catch(err){
 
