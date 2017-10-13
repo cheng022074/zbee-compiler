@@ -34,11 +34,11 @@ exports.length = (actual , expected) =>{
 
         let length = actual.length ;
 
-        equal(length , expected , message || `迭代长度与预期不符 , 实际长度: ${length}, 预期长度: ${expected}`) ;
+        equal(length , expected , `迭代长度与预期不符 , 实际长度: ${length}, 预期长度: ${expected}`) ;
     }
 }
 
-function deepEqual(actual , expected , equalFn){
+function doDeepEqual(actual , expected , equalFn){
 
     if(is_primitive(actual)){
 
@@ -60,12 +60,12 @@ function deepEqual(actual , expected , equalFn){
 
 exports.deepEqual = (actual , expected) =>{
 
-    return deepEqual(actual , expected , equal) ;
+    return doDeepEqual(actual , expected , equal) ;
 } ;
 
 exports.deepStrictEqual = (actual , expected) =>{
     
-    return deepEqual(actual , expected , strictEqual) ;
+    return doDeepEqual(actual , expected , strictEqual) ;
 } ;
 
 function includes(actual , expected , equalFn){

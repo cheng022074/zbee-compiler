@@ -45,7 +45,8 @@ exports.toTimestamp = data =>{
 
 const booleanRe = /^true|false$/,
       {
-          empty:is_empty
+          empty:is_empty,
+          defined:is_defined
       } = require('./is');
 
 exports.toBoolean = data =>{
@@ -54,11 +55,19 @@ exports.toBoolean = data =>{
 
         return data === 'true' ;
     }
-
-    return is_empty(data) ;
 }
 
 exports.toString = data =>{
 
     return data ;
+}
+
+exports.toLiteral = data =>{
+
+    if(intRe.test(data) || floatRe.test(data) || booleanRe.test(data)){
+
+        return data ;
+    }
+
+    return `'${data}'` ;
 }

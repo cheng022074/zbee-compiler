@@ -1,6 +1,9 @@
 const includeExpressionRe = /\{[^\{\}]+\}/,
       expressionRe = /^\{[^\{\}]+\}$/,
-      eachExpressionRe = /\{([^\{\}]+)\}/g;
+      eachExpressionRe = /\{([^\{\}]+)\}/g,
+      {
+        toLiteral
+      } = require('../../../../string');
 
 // 此表达式生成器为试验版，里面会有很多漏洞，仅用演示用
 
@@ -28,7 +31,7 @@ module.exports = expression =>{
 
     }else{
 
-        return `'${expression}'` ;
+        return toLiteral(expression) ;
 
     }
 
