@@ -30,14 +30,19 @@ module.exports = (data , path) =>{
 
                 if(targetEl.tag === 'target'){
 
-                    let name = targetEl.get('name') ;
+                    let {
+                        name,
+                        start,
+                        end
+                    } = targetEl.attrib ;
 
                     if(name){
 
                         codes.push(template_apply('generate.file.script.assembly.test.target' ,  {
                             name,
-                            code:generate_code(targetEl , context , 'test'),
-                            context
+                            start,
+                            end,
+                            code:generate_code(targetEl , context , 'test')
                         })) ;
                     }
                 }
@@ -48,7 +53,8 @@ module.exports = (data , path) =>{
                 className,
                 body:template_apply('generate.file.script.assembly.test' ,  {
                     bootstrap:root.get('default'),
-                    code:codes.join('\n')
+                    code:codes.join('\n'),
+                    context
                 })
             } ;
         }

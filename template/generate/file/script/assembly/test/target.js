@@ -1,5 +1,13 @@
 exports['<%- name %>'] = async function(){
 
+    <%
+        if(start){
+    %>
+    exports['<%- start %>']() ;
+    <%
+        }
+    %>
+
     try{
 
         <%- code %>
@@ -12,4 +20,12 @@ exports['<%- name %>'] = async function(){
 
         console.log(err) ;
     }
+
+    <%
+        if(end){
+    %>
+    exports['<%- end %>']() ;
+    <%
+        }
+    %>
 }
