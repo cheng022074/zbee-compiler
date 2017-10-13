@@ -4,6 +4,16 @@ const {
 {
     variableName:var_valid
 } = require('../../../../../valid'),
+{
+    join:path_join
+} = require('path'),
+PATH = require('../../../../../path'),
+{
+    name2path
+} = PATH,
+{
+    readJSONFile
+} = require('../../../../../fs'),
 process_expression = require('../expression');
 
 module.exports = (context , attrs , node) =>{
@@ -12,15 +22,27 @@ module.exports = (context , attrs , node) =>{
         var:varName,
         scope,
         uri,
-        method
+        method,
+        options
     } = attrs,
-    options = [];
+    optionsName = `options_${Date.now()}`;
 
-    process_options(options , 'query' , node) ;
+    if(options){
 
-    process_options(options , 'body' , node) ;
+        options = `${optionsName} = ${JSON.stringify(readJSONFile(path_join(PATH.COMPILE_SOURCE_PATH , name2path(options , '.json'))) || {})};`;
 
-    process_options(options , 'header' , node) ;
+    }else{
+
+        options = [];
+        
+        process_options(optionsName , options , 'query' , node) ;
+    
+        process_options(optionsName , options , 'body' , node) ;
+    
+        process_options(optionsName , options , 'header' , node) ;
+
+        options = options.join('\n') ;
+    }
 
     if(varName){
 
@@ -40,6 +62,7 @@ module.exports = (context , attrs , node) =>{
     }
 
     return tempate_apply('generate.file.script.assembly.web.api' , {
+        optionsName,
         varName,
         uri,
         method:method || 'get',
@@ -47,7 +70,7 @@ module.exports = (context , attrs , node) =>{
     }) ;
 }
 
-function process_options(options , name , node){
+function process_options(optionsName , options , name , node){
 
     let paramNodes = node.findall(`./param[@scope="${name}"]`),
         result = [] ;
@@ -58,7 +81,7 @@ function process_options(options , name , node){
 
         if(paramName){
 
-            options.push(`object_set(options , '${name}.${paramName}' , ${process_expression(paramNode.get('value'))}) ;`) ;
+            options.push(`object_set(${optionsName} , '${name}.${paramName}' , ${process_expression(paramNode.get('value'))}) ;`) ;
         }
     }
 }

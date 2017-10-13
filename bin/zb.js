@@ -27,6 +27,8 @@ if(command){
     } ;
 
     try{
+
+        require('babel-polyfill') ;        
         
         let result = require(`../command/${name2path(command)}`)(...argv) ;
         

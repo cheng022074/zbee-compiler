@@ -1,14 +1,16 @@
 {
-    const options = {},
-          object_set = require('object').set;
-    <%- options.join('\n') %>
+    let <%- optionsName %> = {};
+    {
+        const object_set = require('object').set;
+        <%- options %>
+    }
     <%
 
         if(varName){
     %>
-    <%- varName %> = await require('web.api').input('<%- uri %>' , '<%- method %>' , options) ;
+    <%- varName %> = await require('web.api').input('<%- uri %>' , '<%- method %>' , <%- optionsName %>) ;
     <%}else{%>
-    await require('web.api').input('<%- uri %>' , '<%- method %>' , options) ;
+    await require('web.api').input('<%- uri %>' , '<%- method %>' , <%- optionsName %>) ;
     <%}%>
 
 }

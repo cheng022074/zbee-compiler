@@ -16,9 +16,13 @@ exports['<%- name %>'] = async function(){
 
     }catch(err){
 
-        console.log('失败' , '<%- name %>') ;
+        console.log('--------------------------------------') ;
 
         console.log(err) ;
+
+        console.log('失败' , '<%- name %>') ;
+
+        console.log('--------------------------------------') ;
     }
 
     <%
