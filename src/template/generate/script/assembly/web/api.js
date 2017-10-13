@@ -2,23 +2,42 @@ const {
     apply:tempate_apply
 } = require('../../../../../template'),
 {
-    set:object_set
-} = require('../../../../../object');
+    variableName:var_valid
+} = require('../../../../../valid'),
+process_expression = require('../expression');
 
 module.exports = (context , attrs , node) =>{
     
     let {
         var:varName,
+        scope,
         uri,
         method
     } = attrs,
-    options = {};
+    options = [];
 
     process_options(options , 'query' , node) ;
 
     process_options(options , 'body' , node) ;
 
     process_options(options , 'header' , node) ;
+
+    if(varName){
+
+        if(!var_valid(varName)){
+            
+            throw new Error(` ${varName} 不是一个合法的变量名称`) ;
+        }
+
+        if(scope === 'module'){
+
+            context.params.push(varName) ;
+        
+        }else{
+
+            varName = `var ${varName}` ;
+        }
+    }
 
     return tempate_apply('generate.file.script.assembly.web.api' , {
         varName,
@@ -39,7 +58,7 @@ function process_options(options , name , node){
 
         if(paramName){
 
-            object_set(options , `${name}.${paramName}` , paramNode.get('value')) ;
+            options.push(`object_set(options , '${name}.${paramName}' , ${process_expression(paramNode.get('value'))}) ;`) ;
         }
     }
 }

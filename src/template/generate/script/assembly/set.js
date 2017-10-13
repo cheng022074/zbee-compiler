@@ -13,7 +13,7 @@ module.exports = (context , attrs , node) =>{
         property
     } = attrs ;
 
-    if(!var_valid(varName)){
+    if(!varName || !var_valid(varName)){
 
         throw new Error(` ${varName} 不是一个合法的变量名称`) ;
     }

@@ -3,7 +3,7 @@ exports['<%- name %>'] = async function(){
     <%
         if(start){
     %>
-    exports['<%- start %>']() ;
+    await exports['<%- start %>']() ;
     <%
         }
     %>
@@ -24,7 +24,7 @@ exports['<%- name %>'] = async function(){
     <%
         if(end){
     %>
-    exports['<%- end %>']() ;
+    await exports['<%- end %>']() ;
     <%
         }
     %>
