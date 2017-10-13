@@ -42,7 +42,7 @@ function doDeepEqual(actual , expected , equalFn){
 
     if(is_primitive(actual)){
 
-        deepEqual(actual , expected , message) ;
+        deepEqual(actual , expected) ;
     
     }else{
 

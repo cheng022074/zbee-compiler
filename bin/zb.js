@@ -26,12 +26,15 @@ if(command){
         script:require('../src/script')
     } ;
 
+    let commandPath = `../command/${name2path(command)}`,
+        errorMessage = `Cannot find module '${commandPath}'`;
+
     try{
 
-        require('babel-polyfill') ;        
-        
-        let result = require(`../command/${name2path(command)}`)(...argv) ;
-        
+        require('babel-polyfill') ;
+   
+        let result = require(commandPath)(...argv) ;
+
         if(result instanceof Promise){
     
             result.catch(err =>{
@@ -43,6 +46,13 @@ if(command){
     
     }catch(err){
 
-        console.log(err) ;
+        if(err.message === errorMessage){
+
+            console.log(command , '命令不存在') ;
+        
+        }else{
+
+            console.log(err) ;
+        }
     }
 }
