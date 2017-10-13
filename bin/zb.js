@@ -8,23 +8,14 @@ if(command){
     const  {
         name2path,
         getCompilerPath
-      } = require('../src/path'),
-      {
-          get:properties_get
-      } = require('../src/properties'),
-      {
-          readJSONFile
-      } = require('../src/fs'),
-      {
-        get:object_get
-      } = require('../src/object');
+      } = require('../src/path');
 
     const {
         argv,
         execArgv
     } = PROCESS ;
 
-    let env = object_get(readJSONFile(getCompilerPath('command.json')) , `${command}.env`) || execArgv.env;
+    let env = execArgv.env;
 
     if(env){
 

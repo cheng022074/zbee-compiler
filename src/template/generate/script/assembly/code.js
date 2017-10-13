@@ -6,7 +6,7 @@ const {
     string:is_string
 } = require('../../../../is');
 
-module.exports = (el , type) =>{
+module.exports = (el , context , type) =>{
 
     let codes = [],
         childEls = el.getchildren() ;
@@ -18,7 +18,7 @@ module.exports = (el , type) =>{
 
         if(className){
 
-            let code = script_execute(className , childEl.attrib , childEl) ;
+            let code = script_execute(className , context , childEl.attrib , childEl) ;
 
             if(is_string(code)){
 

@@ -6,7 +6,7 @@ const {
 } = require('../../../../string'),
 process_expression = require('./expression');
 
-module.exports = attrs =>{
+module.exports = (context , attrs) =>{
 
     let expression = '';
 

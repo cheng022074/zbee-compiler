@@ -33,6 +33,7 @@ module.exports = async function(method , uri , ...args){
                 case 'query':
                 case 'path':
                 case 'body':
+                case 'header':
 
                     let value = match[3].trim()
                         datatype = match[4];

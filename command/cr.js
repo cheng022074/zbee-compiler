@@ -1,5 +1,5 @@
-const compile = require('./c'),
-      run = require('./r');
+const compile = require('./compile'),
+      run = require('./run');
 
 module.exports = (name , ...args) =>{
 

@@ -186,3 +186,41 @@ exports.deepApply = (dest , source) =>{
 
     return dest ;
 }
+
+exports.apply = (dest , source) =>{
+
+    return Object.assign(dest , source) ;
+}
+
+exports.applyIf = (dest , source) =>{
+
+    let keys = Object.keys(source) ;
+
+    for(let key of keys){
+
+        if(!dest.hasOwnProperty(key)){
+
+            dest[key] = source[key] ;
+        }
+    }
+
+    return dest ;
+}
+
+exports.coverMerge = (...sources) =>{
+
+    return Object.assign({} , ...sources) ;
+}
+
+exports.deepCoverMerge = (...sources) =>{
+
+    let result = [],
+        apply = exports.deepApply ;
+
+    for(let source of sources){
+
+        apply(result , source) ;
+    }
+
+    return result ;
+}

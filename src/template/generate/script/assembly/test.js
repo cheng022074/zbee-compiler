@@ -21,7 +21,10 @@ module.exports = (data , path) =>{
         if(root.tag === 'test'){
 
             let targetEls = root.getchildren(),
-                codes = [];
+                codes = [],
+                context = {
+                    params:[]
+                };
 
             for(let targetEl of targetEls){
 
@@ -33,7 +36,8 @@ module.exports = (data , path) =>{
 
                         codes.push(template_apply('generate.file.script.assembly.test.target' ,  {
                             name,
-                            code:generate_code(targetEl , 'test')
+                            code:generate_code(targetEl , context , 'test'),
+                            context
                         })) ;
                     }
                 }

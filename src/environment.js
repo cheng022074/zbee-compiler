@@ -32,7 +32,7 @@ const {
 } = require('./fs'),
 PATH = require('./path'),
 {
-    deepApply:object_apply
+    deepCoverMerge:object_merge
 } = require('./object');
 
 exports.getConfig = (path , isCache = true) =>{
@@ -49,12 +49,8 @@ exports.getConfig = (path , isCache = true) =>{
         return configs[path] ;
     }
 
-    let config = {} ;
+    let config = object_merge(getConfig(`${path}.json`) , getConfig(`${path}@${environment}.json`)) ;
     
-    object_apply(config , getConfig(`${path}.json`)) ;
-
-    object_apply(config , getConfig(`${path}@${environment}.json`)) ;
-
     configs[path] = config ;
 
     return config ;

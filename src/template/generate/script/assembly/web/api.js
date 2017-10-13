@@ -5,8 +5,8 @@ const {
     set:object_set
 } = require('../../../../../object');
 
-module.exports = (attrs , node) =>{
-
+module.exports = (context , attrs , node) =>{
+    
     let {
         var:varName,
         uri,

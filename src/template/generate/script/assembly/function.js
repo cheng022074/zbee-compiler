@@ -16,17 +16,19 @@ module.exports = (data , path) =>{
 
     try{
 
-        let root = parse(data).getroot();
+        let root = parse(data).getroot(),
+            context = {};
 
         if(root.tag === 'function'){
 
-            generate_code(root.find('body') , 'script') ;
+            generate_code(root.find('body') , context , 'script') ;
 
             return {
                 name,
                 className,
                 body:template_apply('generate.file.script.assembly.function' ,  {
-                    code:codes.join('\n')
+                    code:codes.join('\n'),
+                    context
                 })
             } ;
         }

@@ -19,8 +19,6 @@ let defaultConfig;
 
 exports.get = key =>{
 
-    console.log(key) ;
-
     config = get_config(PATH.getApplicationPath('properties')) ;
 
     let value = object_get(config , key) ;

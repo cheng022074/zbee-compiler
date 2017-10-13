@@ -8,16 +8,30 @@ const request = require('request'),
       {
         isValid:url_valid,
         DEFAULT_API_URL
-      } = require('./url');
+      } = require('./url'),
+      {
+          coverMerge:object_merge
+      } = require('./object');
 
 function process_uri(uri){
 
     return `${url_valid(uri) ? uri : DEFAULT_API_URL}/${uri}` ;
 }
 
+function process_headers(header){
+
+    if(header){
+
+        return object_merge(headers , header) ;
+    }
+
+    return headers ;
+}
+
 exports.get = (uri , {
     query,
-    path
+    path,
+    header
 } = {}) =>{
 
     return new Promise((doCallback , doError) =>{
@@ -26,7 +40,7 @@ exports.get = (uri , {
             method:'GET',
             uri:process_uri(uri),
             qs:query,
-            headers,
+            headers:process_headers(header),
             json: true
         } , (error, response, body) =>{
 
@@ -37,7 +51,7 @@ exports.get = (uri , {
             }else{
 
                 doCallback({
-                    headers:response.headers,
+                    header:response.headers,
                     body
                 }) ;
             }
@@ -48,7 +62,8 @@ exports.get = (uri , {
 
 exports.delete = (uri , {
     query,
-    path
+    path,
+    header
 } = {}) =>{
 
     return new Promise((doCallback , doError) =>{
@@ -57,7 +72,7 @@ exports.delete = (uri , {
             method:'DELETE',
             uri:process_uri(uri),
             qs:query,
-            headers,
+            headers:process_headers(header),
             json: true
         } , (error, response, body) =>{
 
@@ -68,7 +83,7 @@ exports.delete = (uri , {
             }else{
 
                 doCallback({
-                    headers:response.headers,
+                    header:response.headers,
                     body
                 }) ;
             }
@@ -79,6 +94,7 @@ exports.delete = (uri , {
 
 exports.post = (uri , {
     query,
+    header,
     path,
     body
 } = {}) =>{
@@ -90,7 +106,7 @@ exports.post = (uri , {
             uri:process_uri(uri),
             qs:query,
             body,
-            headers,
+            headers:process_headers(header),
             json: true
         } , (error, response, body) =>{
 
@@ -101,7 +117,7 @@ exports.post = (uri , {
             }else{
 
                 doCallback({
-                    headers:response.headers,
+                    header:response.headers,
                     body
                 }) ;
             }
@@ -112,6 +128,7 @@ exports.post = (uri , {
 
 exports.put = (uri , {
     query,
+    header,
     path,
     body
 } = {}) =>{
@@ -123,7 +140,7 @@ exports.put = (uri , {
             uri:process_uri(uri),
             qs:query,
             body,
-            headers,
+            headers:process_headers(header),
             json: true
         } , (error, response, body) =>{
 
@@ -134,7 +151,7 @@ exports.put = (uri , {
             }else{
 
                 doCallback({
-                    headers:response.headers,
+                    header:response.headers,
                     body
                 }) ;
             }
