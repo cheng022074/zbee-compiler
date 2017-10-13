@@ -67,7 +67,7 @@ module.exports = async function(method , uri , ...args){
         print_params('主体参数:' , options.body) ;
     }
 
-    console.log('已请求' , method.toUpperCase() , url) ;
+    console.log('已请求' , method.toUpperCase() , uri) ;
 
     let body = await input(uri , method , options) ;
 
