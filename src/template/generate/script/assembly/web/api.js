@@ -16,6 +16,10 @@ module.exports = (context , attrs , node) =>{
 
     process_options(options , 'query' , node) ;
 
+    process_options(options , 'body' , node) ;
+
+    process_options(options , 'header' , node) ;
+
     return tempate_apply('generate.file.script.assembly.web.api' , {
         varName,
         uri,
