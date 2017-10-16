@@ -1,6 +1,6 @@
 {
   "name": "zbee",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "基于控制台的代码设计辅助工具",
   "repository": {
     "type": "git",
@@ -46,6 +46,7 @@
     "opn": "^5.1.0",
     "request": "^2.83.0",
     "strip-comment": "^1.1.3",
-    "typescript": "^2.5.3"
+    "typescript": "^2.5.3",
+    "xlsx": "^0.11.5"
   }
 }
