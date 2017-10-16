@@ -3,15 +3,13 @@ const {
 } = require('path'),
 {
     extname,
-    basename:path_basename,
-    COMPILE_SOURCE_PATH,
-    getApplicationPath
+    path2name
 } = require('../../path');
 
 module.exports = (data , path) =>{
 
     return {
-        name:path_basename(path , COMPILE_SOURCE_PATH),
+        name:path2name(path),
         className:basename(path , extname(path)),
         body:data
     } ;

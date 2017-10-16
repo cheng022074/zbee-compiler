@@ -23,6 +23,24 @@ exports.name2path = (name , suffix) =>{
     return `${name.replace(dotRe , sep)}${suffix ? suffix : ''}` ;
 }
 
+const rootFolderRe = /^[^\\//]+/ ;
+
+exports.path2name = path =>{
+
+    let {
+        COMPILE_SOURCE_PATH,
+        basename,
+        getApplicationPath
+    } = exports ;
+
+    if(path.indexOf(sourcePath) === 0){
+
+        return basename(path , COMPILE_SOURCE_PATH) ;
+    }
+
+    return basename(getApplicationPath(path.replace(getApplicationPath() , '').replace(sep , '').match(rootFolderRe)[0])) ;
+}
+
 const {
     readdirSync
 } = require('fs'),
