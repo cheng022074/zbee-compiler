@@ -68,6 +68,14 @@ exports.toLiteral = data =>{
 
         return data ;
     }
+    
+    try{
+
+        return JSON.parse(data) ;
+    
+    }catch(err){
+
+    }
 
     return `'${data}'` ;
 }
