@@ -2,5 +2,6 @@
     "assert":"template.generate.script.assembly.test.assert",
     "web-api":"template.generate.script.assembly.web.api",
     "out":"template.generate.script.assembly.out",
-    "set":"template.generate.script.assembly.set"
+    "set":"template.generate.script.assembly.set",
+    "excel":"template.generate.script.assembly.excel"
 }

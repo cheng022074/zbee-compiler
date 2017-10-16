@@ -17,7 +17,8 @@ exports.readSheet = (path , sheetIndex = 0) =>{
 const XLSX = require('xlsx'),
     {
         decode_range,
-        encode_cell
+        encode_cell,
+        decode_cell
 } = XLSX.utils;
 
 function getSheetSingleRowCells(sheet , range){
@@ -44,11 +45,16 @@ function getSheetSingleRowCells(sheet , range){
     return cells ;
 }
 
+const rangeRe = /:/ ;
+
 function getSheetMultiRowCells(sheet , range){
 
-    let range = decode_range(range);
-    
-    range = include('excel.cell.range.title')(sheet , range);
+    if(!rangeRe.test(range)){
+        
+        range = `${range}:${sheet['!ref'].match(/:([^\:]+)$/)[1]}` ;
+    }
+
+    range = decode_range(range) ;
 
     let {
         c:columnStartIndex,
@@ -77,17 +83,20 @@ function getSheetMultiRowCells(sheet , range){
     return result ;
 }
 
+const indexNumberRe = /\d+/$ ;
+
 function getSheetSingleRowCells(sheet , range){
 
-    const XLSX = require('xlsx'),
-            {
-            decode_range,
-            encode_cell
-            } = XLSX.utils;
-    
-    let range = decode_range(range) ;
+    if(!rangeRe.test(range)){
 
-    range = include('excel.cell.range.title')(sheet , range);
+        let = {
+            r
+        } = decode_cell(range) ;
+
+        range = `${range}:${sheet['!ref'].match(/:([^\:]+)$/)[1].replace(indexNumberRe , '')}${r}` ;
+    }
+
+    range = decode_range(range) ;
 
     let {
         c:columnStartIndex,
@@ -140,7 +149,7 @@ exports.getSheetData = (sheet , range , keys) =>{
 
         for(; i < len ; i ++){
 
-            record[keys[i]] = item[i];
+            record[keys[i]] = item[i].v;
         }
 
         data.push(record) ;

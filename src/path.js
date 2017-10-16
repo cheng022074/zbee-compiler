@@ -150,7 +150,7 @@ exports.replaceSuffix = (path , suffix) =>{
  * @param path 文件路径
  * 
  */
-exports.getApplicationPath = path =>{
+exports.getApplicationPath = (path = '') =>{
 
     return path_join(process.cwd() , path) ;
 }

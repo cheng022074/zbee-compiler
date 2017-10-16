@@ -1,5 +1,5 @@
 const {
-    apply:apply
+    apply:template_apply
 } = require('../../../../template'),
 {
     toBoolean
@@ -15,7 +15,7 @@ module.exports = (context , attrs) =>{
         expression = process_expression(attrs.value) ;
     }
 
-    return apply('generate.file.script.assembly.out' , {
+    return template_apply('generate.file.script.assembly.out' , {
         expression,
         json_format:toBoolean(attrs['json-format'])
     }) ;
