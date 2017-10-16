@@ -2,32 +2,42 @@
     ".fn.js":{
         "data":"template.generate.script",
         "template":{
-            "file":"generate.file.script.function",
+            "file":"generate.bin.script.function",
             "package":"generate.package.script.function"
         },
-        "suffix":".js"
+        "suffix":{
+            "bin":".js"
+        }
     },
-    ".fn.xml":{
-        "data":"template.generate.script.assembly.function",
+    ".script.xml":{
+        "data":"template.generate.script.assembly.script",
         "template":{
-            "file":"generate.file.script.function",
+            "source":"empty.script",
+            "bin":"generate.bin.script.function",
             "package":"generate.package.script.function"
         },
-        "suffix":".js"
+        "suffix":{
+            "bin":".js",
+            "source":".fn.js"
+        }
     },
     ".class.js":{
         "data":"template.generate.script",
         "template":{
-            "file":"generate.file.script.class",
+            "file":"generate.bin.script.class",
             "package":"generate.package.script.class"
         },
-        "suffix":".js"
+        "suffix":{
+            "bin":".js"
+        }
     },
     ".test.xml":{
         "data":"template.generate.script.assembly.test",
         "template":{
             "file":"empty.script"
         },
-        "suffix":".js"
+        "suffix":{
+            "bin":".js"
+        }
     }
 }

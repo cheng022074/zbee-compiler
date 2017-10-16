@@ -3,14 +3,24 @@ const {
 } = require('../../../../config'),{
     execute:script_execute
 } = require('../../../../script'),{
-    string:is_string
+    string:is_string,
+    array:is_array
 } = require('../../../../is');
 
 module.exports = (el , context , type) =>{
 
     let codes = [],
-        childEls = el.getchildren() ;
+        childEls ;
+    
+    if(is_array(el)){
 
+        childEls = el ;
+    
+    }else{
+
+        childEls = el.getchildren() ;
+    }
+    
     for(let childEl of childEls){
 
         let tag = childEl.tag,

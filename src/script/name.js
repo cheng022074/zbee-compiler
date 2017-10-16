@@ -1,4 +1,4 @@
-const scopeRe = /^([^\:]+)\:([^\:]+)$/,
+const scopeRe = /^(?:(\w+)\:{2})?(\w+(?:\.\w+)*)$/,
       nameRe = /^(?:\w+\:{2})?\w+(?:\.\w+)*$/;
 
 exports.valid = name =>{

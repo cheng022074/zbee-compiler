@@ -46,7 +46,7 @@ const {
 module.exports = name =>{
 
     if(!is_defined(name)){
-
+        
         console.error('未指定名称') ;
 
         return false;
@@ -79,33 +79,21 @@ module.exports = name =>{
     if(path){
 
         let config = config_get('suffix' , extname(path)) ;
-
+        
         if(config){
 
-            let result = apply(object_get(config , 'template.file') , script_get(config.data)(readTextFile(path) , path)) ;
+            let result = apply(object_get(config , 'template.source') , script_get(config.data)(readTextFile(path) , path)) ;
 
             if(result){
 
-                let suffix = object_get(config , 'suffix.bin')  ;
+                let suffix = object_get(config , 'suffix.source') ;
 
                 if(!suffix){
 
                     return false ;
                 }
 
-                let filePath = replaceSuffix(path , suffix).replace(sourcePath , COMPILE_DIST_PATH) ;
-
-                if(scope){
-
-                    filePath = path_join(dirname(filePath) , `${scope}::${basename(filePath)}`) ;
-                }
-
-                switch(suffix){
-
-                    case '.js':
-
-                        result = `${template_get('generate.file.script.require').template}${script_compile(result).code}` ;
-                }
+                let filePath = replaceSuffix(path , suffix) ;
 
                 writeTextFile(filePath , result) ;
             }
