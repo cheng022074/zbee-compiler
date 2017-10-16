@@ -8,7 +8,7 @@ let <%- resultName %> ;
         getSheetData,
         getSheetKeys
     } = require('excel'),
-    sheet = readSheet('<%- path %>');
+    sheet = readSheet('<%- path.replace(/\\/g , '\\\\') %>');
 
     <%- resultName %> = getSheetData(sheet , '<%- data %>' , getSheetKeys(sheet , '<%- key %>')) ;
 }

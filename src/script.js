@@ -21,13 +21,17 @@ PATH = require('./path'),
 } = require('./fs'),
 {
     get:config_get
-} = require('./config');
-
-const {
+} = require('./config'),
+{
         name2path,
         getFilePath,
         replaceSuffix,
-    } = PATH;
+        getApplicationPath
+} = PATH,
+{
+    valid,
+    parse:name_parse
+} = require('./script/name');
 
 let libraries ;
 
@@ -207,7 +211,25 @@ function get_import_uris(ast){
 
                     if(valueNode && valueNode.type === 'StringLiteral'){
 
-                        result.push(valueNode.value) ;
+                        let name = valueNode.value ;
+
+                        if(valid(name)){
+
+                            result.push(name) ;
+                        
+                        }else{
+
+                            let ext = extname(name) ;
+
+                            if(!ext){
+
+                                result.push(`${name}.js`) ;
+
+                            }else{
+
+                                result.push(name) ;
+                            }
+                        }
                     }
                 }
             }
@@ -233,7 +255,22 @@ function get_import_paths(uris){
 
         }else{
 
-            scriptPath = getFilePath(path_join(COMPILE_SOURCE_PATH , name2path(uri)) , config_get('suffix')) ;
+            let {
+                    scope,
+                    name
+                } = name_parse(uri),
+                sourcePath;
+
+            if(scope){
+
+                sourcePath = getApplicationPath(scope) ;
+            
+            }else{
+
+                scopePath = COMPILE_SOURCE_PATH ;
+            }
+
+            scriptPath = getFilePath(path_join(scopePath , name2path(name)) , config_get('suffix')) ;
 
             if(scriptPath){
 

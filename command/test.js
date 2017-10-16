@@ -1,6 +1,6 @@
 const {
     name2path,
-    COMPILE_SOURCE_PATH
+    getApplicationPath
 } = require('../src/path'),
 {
     file:is_file
@@ -12,11 +12,21 @@ compile = require('./compile'),
 } = require('../src/script'),
 {
     join:path_join
-} = require('path');
+} = require('path'),
+{
+    parse:name_parse
+} = require('../src/script/name');
 
 module.exports = async function(name , target){
 
-    let path = path_join(COMPILE_SOURCE_PATH , name2path(name , '.test.xml'));
+    let config = name_parse(name) ;
+
+    if(config === false){
+
+        return false ;
+    }
+
+    let path = path_join(getApplicationPath(config.scope || 'test') , name2path(name , '.test.xml'));
 
     if(is_file(path)){
 

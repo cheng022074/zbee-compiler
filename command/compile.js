@@ -2,15 +2,17 @@ const {
     defined:is_defined
 } = require('../src/is'),
 {
-    join:path_join
+    join:path_join,
+    dirname,
+    basename
 } = require('path'),
 {
     name2path,
     getFilePath,
-    COMPILE_SOURCE_PATH,
     COMPILE_DIST_PATH,
     extname,
-    replaceSuffix
+    replaceSuffix,
+    getApplicationPath
 } = require('../src/path'),
 {
     get:config_get
@@ -35,7 +37,10 @@ const {
 } = require('../src/properties'),
 {
     get:template_get
-} = require('../src/template');
+} = require('../src/template'),
+{
+    parse:name_parse
+} = require('../src/script/name');
 
 module.exports = name =>{
 
@@ -46,7 +51,15 @@ module.exports = name =>{
         return false;
     }
 
-    let sourcePath = COMPILE_SOURCE_PATH,
+    let config = name_parse(name) ;
+
+    if(config === false){
+
+        return false ;
+    }
+
+    let scope = config.scope,
+        sourcePath = getApplicationPath(config.scope),
         path = getFilePath(path_join(sourcePath , name2path(name)) , config_get('suffix'));
 
     if(path){
@@ -61,6 +74,11 @@ module.exports = name =>{
 
                 let suffix = config.suffix,
                     filePath = replaceSuffix(path , config.suffix).replace(sourcePath , COMPILE_DIST_PATH) ;
+
+                if(scope){
+
+                    filePath = path_join(dirname(filePath) , `${scope}::${basename(filePath)}`) ;
+                }
 
                 switch(suffix){
 

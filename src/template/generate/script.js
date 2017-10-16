@@ -4,7 +4,8 @@ const {
 {
     extname,
     basename:path_basename,
-    COMPILE_SOURCE_PATH
+    COMPILE_SOURCE_PATH,
+    getApplicationPath
 } = require('../../path');
 
 module.exports = (data , path) =>{

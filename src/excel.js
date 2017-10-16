@@ -1,8 +1,20 @@
+const XLSX = require('xlsx'),
+{
+    readFile,
+    utils
+} = XLSX,
+{
+    decode_range,
+    encode_cell,
+    decode_cell
+} = utils,
+{
+    defined:is_defined
+} = require('./is');
+
 exports.readSheet = (path , sheetIndex = 0) =>{
 
-    const XLSX = require('xlsx') ;
-    
-    let xlsx = XLSX.readFile(path , {
+    let xlsx = readFile(path , {
         cellDates:true
     }) ;
     
@@ -14,40 +26,9 @@ exports.readSheet = (path , sheetIndex = 0) =>{
     }
 }
 
-const XLSX = require('xlsx'),
-    {
-        decode_range,
-        encode_cell,
-        decode_cell
-} = XLSX.utils;
-
-function getSheetSingleRowCells(sheet , range){
-
-    let range = decode_range(range) ;
-
-    range = include('excel.cell.range.title')(sheet , range);
-
-    let {
-        c:columnStartIndex,
-    } = range.s,
-    {
-        c:columnEndIndex,
-    } = range.e,
-    cells = [];
-
-    for(let i = columnStartIndex ; i <= columnEndIndex ; i ++){
-
-        cells.push(sheet[encode_cell({
-            c:i,
-        })]) ;
-    }
-
-    return cells ;
-}
-
 const rangeRe = /:/ ;
 
-function getSheetMultiRowCells(sheet , range){
+function getSheetMultiRowCells(sheet , range = 'A2'){
 
     if(!rangeRe.test(range)){
         
@@ -63,7 +44,8 @@ function getSheetMultiRowCells(sheet , range){
     {
         c:columnEndIndex,
         r:rowEndIndex
-    } = range.e;
+    } = range.e,
+    result = [];
 
     for(let i = rowStartIndex ; i <= rowEndIndex ; i ++){
 
@@ -72,8 +54,8 @@ function getSheetMultiRowCells(sheet , range){
         for(let j = columnStartIndex ; j <= columnEndIndex ; j ++){
 
             cells.push(sheet[encode_cell({
-                c:i,
-                r:j
+                c:j,
+                r:i
             })]) ;
         }
         
@@ -83,7 +65,7 @@ function getSheetMultiRowCells(sheet , range){
     return result ;
 }
 
-const indexNumberRe = /\d+/$ ;
+const indexNumberRe = /\d+$/ ;
 
 function getSheetSingleRowCells(sheet , range){
 
@@ -100,6 +82,7 @@ function getSheetSingleRowCells(sheet , range){
 
     let {
         c:columnStartIndex,
+        r:rowIndex
     } = range.s,
     {
         c:columnEndIndex,
@@ -110,6 +93,7 @@ function getSheetSingleRowCells(sheet , range){
 
         cells.push(sheet[encode_cell({
             c:i,
+            r:rowIndex
         })]) ;
     }
 
@@ -117,21 +101,14 @@ function getSheetSingleRowCells(sheet , range){
 }
 
 
-exports.getSheetKeys = (sheet , range , repaceRegEx) =>{
+exports.getSheetKeys = (sheet , range) =>{
 
     let cells = getSheetSingleRowCells(sheet , range),
         keys = [];
 
     for(let cell of cells){
 
-        let key = String(cell.v).replace(/&#10;|\n|\r/g , '') ;
-
-        if(replaceRegEx){
-
-            key = key.replace(replaceRegEx , '') ;
-        }
-
-        keys.push(key.trim()) ;
+        keys.push(String(cell.v).replace(/&#10;|\n|\r/g , '').trim()) ;
     }
 
     return keys ;
@@ -147,9 +124,17 @@ exports.getSheetData = (sheet , range , keys) =>{
 
         let record = {} ;
 
-        for(; i < len ; i ++){
+        for(let i = 0 ; i < len ; i ++){
 
-            record[keys[i]] = item[i].v;
+            if(item){
+
+                let value = item[i].v ;
+
+                if(is_defined(value)){
+
+                    record[keys[i]] = value;
+                }
+            }
         }
 
         data.push(record) ;

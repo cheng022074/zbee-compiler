@@ -9,12 +9,16 @@ const {
 } = require('path'),
 PATH = require('../../../../../path'),
 {
-    name2path
+    name2path,
+    getApplicationPath
 } = PATH,
 {
     readJSONFile
 } = require('../../../../../fs'),
-process_expression = require('../expression');
+process_expression = require('../expression'),
+{
+    parse:name_parse
+} = require('../../../../../script/name');
 
 module.exports = (context , attrs , node) =>{
     
@@ -29,7 +33,29 @@ module.exports = (context , attrs , node) =>{
 
     if(options){
 
-        options = `${optionsName} = ${JSON.stringify(readJSONFile(path_join(PATH.COMPILE_SOURCE_PATH , name2path(options , '.json'))) || {})};`;
+        let config = name_parse(name) ;
+
+        if(config === false){
+
+            return '';
+        }
+
+        let scopePath,
+            {
+                scope,
+                name
+            } = config;
+
+        if(scope){
+
+            scopePath = getApplicationPath(scope) ;
+        
+        }else{
+
+            scopePath = PATH.COMPILE_SOURCE_PATH ;
+        }
+
+        options = `${optionsName} = ${JSON.stringify(readJSONFile(path_join(scopePath , name2path(name , '.json'))) || {})};`;
 
     }else{
 

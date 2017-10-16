@@ -8,7 +8,6 @@ const {
 {
     name2path,
     getFilePaths,
-    COMPILE_SOURCE_PATH,
     extname,
     getApplicationPath
 } = require('../src/path'),
@@ -34,7 +33,10 @@ const {
 {
     readTextFile,
     writeTextFile
-} = require('../src/fs');
+} = require('../src/fs'),
+{
+    parse:name_parse
+} = require('../src/script/name');
 
 module.exports = (name = 'default') =>{
 
@@ -48,7 +50,14 @@ module.exports = (name = 'default') =>{
 
         for(let importName of importNames){
 
-            let paths = getFilePaths(path_join(COMPILE_SOURCE_PATH , name2path(importName)) , config_get('suffix')) ;
+            let config = name_parse(importName) ;
+
+            if(config === false){
+
+                continue ;
+            }
+
+            let paths = getFilePaths(path_join(getApplicationPath(config.scope) , name2path(config.name)) , config_get('suffix')) ;
 
             for(let path of paths){
 

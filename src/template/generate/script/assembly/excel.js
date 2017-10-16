@@ -18,7 +18,7 @@ module.exports = (context , attrs) =>{
         var:varName
     } = attrs ;
 
-    let path = path_join(getApplicationPath(scope) , name2path(file));
+    let path = path_join(getApplicationPath(scope) , name2path(file , '.xlsx'));
 
     switch(type){
 
@@ -28,6 +28,16 @@ module.exports = (context , attrs) =>{
                 key,
                 data
             } = attrs ;
+
+            if(!key){
+
+                key = 'A1' ;
+            }
+
+            if(!data){
+
+                data = 'A2' ;
+            }
 
             return template_apply('generate.file.script.assembly.excel.read' , {
                 path,
