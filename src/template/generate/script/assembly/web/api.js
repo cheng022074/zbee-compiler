@@ -15,10 +15,7 @@ PATH = require('../../../../../path'),
 {
     readJSONFile
 } = require('../../../../../fs'),
-process_expression = require('../expression'),
-{
-    parse:name_parse
-} = require('../../../../../script/name');
+process_expression = require('../expression');
 
 module.exports = (context , attrs , node) =>{
     
@@ -27,35 +24,14 @@ module.exports = (context , attrs , node) =>{
         scope,
         uri,
         method,
-        options
+        file,
+        scope
     } = attrs,
     optionsName = `options_${Date.now()}`;
 
-    if(options){
+    if(file){
 
-        let config = name_parse(name) ;
-
-        if(config === false){
-
-            return '';
-        }
-
-        let scopePath,
-            {
-                scope,
-                name
-            } = config;
-
-        if(scope){
-
-            scopePath = getApplicationPath(scope) ;
-        
-        }else{
-
-            scopePath = PATH.COMPILE_SOURCE_PATH ;
-        }
-
-        options = `${optionsName} = ${JSON.stringify(readJSONFile(path_join(scopePath , name2path(name , '.json'))) || {})};`;
+        options = `${optionsName} = ${JSON.stringify(readJSONFile(path_join(getApplicationPath(scope) , name2path(file , '.json'))) || {})};`;
 
     }else{
 
