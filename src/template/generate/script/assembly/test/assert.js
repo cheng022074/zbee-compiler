@@ -68,7 +68,7 @@ module.exports = (context , attrs) =>{
             break ;
     }   
 
-    return tempate_apply('generate.file.script.assembly.test.assert' , {
+    return tempate_apply('generate.bin.script.assembly.test.assert' , {
         expression
     }) ;
 }

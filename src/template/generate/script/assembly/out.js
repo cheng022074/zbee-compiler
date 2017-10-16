@@ -15,7 +15,7 @@ module.exports = (context , attrs) =>{
         expression = process_expression(attrs.value) ;
     }
 
-    return template_apply('generate.file.script.assembly.out' , {
+    return template_apply('generate.bin.script.assembly.out' , {
         expression,
         json_format:toBoolean(attrs['json-format'])
     }) ;

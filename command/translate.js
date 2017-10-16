@@ -24,7 +24,8 @@ const {
 {
     get:script_get,
     compile:script_compile,
-    convert
+    convert,
+    format:script_format
 } = require('../src/script'),
 {
     readTextFile,
@@ -79,7 +80,7 @@ module.exports = name =>{
     if(path){
 
         let config = config_get('suffix' , extname(path)) ;
-        
+
         if(config){
 
             let result = apply(object_get(config , 'template.source') , script_get(config.data)(readTextFile(path) , path)) ;
@@ -95,7 +96,7 @@ module.exports = name =>{
 
                 let filePath = replaceSuffix(path , suffix) ;
 
-                writeTextFile(filePath , result) ;
+                writeTextFile(filePath , script_format(result)) ;
             }
         }
 

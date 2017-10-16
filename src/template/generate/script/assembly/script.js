@@ -53,7 +53,7 @@ module.exports = (data , path) =>{
                             }
                         }
 
-                        codes.push(template_apply('generate.file.script.assembly.function' ,  {
+                        codes.push(template_apply('generate.bin.script.assembly.function' ,  {
                             name,
                             params,
                             code:generate_code(codeNodes , context , 'script')
@@ -65,7 +65,7 @@ module.exports = (data , path) =>{
             return {
                 name,
                 className,
-                body:template_apply('generate.file.script.assembly.script' ,  {
+                body:template_apply('generate.bin.script.assembly.script' ,  {
                     code:codes.join(''),
                     context
                 })

@@ -39,7 +39,7 @@ module.exports = (context , attrs) =>{
                 data = 'A2' ;
             }
 
-            return template_apply('generate.file.script.assembly.excel.read' , {
+            return template_apply('generate.bin.script.assembly.excel.read' , {
                 path,
                 key,
                 data,

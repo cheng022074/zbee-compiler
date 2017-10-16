@@ -38,7 +38,7 @@ module.exports = (data , path) =>{
 
                     if(name){
 
-                        codes.push(template_apply('generate.file.script.assembly.test.target' ,  {
+                        codes.push(template_apply('generate.bin.script.assembly.test.target' ,  {
                             name,
                             start,
                             end,
@@ -51,7 +51,7 @@ module.exports = (data , path) =>{
             return {
                 name,
                 className,
-                body:template_apply('generate.file.script.assembly.test' ,  {
+                body:template_apply('generate.bin.script.assembly.test' ,  {
                     bootstrap:root.get('default'),
                     code:codes.join('\n'),
                     context
