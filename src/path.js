@@ -33,7 +33,7 @@ exports.path2name = path =>{
         getApplicationPath
     } = exports ;
 
-    if(path.indexOf(sourcePath) === 0){
+    if(path.indexOf(COMPILE_SOURCE_PATH) === 0){
 
         return basename(path , COMPILE_SOURCE_PATH) ;
     }

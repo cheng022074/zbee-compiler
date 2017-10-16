@@ -9,6 +9,7 @@ const {
 {
     name2path,
     getFilePath,
+    COMPILE_SOURCE_PATH,
     COMPILE_DIST_PATH,
     extname,
     replaceSuffix,
@@ -58,9 +59,22 @@ module.exports = name =>{
         return false ;
     }
 
-    let scope = config.scope,
-        sourcePath = getApplicationPath(config.scope),
-        path = getFilePath(path_join(sourcePath , name2path(name)) , config_get('suffix'));
+    let {
+        scope,
+        name:className
+    } = config,
+        sourcePath ;
+
+    if(scope){
+
+        sourcePath = getApplicationPath(scope) ;
+    
+    }else{
+
+        sourcePath = COMPILE_SOURCE_PATH ;
+    }
+
+    let path = getFilePath(path_join(sourcePath , name2path(className)) , config_get('suffix'));
 
     if(path){
 

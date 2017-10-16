@@ -8,7 +8,7 @@ exports.valid = name =>{
 
 exports.parse = name =>{
 
-    if(exports.valid(name)){
+    if(!exports.valid(name)){
 
         return false ;
     }
