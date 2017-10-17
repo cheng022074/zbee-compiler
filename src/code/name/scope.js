@@ -9,7 +9,10 @@ const {
 } = require('../../is'),
 {
     join:path_join
-} = require('path');
+} = require('path'),
+{
+    APPLICATION_PATH
+} = require('../../system');
 
 defineProperty(exports , 'APPLICATION_SCOPE_NAMES' , {
         
@@ -17,7 +20,7 @@ defineProperty(exports , 'APPLICATION_SCOPE_NAMES' , {
 
     get:() =>{
 
-        let rootPath =  exports.getApplicationPath(),
+        let rootPath = APPLICATION_PATH,
             names = readdirSync(rootPath),
             scopeNames = [];
 

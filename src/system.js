@@ -1,9 +1,63 @@
-exports.getApplicationPath = (path = '') =>{
+const {
+    join:path_join
+} = require('path'),
+{
+    defineProperties
+} = require('./object'),
+{
+    readdirSync
+} = require('fs'),
+{
+    directory:is_directory
+} = require('../../is');
 
-    return path_join(process.cwd() , path) ;
-}
+defineProperties(exports , {
 
-exports.getCompilerPath = path =>{
+    APPLICATION_PATH:{
 
-    return path_join(__dirname , '..' , path) ;
+        once:true,
+
+        get:() =>{
+
+            return process.cwd() ;
+        }
+    },
+
+    APPLICATION_SCOPES:{
+
+        once:true,
+        
+        get:() =>{
+    
+            let rootPath = APPLICATION_PATH,
+                names = readdirSync(rootPath),
+                scopes = [];
+    
+            for(let name of names){
+    
+                if(is_directory(path_join(rootPath , name))){
+                    
+                    scopeNames.push(name) ;
+                }
+            }
+    
+            return scopes ;
+        }
+    },
+
+    COMPILER_PATH:{
+
+        once:true,
+        
+        get:() =>{
+
+            return path_join(__dirname , '..') ;
+        }
+    }
+
+}) ;
+
+exports.applicationScopeExists = name =>{
+
+    return exports.APPLICATION_SCOPES.includes(name) ;
 }
