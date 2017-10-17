@@ -214,7 +214,14 @@ defineProperties(exports , {
 
         get:() =>{
 
-            return exports.getApplicationPath(properties_get('compile.path.source')) ;
+            let name = properties_get('compile.path.source') ;
+
+            if(!exports.applicationScopeExists(name)){
+
+                throw new Error(`属性文件::compile.path.source 指定不是一个有效的作用域`) ;
+            }
+
+            return exports.getApplicationPath(name) ;
         }
     },
 
@@ -224,7 +231,14 @@ defineProperties(exports , {
 
         get:() =>{
 
-            return exports.getApplicationPath(properties_get('compile.path.dist')) ;
+            let name = properties_get('compile.path.dist') ;
+            
+            if(!exports.applicationScopeExists(name)){
+
+                throw new Error(`属性文件::compile.path.dist 指定不是一个有效的作用域`) ;
+            }
+
+            return exports.getApplicationPath(name) ;
         }
     },
 

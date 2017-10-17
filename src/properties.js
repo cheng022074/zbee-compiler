@@ -35,3 +35,11 @@ exports.get = key =>{
 
     return object_get(defaultConfig , key) ;
 }
+
+exports.getScopeName = key =>{
+
+    if(!require('./path').applicationScopeExists(name)){
+
+        throw new Error(`属性文件::${key} 指定不是一个有效的作用域`) ;
+    }
+}
