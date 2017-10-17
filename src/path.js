@@ -8,10 +8,24 @@ const {
     get:properties_get
 } = require('./properties'),
 {
-    defined:is_defined
-} = require('./is');
+    defined:is_defined,
+    directory:is_directory
+} = require('./is'),
+{
+    parse:script_parse
+} = require('./script/name');
 
 const dotRe = /\./g ;
+
+exports.getBinPath = (name , suffix) =>{
+
+
+}
+
+exports.getSourcePath = (name , suffix) =>{
+
+    
+}
 
 exports.name2path = (name , suffix) =>{
 
@@ -20,7 +34,30 @@ exports.name2path = (name , suffix) =>{
         return '*' ;
     }
 
-    return `${name.replace(dotRe , sep)}${suffix ? suffix : ''}` ;
+    let config = script_parse(name) ;
+
+    if(config === false){
+
+        return false ;
+    }
+
+    let {
+        scope,
+        name:className
+    } = config ;
+
+    let sourcePath;
+
+    if(scope){
+
+        sourcePath = exports.getApplicationPath(scope) ;
+    
+    }else{
+
+        sourcePath = exports.COMPILE_SOURCE_PATH ;
+    }
+
+    return path_join(sourcePath , `${name.replace(dotRe , sep)}${suffix ? suffix : ''}`) ;
 }
 
 const rootFolderRe = /^[^\\//]+/ ;
@@ -140,17 +177,7 @@ exports.basename = (path , folderPath) =>{
     return basename(path) ;
 }
 
-/**
- * 
- * 替换文件路径的后缀名
- * 
- * @param {String} path 文件路径
- * 
- * @param {String} suffix 后缀名
- * 
- * @return {String} 修改文件路径后缀名
- * 
- */
+
 exports.replaceSuffix = (path , suffix) =>{
 
     if(suffixRe.test(path)){
@@ -161,13 +188,7 @@ exports.replaceSuffix = (path , suffix) =>{
     return `${path.replace(/[\\\/]$/ , '')}${suffix}` ;
 }
 
-/**
- * 
- * 拼接出以当前工程路径为根的完整路径
- * 
- * @param path 文件路径
- * 
- */
+
 exports.getApplicationPath = (path = '') =>{
 
     return path_join(process.cwd() , path) ;
@@ -178,9 +199,18 @@ exports.getCompilerPath = path =>{
     return path_join(__dirname , '..' , path) ;
 }
 
-Object.defineProperties(exports , {
+const {
+    readdirSync
+} = require('fs'),
+{
+    defineProperties
+} = require('./object');
+
+defineProperties(exports , {
 
     COMPILE_SOURCE_PATH:{
+
+        once:true,
 
         get:() =>{
 
@@ -190,9 +220,33 @@ Object.defineProperties(exports , {
 
     COMPILE_DIST_PATH:{
 
+        once:true,
+
         get:() =>{
 
             return exports.getApplicationPath(properties_get('compile.path.dist')) ;
+        }
+    },
+
+    APPLICATION_SCOPE_NAMES:{
+
+        once:true,
+
+        get:() =>{
+
+            let rootPath =  exports.getApplicationPath(),
+                names = readdirSync(exports.getApplicationPath()),
+                scopeNames = [];
+
+            for(let name of names){
+
+                if(is_directory(path_join(rootPath , name))){
+                    
+                    scopeNames.push(name) ;
+                }
+            }
+
+            return scopeNames ;
         }
     }
 

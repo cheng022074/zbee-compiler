@@ -224,3 +224,48 @@ exports.deepCoverMerge = (...sources) =>{
 
     return result ;
 }
+
+exports.defineProperties = (target , properties) =>{
+
+    let names = Object.keys(properties) ;
+
+    for(let name of names){
+
+        processPropertyConfig(target , name , properties[name]) ;
+    }
+
+    Object.defineProperties(target , properties) ;
+}
+
+exports.defineProperty = (target , name , config) =>{
+
+    processPropertyConfig(target , name , config) ;
+
+    Object.defineProperty(target , name , config) ;
+}
+
+function processPropertyConfig(target , name , config){
+
+    if(config.once === true){
+
+        let originGet = config.get ;
+        
+        if(originGet){
+    
+            config.get = () =>{
+    
+                let privateName = `__${name}__` ;
+    
+                if(!target.hasOwnProperty(privateName)){
+    
+                    target[privateName] = originGet.call(target) ;
+    
+                }
+    
+                return target[privateName] ;
+            }
+        }
+    }
+
+    delete config.once ;
+}

@@ -1,5 +1,4 @@
-const scopeRe = /^(?:(\w+)\:{2})?(\w+(?:\.\w+)*)$/,
-      nameRe = /^(?:\w+\:{2})?\w+(?:\.\w+)*$/;
+const nameRe = /^(?:(\w+)\:{2})?(\w+(?:\.\w+)*)$/;
 
 exports.valid = name =>{
 
@@ -13,7 +12,7 @@ exports.parse = name =>{
         return false ;
     }
 
-    let match = name.match(scopeRe) ;
+    let match = name.match(nameRe) ;
 
     if(match){
 
