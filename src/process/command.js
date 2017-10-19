@@ -1,15 +1,38 @@
+const {
+    Exception
+} = require('../exception'),
+{
+    searchFilePath
+} = require('../fs'),
+{
+    join:path_join
+} = require('path');
+
+class CommandNotFoundException extends Exception{
+
+    constructor(command){
+
+        super(`命令 ${command} 不存在` , Exception.LEVEL.ERROR) ;
+
+        this.command = command ;
+    }
+}
+
+exports.CommandNotFoundException = CommandNotFoundException ;
+
 class Command{
 
     constructor(command){
 
-        try{
+        let path = searchFilePath(path_join(__dirname , `../command/${command}`) , '.js') ;
 
-            this.command = require(`../command/${command}`) ;
+        if(!path){
 
-        }catch(err){
-
-            throw new Error(`访问 ${command} 出现错误`) ;
+            throw new CommandNotFoundException(command) ;
         }
+
+        this.command = require(`../command/${command}`) ;
+
     }
 
     exec(argv){
@@ -18,4 +41,4 @@ class Command{
     }
 }
 
-module.exports = Command ;
+exports.Command = Command;

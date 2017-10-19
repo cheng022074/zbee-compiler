@@ -4,7 +4,9 @@ const {
 {
     defineProperties
 } = require('./object'),
-Command = require('./process/command');
+{
+    Command
+} = require('./process/command');
 
 if(processArgv.length >= 3){
 
