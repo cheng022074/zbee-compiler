@@ -1,9 +1,28 @@
 #!/usr/bin/env node
 
-const PROCESS = require('../src/process'),
-      command = PROCESS.command;
+try{
 
-if(command){
+    const {
+        command,
+        argv,
+        execArgv
+    } = require('../src/process');
+
+    if(command){
+        
+        command.exec(argv) ;
+    
+    }else{
+    
+        throw new Error('请指定命令名称') ;
+    }
+
+}catch(err){
+
+    console.log(err.message) ;
+}
+
+/*if(command){
 
     const  {
         name2path,
@@ -55,4 +74,4 @@ if(command){
             console.log(err) ;
         }
     }
-}
+}*/
