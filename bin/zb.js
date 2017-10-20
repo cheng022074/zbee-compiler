@@ -2,112 +2,54 @@
 
 const Exception = require('../src/exception') ;
 
-(() =>{
-
-    try{
-        
-        const process = require('../src/process') ;
-
-        if(!process.initialized){
-
-            return ;
-        }
-              
-        const {
-            hasCommand,
-            argv,
-            execArgv
-        } = process;
+try{
     
-        if(execArgv.hasOwnProperty('h') || execArgv.hasOwnProperty('help')){
+    const process = require('../src/process') ;
 
-            const application = require('../src/application') ;
+    if(!process.initialized){
 
-            if(hasCommand){
-
-                application.printCommandHelpInformation(process.command.name) ;
-            
-            }else{
-
-                application.printCommandHelpInformations() ;
-            }
-
-            return ;
-        }
-    
-        if(hasCommand){
-
-            process.command.execute(argv) ;
-        
-        }else{
-        
-            throw new Error('请指定命令名称') ;
-        }
-    
-    }catch(err){
-    
-        if(err instanceof Exception){
-    
-            console.log(err.message) ;
-        
-        }else{
-    
-            console.log(err) ;
-        }
+        return ;
     }
-
-})() ;
-
-/*if(command){
-
-    const  {
-        name2path,
-        getCompilerPath
-      } = require('../src/path');
-
+            
     const {
+        hasCommand,
         argv,
         execArgv
-    } = PROCESS ;
+    } = process;
 
-    let env = execArgv.env;
+    if(execArgv.hasOwnProperty('h') || execArgv.hasOwnProperty('help')){
 
-    if(env){
+        const application = require('../src/application') ;
 
-        require('../src/environment').set(env) ;
-    }
+        if(hasCommand){
 
-    global.zb = {
-        script:require('../src/script')
-    } ;
-
-    let commandPath = `../command/${name2path(command)}`,
-        errorMessage = `Cannot find module '${commandPath}'`;
-
-    try{
-
-        require('babel-polyfill') ;
-   
-        let result = require(commandPath)(...argv) ;
-
-        if(result instanceof Promise){
-    
-            result.catch(err =>{
-    
-                console.log(err) ;
-    
-            }) ;
-        }
-    
-    }catch(err){
-
-        if(err.message === errorMessage){
-
-            console.log(command , '命令不存在') ;
+            application.printCommandHelpInformation(process.command.name) ;
         
         }else{
 
-            console.log(err) ;
+            application.printCommandHelpInformations() ;
         }
+
+        return ;
     }
-}*/
+
+    if(hasCommand){
+
+        process.command.execute(argv) ;
+    
+    }else{
+    
+        throw new Error('请指定命令名称') ;
+    }
+
+}catch(err){
+
+    if(err instanceof Exception){
+
+        console.log(err.message) ;
+    
+    }else{
+
+        console.log(err) ;
+    }
+}
