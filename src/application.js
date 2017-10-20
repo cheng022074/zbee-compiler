@@ -18,7 +18,11 @@ const {
 } = require('./object'),
 {
     encode
-} = require('./object/key');
+} = require('./object/key'),
+{
+    string:is_string,
+    simpleObject:is_simple_object
+} = require('./is');
 
 defineProperties(exports , {
 
@@ -67,6 +71,20 @@ exports.getCommandConfig = name =>{
     if(exports.commandExists(name)){
 
         return exports.get(`command.${encode(name)}`) ;
+    }
+}
+
+exports.getCommandImplementFunctionName = name =>{
+
+    let config = exports.getCommandConfig(name) ;
+
+    if(is_simple_object(config)){
+
+        return config.implement ;
+        
+    }else if(is_string(config)){
+
+        return config ;
     }
 }
 

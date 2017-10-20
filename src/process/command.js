@@ -1,4 +1,7 @@
-const Exception = require('../exception'),
+const {
+    Exception,
+    ModuleNotFoundException
+} = require('../exception'),
 {
     searchFilePath
 } = require('../fs'),
@@ -10,38 +13,28 @@ const Exception = require('../exception'),
 } = require('../script'),
 {
     defined:is_defined,
-    simpleObject:is_simple_object
-} = require('../is');
-
-class CommandNotFoundException extends Exception{
-
-    constructor(command){
-
-        super(`命令 ${command} 不存在`) ;
-
-        this.command = command ;
-    }
-}
-
-exports.CommandNotFoundException = CommandNotFoundException ;
+    simpleObject:is_simple_object,
+    file:is_file
+} = require('../is'),
+{
+    replace
+} = require('../path/suffix'),
+{
+    toPath
+} = require('../name');
 
 class Command{
 
-    constructor(command){
+    constructor(name){
 
-        let path = searchFilePath(join(__dirname , '..' , '..' ,  'command' , `${command}`) , '.js') ;
+        let path = replace(join(__dirname , '..' , '..' ,  'command' , `${toPath(name)}`) , '.js') ;
 
-        if(!path){
+        if(!is_file(path)){
 
-            throw new CommandNotFoundException(command) ;
+            throw new ModuleNotFoundException(path) ;
         }
 
-        let me = this ;
-
-        me.name = command ;
-
-        me.command = require(path) ;
-
+        this.command = require(path) ;
     }
 
     execute(argv){

@@ -15,8 +15,10 @@ const {
 } = require('./compiler'),
 {
     PATH:APPLICATION_PATH,
-    commandExists
+    commandExists,
+    getCommandImplementFunctionName
 } = require('./application');
+
 
 if(processArgv.length >= 3 && APPLICATION_PATH.indexOf(COMPILER_PATH) !== 0){
 
@@ -55,14 +57,26 @@ if(processArgv.length >= 3 && APPLICATION_PATH.indexOf(COMPILER_PATH) !== 0){
         }
     }
 
+    class CommandNotFoundException extends Exception{
+        
+        constructor(command){
+    
+            super(`命令 ${command} 不存在`) ;
+    
+            this.command = command ;
+        }
+    }
+    
+    exports.CommandNotFoundException = CommandNotFoundException ;
+
     if(is_string(command) && !commandExists(command)){
 
-        command = undefined ;
+        throw new CommandNotFoundException(command) ;
     }
 
     exports.initialized = true ;
 
-    exports.hasCommand = is_string(command) ;
+    exports.isHasCommand = is_string(command) ;
 
     exports.argv = argv ;
 
@@ -76,7 +90,10 @@ if(processArgv.length >= 3 && APPLICATION_PATH.indexOf(COMPILER_PATH) !== 0){
 
             get:() =>{
 
-                return new Command(command) ;
+                if(exports.isHasCommand){
+
+                    return new Command(getCommandImplementFunctionName(command)) ;
+                }
             }
         }
     }) ;
