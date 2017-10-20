@@ -14,7 +14,8 @@ const {
     PATH:COMPILER_PATH
 } = require('./compiler'),
 {
-    PATH:APPLICATION_PATH
+    PATH:APPLICATION_PATH,
+    commandExists
 } = require('./application');
 
 if(processArgv.length >= 3 && APPLICATION_PATH.indexOf(COMPILER_PATH) !== 0){
@@ -52,6 +53,11 @@ if(processArgv.length >= 3 && APPLICATION_PATH.indexOf(COMPILER_PATH) !== 0){
 
             argv.push(arg) ;
         }
+    }
+
+    if(is_string(command) && !commandExists(command)){
+
+        command = undefined ;
     }
 
     exports.initialized = true ;
