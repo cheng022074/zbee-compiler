@@ -5,27 +5,20 @@ const {
     defineProperties
 } = require('./object'),
 {
-    Command
-} = require('./process/command'),
-{
     string:is_string
 } = require('./is'),
-{
-    PATH:COMPILER_PATH
-} = require('./compiler'),
 {
     PATH:APPLICATION_PATH,
     commandExists,
     getCommandImplementFunctionName
 } = require('./application');
 
-
-if(processArgv.length >= 3 && APPLICATION_PATH.indexOf(COMPILER_PATH) !== 0){
+if(processArgv.length >= 3){
 
     let args = processArgv.slice(2),
         command,
-        argv = [],
-        execArgv = [];
+        argv = exports.argv = [],
+        execArgv = exports.execArgv = [];
 
     const execArgvRe = /^\-{1,2}([^\-\=]+)(?:\=(.+))?$/ ;
 
@@ -57,48 +50,9 @@ if(processArgv.length >= 3 && APPLICATION_PATH.indexOf(COMPILER_PATH) !== 0){
         }
     }
 
-    class CommandNotFoundException extends Exception{
-        
-        constructor(command){
-    
-            super(`命令 ${command} 不存在`) ;
-    
-            this.command = command ;
-        }
-    }
-    
-    exports.CommandNotFoundException = CommandNotFoundException ;
-
-    if(is_string(command) && !commandExists(command)){
-
-        throw new CommandNotFoundException(command) ;
-    }
-
-    exports.initialized = true ;
-
-    exports.isHasCommand = is_string(command) ;
+    exports.command = command ;
 
     exports.argv = argv ;
 
     exports.execArgv = execArgv ;
-
-    defineProperties(exports , {
-
-        command:{
-
-            once:true,
-
-            get:() =>{
-
-                if(exports.isHasCommand){
-
-                    return new Command(getCommandImplementFunctionName(command)) ;
-                }
-            }
-        }
-    }) ;
-
-}else{
-
-    exports.initialized = false ;
 }

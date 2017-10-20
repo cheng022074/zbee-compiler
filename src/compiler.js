@@ -20,5 +20,15 @@ defineProperties(exports , {
 
             return readJSONFile(join(exports.PATH , 'properties.json')) ;
         }
+    },
+
+    PROPERTIES:{
+
+        once:true,
+
+        get:() =>{
+
+            return readJSONFile(join(exports.PATH , 'package.json')) ;
+        }
     }
 }) ;
