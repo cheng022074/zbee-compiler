@@ -27,11 +27,24 @@ PATH = require('./path'),
         getFilePath,
         replaceSuffix,
         getApplicationPath
-} = PATH,
-{
-    valid,
-    parse:name_parse
-} = require('./script/name');
+} = PATH;
+
+exports.execute = (target , argv) =>{
+
+    if(is_function(target)){
+        
+        return target(...argv) ;
+
+    }else if(is_class(target) || is_simpleObject(target)){
+
+        let main = target.main ;
+
+        if(is_function(main)){
+
+            return main(...argv) ;
+        }
+    }
+}
 
 let libraries ;
 
@@ -113,7 +126,7 @@ exports.get = (name , isCache) =>{
     return get(name , isCache) ;
 }
 
-exports.execute = (name , ...args) =>{
+/*exports.execute = (name , ...args) =>{
 
     let target = exports.get(name) ;
 
@@ -130,7 +143,7 @@ exports.execute = (name , ...args) =>{
             return main(...args) ;
         }
     }
-}
+}*/
 
 const {
     js:removeComments

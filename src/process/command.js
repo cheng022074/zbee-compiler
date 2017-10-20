@@ -3,8 +3,15 @@ const Exception = require('../exception'),
     searchFilePath
 } = require('../fs'),
 {
-    join:path_join
-} = require('path');
+    join:join
+} = require('path'),
+{
+    execute
+} = require('../script'),
+{
+    defined:is_defined,
+    simpleObject:is_simple_object
+} = require('../is');
 
 class CommandNotFoundException extends Exception{
 
@@ -22,7 +29,7 @@ class Command{
 
     constructor(command){
 
-        let path = searchFilePath(path_join(__dirname , '..' , '..' ,  'command' , `${command}`) , '.js') ;
+        let path = searchFilePath(join(__dirname , '..' , '..' ,  'command' , `${command}`) , '.js') ;
 
         if(!path){
 
@@ -33,10 +40,39 @@ class Command{
 
     }
 
-    exec(argv){
+    execute(argv){
 
-        console.log('执行命令') ;
+        let result = execute(this.command , argv) ;
+
+        if(result instanceof Promise){
+
+            result.then(output_result).catch(throw_error) ;
+
+        }else{
+
+            output_result(result) ;
+        }
     }
+}
+
+function output_result(result){
+
+    if(is_defined(result)){
+
+        if(is_simple_object(result)){
+
+            console.log(json_format(result)) ;
+        
+        }else{
+
+            console.log(result) ;
+        }
+    }
+}
+
+function throw_error(err){
+
+    throw err ;
 }
 
 exports.Command = Command;

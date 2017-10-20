@@ -12,7 +12,7 @@ try{
 
     if(command){
         
-        command.exec(argv) ;
+        command.execute(argv) ;
     
     }else{
     
