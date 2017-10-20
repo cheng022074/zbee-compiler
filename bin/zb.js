@@ -13,11 +13,11 @@ const Exception = require('../src/exception') ;
             execArgv
         } = process;
     
-        if(execArgv.hasOwnProperty('h')){
+        if(execArgv.hasOwnProperty('h') || execArgv.hasOwnProperty('help')){
 
             if(hasCommand){
 
-                console.log(`${command.name} 帮助文档`) ;
+                console.log(`${process.command.name} 帮助文档`) ;
             
             }else{
 
