@@ -21,13 +21,15 @@ const Exception = require('../src/exception') ;
     
         if(execArgv.hasOwnProperty('h') || execArgv.hasOwnProperty('help')){
 
+            const application = require('../src/application') ;
+
             if(hasCommand){
 
-                console.log(`${process.command.name} 帮助文档`) ;
+                application.printCommandHelpInformation(process.command.name) ;
             
             }else{
 
-                console.log('所有命令列表') ;
+                application.printCommandHelpInformations() ;
             }
 
             return ;
