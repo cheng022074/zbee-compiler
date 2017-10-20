@@ -1,5 +1,16 @@
 #!/usr/bin/env node
 
+const {
+    PATH,
+    PROPERTIES
+} = require('../src/compiler') ;
+
+console.log(PATH) ;
+
+console.log(PROPERTIES) ;
+
+return ;
+
 const Exception = require('../src/exception') ;
 
 try{

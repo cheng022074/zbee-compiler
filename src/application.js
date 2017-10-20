@@ -7,7 +7,7 @@ const {
     readJSONFile
 } = require('./fs'),
 {
-    PATH:COMPILER_PATH
+    PROPERTIES:COMPILER_PROPERTIES
 } = require('./compiler'),
 {
     join
@@ -32,15 +32,14 @@ defineProperties(exports , {
 
         get:() =>{
 
-            let properties = readJSONFile(join(exports.PATH , 'properties.json')),
-                defaultProperties = readJSONFile(join(COMPILER_PATH , 'properties.json'));
+            let properties = readJSONFile(join(exports.PATH , 'properties.json'));
 
             if(properties){
 
-                return assign({} , defaultProperties , properties) ;
+                return assign({} , COMPILER_PROPERTIES , properties) ;
             }
 
-            return defaultProperties ;
+            return COMPILER_PROPERTIES ;
         }
     },
 
