@@ -1,6 +1,4 @@
-const {
-    Exception
-} = require('../exception'),
+const Exception = require('../exception'),
 {
     searchFilePath
 } = require('../fs'),
@@ -12,7 +10,7 @@ class CommandNotFoundException extends Exception{
 
     constructor(command){
 
-        super(`命令 ${command} 不存在` , Exception.LEVEL.ERROR) ;
+        super(`命令 ${command} 不存在`) ;
 
         this.command = command ;
     }
@@ -24,20 +22,20 @@ class Command{
 
     constructor(command){
 
-        let path = searchFilePath(path_join(__dirname , `../command/${command}`) , '.js') ;
+        let path = searchFilePath(path_join(__dirname , '..' , '..' ,  'command' , `${command}`) , '.js') ;
 
         if(!path){
 
             throw new CommandNotFoundException(command) ;
         }
 
-        this.command = require(`../command/${command}`) ;
+        this.command = require(path) ;
 
     }
 
     exec(argv){
 
-
+        console.log('执行命令') ;
     }
 }
 

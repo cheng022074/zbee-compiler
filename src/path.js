@@ -9,11 +9,36 @@ const {
 } = require('./properties'),
 {
     defined:is_defined,
-    directory:is_directory
+    directory:is_directory,
+    string:is_string,
+    boolean:is_boolean
 } = require('./is'),
-{
-    parse:script_parse
-} = require('./script/name');
+suffixRe = /(?:\.[^\.\/\\]+)+$/;
+
+exports.basename = (path , suffix) =>{
+
+    let name = basename(path) ;
+
+    if(is_string(suffix)){
+
+        if(suffixRe.test(path)){
+
+            return name.replace(suffixRe , suffix) ;
+        }
+
+        return `${name}${suffix}` ;
+    }
+
+    if(is_boolean(suffix)){
+
+        if(suffix){
+
+            return name ;
+        }
+
+        return name.replace(suffixRe , '') ;
+    }
+}
 
 const dotRe = /\./g ;
 
@@ -79,11 +104,7 @@ exports.path2name = path =>{
 }
 
 const {
-    readdirSync
-} = require('fs'),
-{
     file:is_file,
-    directory:is_directory
 } = require('./is');
 
 exports.getFilePath = (path , suffixes) =>{
@@ -110,8 +131,6 @@ exports.getFilePath = (path , suffixes) =>{
         }
     }
 }
-
-const suffixRe = /(?:\.[^\.\/\\]+)+$/ ;
 
 exports.getFilePaths = (path , suffixes) =>{
 
@@ -167,7 +186,7 @@ exports.extname = path =>{
     return '' ;
 }
 
-exports.basename = (path , folderPath) =>{
+/*exports.basename = (path , folderPath) =>{
 
     if(is_defined(folderPath)){
 
@@ -175,7 +194,7 @@ exports.basename = (path , folderPath) =>{
     }
 
     return basename(path) ;
-}
+}*/
 
 
 exports.replaceSuffix = (path , suffix) =>{

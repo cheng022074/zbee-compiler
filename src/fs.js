@@ -1,6 +1,7 @@
 const {
     dirname,
-    sep
+    sep,
+    join
 } = require('path'),
 {
     directory:is_directory,
@@ -14,7 +15,21 @@ const {
 } = require('fs'),
 {
     parse:xml_parse
-} = require('elementtree');
+} = require('elementtree'),
+{
+    basename
+} = require('./path');
+
+exports.searchFilePath = (path , suffix) =>{
+
+    path = join(dirname(path) , basename(path , suffix)) ;
+
+    if(is_file(path)){
+
+        return path ;
+    }
+}
+
 
 const folderRe = /(?:^\/)|(?:[^\/\\]+(?:[\/\\]|$))/g;
 

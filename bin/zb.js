@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const Exception = require('../src/exception') ;
+
 try{
 
     const {
@@ -19,7 +21,14 @@ try{
 
 }catch(err){
 
-    console.log(err) ;
+    if(err instanceof Exception){
+
+        console.log(err.message) ;
+    
+    }else{
+
+        console.log(err) ;
+    }
 }
 
 /*if(command){
