@@ -9,9 +9,15 @@ const {
 } = require('./process/command'),
 {
     string:is_string
-} = require('./is');
+} = require('./is'),
+{
+    PATH:COMPILER_PATH
+} = require('./compiler'),
+{
+    PATH:APPLICATION_PATH
+} = require('./application');
 
-if(processArgv.length >= 3){
+if(processArgv.length >= 3 && APPLICATION_PATH.indexOf(COMPILER_PATH) !== 0){
 
     let args = processArgv.slice(2),
         command,
@@ -48,17 +54,15 @@ if(processArgv.length >= 3){
         }
     }
 
+    exports.initialized = true ;
+
+    exports.hasCommand = is_string(command) ;
+
+    exports.argv = argv ;
+
+    exports.execArgv = execArgv ;
+
     defineProperties(exports , {
-
-        hasCommand:{
-
-            once:true,
-
-            get:() =>{
-
-                return is_string(command) ;
-            }
-        },
 
         command:{
 
@@ -68,23 +72,10 @@ if(processArgv.length >= 3){
 
                 return new Command(command) ;
             }
-        },
-
-        argv:{
-            
-            get:() =>{
-
-                return argv ;
-            }
-        },
-
-        execArgv:{
-
-            get:() =>{
-
-                return execArgv ;
-            }
         }
-
     }) ;
+
+}else{
+
+    exports.initialized = false ;
 }

@@ -6,8 +6,14 @@ const Exception = require('../src/exception') ;
 
     try{
         
-        const process = require('../src/process'),
-        {
+        const process = require('../src/process') ;
+
+        if(!process.initialized){
+
+            return ;
+        }
+              
+        const {
             hasCommand,
             argv,
             execArgv
