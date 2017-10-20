@@ -36,7 +36,11 @@ class Command{
             throw new CommandNotFoundException(command) ;
         }
 
-        this.command = require(path) ;
+        let me = this ;
+
+        me.name = command ;
+
+        me.command = require(path) ;
 
     }
 

@@ -6,7 +6,10 @@ const {
 } = require('./object'),
 {
     Command
-} = require('./process/command');
+} = require('./process/command'),
+{
+    string:is_string
+} = require('./is');
 
 if(processArgv.length >= 3){
 
@@ -15,7 +18,7 @@ if(processArgv.length >= 3){
         argv = [],
         execArgv = [];
 
-    const execArgvRe = /^\-{2}([^\-\=]+)(?:\=(.+))?$/ ;
+    const execArgvRe = /^\-{1,2}([^\-\=]+)(?:\=(.+))?$/ ;
 
     for(let arg of args){
         
@@ -46,6 +49,16 @@ if(processArgv.length >= 3){
     }
 
     defineProperties(exports , {
+
+        hasCommand:{
+
+            once:true,
+
+            get:() =>{
+
+                return is_string(command) ;
+            }
+        },
 
         command:{
 

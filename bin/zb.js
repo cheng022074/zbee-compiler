@@ -2,34 +2,53 @@
 
 const Exception = require('../src/exception') ;
 
-try{
+(() =>{
 
-    const {
-        command,
-        argv,
-        execArgv
-    } = require('../src/process');
-
-    if(command){
+    try{
         
-        command.execute(argv) ;
+        const process = require('../src/process'),
+        {
+            hasCommand,
+            argv,
+            execArgv
+        } = process;
     
-    }else{
+        if(execArgv.hasOwnProperty('h')){
+
+            if(hasCommand){
+
+                console.log(`${command.name} 帮助文档`) ;
+            
+            }else{
+
+                console.log('所有命令列表') ;
+            }
+
+            return ;
+        }
     
-        throw new Error('请指定命令名称') ;
+        if(hasCommand){
+
+            process.command.execute(argv) ;
+        
+        }else{
+        
+            throw new Error('请指定命令名称') ;
+        }
+    
+    }catch(err){
+    
+        if(err instanceof Exception){
+    
+            console.log(err.message) ;
+        
+        }else{
+    
+            console.log(err) ;
+        }
     }
 
-}catch(err){
-
-    if(err instanceof Exception){
-
-        console.log(err.message) ;
-    
-    }else{
-
-        console.log(err) ;
-    }
-}
+})() ;
 
 /*if(command){
 
