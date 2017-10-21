@@ -1,8 +1,7 @@
 {
     "command":{
         "version":"command::version",
-        "compiler":"compiler",
-        "properties":"properties"
+        "properties":"command::properties"
     },
     "scope":{
         "folders":{

@@ -5,7 +5,8 @@ const {
     readJSONFile
 } = require('./fs'),
 {
-    defineProperties
+    defineProperties,
+    get
 } = require('./object'),
 {
     readTextFile
@@ -33,8 +34,23 @@ defineProperties(exports , {
 
             return readJSONFile(join(exports.PATH , 'package.json')) ;
         }
+    },
+
+    VERSION:{
+
+        once:true,
+
+        get:() =>{
+
+            return exports.get('version') ;
+        }
     }
 }) ;
+
+exports.get = key =>{
+    
+    return get(exports.PACKAGE , key) ;
+}
 
 exports.SCOPE_FOLDERS = {
     command:'command',

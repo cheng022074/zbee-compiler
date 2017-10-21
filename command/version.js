@@ -1,5 +1,8 @@
+const {
+    VERSION
+} = require('../src/compiler') ;
 
 module.exports = () =>{
 
-    console.log('查看版本号') ;
+    console.log(VERSION) ;
 }
