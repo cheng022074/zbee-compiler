@@ -6,7 +6,9 @@ const {
     get
 } = require('./object'),
 {
-    readJSONFile
+    readJSONFile,
+    readTextFile,
+    readXMLFile
 } = require('./fs'),
 {
     PROPERTIES:COMPILER_PROPERTIES
@@ -16,7 +18,10 @@ const {
 } =  require('path'),
 {
     from
-} = require('array');
+} = require('array'),
+{
+    file:is_file
+} = require('./is');
 
 defineProperties(exports , {
 
@@ -65,3 +70,55 @@ exports.get = key =>{
 exports.SCOPE_FOLDERS = exports.get('scope.folders') ;
 
 exports.DEFAULT_SCOPE = exports.get('scope.default') ;
+
+require('./mixins/scope')(exports) ;
+
+exports.getBinCode = codeName =>{
+    
+    let path = join(exports.SCOPE_PATHS[exports.get('scope.bin')] , `${codeName}.js`) ;
+
+    if(is_file(path)){
+
+        return require(path) ;
+    }
+}
+
+let baseSuffixRe = /\.[^\.]+$/ ;
+
+target.getSourceCode = name =>{
+    
+    let {
+        path,
+        suffix,
+        scope
+    } = exports.parseSourceCodeName(name) ;
+    
+    switch(scope){
+
+        case 'src':
+
+            switch(suffix.match(baseSuffixRe)[0]){
+
+                case '.json':
+
+                    return readJSONFile(path , false) ;
+
+                case '.xml':
+
+                    return readXMLFile(path , false) ;
+
+                default:
+
+                    return readTextFile(path , false) ;
+            }
+
+
+        case 'template':
+
+            return readTextFile(path , false) ;
+
+        case 'config':
+
+            return require(path) ;
+    }
+}

@@ -60,7 +60,8 @@ module.exports = target =>{
                         return {
                             path,
                             name,
-                            scope
+                            scope,
+                            suffix
                         } ;
                     }
                 }
