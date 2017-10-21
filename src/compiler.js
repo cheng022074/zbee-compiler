@@ -39,4 +39,16 @@ exports.SCOPE_FOLDERS = {
     template:'template'
 } ;
 
+exports.SCOPE_SUFFIXES = {
+    src:[
+        '.js'
+    ],
+    config:[
+        '.json'
+    ],
+    template:[
+        '.js'
+    ]
+} ;
+
 exports.DEFAULT_SCOPE = 'src' ;

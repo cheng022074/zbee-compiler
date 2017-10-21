@@ -1,8 +1,10 @@
 const {
-    defineProperties,
-    assign,
-    get
-} = require('../object') ;
+    defineProperties
+} = require('../object'),
+{
+    join,
+    sep
+} = require('path');
 
 module.exports = target =>{
 
@@ -14,25 +16,38 @@ module.exports = target =>{
 
             get:() =>{
 
+                let folders = exports.SCOPE_FOLDERS,
+                    scopes = Object.keys(folders),
+                    rootPath = exports.PATH,
+                    paths = {};
 
-            }
-        },
+                for(let scope of scopes){
 
-        DEFAULT_SCOPE_PATH:{
+                    paths[scope] = join(rootPath , folders[scope]) ;
+                }
 
-            once:true,
-
-            get:() =>{
-
-
+                return paths ;
             }
         }
-
     }) ;
 
-    target.getSourceCodePath = name =>{
+    const codeNameRe = /^(?:(\w+)\:{2})?(\w+(?:\.\w+)*)$/ ;
 
+    target.getSourceCodePath = codeName =>{
 
+        let match = codeName.match(codeNameRe) ;
+
+        if(match){
+
+            let scopePaths = exports.SCOPE_PATHS,
+                scope = match[1] || exports.DEFAULT_SCOPE,
+                name = match[2];
+
+            if(scope && scopePaths.hasOwnProperty(scope)){
+
+                let path = join(scopePaths[scope] , name.replace(/\./g , sep)) ;
+            }
+        }
     }
 
     target.getBinCodePath = name =>{
@@ -47,6 +62,6 @@ module.exports = target =>{
 
     target.getBinCode = name =>{
 
-        
+
     }
 }
