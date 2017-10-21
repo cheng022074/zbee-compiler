@@ -13,7 +13,10 @@ const {
 } = require('./compiler'),
 {
     join
-} =  require('path');
+} =  require('path'),
+{
+    from
+} = require('array');
 
 defineProperties(exports , {
 
@@ -31,6 +34,25 @@ defineProperties(exports , {
             }
 
             return COMPILER_PROPERTIES ;
+        }
+    },
+
+    SCOPE_SUFFIXES:{
+
+        once:true,
+
+        get:() =>{
+
+            let suffixes =  exports.get('scope.suffixes'),
+                names = Object.keys(suffixes),
+                result = {};
+
+            for(let name of names){
+
+                result[name] = from(suffixes[name]) ;
+            }
+
+            return result ;
         }
     }
 }) ;

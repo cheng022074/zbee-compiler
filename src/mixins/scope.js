@@ -4,7 +4,10 @@ const {
 {
     join,
     sep
-} = require('path');
+} = require('path'),
+{
+    file:is_file
+} = require('fs');
 
 module.exports = target =>{
 
@@ -33,35 +36,35 @@ module.exports = target =>{
 
     const codeNameRe = /^(?:(\w+)\:{2})?(\w+(?:\.\w+)*)$/ ;
 
-    target.getSourceCodePath = codeName =>{
+    target.parseSourceCodeName = codeName =>{
 
         let match = codeName.match(codeNameRe) ;
 
         if(match){
 
-            let scopePaths = exports.SCOPE_PATHS,
-                scope = match[1] || exports.DEFAULT_SCOPE,
+            let scopePaths = target.SCOPE_PATHS,
+                scope = match[1] || target.DEFAULT_SCOPE,
                 name = match[2];
 
             if(scope && scopePaths.hasOwnProperty(scope)){
 
-                let path = join(scopePaths[scope] , name.replace(/\./g , sep)) ;
+                let suffixes = target.SCOPE_SUFFIXES,
+                    basePath = join(scopePaths[scope] , name.replace(/\./g , sep)) ;
+
+                for(let suffix of suffixes){
+
+                    let path = `${basePath}${suffix}` ;
+
+                    if(is_file(path)){
+
+                        return {
+                            path,
+                            name,
+                            scope
+                        } ;
+                    }
+                }
             }
         }
-    }
-
-    target.getBinCodePath = name =>{
-
-
-    }
-
-    target.getSourceCode = name =>{
-
-
-    }
-
-    target.getBinCode = name =>{
-
-
     }
 }

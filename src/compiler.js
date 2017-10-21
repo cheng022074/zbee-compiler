@@ -6,7 +6,10 @@ const {
 } = require('./fs'),
 {
     defineProperties
-} = require('./object');
+} = require('./object'),
+{
+    readTextFile
+} = require('./fs');
 
 exports.PATH = join(__dirname , '..') ;
 
@@ -39,6 +42,8 @@ exports.SCOPE_FOLDERS = {
     template:'template'
 } ;
 
+exports.DEFAULT_SCOPE = 'src' ;
+
 exports.SCOPE_SUFFIXES = {
     src:[
         '.js'
@@ -51,4 +56,45 @@ exports.SCOPE_SUFFIXES = {
     ]
 } ;
 
-exports.DEFAULT_SCOPE = 'src' ;
+require('./mixins/scope')(exports) ;
+
+exports.getBinCode = name =>{
+    
+    let {
+        path,
+        scope
+    } = exports.parseSourceCodeName(name) ;
+    
+    switch(scope){
+
+        case 'src':
+        case 'config':
+
+            return require(path) ;
+
+        case 'template':
+
+            return readTextFile(path , false) ;
+    }
+}
+
+target.getSourceCode = name =>{
+    
+    let {
+        path,
+        scope
+    } = exports.parseSourceCodeName(name) ;
+    
+    switch(scope){
+
+        case 'src':
+        case 'template':
+
+            return readTextFile(path , false) ;
+
+        case 'config':
+
+            return require(path) ;
+    }
+}
+
