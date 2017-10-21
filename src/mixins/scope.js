@@ -36,7 +36,7 @@ module.exports = target =>{
 
     const codeNameRe = /^(?:(\w+)\:{2})?(\w+(?:\.\w+)*)$/ ;
 
-    target.parseSourceCodeName = codeName =>{
+    target.parseSourceCodeName = (codeName , suffix) =>{
 
         let match = codeName.match(codeNameRe),
             scopeSuffixes = target.SCOPE_SUFFIXES;
@@ -47,26 +47,44 @@ module.exports = target =>{
                 scope = match[1] || target.DEFAULT_SCOPE,
                 name = match[2];
 
-            if(scope && scopePaths.hasOwnProperty(scope) && scopeSuffixes.hasOwnProperty(scope)){
+            if(scopePaths.hasOwnProperty(scope)){
 
-                let suffixes = scopeSuffixes[scope],
-                    basePath = join(scopePaths[scope] , name.replace(/\./g , sep)) ;
+                let basePath = join(scopePaths[scope] , name.replace(/\./g , sep)) ;
 
-                for(let suffix of suffixes){
-
+                if(suffix){
+                    
                     let path = `${basePath}${suffix}` ;
 
-                    if(!is_file(path)){
+                    if(is_file(path)){
 
-                        continue ;
+                        return {
+                            path,
+                            name,
+                            scope,
+                            suffix
+                        } ;
                     }
+    
+                }else if(scopeSuffixes.hasOwnProperty(scope)){
+    
+                    let suffixes = scopeSuffixes[scope];
 
-                    return {
-                        path,
-                        name,
-                        scope,
-                        suffix
-                    } ;
+                    for(let suffix of suffixes){
+    
+                        let path = `${basePath}${suffix}` ;
+    
+                        if(!is_file(path)){
+    
+                            continue ;
+                        }
+    
+                        return {
+                            path,
+                            name,
+                            scope,
+                            suffix
+                        } ;
+                    }
                 }
             }
         }
