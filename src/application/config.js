@@ -12,24 +12,16 @@ const {
 
 function get(name , key){
 
-    let sourceCodeConfig = parseSourceCodeName(name , false) ;
-    
-    if(sourceCodeConfig){
+    let config = getBinCode(`config::${name}`) ;
 
-        let {
-            name
-        } = sourceCodeConfig,
-        config = getBinCode(`config::${name}`) ;
+    if(config){
 
-        if(config){
-    
-            if(is_string(key)){
-    
-                return object_get(config , key) ;
-            }
-    
-            return config ;
+        if(is_string(key)){
+
+            return object_get(config , key) ;
         }
+
+        return config ;
     }
 }
 

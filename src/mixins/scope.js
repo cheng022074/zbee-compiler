@@ -36,7 +36,7 @@ module.exports = target =>{
 
     const codeNameRe = /^(?:(\w+)\:{2})?(\w+(?:\.\w+)*)$/ ;
 
-    target.parseSourceCodeName = (codeName , validExists = true) =>{
+    target.parseSourceCodeName = codeName =>{
 
         let match = codeName.match(codeNameRe),
             scopeSuffixes = target.SCOPE_SUFFIXES;
@@ -56,7 +56,7 @@ module.exports = target =>{
 
                     let path = `${basePath}${suffix}` ;
 
-                    if(validExists && !is_file(path)){
+                    if(!is_file(path)){
 
                         continue ;
                     }
