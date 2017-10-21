@@ -58,7 +58,7 @@ module.exports = target =>{
 
                     if(validExists && !is_file(path)){
 
-                        return ;
+                        continue ;
                     }
 
                     return {

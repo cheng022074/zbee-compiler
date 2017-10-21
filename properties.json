@@ -3,7 +3,8 @@
         "version":"command::version",
         "properties":"command::properties",
         "config":"command::config",
-        "dependencies":"command::dependencies"
+        "dependencies":"command::dependencies",
+        "compile":"command::compile"
     },
     "scope":{
         "folders":{
@@ -17,7 +18,8 @@
                 ".js"
             ],
             "src":[
-                ".js"
+                ".js",
+                ".fn.js"
             ],
             "config":[
                 ".json"

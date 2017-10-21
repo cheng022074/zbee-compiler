@@ -1,10 +1,8 @@
+const {
+    getSourceCode
+} = require('../src/application') ;
 
 module.exports = name =>{
 
-    console.log(name) ;
-
-    if(name){
-
-        let paths = getSourcePaths(name , suffixes) ;
-    }
+    console.log(getSourceCode(name)) ;
 }
