@@ -7,7 +7,23 @@
     "scope":{
         "folders":{
             "src":"src",
-            "bin":"bin"
+            "bin":"bin",
+            "config":"config",
+            "command":"command"
+        },
+        "suffixes":{
+            "command":[
+                ".js"
+            ],
+            "src":[
+                ".js"
+            ],
+            "config":[
+                ".json"
+            ],
+            "template":[
+                ".js"
+            ]
         },
         "bin":"bin"
     }

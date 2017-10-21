@@ -131,7 +131,7 @@ require('./mixins/scope')(exports) ;
 
 exports.getBinCode = codeName =>{
 
-    let config = exports.parseSourceCodeName(name) ;
+    let config = exports.parseSourceCodeName(codeName) ;
 
     if(config){
 
@@ -146,19 +146,19 @@ exports.getBinCode = codeName =>{
     
             return require(path) ;
         }
-    
-        let libraries = exports.LIBRARIES ;
-    
-        for(let library of libraries){
-    
-            if(library.hasOwnProperty(codeName)){
-    
-                return library[codeName] ;
-            }
-        }
-    
-        return getBinCode(codeName) ;
     }
+    
+    let libraries = exports.LIBRARIES ;
+
+    for(let library of libraries){
+
+        if(library.hasOwnProperty(codeName)){
+
+            return library[codeName] ;
+        }
+    }
+
+    return getBinCode(codeName) ;
 }
 
 exports.executeBinCode = (codeName , ...args) =>{
