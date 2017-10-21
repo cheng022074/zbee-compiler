@@ -25,7 +25,11 @@ const {
     function:is_function,
     string:is_string,
     simpleObject:is_simple_object
-} = require('./is');
+} = require('./is'),
+{
+    CommandNotFunctionExcepition,
+    BinCodeFileNotFoundException
+} = require('./application/exception');
 
 defineProperties(exports , {
 
@@ -188,6 +192,10 @@ exports.executeBinCode = (codeName , ...args) =>{
 
             return binCode(...args) ;
         }
+
+    }else{
+
+        throw new BinCodeFileNotFoundException(codeName) ;
     }
 }
 
@@ -198,6 +206,10 @@ exports.executeCommand = (command , ...args) =>{
     if(commandCodeNames.hasOwnProperty(command)){
 
         return exports.executeBinCode(commandCodeNames[command] , ...args) ;
+    
+    }else{
+
+        throw new CommandNotFunctionExcepition(command) ;
     }
 }
 

@@ -8,11 +8,27 @@ const {
 {
     executeCommand,
     COMMAND_NAMES
-} = require('../src/application');
+} = require('../src/application'),
+Exception = require('../src/exception');
 
 if(command){
 
-    executeCommand(command , ...argv) ;
+    try{
+
+        executeCommand(command , ...argv) ;
+
+    }catch(err){
+
+        if(err instanceof Exception){
+
+            console.log(err.message) ;
+        
+        }else{
+
+            console.log(err) ;
+        }
+
+    }
 
 }else{
 
