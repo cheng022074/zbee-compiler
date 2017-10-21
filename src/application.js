@@ -130,25 +130,35 @@ exports.DEFAULT_SCOPE = exports.get('scope.default') ;
 require('./mixins/scope')(exports) ;
 
 exports.getBinCode = codeName =>{
+
+    let config = exports.parseSourceCodeName(name) ;
+
+    if(config){
+
+        let {
+            scope,
+            name
+        } = config ;
+
+        let path = join(exports.SCOPE_PATHS[exports.get('scope.bin')] , scope , `${name}.js`) ;
+        
+        if(is_file(path)){
     
-    let path = join(exports.SCOPE_PATHS[exports.get('scope.bin')] , `${codeName}.js`) ;
-
-    if(is_file(path)){
-
-        return require(path) ;
-    }
-
-    let libraries = exports.LIBRARIES ;
-
-    for(let library of libraries){
-
-        if(library.hasOwnProperty(codeName)){
-
-            return library[codeName] ;
+            return require(path) ;
         }
+    
+        let libraries = exports.LIBRARIES ;
+    
+        for(let library of libraries){
+    
+            if(library.hasOwnProperty(codeName)){
+    
+                return library[codeName] ;
+            }
+        }
+    
+        return getBinCode(codeName) ;
     }
-
-    return getBinCode(codeName) ;
 }
 
 exports.executeBinCode = (codeName , ...args) =>{
@@ -177,38 +187,43 @@ exports.executeCommand = (command , ...args) =>{
 let baseSuffixRe = /\.[^\.]+$/ ;
 
 exports.getSourceCode = name =>{
+
+    let config = exports.parseSourceCodeName(name) ;
+
+    if(config){
+
+        let {
+            path,
+            suffix,
+            scope
+        } = config ;
+        
+        switch(scope){
     
-    let {
-        path,
-        suffix,
-        scope
-    } = exports.parseSourceCodeName(name) ;
+            case 'src':
     
-    switch(scope){
-
-        case 'src':
-
-            switch(suffix.match(baseSuffixRe)[0]){
-
-                case '.json':
-
-                    return readJSONFile(path , false) ;
-
-                case '.xml':
-
-                    return readXMLFile(path , false) ;
-
-                default:
-
-                    return readTextFile(path , false) ;
-            }
-
-        case 'template':
-
-            return readTextFile(path , false) ;
-
-        case 'config':
-
-            return require(path) ;
+                switch(suffix.match(baseSuffixRe)[0]){
+    
+                    case '.json':
+    
+                        return readJSONFile(path , false) ;
+    
+                    case '.xml':
+    
+                        return readXMLFile(path , false) ;
+    
+                    default:
+    
+                        return readTextFile(path , false) ;
+                }
+    
+            case 'template':
+    
+                return readTextFile(path , false) ;
+    
+            case 'config':
+    
+                return require(path) ;
+        }
     }
 }

@@ -1,7 +1,8 @@
 {
     "command":{
         "version":"command::version",
-        "properties":"command::properties"
+        "properties":"command::properties",
+        "config":"command::config"
     },
     "scope":{
         "folders":{
