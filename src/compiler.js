@@ -37,6 +37,7 @@ defineProperties(exports , {
 }) ;
 
 exports.SCOPE_FOLDERS = {
+    command:'command',
     src:'src',
     config:'config',
     template:'template'
@@ -45,6 +46,9 @@ exports.SCOPE_FOLDERS = {
 exports.DEFAULT_SCOPE = 'src' ;
 
 exports.SCOPE_SUFFIXES = {
+    command:[
+        '.js'
+    ],
     src:[
         '.js'
     ],
@@ -60,25 +64,31 @@ require('./mixins/scope')(exports) ;
 
 exports.getBinCode = name =>{
     
-    let {
-        path,
-        scope
-    } = exports.parseSourceCodeName(name) ;
+    let config = exports.parseSourceCodeName(name) ;
+
+    if(config){
+
+        let  {
+            path,
+            scope
+        } = config ;
+
+        switch(scope){
+            
+            case 'src':
+            case 'config':
+            case 'command':
     
-    switch(scope){
-
-        case 'src':
-        case 'config':
-
-            return require(path) ;
-
-        case 'template':
-
-            return readTextFile(path , false) ;
+                return require(path) ;
+    
+            case 'template':
+    
+                return readTextFile(path , false) ;
+        }
     }
 }
 
-target.getSourceCode = name =>{
+exports.getSourceCode = name =>{
     
     let {
         path,

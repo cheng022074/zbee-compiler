@@ -1,23 +1,14 @@
 {
-    "compile":{
-        "path":{
-            "source":"src",
-            "dist":"bin"
-        }
+    "command":{
+        "version":"command::version",
+        "compiler":"compiler",
+        "properties":"properties"
     },
-    "run":{
-        "path":{
+    "scope":{
+        "folders":{
+            "src":"src",
             "bin":"bin"
-        }
-    },
-    "web":{
-        "url":{
-            "/":"bin"
         },
-        "port":3000,
-        "domain":"localhost",
-        "boot":{
-            "url":"index.html"
-        }
+        "bin":"bin"
     }
 }

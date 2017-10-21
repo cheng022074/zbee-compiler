@@ -4,11 +4,14 @@ const {
     command,
     argv,
     execArgv
-} = require('../src/process') ;
+} = require('../src/process'),
+{
+    executeCommand
+} = require('../src/application');
 
 if(command){
 
-    // 指定了命令
+    executeCommand(command) ;
 
 }else{
 

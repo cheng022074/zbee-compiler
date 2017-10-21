@@ -11,16 +11,20 @@ const {
     readXMLFile
 } = require('./fs'),
 {
-    PROPERTIES:COMPILER_PROPERTIES
+    PROPERTIES:COMPILER_PROPERTIES,
+    getBinCode
 } = require('./compiler'),
 {
     join
 } =  require('path'),
 {
     from
-} = require('array'),
+} = require('./array'),
 {
-    file:is_file
+    file:is_file,
+    function:is_function,
+    string:is_string,
+    simpleObject:is_simple_object
 } = require('./is');
 
 defineProperties(exports , {
@@ -59,6 +63,58 @@ defineProperties(exports , {
 
             return result ;
         }
+    },
+
+    LIBRARIES:{
+
+        once:true,
+
+        get:() =>{
+
+            let libraryPaths = from(exports.get('libraries')),
+                rootPath = exports.PATH,
+                libraries = [];
+
+            for(let libraryPath of libraryPaths){
+
+                let path = join(rootPath , libraryPath) ;
+
+                if(is_file(path)){
+
+                    libraries.push(require(path)) ;
+                }
+            }
+
+            return libraries ;
+        }
+    },
+
+    COMMAND_CODE_NAMES:{
+
+        once:true,
+
+        get:() =>{
+
+            let commands = exports.get('command'),
+                names = Object.keys(commands),
+                result = {};
+
+            for(let name of names){
+
+                let command = commands[name] ;
+
+                if(is_string(command)){
+
+                    result[name] = command ;
+
+                }else if(is_simple_object(command)){
+
+                    result[name] = command.implement ;
+                }
+            }
+
+            return result ;
+        }
     }
 }) ;
 
@@ -81,11 +137,46 @@ exports.getBinCode = codeName =>{
 
         return require(path) ;
     }
+
+    let libraries = exports.LIBRARIES ;
+
+    for(let library of libraries){
+
+        if(library.hasOwnProperty(codeName)){
+
+            return library[codeName] ;
+        }
+    }
+
+    return getBinCode(codeName) ;
+}
+
+exports.executeBinCode = (codeName , ...args) =>{
+
+    let binCode = exports.getBinCode(codeName) ;
+
+    if(binCode){
+
+        if(is_function(binCode)){
+
+            return binCode(...args) ;
+        }
+    }
+}
+
+exports.executeCommand = (command , ...args) =>{
+
+    let commandCodeNames = exports.COMMAND_CODE_NAMES ;
+
+    if(commandCodeNames.hasOwnProperty(command)){
+
+        return exports.executeBinCode(commandCodeNames[command] , ...args) ;
+    }
 }
 
 let baseSuffixRe = /\.[^\.]+$/ ;
 
-target.getSourceCode = name =>{
+exports.getSourceCode = name =>{
     
     let {
         path,
@@ -111,7 +202,6 @@ target.getSourceCode = name =>{
 
                     return readTextFile(path , false) ;
             }
-
 
         case 'template':
 

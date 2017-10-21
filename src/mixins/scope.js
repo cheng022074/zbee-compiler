@@ -7,7 +7,7 @@ const {
 } = require('path'),
 {
     file:is_file
-} = require('fs');
+} = require('../is');
 
 module.exports = target =>{
 
@@ -19,9 +19,9 @@ module.exports = target =>{
 
             get:() =>{
 
-                let folders = exports.SCOPE_FOLDERS,
+                let folders = target.SCOPE_FOLDERS,
                     scopes = Object.keys(folders),
-                    rootPath = exports.PATH,
+                    rootPath = target.PATH,
                     paths = {};
 
                 for(let scope of scopes){
@@ -38,7 +38,8 @@ module.exports = target =>{
 
     target.parseSourceCodeName = codeName =>{
 
-        let match = codeName.match(codeNameRe) ;
+        let match = codeName.match(codeNameRe),
+            scopeSuffixes = target.SCOPE_SUFFIXES;
 
         if(match){
 
@@ -46,9 +47,9 @@ module.exports = target =>{
                 scope = match[1] || target.DEFAULT_SCOPE,
                 name = match[2];
 
-            if(scope && scopePaths.hasOwnProperty(scope)){
+            if(scope && scopePaths.hasOwnProperty(scope) && scopeSuffixes.hasOwnProperty(scope)){
 
-                let suffixes = target.SCOPE_SUFFIXES,
+                let suffixes = scopeSuffixes[scope],
                     basePath = join(scopePaths[scope] , name.replace(/\./g , sep)) ;
 
                 for(let suffix of suffixes){
