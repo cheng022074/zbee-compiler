@@ -137,10 +137,16 @@ exports.getBinCode = codeName =>{
 
         let {
             scope,
-            name
+            name,
+            path
         } = config ;
 
-        let path = join(exports.SCOPE_PATHS[exports.get('scope.bin')] , scope , `${name}.js`) ;
+        if(scope === 'config'){
+
+            return readJSONFile(path) ;
+        }
+
+        path = join(exports.SCOPE_PATHS[exports.get('scope.bin')] , scope , `${name}.js`) ;
         
         if(is_file(path)){
     

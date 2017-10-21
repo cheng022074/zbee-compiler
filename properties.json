@@ -25,6 +25,7 @@
                 ".js"
             ]
         },
-        "bin":"bin"
+        "bin":"bin",
+        "default":"src"
     }
 }

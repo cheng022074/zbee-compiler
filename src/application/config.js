@@ -1,6 +1,6 @@
 const {
     parseSourceCodeName,
-    getSourceCode
+    getBinCode
 } = require('../application'),
 {
     get
@@ -11,15 +11,14 @@ const {
 
 exports.get = (name , key) =>{
 
-    let config = parseSourceCodeName(name , false) ;
+    let sourceCodeConfig = parseSourceCodeName(name , false) ;
 
-    if(config){
+    if(sourceCodeConfig){
 
         let {
             name
-        } = config ;
-
-        let config = getSourceCode(`config::${name}`) ;
+        } = sourceCodeConfig,
+        config = getBinCode(`config::${name}`) ;
 
         if(config){
 

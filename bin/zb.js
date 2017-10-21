@@ -11,7 +11,7 @@ const {
 
 if(command){
 
-    executeCommand(command) ;
+    executeCommand(command , ...argv) ;
 
 }else{
 
