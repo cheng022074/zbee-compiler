@@ -36,6 +36,27 @@ defineProperties(exports , {
         }
     },
 
+    DEPENDENCIES:{
+
+        once:true,
+
+        get:() =>{
+
+            let {
+                dependencies
+            } = exports.PACKAGE,
+            moduleNames = Object.keys(dependencies),
+            result = {};
+
+            for(let moduleName of moduleNames){
+
+                result[moduleName] = require(moduleName) ;
+            }
+
+            return result ;
+        }
+    },
+
     VERSION:{
 
         once:true,
