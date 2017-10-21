@@ -1,14 +1,6 @@
-const Exception = require('../exception') ;
-
-class NotFoundException extends Exception{
-
-    constructor(name , message){
-
-        super(`${name} ${message}`) ;
-
-        this.resourceName = name ;
-    }
-}
+const {
+    NotFoundException
+} = require('../exception') ;
 
 class BinCodeFileNotFoundException extends NotFoundException{
 

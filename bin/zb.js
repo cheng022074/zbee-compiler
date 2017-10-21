@@ -9,7 +9,9 @@ const {
     executeCommand,
     COMMAND_NAMES
 } = require('../src/application'),
-Exception = require('../src/exception');
+{
+    Exception
+} = require('../src/exception');
 
 if(command){
 

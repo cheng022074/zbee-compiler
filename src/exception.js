@@ -1,4 +1,16 @@
 class Exception extends Error{
 }
 
-module.exports = Exception ;
+exports.Exception = Exception ;
+
+class NotFoundException extends Exception{
+
+    constructor(name , message){
+
+        super(`${name} ${message}`) ;
+
+        this.resourceName = name ;
+    }
+}
+
+exports.NotFoundException = NotFoundException ;
