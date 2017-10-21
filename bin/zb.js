@@ -6,7 +6,8 @@ const {
     execArgv
 } = require('../src/process'),
 {
-    executeCommand
+    executeCommand,
+    COMMAND_NAMES
 } = require('../src/application');
 
 if(command){
@@ -15,5 +16,8 @@ if(command){
 
 }else{
 
-    // 未指定命令
+    for(let name of COMMAND_NAMES){
+
+        console.log(name) ;
+    }
 }

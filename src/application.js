@@ -115,7 +115,18 @@ defineProperties(exports , {
 
             return result ;
         }
+    },
+
+    COMMAND_NAMES:{
+
+        once:true,
+
+        get:() =>{
+
+            return Object.keys(exports.COMMAND_CODE_NAMES) ;
+        }
     }
+
 }) ;
 
 exports.get = key =>{
