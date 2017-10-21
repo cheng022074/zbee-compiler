@@ -1,17 +1,6 @@
 const {
     argv:processArgv    
-} = process,
-{
-    defineProperties
-} = require('./object'),
-{
-    string:is_string
-} = require('./is'),
-{
-    PATH:APPLICATION_PATH,
-    commandExists,
-    getCommandImplementFunctionName
-} = require('./application');
+} = process;
 
 if(processArgv.length >= 3){
 
@@ -51,8 +40,4 @@ if(processArgv.length >= 3){
     }
 
     exports.command = command ;
-
-    exports.argv = argv ;
-
-    exports.execArgv = execArgv ;
 }

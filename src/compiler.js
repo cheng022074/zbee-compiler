@@ -22,7 +22,7 @@ defineProperties(exports , {
         }
     },
 
-    PROPERTIES:{
+    PACKAGE:{
 
         once:true,
 
@@ -32,3 +32,11 @@ defineProperties(exports , {
         }
     }
 }) ;
+
+exports.SCOPE_FOLDERS = {
+    src:'src',
+    config:'config',
+    template:'template'
+} ;
+
+exports.DEFAULT_SCOPE = 'src' ;
