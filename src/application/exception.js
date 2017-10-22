@@ -22,7 +22,7 @@ class BindCodeFileNotExecutedException extends ResourceException{
 
 exports.BindCodeFileNotExecutedException = BindCodeFileNotExecutedException ;
 
-class CommandNotFunctionExcepition extends ResourceException{
+class CommandNotFoundExcepition extends ResourceException{
 
     constructor(name){
 
@@ -30,4 +30,4 @@ class CommandNotFunctionExcepition extends ResourceException{
     }
 }
 
-exports.CommandNotFunctionExcepition = CommandNotFunctionExcepition ;
+exports.CommandNotFoundExcepition = CommandNotFoundExcepition ;

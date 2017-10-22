@@ -6,6 +6,9 @@ const {
     get
 } = require('./object'),
 {
+    encode
+} = require('./object/key'),
+{
     readJSONFile,
     readTextFile,
     readXMLFile
@@ -27,10 +30,13 @@ const {
     simpleObject:is_simple_object
 } = require('./is'),
 {
-    CommandNotFunctionExcepition,
+    CommandNotFoundExcepition,
     BinCodeFileNotFoundException,
     BindCodeFileNotExecutedException
-} = require('./application/exception');
+} = require('./application/exception'),
+{
+    apply
+} = require('./template');
 
 defineProperties(exports , {
 
@@ -167,7 +173,7 @@ exports.getBinCode = codeName =>{
 
                 return readTextFile(path) ;
         }
-        
+
         path = join(exports.SCOPE_PATHS[exports.get('scope.bin')] , scope , `${name}.js`) ;
         
         if(is_file(path)){
@@ -220,7 +226,7 @@ exports.executeCommand = (command , ...args) =>{
     
     }else{
 
-        throw new CommandNotFunctionExcepition(command) ;
+        throw new CommandNotFoundExcepition(command) ;
     }
 }
 
@@ -266,4 +272,20 @@ exports.getSourceCode = name =>{
                 return require(path) ;
         }
     }
+}
+
+exports.compile = (scope , suffix) =>{
+
+    let template = exports.get(`compile.${scope}.${encode(suffix)}.template`),
+        data = exports.get(`compile.${scope}.${encode(suffix)}.data`);
+
+    if(template && data){
+
+        return apply(name , data) ;
+    }
+}
+
+exports.getCompileTemplateData = (scope , suffix) =>{
+
+
 }

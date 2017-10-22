@@ -1,70 +1,26 @@
-const {
-    join:path_join,
-    extname
-} = require('path'),
-{
-    name2path,
-    getFilePath
-} = require('./path'),
-{
-    readTextFile
-} = require('./fs'),
 {
     compile
 } = require('ejs'),
 {
-    defined:is_defined
-} = require('./is');
-
-const applyCache = {} ;
+    getBinCode,
+    parseSourceCodeName
+} = require('./application'),
+{
+    TemplateNotFoundExcepition
+} = require('./template/exception');
 
 exports.apply = (name , data) =>{
 
-    if(applyCache.hasOwnProperty(name)){
-
-        return applyCache[name](data) ;
-    }
-
-    let {
-        path,
-        template
-    } = exports.get(name) ;
+    let template = getBinCode(`template::${name}`) ;
 
     if(template){
 
-        return (applyCache[name] = compile(template , {
-            rmWhitespace:extname(path) === '.html'
+        return (compile(template , {
+            rmWhitespace:parseSourceCodeName(name).suffix === '.html'
         }))(data);
+
+    }else{
+
+        throw new TemplateNotFoundExcepition(name) ;
     }
-
-    return '' ;
-}
-
-const getCache = {} ;
-
-exports.get = name =>{
-
-    if(is_defined(name)){
-
-        if(getCache.hasOwnProperty(name)){
-    
-            return getCache[name] ;
-        }
-    
-        let path = getFilePath(path_join(__dirname , '..' , 'template' , name2path(name))),
-            template = readTextFile(path);
-    
-        if(template){
-    
-            return {
-                path,
-                template:template.trim()
-            } ;
-        }
-    }
-
-    return {
-        path:null,
-        template:''
-    } ;
 }

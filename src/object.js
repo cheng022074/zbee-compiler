@@ -3,41 +3,11 @@ const {
     object:is_object,
     iterable:is_iterable,
     number:is_number
-} = require('./is') ;
-
-const entityDotRe = /&dot;/g,
-      dotRe = /\./g;
-
-function encode(key){
-
-    return key.replace(dotRe , '&dot;') ;
-}
-
-exports.keyJoin = (...keys) =>{
-
-    let result = [] ;
-
-    for(let key of keys){
-
-        result.push(encode(key)) ;
-    }
-
-    return result.join('.') ;
-} ;
-
-const numberRe = /^\d+$/ ;
-
-function decode(key){
-
-    key = key.replace(entityDotRe , '.') ;
-
-    if(numberRe.test(key)){
-
-        return Number(key) ;
-    }
-
-    return key ;
-}
+} = require('./is'),
+{
+    decode,
+    encode
+} = require('./object/key');
 
 exports.get = (data , key) =>{
 
