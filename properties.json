@@ -31,5 +31,14 @@
         },
         "bin":"bin",
         "default":"src"
+    },
+
+    "compile":{
+        "src":{
+            ".scope.js":{
+                "data":"compile.data.script",
+                "template":"compile.script.scope"
+            }
+        }
     }
 }
