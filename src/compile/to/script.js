@@ -7,5 +7,5 @@ module.exports = (application , {
     name
 }) =>{
 
-    return join(application.get('scope.bin') , scope , `${name}.js`) ;
+    return join(application.BIN_PATH , scope , `${name}.js`) ;
 }

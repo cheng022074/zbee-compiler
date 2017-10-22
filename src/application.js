@@ -130,6 +130,16 @@ defineProperties(exports , {
 
             return Object.keys(exports.COMMAND_CODE_NAMES) ;
         }
+    },
+
+    BIN_PATH:{
+
+        once:true,
+
+        get:() =>{
+
+            return exports.SCOPE_PATHS[exports.get('scope.bin')] ;
+        }
     }
 
 }) ;
