@@ -152,7 +152,7 @@ exports.SCOPE_FOLDERS = exports.get('scope.folders') ;
 
 exports.DEFAULT_SCOPE = exports.get('scope.default') ;
 
-require('./mixins/scope')(exports) ;
+require('./mixin/scope')(exports) ;
 
 exports.getBinCode = codeName =>{
 

@@ -97,7 +97,7 @@ exports.SCOPE_SUFFIXES = {
     ]
 } ;
 
-require('./mixins/scope')(exports) ;
+require('./mixin/scope')(exports) ;
 
 exports.getBinCode = name =>{
     
