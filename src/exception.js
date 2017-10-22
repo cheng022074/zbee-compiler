@@ -3,7 +3,7 @@ class Exception extends Error{
 
 exports.Exception = Exception ;
 
-class NotFoundException extends Exception{
+class ResourceException extends Exception{
 
     constructor(name , message){
 
@@ -13,4 +13,4 @@ class NotFoundException extends Exception{
     }
 }
 
-exports.NotFoundException = NotFoundException ;
+exports.ResourceException = ResourceException ;

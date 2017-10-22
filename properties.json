@@ -4,7 +4,8 @@
         "properties":"command::properties",
         "config":"command::config",
         "dependencies":"command::dependencies",
-        "compile":"command::compile"
+        "compile":"command::compile",
+        "run":"command::run"
     },
     "scope":{
         "folders":{

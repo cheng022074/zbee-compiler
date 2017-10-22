@@ -1,8 +1,8 @@
 const {
-    NotFoundException
+    ResourceException
 } = require('../exception') ;
 
-class BinCodeFileNotFoundException extends NotFoundException{
+class BinCodeFileNotFoundException extends ResourceException{
 
     constructor(name){
 
@@ -12,7 +12,17 @@ class BinCodeFileNotFoundException extends NotFoundException{
 
 exports.BinCodeFileNotFoundException = BinCodeFileNotFoundException ;
 
-class CommandNotFunctionExcepition extends NotFoundException{
+class BindCodeFileNotExecutedException extends ResourceException{
+
+    constructor(name){
+
+        super(name , '执行文件无法执行') ;
+    }
+}
+
+exports.BindCodeFileNotExecutedException = BindCodeFileNotExecutedException ;
+
+class CommandNotFunctionExcepition extends ResourceException{
 
     constructor(name){
 
