@@ -8,7 +8,10 @@ const {
 {
     string:is_string,
     simpleObject:is_simple_object
-} = require('../is');
+} = require('../is'),
+{
+    ConfigNotFoundException
+} = require('../application/exception');
 
 function get(name , key){
 
@@ -22,6 +25,10 @@ function get(name , key){
         }
 
         return config ;
+    
+    }else{
+
+        throw new ConfigNotFoundException(name) ;
     }
 }
 

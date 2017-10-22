@@ -1,5 +1,5 @@
-{
-    compile
+const {
+    render
 } = require('ejs'),
 {
     getBinCode,
@@ -11,13 +11,12 @@
 
 exports.apply = (name , data) =>{
 
-    let template = getBinCode(`template::${name}`) ;
+    let templateName = `template::${name}`,
+        template = getBinCode(templateName) ;
 
     if(template){
 
-        return (compile(template , {
-            rmWhitespace:parseSourceCodeName(name).suffix === '.html'
-        }))(data);
+        return render(template , data);
 
     }else{
 

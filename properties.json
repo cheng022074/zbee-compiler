@@ -19,8 +19,7 @@
                 ".js"
             ],
             "src":[
-                ".js",
-                ".fn.js"
+                ".scope.js"
             ],
             "config":[
                 ".json"
@@ -36,8 +35,9 @@
     "compile":{
         "src":{
             ".scope.js":{
-                "data":"compile.data.script",
-                "template":"compile.script.scope"
+                "data":"compile.template.data.script",
+                "template":"compile.script.scope",
+                "to":"compile.to.script"
             }
         }
     }

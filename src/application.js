@@ -6,9 +6,6 @@ const {
     get
 } = require('./object'),
 {
-    encode
-} = require('./object/key'),
-{
     readJSONFile,
     readTextFile,
     readXMLFile
@@ -33,10 +30,7 @@ const {
     CommandNotFoundExcepition,
     BinCodeFileNotFoundException,
     BindCodeFileNotExecutedException
-} = require('./application/exception'),
-{
-    apply
-} = require('./template');
+} = require('./application/exception');
 
 defineProperties(exports , {
 
@@ -272,20 +266,4 @@ exports.getSourceCode = name =>{
                 return require(path) ;
         }
     }
-}
-
-exports.compile = (scope , suffix) =>{
-
-    let template = exports.get(`compile.${scope}.${encode(suffix)}.template`),
-        data = exports.get(`compile.${scope}.${encode(suffix)}.data`);
-
-    if(template && data){
-
-        return apply(name , data) ;
-    }
-}
-
-exports.getCompileTemplateData = (scope , suffix) =>{
-
-
 }

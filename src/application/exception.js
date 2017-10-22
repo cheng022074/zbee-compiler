@@ -31,3 +31,13 @@ class CommandNotFoundExcepition extends ResourceException{
 }
 
 exports.CommandNotFoundExcepition = CommandNotFoundExcepition ;
+
+class ConfigNotFoundException extends ResourceException{
+
+    constructor(name){
+
+        super(name , '配置不存在') ;
+    }
+}
+
+exports.ConfigNotFoundException = ConfigNotFoundException ;

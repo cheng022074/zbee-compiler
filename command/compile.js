@@ -1,8 +1,42 @@
-const {
-    getSourceCode
-} = require('../src/application') ;
+const application = require('../src/application'),
+{
+    parseSourceCodeName,
+    getSourceCode,
+    get,
+    executeBinCode
+} = application,
+{
+    encode
+} = require('../src/object/key'),
+{
+    apply
+} = require('../src/template'),
+{
+    writeTextFile
+} = require('../src/fs');
 
 module.exports = name =>{
 
-    console.log(getSourceCode(name)) ;
+    let config = parseSourceCodeName(name) ;
+
+    if(config){
+
+        let {
+            scope,
+            suffix
+        } = config,
+        suffixName = encode(suffix),
+        template = get(`compile.${scope}.${suffixName}.template`),
+        dataName = get(`compile.${scope}.${suffixName}.data`),
+        toName = get(`compile.${scope}.${suffixName}.to`);
+
+        if(template && dataName && toName){
+
+            let path = executeBinCode(toName , application , config);
+
+            writeTextFile(path , apply(template , executeBinCode(dataName , getSourceCode(name)))) ;
+
+            console.log('已编译' , path) ;
+        }
+    }
 }
