@@ -28,8 +28,7 @@ const {
 } = require('./is'),
 {
     CommandNotFoundExcepition,
-    BinCodeFileNotFoundException,
-    BindCodeFileNotExecutedException
+    BinCodeFileNotFoundException
 } = require('./application/exception');
 
 defineProperties(exports , {
@@ -209,9 +208,6 @@ exports.executeBinCode = (codeName , ...args) =>{
 
             return binCode(...args) ;
         
-        }else{
-
-            throw new BindCodeFileNotExecutedException(codeName) ;
         }
 
     }else{

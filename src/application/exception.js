@@ -12,16 +12,6 @@ class BinCodeFileNotFoundException extends ResourceException{
 
 exports.BinCodeFileNotFoundException = BinCodeFileNotFoundException ;
 
-class BindCodeFileNotExecutedException extends ResourceException{
-
-    constructor(name){
-
-        super(name , '执行文件无法执行') ;
-    }
-}
-
-exports.BindCodeFileNotExecutedException = BindCodeFileNotExecutedException ;
-
 class CommandNotFoundExcepition extends ResourceException{
 
     constructor(name){
