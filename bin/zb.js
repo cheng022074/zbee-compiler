@@ -11,17 +11,30 @@ const {
 } = require('../src/application'),
 {
     Exception
-} = require('../src/exception');
+} = require('../src/exception'),
+{
+    empty:is_empty,
+    simpleObject:is_simple_object
+} = require('../src/is'),
+{
+    format
+} = require('../src/json');
 
 if(command){
 
-    try{
+    function doResult(result){
 
-        let result = executeCommand(command , ...argv) ;
+        if(is_simple_object(result)){
 
-        console.log(result) ;
+            console.log(format(result)) ;
+        
+        }else if(!is_empty(result)){
 
-    }catch(err){
+            console.log(result) ;
+        }
+    }
+
+    function doError(err){
 
         if(err instanceof Exception){
 
@@ -31,7 +44,27 @@ if(command){
 
             console.log(err) ;
         }
+    }
 
+    try{
+
+        let result = executeCommand(command , ...argv) ;
+
+        if(result instanceof Promise){
+
+            result
+                .then(doResult)
+                .catch(doError);
+        }else{
+
+            doResult(result) ;
+
+        }
+
+    }catch(err){
+
+       
+        doError(err) ;
     }
 
 }else{

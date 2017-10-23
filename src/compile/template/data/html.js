@@ -17,7 +17,7 @@ function generate(el , codes = []){
         
         for(let attribute of attributes){
     
-            codes.push(`result.push(' ${attribute.name} = "${attribute.value.replace(/\r|\n/g , '').replace(/\'/g , '\\').replace(/\"/g , '\\"')}"');`) ;
+            codes.push(`result.push(' ${attribute.name} = "${encode(attribute.value)}"');`) ;
         }
     
         codes.push(`result.push('>')`) ;
@@ -38,7 +38,7 @@ function generate(el , codes = []){
 
     }else{
 
-        let html = el.innerHTML.replace(/\r|\n/g , '').replace(/\'/g , '\\').replace(/\"/g , '\\"') ;
+        let html = encode(el.innerHTML) ;
 
         if(html){
 
@@ -49,4 +49,9 @@ function generate(el , codes = []){
     codes.push(`result.push('</${tag}>')`) ;
 
     return codes ;
+}
+
+function encode(data){
+
+    return data.replace(/\r|\n/g , '').replace(/\'/g , '\\').replace(/\"/g , '\\"') ;
 }
