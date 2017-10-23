@@ -18,7 +18,10 @@ const {
 } = require('elementtree'),
 {
     basename
-} = require('./path');
+} = require('./path'),
+{
+    parse:html_parse
+} = require('./html');
 
 exports.searchFilePath = (path , suffix) =>{
 
@@ -92,6 +95,22 @@ exports.readXMLFile = (path , validExists) =>{
             return xml_parse(data) ;
 
         }catch(err){
+        }
+    }
+}
+
+exports.readHTMLFile = (path , validExists) =>{
+
+    let data = exports.readTextFile(path , validExists) ;
+
+    if(data){
+
+        try{
+
+            return html_parse(data);
+
+        }catch(err){
+
         }
     }
 }

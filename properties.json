@@ -5,8 +5,7 @@
         "config":"command::config",
         "dependencies":"command::dependencies",
         "compile":"command::compile",
-        "run":"command::run",
-        "html":"command::html"
+        "run":"command::run"
     },
     "scope":{
         "folders":{

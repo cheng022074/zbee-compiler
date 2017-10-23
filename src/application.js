@@ -8,7 +8,8 @@ const {
 {
     readJSONFile,
     readTextFile,
-    readXMLFile
+    readXMLFile,
+    readHTMLFile
 } = require('./fs'),
 {
     PROPERTIES:COMPILER_PROPERTIES,
@@ -258,6 +259,10 @@ exports.getSourceCode = name =>{
             case '.xml':
 
                 return readXMLFile(path , false) ;
+
+            case '.html':
+
+                return readHTMLFile(path , false) ;
 
             default:
 
