@@ -17,7 +17,7 @@ function generate(el , codes = []){
         
         for(let attribute of attributes){
     
-            codes.push(`result.push(' ${attribute.name} = "${attribute.value.replace(/\r|\n/g , '')}"');`) ;
+            codes.push(`result.push(' ${attribute.name} = "${attribute.value.replace(/\r|\n/g , '').replace(/\'/g , '\\').replace(/\"/g , '\\"')}"');`) ;
         }
     
         codes.push(`result.push('>')`) ;
@@ -38,7 +38,7 @@ function generate(el , codes = []){
 
     }else{
 
-        let html = el.innerHTML ;
+        let html = el.innerHTML.replace(/\r|\n/g , '').replace(/\'/g , '\\').replace(/\"/g , '\\"') ;
 
         if(html){
 

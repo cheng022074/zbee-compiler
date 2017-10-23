@@ -17,7 +17,9 @@ if(command){
 
     try{
 
-        executeCommand(command , ...argv) ;
+        let result = executeCommand(command , ...argv) ;
+
+        console.log(result) ;
 
     }catch(err){
 

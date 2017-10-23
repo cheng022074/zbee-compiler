@@ -4,5 +4,5 @@ const {
 
 module.exports = (name , ...argv) =>{
 
-    executeBinCode(name , ...argv) ;
+    return executeBinCode(name , ...argv) ;
 }

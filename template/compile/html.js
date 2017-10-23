@@ -1,4 +1,8 @@
-const result = [] ;
-<%- code %>
+module.exports = () =>{
 
-return result.join('') ;
+    const result = [] ;
+    
+    <%- code %>
+    
+    return result.join('') ;
+}
