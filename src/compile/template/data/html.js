@@ -1,11 +1,23 @@
+const {
+    unique
+} = require('../../../array') ;
+
 module.exports = doc =>{
 
+    let codes = [],
+        params = [] ;
+
+    generate(doc.documentElement , codes , params) ;
+
+    params = unique(params) ;
+
     return {
-        code:generate(doc.documentElement).join('\n')
+        params,
+        code:codes.join('\n')
     } ;
 }
 
-function generate(el , codes = []){
+function generate(el , codes , params){
 
     let tag = el.tagName.toLowerCase() ;
 
@@ -17,10 +29,10 @@ function generate(el , codes = []){
         
         for(let attribute of attributes){
     
-            codes.push(`result.push(' ${attribute.name} = "${encode(attribute.value)}"');`) ;
+            codes.push(`result.push(\` ${attribute.name} = "${encode(attribute.value , params)}"\`);`) ;
         }
     
-        codes.push(`result.push('>')`) ;
+        codes.push(`result.push('>');`) ;
     
     }else{
 
@@ -33,25 +45,38 @@ function generate(el , codes = []){
 
         for(let childEl of childEls){
     
-            generate(childEl , codes) ;
+            generate(childEl , codes , params) ;
         }
 
     }else{
 
-        let html = encode(el.innerHTML) ;
+        let html = encode(el.innerHTML , params) ;
 
         if(html){
 
-            codes.push(`result.push('${html}');`) ;
+            codes.push(`result.push(\`${html}\`);`) ;
         }
     }
 
     codes.push(`result.push('</${tag}>')`) ;
-
-    return codes ;
 }
 
-function encode(data){
+const placeholderTestRe = /\{[^\{\}]+\}/,
+      placeholderReplaceRe = /\{([^\{\}]+)\}/g,
+      firstDataIndexRe = /^[^\.]+/;
 
-    return data.replace(/\r|\n/g , '').replace(/\'/g , '\\').replace(/\"/g , '\\"') ;
+function encode(data , params){
+
+    data = data.replace(/\r|\n/g , '').replace(/\'/g , '\\').replace(/\"/g , '\\"').trim() ;
+
+    if(placeholderTestRe.test(data)){
+
+        return data.replace(placeholderReplaceRe , (match , dataIndex) =>{
+
+            params.push(dataIndex.trim().match(firstDataIndexRe)[0]) ;
+
+            return `$${match}` ;
+
+        }) ;
+    }
 }
