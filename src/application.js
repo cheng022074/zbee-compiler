@@ -243,33 +243,25 @@ exports.getSourceCode = name =>{
             suffix,
             scope
         } = config ;
-        
-        switch(scope){
-    
-            case 'src':
-    
-                switch(suffix.match(baseSuffixRe)[0]){
-    
-                    case '.json':
-    
-                        return readJSONFile(path , false) ;
-    
-                    case '.xml':
-    
-                        return readXMLFile(path , false) ;
-    
-                    default:
-    
-                        return readTextFile(path , false) ;
-                }
-    
-            case 'template':
-    
-                return readTextFile(path , false) ;
-    
-            case 'config':
-    
+
+        if(scope === 'template'){
+
+            return readTextFile(path , false) ;
+        }
+
+        switch(suffix.match(baseSuffixRe)[0]){
+            
+            case '.json':
+
                 return require(path) ;
+
+            case '.xml':
+
+                return readXMLFile(path , false) ;
+
+            default:
+
+                return readTextFile(path , false) ;
         }
     }
 }

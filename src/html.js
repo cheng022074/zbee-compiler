@@ -2,7 +2,7 @@ const {
     js_beautify
 } = require('js-beautify'),
 {
-    jsdom
+    JSDOM 
 } = require('jsdom'),
 {
     string:is_string
@@ -10,7 +10,9 @@ const {
 
 exports.parse = data =>{
 
-    return jsdom(data) ;
+    let dom = new JSDOM(data) ;
+
+    return dom.window.document ;
 }
 
 exports.stringify = data =>{
