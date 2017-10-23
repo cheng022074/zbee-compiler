@@ -12,7 +12,8 @@
             "src":"src",
             "bin":"bin",
             "config":"config",
-            "command":"command"
+            "command":"command",
+            "html":"html"
         },
         "suffixes":{
             "command":[
@@ -26,6 +27,9 @@
             ],
             "template":[
                 ".js"
+            ],
+            "html":[
+                ".html"
             ]
         },
         "bin":"bin",
@@ -37,6 +41,13 @@
             ".scope.js":{
                 "data":"compile.template.data.script",
                 "template":"compile.script.scope",
+                "to":"compile.to.script"
+            }
+        },
+        "html":{
+            ".html":{
+                "data":"compile.template.data.html",
+                "template":"compile.html",
                 "to":"compile.to.script"
             }
         }

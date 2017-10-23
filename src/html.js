@@ -1,6 +1,22 @@
 const {
     js_beautify
-} = require('js-beautify') ;
+} = require('js-beautify'),
+{
+    jsdom
+} = require('jsdom'),
+{
+    string:is_string
+} = require('./is');
+
+exports.parse = data =>{
+
+    return jsdom(data) ;
+}
+
+exports.stringify = data =>{
+
+    
+}
 
 exports.format = data =>{
 

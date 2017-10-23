@@ -2,6 +2,11 @@ const {
     simpleObject:is_simpleObject
 } = require('./is') ;
 
+exports.parse = data =>{
+
+    return JSON.parse(data) ;
+}
+
 exports.format = data =>{
 
     if(is_simpleObject(data)){

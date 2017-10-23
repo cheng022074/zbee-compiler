@@ -37,6 +37,7 @@
     "ejs": "^2.5.7",
     "elementtree": "^0.1.7",
     "js-beautify": "^1.7.3",
+    "jsdom": "^11.3.0",
     "koa": "^2.0.0-alpha.8",
     "koa-mount": "^3.0.0",
     "koa-send": "^4.1.1",
