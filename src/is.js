@@ -98,6 +98,16 @@ exports.primitive = data =>{
     return type === 'string' || type === 'number' || type === 'boolean';
 }
 
+exports.htmlDocument = data =>{
+
+    return toString.call(data) === '[object Document]' ;
+}
+
+exports.htmlElement = data =>{
+
+    return data ? data.nodeType === 1 : false ;
+}
+
 exports.recordset = recordset =>{
 
     if(exports.array(recordset)){

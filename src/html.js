@@ -5,7 +5,9 @@ const {
     JSDOM 
 } = require('jsdom'),
 {
-    string:is_string
+    string:is_string,
+    htmlDocument:is_html_document,
+    htmlElement:is_html_element
 } = require('./is');
 
 exports.parse = data =>{
@@ -17,7 +19,14 @@ exports.parse = data =>{
 
 exports.stringify = data =>{
 
-    
+   if(is_html_document(data)){
+
+        return data.documentElement.outerHTML ;
+   
+   }else if(is_html_element(data)){
+
+        return data.outerHTML ;
+   }
 }
 
 exports.format = data =>{
