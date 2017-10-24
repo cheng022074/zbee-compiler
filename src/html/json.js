@@ -5,8 +5,11 @@ const {
     simpleObject:is_simple_object
 } = require('../is'),
 {
-    parse
-} = require('../html');
+    parse:html_parse
+} = require('../html'),
+{
+    Encoder
+} = require('node-html-encoder');
 
 exports.parse = data =>{
 
@@ -14,7 +17,7 @@ exports.parse = data =>{
 
     if(is_string(data)){
 
-        data = parse(data) ;
+        data = html_parse(data) ;
     
     }
     
@@ -26,6 +29,8 @@ exports.parse = data =>{
 
         el = data ;
     }
+
+    return parse(el) ;
 }
 
 const placeholderTestRe = /\{[^\{\}]+\}/;
@@ -33,12 +38,11 @@ const placeholderTestRe = /\{[^\{\}]+\}/;
 function parse(el){
 
     let structure = {
-            tag:el.tagName.toLowerCase()
-        } ;
+        tag:el.tagName.toLowerCase()
+    } ;
 
     let attrs = {},
-        dataIndexes = {},
-        vm = {};
+        fields = {};
 
     let {
         attributes,
@@ -50,15 +54,13 @@ function parse(el){
         let value = encode(attribute.value),
             name = attribute.name;
 
-        attrs[name] = value ;
-
         if(placeholderTestRe.test(value)){
 
-            name = `attr::${name}` ;
+            fields[`attr::${name}`] = value ;
 
-            vm[name] = value ;
+        }else{
 
-            mv_set(mv , value , name) ;
+            attrs[name] = value ;
         }
     }
 
@@ -73,13 +75,13 @@ function parse(el){
 
         if(innerHTML){
 
-            structure.html = innerHTML ;
-
             if(placeholderTestRe.test(innerHTML)){
 
-                vm.html = innerHTML ;
+                fields.html = innerHTML ;
 
-                mv_set(mv , innerHTML , 'html') ;
+            }else{
+
+                structure.html = innerHTML ;
             }
         }
 
@@ -93,36 +95,49 @@ function parse(el){
         }
     }
 
-    return structure ;
-}
+    if(Object.keys(fields).length){
 
-const enterRe = /\r|\n/g,
-      squotRe = /\'/g,
-      dquotRe = /\"/g;
-
-function encode(value){
-
-    return value.replace(enterRe , '').replace(squotRe , '\\\'').replace(dquotRe , '\\"').trim() ;
-}
-
-function mv_set(target , name , value){
-
-    if(!target.hasOwnProperty(name)){
-
-        target[name] = [
-            value
-        ] ;
-
-    }else{
-
-        target[name].push(value) ;
+        structure.fields = fields ;
     }
+
+    return structure ;
 }
 
 exports.stringify = data =>{
 
     if(is_simple_object(data)){
 
-
+        return stringify(data) ;
     }
+}
+
+function stringify(data){
+
+    let result = [],
+        {
+            tag,
+            attrs,
+            cn,
+            html
+        } = data;
+
+    result.push(`<${tag}`) ;
+
+    let names = Object.keys(attrs) ;
+
+    for(let name of names){
+
+        result.push(` ${name}="${attrs[name]}"`) ;
+    }
+
+    result.push('>') ;
+
+    for(let item of cn){
+
+        result.push(stringify(item)) ;
+    }
+
+    result.push(`</${tag}>`) ;
+
+    return result.join('') ;
 }
