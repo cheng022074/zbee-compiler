@@ -1,3 +1,4 @@
+const placeholderTestRe = /\{[^\{\}]+\}/;
 
 function init(el){
 
@@ -5,7 +6,9 @@ function init(el){
             tag:el.tagName.toLowerCase()
         } ;
 
-    let attrs = {} ;
+    let attrs = {},
+        mv = {},
+        vm = {};
 
     let {
         attributes,
@@ -14,7 +17,19 @@ function init(el){
 
     for(let attribute of attributes){
 
-        attrs[attribute.name] = encode(attribute.value) ;
+        let value = encode(attribute.value),
+            name = attribute.name;
+
+        attrs[name] = value ;
+
+        if(placeholderTestRe.test(value)){
+
+            name = `attr::${name}` ;
+
+            vm[name] = value ;
+
+            mv_set(mv , value , name) ;
+        }
     }
 
     if(Object.keys(attrs).length){
@@ -29,6 +44,13 @@ function init(el){
         if(innerHTML){
 
             structure.html = innerHTML ;
+
+            if(placeholderTestRe.test(innerHTML)){
+
+                vm.html = innerHTML ;
+
+                mv_set(mv , innerHTML , 'html') ;
+            }
         }
 
     }else{
@@ -50,7 +72,21 @@ const enterRe = /\r|\n/g,
 
 function encode(value){
 
-    return value.replace(enterRe , '').replace(squotRe , '\\').replace(dquotRe , '\\"').trim() ;
+    return value.replace(enterRe , '').replace(squotRe , '\\\'').replace(dquotRe , '\\"').trim() ;
+}
+
+function mv_set(target , name , value){
+
+    if(!target.hasOwnProperty(name)){
+
+        target[name] = [
+            value
+        ] ;
+
+    }else{
+
+        target[name].push(value) ;
+    }
 }
 
 module.exports = init;
