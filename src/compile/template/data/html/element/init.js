@@ -1,7 +1,9 @@
 
-function init(el , structure){
+function init(el){
 
-    structure.tag = el.tagName.toLowerCase() ;
+    let structure = {
+            tag:el.tagName.toLowerCase()
+        } ;
 
     let attrs = {} ;
 
@@ -28,7 +30,18 @@ function init(el , structure){
 
             structure.html = innerHTML ;
         }
+
+    }else{
+
+        let cn = structure.cn = [] ;
+
+        for(let childEl of children){
+
+            cn.push(init(childEl)) ;
+        }
     }
+
+    return structure ;
 }
 
 const enterRe = /\r|\n/g,
