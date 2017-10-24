@@ -60,7 +60,7 @@ function parse(el){
 
         if(placeholderTestRe.test(value)){
 
-            fields[`attr::${name}`] = value ;
+            fields[`attr::${name}`] = generate(value) ;
 
         }else{
 
@@ -81,7 +81,7 @@ function parse(el){
 
             if(placeholderTestRe.test(innerHTML)){
 
-                fields.html = innerHTML ;
+                fields.html = generate(innerHTML) ;
 
             }else{
 
@@ -107,6 +107,27 @@ function parse(el){
     return structure ;
 }
 
+let placeholderReplaceRe = /\{([^\{\}]+)\}/g,
+    dataIndexReplaceRe = /\w+(?:\.\w+)*/g;
+
+function generate(value){
+
+    return [
+        "const {get:object_get} = include('object');",
+        `return \`${value.replace(placeholderReplaceRe , placeholder_replace)}\``
+    ].join('\n') ;
+}
+
+function placeholder_replace(match , placeholder){
+
+    return `\$\{${placeholder.replace(dataIndexReplaceRe , data_index_replace)}\}` ;
+}
+
+function data_index_replace(match){
+
+    return `object_get(data , '${match}')` ;
+}
+
 exports.stringify = data =>{
 
     if(is_simple_object(data)){
@@ -127,18 +148,24 @@ function stringify(data){
 
     result.push(`<${tag}`) ;
 
-    let names = Object.keys(attrs) ;
+    if(attrs){
 
-    for(let name of names){
-
-        result.push(` ${name}="${attrs[name]}"`) ;
+        let names = Object.keys(attrs) ;
+        
+        for(let name of names){
+    
+            result.push(` ${name}="${attrs[name]}"`) ;
+        }
     }
 
     result.push('>') ;
 
-    for(let item of cn){
+    if(cn){
 
-        result.push(stringify(item)) ;
+        for(let item of cn){
+    
+            result.push(stringify(item)) ;
+        }
     }
 
     result.push(`</${tag}>`) ;

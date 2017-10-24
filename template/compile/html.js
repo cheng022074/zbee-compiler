@@ -2,7 +2,7 @@ module.exports = ({<%- params.join(',') %>}) =>{
 
     const result = [] ;
     
-    <%- code %>
+    console.log('<%- code %>') ;
     
     return result.join('') ;
 }

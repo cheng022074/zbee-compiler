@@ -11,15 +11,15 @@ module.exports = doc =>{
     let config = parse(doc),
         codes = [];
 
-    generate(config) ;
-
     return {
         params:[],
-        code:codes.join('')
+        code:generate(config)
     } ;
 }
 
 function generate(config){
 
     console.log(format(config)) ;
+
+    return stringify(config) ;
 }
