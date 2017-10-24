@@ -7,6 +7,7 @@ const {
 } = require('../src/process'),
 {
     executeCommand,
+    getBinCode,
     COMMAND_NAMES
 } = require('../src/application'),
 {
@@ -19,6 +20,8 @@ const {
 {
     format
 } = require('../src/json');
+
+global.include = getBinCode ;
 
 if(command){
 

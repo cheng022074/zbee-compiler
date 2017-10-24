@@ -1,0 +1,10 @@
+[{
+    "selector":"*",
+    "attributes":[{
+        "name":"if",
+        "impelement":"compile.html.attribute.if"
+    },{
+        "name":"for",
+        "impelement":"compile.html.attribute.for"
+    }]
+}]
