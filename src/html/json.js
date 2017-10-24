@@ -49,9 +49,13 @@ function parse(el){
         children
     } = el ;
 
+    attributes = Array.from(attributes) ;
+
+    let encoder = new Encoder('entity');
+
     for(let attribute of attributes){
 
-        let value = encode(attribute.value),
+        let value = encoder.htmlEncode(attribute.value),
             name = attribute.name;
 
         if(placeholderTestRe.test(value)){
@@ -71,7 +75,7 @@ function parse(el){
 
     if(children.length === 0){
 
-        let innerHTML = encode(el.innerHTML) ;
+        let innerHTML = encoder.htmlEncode(el.innerHTML) ;
 
         if(innerHTML){
 
