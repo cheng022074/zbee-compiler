@@ -19,7 +19,7 @@ module.exports = doc =>{
 
 function generate(config){
 
-    console.log(format(config)) ;
+    console.log(JSON.stringify(config , null , 2)) ;
 
     return stringify(config) ;
 }

@@ -9,7 +9,10 @@ const {
 } = require('../html'),
 {
     Encoder
-} = require('node-html-encoder');
+} = require('node-html-encoder'),
+{
+    compile
+} = require('../script');
 
 exports.parse = data =>{
 
@@ -51,11 +54,9 @@ function parse(el){
 
     attributes = Array.from(attributes) ;
 
-    let encoder = new Encoder('entity');
-
     for(let attribute of attributes){
 
-        let value = encoder.htmlEncode(attribute.value),
+        let value = attribute.value.trim(),
             name = attribute.name;
 
         if(placeholderTestRe.test(value)){
@@ -75,7 +76,7 @@ function parse(el){
 
     if(children.length === 0){
 
-        let innerHTML = encoder.htmlEncode(el.innerHTML) ;
+        let innerHTML = el.innerHTML.trim() ;
 
         if(innerHTML){
 
@@ -108,7 +109,8 @@ function parse(el){
 }
 
 let placeholderReplaceRe = /\{([^\{\}]+)\}/g,
-    dataIndexReplaceRe = /\w+(?:\.\w+)*/g;
+    dataIndexReplaceRe = /(?:[\'\"][^\'\"]+[\'\"])|(?:\w+(?:\.\w+)*)/g,
+    stringRe = /^[\'\"][^\'\"]+[\'\"]$/;
 
 function generate(value){
 
@@ -124,6 +126,11 @@ function placeholder_replace(match , placeholder){
 }
 
 function data_index_replace(match){
+
+    if(/^(?:\d+|true|false)$/.test(match)){
+
+        return match ;
+    }
 
     return `object_get(data , '${match}')` ;
 }
