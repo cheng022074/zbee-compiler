@@ -110,7 +110,7 @@ function parse(el){
 
 let placeholderReplaceRe = /\{([^\{\}]+)\}/g,
     dataIndexReplaceRe = /(?:[\'\"][^\'\"]+[\'\"])|(?:\w+(?:\.\w+)*)/g,
-    stringRe = /^[\'\"][^\'\"]+[\'\"]$/;
+    ignoreRe = /^(?:[\'\"][^\'\"]+[\'\"]|\d+|true|false)$/;
 
 function generate(value){
 
@@ -126,6 +126,11 @@ function placeholder_replace(match , placeholder){
 }
 
 function data_index_replace(match){
+
+    if(ignoreRe.test(match)){
+
+        return match ;
+    }
 
     if(/^(?:\d+|true|false)$/.test(match)){
 
