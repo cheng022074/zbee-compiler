@@ -24,13 +24,13 @@ exports.get = (data , key) =>{
     let keys = key.split('.') ;
     
     key = decode(keys[keys.length - 1]) ;
-    
+
     keys.pop() ;
     
     let value = data;
-    
+ 
     for(let key of keys){
-    
+
         value = value[decode(key)] ;
     
         if(!is_object(value) && !is_iterable(value)){

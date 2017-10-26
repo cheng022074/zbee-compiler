@@ -34,7 +34,7 @@ module.exports = name =>{
 
             let path = executeBinCode(toName , application , config);
 
-            writeTextFile(path , apply(template , executeBinCode(dataName , getSourceCode(name)))) ;
+            writeTextFile(path , apply(template , executeBinCode(dataName , getSourceCode(name) , name))) ;
 
             console.log('已编译' , path) ;
         }

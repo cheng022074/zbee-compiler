@@ -32,6 +32,7 @@
                 ".html"
             ],
             "html":[
+                ".html.json",
                 ".html"
             ]
         },
@@ -49,6 +50,11 @@
         "html":{
             ".html":{
                 "data":"compile.template.data.html",
+                "template":"compile.html",
+                "to":"compile.to.html"
+            },
+            ".html.json":{
+                "data":"compile.template.data.html.data",
                 "template":"compile.html",
                 "to":"compile.to.html"
             }

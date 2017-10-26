@@ -188,7 +188,7 @@ exports.getBinCode = codeName =>{
                 return readTextFile(path) ;
         }
 
-        path = join(exports.SCOPE_PATHS[exports.get('scope.bin')] , scope , `${name}.js`) ;
+        path = join(exports.BIN_PATH , scope , `${name}.js`) ;
         
         if(is_file(path)){
     

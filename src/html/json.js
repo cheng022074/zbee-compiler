@@ -9,10 +9,7 @@ const {
 } = require('../html'),
 {
     Encoder
-} = require('node-html-encoder'),
-{
-    compile
-} = require('../script');
+} = require('node-html-encoder');
 
 exports.parse = data =>{
 
