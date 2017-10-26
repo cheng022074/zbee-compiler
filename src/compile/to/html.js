@@ -1,11 +1,14 @@
 const {
     join
-} = require('path') ;
+} = require('path'),
+{
+    DIST_PATH
+} = require('../../application');
 
-module.exports = (application , {
+module.exports = ({
     scope,
     name
 }) =>{
 
-    return join(application.DIST_PATH , scope , `${name}.html`) ;
+    return join(DIST_PATH , scope , `${name}.html`) ;
 }

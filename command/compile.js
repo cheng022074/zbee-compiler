@@ -32,7 +32,7 @@ module.exports = name =>{
 
         if(template && dataName && toName){
 
-            let path = executeBinCode(toName , application , config);
+            let path = executeBinCode(toName , config);
 
             writeTextFile(path , apply(template , executeBinCode(dataName , getSourceCode(name) , name))) ;
 

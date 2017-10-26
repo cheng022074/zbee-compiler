@@ -3,17 +3,18 @@ const {
 } = require('../../../../application'),
 {
     readHTMLFile
-} = require('../../../../fs');
+} = require('../../../../fs'),
+{
+    compile
+} = require('../../../../html/template');
 
-module.exports = (config , name) =>{
+module.exports = (data , name) =>{
 
-    let htmlConfig = parseSourceCodeName(name , '.html') ;
+    let config = parseSourceCodeName(name , '.html') ;
 
-    if(htmlConfig){
+    if(config){
 
-        console.log(readHTMLFile(htmlConfig.path)) ;
-
-        console.log(config) ;
+        console.log(compile(readHTMLFile(config.path))) ;
     }
 
     return {

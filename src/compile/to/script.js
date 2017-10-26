@@ -1,11 +1,14 @@
 const {
     join
-} = require('path') ;
+} = require('path'),
+{
+    BIN_PATH
+} = require('../../application');
 
-module.exports = (application , {
+module.exports = ({
     scope,
     name
 }) =>{
 
-    return join(application.BIN_PATH , scope , `${name}.js`) ;
+    return join(BIN_PATH , scope , `${name}.js`) ;
 }

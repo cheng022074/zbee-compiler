@@ -58,7 +58,7 @@ function parse(el){
 
         if(placeholderTestRe.test(value)){
 
-            fields[`attr::${name}`] = generate(value) ;
+            fields[`attrs.${name}`] = generate(value) ;
 
         }else{
 
@@ -107,14 +107,17 @@ function parse(el){
 
 let placeholderReplaceRe = /\{([^\{\}]+)\}/g,
     dataIndexReplaceRe = /(?:[\'\"][^\'\"]+[\'\"])|(?:\w+(?:\.\w+)*)/g,
-    ignoreRe = /^(?:[\'\"][^\'\"]+[\'\"]|\d+|true|false)$/;
+    ignoreRe = /^(?:[\'\"][^\'\"]+[\'\"]|\d+|true|false)$/,
+    braceRe = /^\{|\}$/g;
 
 function generate(value){
 
-    return [
-        "const {get:object_get} = include('object');",
-        `return \`${value.replace(placeholderReplaceRe , placeholder_replace)}\``
-    ].join('\n') ;
+    if(value.match(placeholderReplaceRe)[0] === value){
+
+        return value.replace(dataIndexReplaceRe , data_index_replace).replace(braceRe , '') ;
+    }
+
+    return `\`${value.replace(placeholderReplaceRe , placeholder_replace)}\`` ;
 }
 
 function placeholder_replace(match , placeholder){
