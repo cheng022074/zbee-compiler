@@ -143,20 +143,6 @@ function get_keys(data , iterableByValue = false , rootKey = ''){
 
 exports.keys = get_keys ;
 
-exports.deepApply = (dest , source) =>{
-
-    let keys = get_keys(source),
-        set = exports.set,
-        get = exports.get;
-
-    for(let key of keys){
-
-        set(dest , key , get(source , key)) ;
-    }
-
-    return dest ;
-}
-
 exports.apply = (dest , source) =>{
 
     return Object.assign(dest , source) ;
@@ -177,22 +163,9 @@ exports.applyIf = (dest , source) =>{
     return dest ;
 }
 
-exports.coverMerge = (...sources) =>{
+exports.clone = target =>{
 
-    return Object.assign({} , ...sources) ;
-}
-
-exports.deepCoverMerge = (...sources) =>{
-
-    let result = [],
-        apply = exports.deepApply ;
-
-    for(let source of sources){
-
-        apply(result , source) ;
-    }
-
-    return result ;
+    return JSON.parse(JSON.stringify(target)) ;
 }
 
 exports.defineProperties = (target , properties) =>{
