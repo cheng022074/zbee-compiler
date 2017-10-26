@@ -138,7 +138,17 @@ defineProperties(exports , {
 
         get:() =>{
 
-            return exports.SCOPE_PATHS[exports.get('scope.bin')] ;
+            return exports.SCOPE_PATHS.bin ;
+        }
+    },
+
+    DIST_PATH:{
+
+        once:true,
+
+        get:() =>{
+
+            return exports.SCOPE_PATHS.dist ;
         }
     }
 

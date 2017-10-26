@@ -1,13 +1,13 @@
 const {
-    js_beautify
+    html
 } = require('js-beautify'),
 {
     JSDOM 
 } = require('jsdom'),
 {
-    string:is_string,
     htmlDocument:is_html_document,
-    htmlElement:is_html_element
+    htmlElement:is_html_element,
+    string:is_string
 } = require('./is');
 
 exports.parse = data =>{
@@ -31,9 +31,16 @@ exports.stringify = data =>{
 
 exports.format = data =>{
 
-    try{
-        
-        return js_beautify(data) ;
+     try{
+
+        if(is_string(data)){
+
+            return html(data) ;
+
+        }else{
+
+            return html(exports.stringify(data)) ;
+        }
 
     }catch(err){
     }

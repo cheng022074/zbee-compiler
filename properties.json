@@ -14,7 +14,8 @@
             "bin":"bin",
             "config":"config",
             "command":"command",
-            "html":"html"
+            "html":"html",
+            "dist":"dist"
         },
         "suffixes":{
             "command":[
@@ -27,13 +28,13 @@
                 ".json"
             ],
             "template":[
-                ".js"
+                ".js",
+                ".html"
             ],
             "html":[
                 ".html"
             ]
         },
-        "bin":"bin",
         "default":"src"
     },
 
@@ -49,7 +50,7 @@
             ".html":{
                 "data":"compile.template.data.html",
                 "template":"compile.html",
-                "to":"compile.to.script"
+                "to":"compile.to.html"
             }
         }
     }

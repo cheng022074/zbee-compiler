@@ -4,7 +4,7 @@ const {
 } = require('../../../html/json'),
 {
     format
-} = require('../../../json');
+} = require('../../../html');
 
 module.exports = doc =>{
 
@@ -19,7 +19,5 @@ module.exports = doc =>{
 
 function generate(config){
 
-    console.log(JSON.stringify(config , null , 2)) ;
-
-    return stringify(config) ;
+    return format(stringify(config)) ;
 }

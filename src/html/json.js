@@ -160,13 +160,15 @@ function stringify(data){
 
     result.push(`<${tag}`) ;
 
+    let encoder = new Encoder('entity') ;
+
     if(attrs){
 
         let names = Object.keys(attrs) ;
         
         for(let name of names){
     
-            result.push(` ${name}="${attrs[name]}"`) ;
+            result.push(` ${name}="${encoder.htmlEncode(attrs[name])}"`) ;
         }
     }
 
@@ -178,6 +180,10 @@ function stringify(data){
     
             result.push(stringify(item)) ;
         }
+
+    }else if(html){
+
+        result.push(encoder.htmlEncode(html)) ;
     }
 
     result.push(`</${tag}>`) ;
