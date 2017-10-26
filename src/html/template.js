@@ -23,23 +23,46 @@ function static(tag , root = ''){
     } = tag,
     codes = [];
 
+    if(cn){
+        
+        let len = cn.length ;
+
+        for(let i = 0 ; i < len ; i ++){
+
+            codes.push(...static(cn[i] ,  `${root}cn.${i}.`)) ;
+        }
+    }
+
     if(fields){
 
         let names = Object.keys(fields) ;
 
         for(let name of names){
 
-            codes.push(`object_set(config , '${root}${name}' , ${fields[name]});`) ;
-        }
-    }
+            switch(name){
 
-    if(cn){
+                case 'attrs.if':
 
-        let len = cn.length ;
+                    codes.push(...[
+                        `if(!!(${fields[name]}) === false){`,
+                            `object_set(config , '${root}hidden' , true);`,
+                        '}'
+                    ]) ;
 
-        for(let i = 0 ; i < len ; i ++){
+                    break ;
 
-            codes.push(...static(cn[i] ,  `${root}cn.${i}.`)) ;
+                case 'attrs.for':
+
+                    break ;
+
+                case 'attrs.each':
+
+                    break ;
+
+                default:
+
+                    codes.push(`object_set(config , '${root}${name}' , ${fields[name]});`) ;
+            }
         }
     }
 

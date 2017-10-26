@@ -6,7 +6,10 @@ const {
 } = require('../is'),
 {
     parse:html_parse
-} = require('../html');
+} = require('../html'),
+{
+    Encoder
+} = require('node-html-encoder');
 
 exports.parse = data =>{
 
@@ -152,8 +155,14 @@ function stringify(data){
             tag,
             attrs,
             cn,
-            html
+            html,
+            hidden
         } = data;
+
+    if(hidden === true){
+
+        return '' ;
+    }
 
     result.push(`<${tag}`) ;
 
