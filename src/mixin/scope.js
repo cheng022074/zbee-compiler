@@ -58,6 +58,7 @@ module.exports = target =>{
                     if(is_file(path)){
 
                         return {
+                            scope,
                             path,
                             name,
                             scope,

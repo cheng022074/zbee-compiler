@@ -6,10 +6,7 @@ const {
 } = require('../is'),
 {
     parse:html_parse
-} = require('../html'),
-{
-    Encoder
-} = require('node-html-encoder');
+} = require('../html');
 
 exports.parse = data =>{
 
@@ -160,15 +157,13 @@ function stringify(data){
 
     result.push(`<${tag}`) ;
 
-    let encoder = new Encoder('entity') ;
-
     if(attrs){
 
         let names = Object.keys(attrs) ;
         
         for(let name of names){
     
-            result.push(` ${name}="${encoder.htmlEncode(attrs[name])}"`) ;
+            result.push(` ${name}="${attrs[name]}"`) ;
         }
     }
 
@@ -183,7 +178,7 @@ function stringify(data){
 
     }else if(html){
 
-        result.push(encoder.htmlEncode(html)) ;
+        result.push(html) ;
     }
 
     result.push(`</${tag}>`) ;

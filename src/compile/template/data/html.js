@@ -12,7 +12,6 @@ module.exports = doc =>{
         codes = [];
 
     return {
-        params:[],
         code:generate(config)
     } ;
 }

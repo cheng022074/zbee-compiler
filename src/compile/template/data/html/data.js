@@ -1,24 +1,40 @@
 const {
-    parseSourceCodeName
+    parseSourceCodeName,
+    BIN_PATH,
+    executeBinCode
 } = require('../../../../application'),
 {
-    readHTMLFile
+    readHTMLFile,
+    writeTextFile
 } = require('../../../../fs'),
 {
-    compile
-} = require('../../../../html/template');
+    static
+} = require('../../../../html/template'),
+{
+    stringify
+} = require('../../../../html/structure'),
+{
+    join
+} = require('path') ;
 
-module.exports = (data , name) =>{
+module.exports = (data , {
+    scope,
+    name
+}) =>{
 
-    let config = parseSourceCodeName(name , '.html') ;
+    let codeName = `${scope}::${name}`,
+        config = parseSourceCodeName(`${scope}::${name}` , '.html') ;
 
     if(config){
 
-        console.log(compile(readHTMLFile(config.path))) ;
+        writeTextFile(join(BIN_PATH , scope , `${name}.js`) , static(readHTMLFile(config.path))) ;
+
+        return {
+            code:stringify(executeBinCode(codeName , data))
+        }
     }
 
     return {
-        params:[],
         code:''
     } ;
 }

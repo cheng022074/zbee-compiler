@@ -5,17 +5,17 @@ const {
     apply
 } = require('../template');
 
-exports.compile = template =>{
+exports.static = template =>{
 
     let config = parse(template);
 
-    console.log(apply('html.template.compile' , {
+    return apply('html.template.compile' , {
         config,
-        code:compile(config).join('\n')
-    })) ;
+        code:static(config).join('\n')
+    }) ;
 }
 
-function compile(tag , root = '.'){
+function static(tag , root = ''){
 
     let {
         fields,
@@ -39,7 +39,7 @@ function compile(tag , root = '.'){
 
         for(let i = 0 ; i < len ; i ++){
 
-            codes.push(...compile(cn[i] ,  `${root}cn.${i}.`)) ;
+            codes.push(...static(cn[i] ,  `${root}cn.${i}.`)) ;
         }
     }
 
