@@ -163,9 +163,17 @@ exports.applyIf = (dest , source) =>{
     return dest ;
 }
 
-exports.clone = target =>{
+exports.clone = (target , count = 1) =>{
 
-    return JSON.parse(JSON.stringify(target)) ;
+    let source = JSON.stringify(target),
+        result = [];
+
+    for(let i = 0 ; i < count ; i ++){
+
+        result.push(source) ;
+    }
+
+    return JSON.parse(`[${result.join(',')}]`) ;
 }
 
 exports.defineProperties = (target , properties) =>{

@@ -15,23 +15,12 @@ exports.static = template =>{
     }) ;
 }
 
-function static(tag , root = ''){
+function static(tag){
 
     let {
         fields,
         cn
-    } = tag,
-    codes = [];
-
-    if(cn){
-        
-        let len = cn.length ;
-
-        for(let i = 0 ; i < len ; i ++){
-
-            codes.push(...static(cn[i] ,  `${root}cn.${i}.`)) ;
-        }
-    }
+    } = tag ;
 
     if(fields){
 
@@ -43,26 +32,24 @@ function static(tag , root = ''){
 
                 case 'attrs.if':
 
-                    codes.push(...[
-                        `if(!!(${fields[name]}) === false){`,
-                            `object_set(config , '${root}hidden' , true);`,
-                        '}'
-                    ]) ;
-
-                    break ;
-
-                case 'attrs.for':
-
-                    break ;
-
-                case 'attrs.each':
-
+                    console.log('Hello O') ;
+                 
                     break ;
 
                 default:
 
-                    codes.push(`object_set(config , '${root}${name}' , ${fields[name]});`) ;
+                    
             }
+        }
+    }
+
+    if(cn){
+
+        let len = cn.length ;
+
+        for(let i = 0 ; i < len ; i ++){
+
+            codes.push(...static(cn[i] ,  `${currentKey}cn.${i}.`)) ;
         }
     }
 

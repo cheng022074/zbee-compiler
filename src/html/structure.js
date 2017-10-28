@@ -156,7 +156,9 @@ function stringify(data){
             attrs,
             cn,
             html,
-            hidden
+            hidden,
+            data,
+            template
         } = data;
 
     if(hidden === true){
