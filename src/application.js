@@ -24,8 +24,7 @@ const {
 {
     file:is_file,
     function:is_function,
-    string:is_string,
-    simpleObject:is_simple_object
+    string:is_string
 } = require('./is'),
 {
     CommandNotFoundExcepition,
@@ -112,9 +111,6 @@ defineProperties(exports , {
 
                     result[name] = command ;
 
-                }else if(is_simple_object(command)){
-
-                    result[name] = command.implement ;
                 }
             }
 
@@ -138,7 +134,7 @@ defineProperties(exports , {
 
         get:() =>{
 
-            return exports.SCOPE_PATHS.bin ;
+            return exports.get('path.bin') ;
         }
     },
 
@@ -148,7 +144,7 @@ defineProperties(exports , {
 
         get:() =>{
 
-            return exports.SCOPE_PATHS.dist ;
+            return exports.get('path.dist') ;
         }
     }
 

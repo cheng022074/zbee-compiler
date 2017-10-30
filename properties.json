@@ -6,16 +6,17 @@
         "dependencies":"command::dependencies",
         "compile":"command::compile",
         "run":"command::run",
-        "web":"command::web"
+        "web":"command::web",
+        "vue-init":"command::vue.init",
+        "vue-dev":"command::vue.dev",
+        "vue-build":"command::vue.build"
     },
     "scope":{
         "folders":{
             "src":"src",
-            "bin":"bin",
             "config":"config",
             "command":"command",
-            "html":"html",
-            "dist":"dist"
+            "html":"html"
         },
         "suffixes":{
             "command":[
@@ -37,6 +38,11 @@
             ]
         },
         "default":"src"
+    },
+
+    "path":{
+        "dist":"dist",
+        "bin":"bin"
     },
 
     "compile":{

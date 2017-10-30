@@ -36,7 +36,8 @@ exports.iterable = data =>{
 
 const {
     existsSync,
-    statSync
+    statSync,
+    readdirSync
 } = require('fs') ;
 
 exports.file = path =>{
@@ -47,6 +48,11 @@ exports.file = path =>{
 exports.directory = path =>{
 
     return path && existsSync(path) && statSync(path).isDirectory() ;
+}
+
+exports.emptyDirectory = path =>{
+
+    return !(exports.directory(path) && readdirSync(path).length !== 0) ;
 }
 
 function is_type(data , type){
@@ -106,24 +112,4 @@ exports.htmlDocument = data =>{
 exports.htmlElement = data =>{
 
     return data ? data.nodeType === 1 : false ;
-}
-
-exports.recordset = recordset =>{
-
-    if(exports.array(recordset)){
-
-        const is_simpleObject = exports.simpleObject ;
-
-        for(let record of recordset){
-
-            if(!is_simpleObject(record)){
-
-                return false ;
-            }
-        }
-
-        return true ;
-    }
-
-    return false ;
 }

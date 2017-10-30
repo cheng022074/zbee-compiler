@@ -94,7 +94,9 @@ exports.SCOPE_SUFFIXES = {
     ],
     template:[
         '.html',
-        '.js'
+        '.js',
+        '.json',
+        '.md'
     ]
 } ;
 

@@ -34,6 +34,7 @@
     "babel-core": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.6.0",
+    "decompress": "^4.2.0",
     "ejs": "^2.5.7",
     "elementtree": "^0.1.7",
     "js-beautify": "^1.7.3",

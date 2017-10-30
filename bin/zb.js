@@ -21,8 +21,6 @@ const {
     format
 } = require('../src/json');
 
-global.include = getBinCode ;
-
 if(command){
 
     function doResult(result){
