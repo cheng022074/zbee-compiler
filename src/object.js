@@ -136,9 +136,14 @@ function get_keys(data , iterableByValue = false , rootKey = ''){
         return result ;
     }
 
-    return [
-        rootKey.replace(/\.$/ , '')
-    ] ;
+    rootKey = rootKey.replace(/\.$/ , '') ;
+
+    if(rootKey !== ''){
+
+        return [
+            rootKey
+        ] ;
+    }
 }
 
 exports.keys = get_keys ;
@@ -146,6 +151,22 @@ exports.keys = get_keys ;
 exports.apply = (dest , source) =>{
 
     return Object.assign(dest , source) ;
+}
+
+exports.assign = (dest , source) =>{
+
+    let keys = get_keys(source),
+        {
+            set,
+            get
+        } = exports;
+
+    for(let key of keys){
+
+        set(dest , key , get(source , key)) ;
+    }
+
+    return dest ;
 }
 
 exports.applyIf = (dest , source) =>{
