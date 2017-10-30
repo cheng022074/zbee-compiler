@@ -9,10 +9,7 @@ const {
 } = require('./object'),
 {
     defined:is_defined
-} = require('./is'),
-{
-    getConfig:get_config
-} = require('./environment');
+} = require('./is');
 
 exports.get = (name , key , isCache) =>{
 
