@@ -35,19 +35,13 @@ module.exports = async function(name = 'zbee'){
         name
     })) ;
 
-    console.log('central entry: index.html') ;
-
     writeTextFile(join(PATH , 'package.json') , apply('project.vue.package' , {
         name
     })) ;
 
-    console.log('central entry: package.json') ;
-
     writeTextFile(join(PATH , 'README.md') , apply('project.vue.README' , {
         name
     })) ;
-
-    console.log('central entry: README.md') ;
 
     await exec('cnpm' , 'install') ;
 

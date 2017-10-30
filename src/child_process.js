@@ -17,7 +17,7 @@ exports.exec = (...args) =>{
         
         }else{
     
-            cp = spawn('/bin/sh', args) ;
+            cp = spawn(args[0], args.slice(1)) ;
         }
     
         let {
