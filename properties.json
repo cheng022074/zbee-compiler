@@ -71,6 +71,11 @@
     },
     "package":{
         "default":{
+            "compiler":[
+                "object",
+                "string",
+                "json"
+            ],
             "includes":"*",
             "to":"package.to"
         }

@@ -2,7 +2,10 @@ const application = require('../src/application'),
       compiler = require('../src/compiler'),
       {
           get:application_package_get
-      } = require('../src/package/application');
+      } = require('../src/package/application'),
+      {
+          get:compiler_package_get
+      } = require('../src/package/compiler');
 
 module.exports = (name = 'default') =>{
 
@@ -10,6 +13,6 @@ module.exports = (name = 'default') =>{
 
     if(config){
 
-        console.log(application_package_get(config.includes)) ;
+        console.log(compiler_package_get(config.compiler)) ;
     }
 }
