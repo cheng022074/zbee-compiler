@@ -1,10 +1,9 @@
-const application = require('../src/application'),
-{
+const {
     parseSourceCodeName,
     getSourceCode,
     get,
     executeBinCode
-} = application,
+} = require('../src/application'),
 {
     encode
 } = require('../src/object/key'),

@@ -38,13 +38,13 @@ module.exports = target =>{
         }
     }) ;
 
-    const codeNameRe = /^(?:(\w+)\:{2})?(\w+(?:\.\w+)*(?:\.\*)?)$/,
+    const codeNameRe = /^(?:(\w+)\:{2})?((?:\w+(?:\.\w+)*(?:\.\*)?)|\*)$/,
           codeFileNameRe = /^(?:(\w+)\:{2})?(\w+(?:\.\w+)*)$/,
-          suffixCodeNameRe = /\.\*$/;
+          suffixCodeNameRe = /\.?\*$/;
 
     target.parseSourceCodeNames = codeName =>{
 
-        let match = codeFileNameRe.match(codeName) ;
+        let match = codeName.match(codeFileNameRe) ;
 
         const {
             parseSourceCodeName
@@ -58,7 +58,7 @@ module.exports = target =>{
 
         }else{
 
-            let match = codeNameRe.match(codeName) ;
+            let match = codeName.match(codeNameRe) ;
 
             if(match){
 
@@ -69,7 +69,7 @@ module.exports = target =>{
                 if(scopePaths.hasOwnProperty(scope)){
                     
                     let basePath = join(scopePaths[scope] , name.replace(/\./g , sep)) ;
-                    
+
                     if(is_directory(basePath)){
 
                         let names = readNames(basePath),

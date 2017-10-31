@@ -11,7 +11,8 @@ const {
 {
     readFileSync,
     writeFileSync,
-    mkdirSync
+    mkdirSync,
+    readdirSync
 } = require('fs'),
 {
     parse:xml_parse
@@ -104,3 +105,39 @@ exports.readHTMLFile = path =>{
         return html_parse(data);
     }
 }
+
+const suffixRe = /(?:\.[^\.]+)+$/ ;
+
+function readNames(path , rootName = ''){
+    
+    let names ;
+
+    try{
+
+        names = readdirSync(path) ;
+
+    }catch(err){
+
+        names = [] ;
+    }
+    
+    let result = [] ;
+
+    for(let name of names){
+
+        let targetPath = join(path , name) ;
+
+        if(is_file(targetPath)){
+
+            result.push(`${rootName}${name.replace(suffixRe , '')}`) ;
+        
+        }else{
+
+            result.push(...readNames(targetPath , `${rootName}${name}.`)) ;
+        }
+    }
+
+    return result ;
+}
+
+exports.readNames = readNames ;
