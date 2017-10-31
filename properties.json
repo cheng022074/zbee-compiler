@@ -7,6 +7,7 @@
         "compile":"command::compile",
         "package":"command::package",
         "run":"command::run",
+        "watch":"command::watch",
         "web":"command::web",
         "vue-reinit":"command::vue.reinit",
         "vue-init":"command::vue.init",
@@ -25,7 +26,7 @@
                 ".js"
             ],
             "src":[
-                ".scope.js"
+                ".fn.js"
             ],
             "config":[
                 ".json"
@@ -49,9 +50,9 @@
 
     "compile":{
         "src":{
-            ".scope.js":{
+            ".fn.js":{
                 "data":"compile.template.data.script",
-                "template":"compile.script.scope",
+                "template":"compile.script.function",
                 "to":"compile.to.script"
             }
         },
@@ -66,6 +67,12 @@
                 "template":"compile.html",
                 "to":"compile.to.html"
             }
+        }
+    },
+    "package":{
+        "default":{
+            "includes":"*",
+            "to":"package.to"
         }
     },
     "web":{

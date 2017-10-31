@@ -6,8 +6,12 @@ const {
     sep
 } = require('path'),
 {
-    file:is_file
-} = require('../is');
+    file:is_file,
+    directory:is_directory
+} = require('../is'),
+{
+    readNames
+} = require('../fs');
 
 module.exports = target =>{
 
@@ -34,16 +38,70 @@ module.exports = target =>{
         }
     }) ;
 
-    const codeNameRe = /^(?:(\w+)\:{2})?(\w+(?:\.\w+)*)$/ ;
+    const codeNameRe = /^(?:(\w+)\:{2})?(\w+(?:\.\w+)*(?:\.\*)?)$/,
+          codeFileNameRe = /^(?:(\w+)\:{2})?(\w+(?:\.\w+)*)$/,
+          suffixCodeNameRe = /\.\*$/;
 
-    target.parseSourceCodeName = (codeName , suffix) =>{
+    target.parseSourceCodeNames = codeName =>{
 
-        let match = codeName.match(codeNameRe),
-            scopeSuffixes = target.SCOPE_SUFFIXES;
+        let match = codeFileNameRe.match(codeName) ;
+
+        const {
+            parseSourceCodeName
+        } = target ;
 
         if(match){
 
-            let scopePaths = target.SCOPE_PATHS,
+            return [
+                parseSourceCodeName(codeName)
+            ] ;
+
+        }else{
+
+            let match = codeNameRe.match(codeName) ;
+
+            if(match){
+
+                let scopePaths = target.SCOPE_PATHS,
+                    scope = match[1] || target.DEFAULT_SCOPE,
+                    name = match[2].replace(suffixCodeNameRe , '');
+
+                if(scopePaths.hasOwnProperty(scope)){
+                    
+                    let basePath = join(scopePaths[scope] , name.replace(/\./g , sep)) ;
+                    
+                    if(is_directory(basePath)){
+
+                        let names = readNames(basePath),
+                            result = [];
+
+                        for(let name of names){
+
+                            let config = parseSourceCodeName(`${scope}::${name}`) ;
+
+                            if(config){
+
+                                result.push(config) ;
+                            }
+                        }
+
+                        return result ;
+                    }
+                }
+            }
+        }
+
+        return [] ;
+    }
+
+    target.parseSourceCodeName = (codeName , suffix) =>{
+
+        let match = codeName.match(codeFileNameRe);
+
+        if(match){
+
+            let scopeSuffixes = target.SCOPE_SUFFIXES,
+                scopePaths = target.SCOPE_PATHS,
                 scope = match[1] || target.DEFAULT_SCOPE,
                 name = match[2];
 
@@ -67,13 +125,13 @@ module.exports = target =>{
                     }
     
                 }else if(scopeSuffixes.hasOwnProperty(scope)){
-    
+
                     let suffixes = scopeSuffixes[scope];
 
                     for(let suffix of suffixes){
     
                         let path = `${basePath}${suffix}` ;
-    
+
                         if(!is_file(path)){
     
                             continue ;

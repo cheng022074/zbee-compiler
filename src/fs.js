@@ -59,19 +59,20 @@ exports.writeTextFile = (path , data) =>{
     writeFileSync(path , data) ;
 }
 
-exports.readTextFile = (path , validExists = true) =>{
+exports.readTextFile = path =>{
 
-    if(validExists && !is_file(path)){
+    try{
 
-        return ;
+        return readFileSync(path , 'utf8') ;
+    
+    }catch(err){
+
     }
-
-    return readFileSync(path , 'utf8') ;
 }
 
-exports.readJSONFile = (path , validExists) =>{
+exports.readJSONFile = path =>{
 
-    let data = exports.readTextFile(path , validExists) ;
+    let data = exports.readTextFile(path) ;
 
     if(data){
 
@@ -84,33 +85,22 @@ exports.readJSONFile = (path , validExists) =>{
     }
 }
 
-exports.readXMLFile = (path , validExists) =>{
+exports.readXMLFile = path =>{
 
-    let data = exports.readTextFile(path , validExists) ;
+    let data = exports.readTextFile(path) ;
     
     if(data){
 
-        try{
-
-            return xml_parse(data) ;
-
-        }catch(err){
-        }
+        return xml_parse(data) ;
     }
 }
 
-exports.readHTMLFile = (path , validExists) =>{
+exports.readHTMLFile = path =>{
 
-    let data = exports.readTextFile(path , validExists) ;
+    let data = exports.readTextFile(path) ;
 
     if(data){
 
-        try{
-
-            return html_parse(data);
-
-        }catch(err){
-
-        }
+        return html_parse(data);
     }
 }
