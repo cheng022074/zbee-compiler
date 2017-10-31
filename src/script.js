@@ -1,6 +1,10 @@
 const {
-    parseSourceCodeName
-} = require('./application'),
+    file:is_file
+} = require('./is'),
+{
+    extname,
+    join
+} = require('path'),
 {
     transform,
     transformFileSync
@@ -37,7 +41,7 @@ exports.compilePath = path =>{
     })) ;
 }
 
-exports.get = path =>{
+exports.get = (path , layer) =>{
 
     let {
         ast
@@ -45,14 +49,14 @@ exports.get = path =>{
 
     return {
         path,
-        paths:get_import_paths(ast)
+        requires:get_requires_paths(layer , path , ast)
     } ;
 }
 
-function get_import_paths(ast){
+function get_requires_paths(layer , filePath , ast){
 
     let nodes = ast.program.body,
-        result = [];
+        result = {};
     
     for(let node of nodes){
 
@@ -70,23 +74,30 @@ function get_import_paths(ast){
 
                     if(valueNode && valueNode.type === 'StringLiteral'){
 
-                        let name = valueNode.value ;
+                        let path = valueNode.value,
+                            config = layer.parseSourceCodeName(path) ;
 
-                        if(valid(name)){
+                        if(config){
 
-                            result.push(name) ;
+                            result[path] = config.path ;
                         
                         }else{
 
-                            let ext = extname(name) ;
+                            let ext = extname(path),
+                                targetPath;
 
                             if(!ext){
 
-                                result.push(`${name}.js`) ;
+                                targetPath = join(filePath , `${path}.js`) ;
 
                             }else{
 
-                                result.push(name) ;
+                                targetPath = join(filePath , path) ;
+                            }
+
+                            if(is_file(targetPath)){
+
+                                result[path] = targetPath ;
                             }
                         }
                     }
@@ -96,9 +107,4 @@ function get_import_paths(ast){
     }
 
     return result ;
-}
-
-function valid(){
-
-    return true ;
 }

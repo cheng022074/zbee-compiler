@@ -1,17 +1,9 @@
-const {
-    parseSourceCodeNames,
-    get
-} = require('../src/application'),
-{
-    from
-} = require('../src/array'),
-{
-    get:script_get
-} = require('../src/script');
+const application = require('../src/application'),
+      compiler = require('../src/compiler');
 
 module.exports = (name = 'default') =>{
 
-    let config = get(`package.${name}`) ;
+    let config = application.get(`package.${name}`) ;
 
     if(config){
 
@@ -23,11 +15,11 @@ module.exports = (name = 'default') =>{
 
         for(let name of names){
             {
-                let configs = parseSourceCodeNames(name) ;
+                let configs = application.parseSourceCodeNames(name) ;
 
                 for(let config of configs){
 
-                    console.log(script_get(config.path)) ;
+                    console.log(script_get(config.path , application)) ;
                 }
             } 
         }
