@@ -1,5 +1,8 @@
 const application = require('../src/application'),
-      compiler = require('../src/compiler');
+      compiler = require('../src/compiler'),
+      {
+          get:application_package_get
+      } = require('../src/package/application');
 
 module.exports = (name = 'default') =>{
 
@@ -7,21 +10,6 @@ module.exports = (name = 'default') =>{
 
     if(config){
 
-        let {
-            includes
-        } = config ;
-
-        let names = from(includes) ;
-
-        for(let name of names){
-            {
-                let configs = application.parseSourceCodeNames(name) ;
-
-                for(let config of configs){
-
-                    console.log(script_get(config.path , application)) ;
-                }
-            } 
-        }
+        console.log(application_package_get(config.includes)) ;
     }
 }

@@ -27,7 +27,7 @@ exports.get = (names , layer) =>{
 
                 paths.push(path) ;
 
-                package(path , items[path] = requires , paths , items , layer) ;
+                package(path , Object.values(items[path] = requires) , paths , items , layer) ;
             }
         }
     }
@@ -40,13 +40,17 @@ exports.get = (names , layer) =>{
 
 function package(path , requirePaths , paths , items , layer){
 
+    const {
+        values
+    } = Object ;
+
     for(let requirePath of requirePaths){
 
-        if(!map.hasOwnProperty(requirePath)){
+        if(!items.hasOwnProperty(requirePath)){
 
-            orders.splice(orders.indexOf(path) , 0 , requirePath) ;
+            paths.splice(paths.indexOf(path) , 0 , requirePath) ;
 
-            package(path , map[requirePath] = get(requirePath , layer).requires , orders , map , layer) ;
+            package(path , values(items[requirePath] = get(requirePath , layer).requires) , paths , items , layer) ;
         }
     }
 }
