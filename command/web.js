@@ -28,7 +28,6 @@ module.exports = port =>{
     
                 app.use(koa_mount(url , Koa_static(path))) ;
             }
-    
         }
     }
 
