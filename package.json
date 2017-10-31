@@ -14,7 +14,6 @@
   ],
   "files": [
     "properties.json",
-    "command.json",
     "bin",
     "src",
     "command",

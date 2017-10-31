@@ -32,10 +32,7 @@ function get(name , key){
     }
 }
 
-exports.get = (name , key) =>{
-
-    return get(name , key) ;
-}
+exports.get = get ;
 
 exports.keys = (name , key) =>{
 

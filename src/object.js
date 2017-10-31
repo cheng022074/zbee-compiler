@@ -43,7 +43,7 @@ exports.get = (data , key) =>{
     return value[key] ;
 }
 
-exports.set = (data , key , value) =>{
+exports.set = (data , key , value , isCover = true) =>{
 
     if(is_empty(key) || key === '.'){
         
@@ -102,9 +102,59 @@ exports.set = (data , key , value) =>{
         }
     }
 
+    if(isCover === false && target.hasOwnProperty(key)){
+
+        return data ;
+    }
+
     target[key] = value;
 
     return data ;
+}
+
+function get_values(data , iterableByValue = false , rootKey = ''){
+
+    const {
+        assign
+    } = Object ;
+
+    if(is_object(data)){
+        
+        let keys = Object.keys(data),
+            result = {};
+
+        for(let key of keys){
+
+            assign(result , get_values(data[key] , iterableByValue , `${rootKey}${encode(key)}.`)) ;
+        }
+
+        return result ;
+
+    }
+    
+    if(iterableByValue && is_iterable(data)){
+
+        let len = data.length,
+            result = {};
+
+        for(let i = 0 ; i < len ; i ++){
+
+            assign(result , get_values(data[i] , iterableByValue , `${rootKey}${i}.`)) ;
+        }
+
+        return result ;
+    }
+
+    rootKey = rootKey.replace(/\.$/ , '') ;
+
+    if(rootKey === ''){
+
+        return {} ;
+    }
+
+    return {
+        [rootKey]:data
+    } ;
 }
 
 function get_keys(data , iterableByValue = false , rootKey = ''){
@@ -138,47 +188,31 @@ function get_keys(data , iterableByValue = false , rootKey = ''){
 
     rootKey = rootKey.replace(/\.$/ , '') ;
 
-    if(rootKey !== ''){
+    if(rootKey === ''){
 
-        return [
-            rootKey
-        ] ;
+        return [] ;
     }
+
+    return [
+        rootKey
+    ] ;
 }
 
 exports.keys = get_keys ;
 
-exports.apply = (dest , source) =>{
+exports.values = get_values ;
 
-    return Object.assign(dest , source) ;
-}
+exports.assign = (dest , source , isCover) =>{
 
-exports.assign = (dest , source) =>{
-
-    let keys = get_keys(source),
+    let data = get_values(source),
         {
-            set,
-            get
-        } = exports;
+            set
+        } = exports,
+        keys = Object.keys(data);
 
     for(let key of keys){
 
-        set(dest , key , get(source , key)) ;
-    }
-
-    return dest ;
-}
-
-exports.applyIf = (dest , source) =>{
-
-    let keys = Object.keys(source) ;
-
-    for(let key of keys){
-
-        if(!dest.hasOwnProperty(key)){
-
-            dest[key] = source[key] ;
-        }
+        set(dest , key , data[key] , isCover) ;
     }
 
     return dest ;
