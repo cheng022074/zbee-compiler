@@ -13,14 +13,10 @@ BABEL_PRESET_ENV = require('babel-preset-env'),
 useStrictRe = /^[\'\"]use\sstrict[\'\"];/;
 
 function process_compile_result({
-    code,
-    ast
+    code
 }){
 
-    return {
-        code:code.replace(useStrictRe , ''),
-        ast
-    }
+    return code.replace(useStrictRe , '') ;
 }
 
 exports.compile = data =>{
@@ -107,4 +103,13 @@ function get_requires_paths(layer , filePath , ast){
     }
 
     return result ;
+}
+
+function get_meta(layer , filePath , code){
+
+    // 处理 JSON 数据
+
+    // 处理 XML 数据
+
+    // 处理 文本 数据
 }
