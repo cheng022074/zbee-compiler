@@ -4,7 +4,10 @@ const {
 } = require('../src/application'),
 {
     from
-} = require('../src/array');
+} = require('../src/array'),
+{
+    get:script_get
+} = require('../src/script');
 
 module.exports = (name = 'default') =>{
 
@@ -19,8 +22,14 @@ module.exports = (name = 'default') =>{
         let names = from(includes) ;
 
         for(let name of names){
+            {
+                let configs = parseSourceCodeNames(name) ;
 
-            console.log(parseSourceCodeNames(name)) ;
+                for(let config of configs){
+
+                    console.log(script_get(config.path)) ;
+                }
+            } 
         }
     }
 }
