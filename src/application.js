@@ -29,7 +29,11 @@ const {
 {
     CommandNotFoundExcepition,
     BinCodeFileNotFoundException
-} = require('./application/exception');
+} = require('./application/exception'),
+{
+    SourceCode,
+    BinCode
+} = require('./application/code');
 
 defineProperties(exports , {
 
@@ -237,42 +241,12 @@ exports.executeCommand = (command , ...args) =>{
     }
 }
 
-let baseSuffixRe = /\.[^\.]+$/ ;
-
 exports.getSourceCode = name =>{
 
     let config = exports.parseSourceCodeName(name) ;
 
     if(config){
 
-        let {
-            path,
-            suffix,
-            scope
-        } = config ;
-
-        if(scope === 'template'){
-
-            return readTextFile(path , false) ;
-        }
-
-        switch(suffix.match(baseSuffixRe)[0]){
-            
-            case '.json':
-
-                return require(path) ;
-
-            case '.xml':
-
-                return readXMLFile(path , false) ;
-
-            case '.html':
-
-                return readHTMLFile(path , false) ;
-
-            default:
-
-                return readTextFile(path , false) ;
-        }
+        return new SourceCode(config) ;
     }
 }

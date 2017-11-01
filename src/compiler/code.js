@@ -35,7 +35,7 @@ class CompilerSourceCode extends SourceCode{
                 return require(this.sourcePath) ;
         }
 
-        return super.toString() ;
+        return super.code ;
     }
 }
 

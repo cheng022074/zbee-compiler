@@ -1,22 +1,41 @@
+const {
+    simpleObject:is_simple_object,
+    string:is_string
+} = require('./is') ;
+
 class Code{
 
     constructor(config){
 
-        let {
-            path,
-            name,
-            scope,
-            suffix
-        } = config,
-        me = this;
+        if(is_simple_object(config)){
 
-        me.path = path ;
+            let {
+                path,
+                name,
+                scope,
+                suffix
+            } = config,
+            me = this;
+    
+            me.path = path ;
+    
+            me.name = name ;
+    
+            me.scope = scope ;
+    
+            me.suffix = suffix ;
+        
+        }else if(is_string(config)){
 
-        me.name = name ;
+            
+        }
+    }
 
-        me.scope = scope ;
+    get isFile(){
 
-        me.suffix = suffix ;
+        let me = this ;
+
+        return !me.hasOwnProperty('path') && !me.hasOwnProperty('suffix') ;
     }
 }
 
@@ -29,7 +48,12 @@ class BinCode extends Code{
 
     get caller(){
 
-        return require(this.binPath) ;
+        let binPath = this.binPath ;
+
+        if(binPath){
+
+            return require(binPath) ;
+        }
     }
 }
 
@@ -37,10 +61,7 @@ module.BinCode = BinCode ;
 
 const {
     readTextFile
-} = require('./fs'),
-{
-
-} = require('./is');
+} = require('./fs');
 
 class SourceCode extends Code{
 
