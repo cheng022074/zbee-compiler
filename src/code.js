@@ -66,7 +66,7 @@ module.BinCode = BinCode ;
 
 class SourceCode extends Code{
 
-    get code(){
+    get source(){
 
         let me = this ;
 
@@ -74,6 +74,9 @@ class SourceCode extends Code{
 
             return readTextFile(me.path) ;
         }
+    }
+
+    get target(){
     }
 }
 

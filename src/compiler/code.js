@@ -25,7 +25,7 @@ exports.BinCode = CompilerBinCode ;
 
 class CompilerSourceCode extends SourceCode{
 
-    get code(){
+    get source(){
 
         let me = this ;
 
@@ -34,7 +34,7 @@ class CompilerSourceCode extends SourceCode{
             return require(me.path) ;
         }
 
-        return super.code ;
+        return super.source ;
     }
 }
 
