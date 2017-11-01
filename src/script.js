@@ -112,4 +112,8 @@ function get_meta(layer , filePath , code){
     // 处理 XML 数据
 
     // 处理 文本 数据
+
+    // 处理参数
+
+    // 处理导入
 }
