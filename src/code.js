@@ -38,14 +38,21 @@ class Code{
 
     get isFile(){
 
+        let me = this ;
+
+        if(me.hasOwnProperty('$isFile')){
+
+            return me.$isFile ;
+        }
+
         let path = this.path ;
 
         if(path){
 
-            return is_file(me.path) ;
+            return  me.$isFile = is_file(me.path) ;
         }
 
-        return false ;
+        return  me.$isFile = false ;
     }
 }
 
@@ -78,7 +85,7 @@ class SourceCode extends Code{
 
     get compiledCode(){
 
-
+        
     }
 
     get packagedCode(){
