@@ -85,12 +85,12 @@ class SourceCode extends Code{
 
     get compiledCode(){
 
-        
+        return ;
     }
 
     get packagedCode(){
 
-
+        return ;
     }
 }
 
