@@ -10,7 +10,11 @@ const {
 } = require('./object'),
 {
     readTextFile
-} = require('./fs');
+} = require('./fs'),
+{
+    BinCode,
+    SourceCode
+} = require('./compiler/code');
 
 exports.PATH = join(__dirname , '..') ;
 
@@ -108,43 +112,17 @@ exports.getBinCode = name =>{
 
     if(config){
 
-        let  {
-            path,
-            scope
-        } = config ;
-
-        switch(scope){
-            
-            case 'src':
-            case 'config':
-            case 'command':
-    
-                return require(path) ;
-    
-            case 'template':
-    
-                return readTextFile(path , false) ;
-        }
+       return new BinCode(config) ;
     }
 }
 
 exports.getSourceCode = name =>{
     
-    let {
-        path,
-        scope
-    } = exports.parseSourceCodeName(name) ;
+    let config = exports.parseSourceCodeName(name) ;
     
-    switch(scope){
+    if(config){
 
-        case 'src':
-        case 'template':
-
-            return readTextFile(path , false) ;
-
-        case 'config':
-
-            return require(path) ;
+        return new SourceCode(config) ;
     }
 }
 

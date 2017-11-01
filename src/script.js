@@ -37,12 +37,15 @@ exports.compilePath = path =>{
     })) ;
 }
 
-exports.get = (path , layer) =>{
+exports.get = (name , layer) =>{
 
-    let {
-        ast
-    } = exports.compilePath(path);
+    let config = layer.parseSourceCodeName(name) ;
 
+    if(config){
+
+        layer.getSourceCode(name) ;
+    }
+    
     return {
         path,
         requires:get_requires_paths(layer , path , ast)

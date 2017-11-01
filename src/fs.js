@@ -57,7 +57,7 @@ exports.writeTextFile = (path , data) =>{
 
     create_directory(dirname(path)) ;
 
-    writeFileSync(path , data) ;
+    writeFileSync(path , data.toString()) ;
 }
 
 exports.readTextFile = path =>{
