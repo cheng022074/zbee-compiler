@@ -25,16 +25,19 @@ exports.BinCode = CompilerBinCode ;
 
 class CompilerSourceCode extends SourceCode{
 
-    get source(){
+    get code(){
 
         let me = this ;
 
-        if(me.scope === 'config'){
+        if(me.isFile){
 
-            return require(me.path) ;
+            if(me.scope === 'config'){
+    
+                return require(me.path) ;
+            }
         }
 
-        return super.source ;
+        return super.code ;
     }
 }
 

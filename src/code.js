@@ -66,7 +66,7 @@ module.BinCode = BinCode ;
 
 class SourceCode extends Code{
 
-    get source(){
+    get code(){
 
         let me = this ;
 
@@ -76,7 +76,14 @@ class SourceCode extends Code{
         }
     }
 
-    get target(){
+    get compiledCode(){
+
+
+    }
+
+    get packagedCode(){
+
+
     }
 }
 
