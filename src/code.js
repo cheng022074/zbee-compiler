@@ -1,78 +1,79 @@
 const {
-    simpleObject:is_simple_object,
-    string:is_string
-} = require('./is') ;
+    file:is_file
+} = require('./is'),
+{
+    readTextFile
+} = require('./fs');
 
 class Code{
 
     constructor(config){
 
-        if(is_simple_object(config)){
+        let {
+            path,
+            name,
+            scope,
+            suffix
+        } = config,
+        me = this;
 
-            let {
-                path,
-                name,
-                scope,
-                suffix
-            } = config,
-            me = this;
-    
-            me.path = path ;
-    
-            me.name = name ;
-    
-            me.scope = scope ;
-    
-            me.suffix = suffix ;
-        
-        }else if(is_string(config)){
+        me.path = path ;
 
-            
-        }
+        me.name = name ;
+
+        me.scope = scope ;
+
+        me.suffix = suffix ;
+    }
+
+    get fullName(){
+
+        let {
+            scope,
+            name
+        } = this ;
+
+        return `${scope}::${name}` ;
     }
 
     get isFile(){
 
-        let me = this ;
+        let path = this.path ;
 
-        return !me.hasOwnProperty('path') && !me.hasOwnProperty('suffix') ;
+        if(path){
+
+            return is_file(me.path) ;
+        }
+
+        return false ;
     }
 }
 
 class BinCode extends Code{
 
-    get binPath(){
-
-        return this.path ;
-    }
-
     get caller(){
 
-        let binPath = this.binPath ;
+        let me = this ;
 
-        if(binPath){
+        if(me.isFile){
 
-            return require(binPath) ;
+            return require(me.path) ;
         }
     }
 }
 
 module.BinCode = BinCode ;
 
-const {
-    readTextFile
-} = require('./fs');
-
 class SourceCode extends Code{
-
-    get sourcePath(){
-
-        return this.path ;
-    }
 
     get code(){
 
-        return readTextFile(this.sourcePath) ;
+        let me = this ;
+
+        if(me.isFile){
+
+            return readTextFile(me.path) ;
+        }
     }
 }
 

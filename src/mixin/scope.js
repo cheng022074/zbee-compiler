@@ -116,10 +116,17 @@ module.exports = target =>{
                     if(is_file(path)){
 
                         return {
-                            scope,
                             path,
                             name,
                             scope,
+                            suffix
+                        } ;
+
+                    }else{
+
+                        return {
+                            scope,
+                            name,
                             suffix
                         } ;
                     }
@@ -144,6 +151,11 @@ module.exports = target =>{
                             suffix
                         } ;
                     }
+
+                    return {
+                        scope,
+                        name
+                    } ;
                 }
             }
         }

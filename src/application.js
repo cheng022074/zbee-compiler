@@ -32,7 +32,8 @@ const {
 } = require('./application/exception'),
 {
     SourceCode,
-    BinCode
+    BinCode,
+    LibraryBinCode
 } = require('./application/code');
 
 defineProperties(exports , {
@@ -165,48 +166,23 @@ exports.DEFAULT_SCOPE = exports.get('scope.default') ;
 
 require('./mixin/scope')(exports) ;
 
-exports.getBinCode = codeName =>{
+exports.getBinCode = name =>{
 
-    let config = exports.parseSourceCodeName(codeName) ;
+    let config = exports.parseSourceCodeName(name) ;
 
     if(config){
 
-        let {
-            scope,
-            name,
-            path
-        } = config ;
+        if(config.hasOwnProperty('path')){
 
-        switch(scope){
-
-            case 'config':
-
-                return readJSONFile(path) ;
-
-            case 'template':
-
-                return readTextFile(path) ;
-        }
-
-        path = join(exports.BIN_PATH , scope , `${name}.js`) ;
+            return new BinCode(config) ;
         
-        if(is_file(path)){
-    
-            return require(path) ;
+        }else{
+
+            return new LibraryBinCode(config) ;
         }
+
+        return getBinCode(name) ;
     }
-    
-    let libraries = exports.LIBRARIES ;
-
-    for(let library of libraries){
-
-        if(library.hasOwnProperty(codeName)){
-
-            return library[codeName] ;
-        }
-    }
-
-    return getBinCode(codeName) ;
 }
 
 exports.executeBinCode = (codeName , ...args) =>{
@@ -214,6 +190,8 @@ exports.executeBinCode = (codeName , ...args) =>{
     let binCode = exports.getBinCode(codeName) ;
 
     if(binCode){
+
+        binCode = binCode.caller ;
 
         if(is_function(binCode)){
 

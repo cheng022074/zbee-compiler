@@ -8,6 +8,9 @@ const {
     readXMLFile
 } = require('../fs'),
 {
+    file:is_file
+} = require('../is'),
+{
     join
 } = require('path'),
 baseSuffixRe = /\.[^\.]+$/,
@@ -18,45 +21,60 @@ baseSuffixRe = /\.[^\.]+$/,
 
 class ApplicationBinCode extends BinCode{
 
-    get binPath(){
-
-        let me = this ;
-
-        return join(BIN_PATH , me.scope , `${me.name}.js`) ;
-    }
-
     get caller(){
 
-        let me = this,
-            path = me.path;
+        let me = this;
 
-        switch(me.scope){
+        if(me.isFile){
 
-            case 'config':
-
-                return readJSONFile(path) ;
-
-            case 'template':
-
-                return readTextFile(path) ;
+            let path = me.path;
+            
+            switch(me.scope){
+    
+                case 'config':
+    
+                    return readJSONFile(path) ;
+    
+                case 'template':
+    
+                    return readTextFile(path) ;
+            }
+    
+            path = join(BIN_PATH , me.scope , `${me.name}.js`) ;
+    
+            if(is_file(path)){
+    
+                return require(path) ;
+            }
         }
-
-        return super.caller ;
     }
 }
 
 exports.BinCode = ApplicationBinCode ;
 
-class LibraryBinCode{
-    
-    constructor(codeName){
-
-        
-    }
+class LibraryBinCode extends BinCode{
 
     get caller(){
 
+        let me = this,
+        {
+            isFile
+        } = me ;
+
+        if(!isFile){
+
+            let {
+                fullName
+            } = me ;
+
+            for(let library of LIBRARIES){
         
+                if(library.hasOwnProperty(fullName)){
+        
+                    return library[fullName] ;
+                }
+            }
+        }
     }
 }
 
@@ -68,29 +86,32 @@ class ApplicationSourceCode extends SourceCode{
 
         let me = this ;
 
-        if(me.scope === 'template'){
+        if(me.isFile){
 
+            if(me.scope === 'template'){
+                
+                return super.code ;
+            }
+    
+            let path = me.path ;
+    
+            switch(suffix.match(baseSuffixRe)[0]){
+                
+                case '.json':
+    
+                    return require(path) ;
+    
+                case '.xml':
+    
+                    return readXMLFile(path) ;
+    
+                case '.html':
+    
+                    return readHTMLFile(path) ;
+            }
+    
             return super.code ;
         }
-
-        let path = me.path ;
-
-        switch(suffix.match(baseSuffixRe)[0]){
-            
-            case '.json':
-
-                return require(path) ;
-
-            case '.xml':
-
-                return readXMLFile(path) ;
-
-            case '.html':
-
-                return readHTMLFile(path) ;
-        }
-
-        return super.code ;
     }
 }
 

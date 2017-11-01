@@ -9,11 +9,12 @@ class CompilerBinCode extends BinCode{
 
         let me = this ;
 
-        switch(me.scope){
-    
-            case 'template':
-    
-                return readTextFile(me.binPath) ;
+        if(me.isFile){
+
+            if(me.scope === 'template'){
+                
+                return readTextFile(me.path) ;
+            }  
         }
 
         return super.caller ;
@@ -27,12 +28,10 @@ class CompilerSourceCode extends SourceCode{
     get code(){
 
         let me = this ;
-        
-        switch(me.scope){
-    
-            case 'config':
-    
-                return require(this.sourcePath) ;
+
+        if(me.scope === 'config'){
+
+            return require(me.path) ;
         }
 
         return super.code ;
