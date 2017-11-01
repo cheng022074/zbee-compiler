@@ -7,16 +7,13 @@ class CompilerBinCode extends BinCode{
 
     get caller(){
 
-        let  {
-            path,
-            scope
-        } = this.config ;
+        let me = this ;
 
-        switch(scope){
+        switch(me.scope){
     
             case 'template':
     
-                return readTextFile(path) ;
+                return readTextFile(me.binPath) ;
         }
 
         return super.caller ;
@@ -27,18 +24,15 @@ exports.BinCode = CompilerBinCode ;
 
 class CompilerSourceCode extends SourceCode{
 
-    toString(){
+    get code(){
 
-        let {
-            path,
-            scope
-        } = this.config ;
+        let me = this ;
         
-        switch(scope){
+        switch(me.scope){
     
             case 'config':
     
-                return require(path) ;
+                return require(this.sourcePath) ;
         }
 
         return super.toString() ;
