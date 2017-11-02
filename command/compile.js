@@ -13,7 +13,7 @@ module.exports = name =>{
 
     let code = application.getSourceCode(name) ;
 
-    console.log(code.code) ;
+    console.log(code.meta) ;
 }
 
 /**

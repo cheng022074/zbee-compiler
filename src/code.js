@@ -81,7 +81,7 @@ function get_text_code_params(meta){
         match,
         params = [];
 
-    while(match = textCodeMetaParamRe.exec(code)){
+    while(match = textCodeMetaParamRe.exec(meta)){
         
         params.push({
             type:match[1].trim(),
@@ -94,12 +94,12 @@ function get_text_code_params(meta){
 
 function get_text_code_imports(meta){
 
-    let textCodeMetaImportRe = /@import\s+([^\n\r]+)/g,
-        textCodeMetaAliasImportRe = /(\w+)\s+from\s+(\w+(?:\.\w+)?)/ ;
+    let textCodeMetaImportRe = /@import\s+(\w+(?:\.\w+)?)/g,
+        textCodeMetaAliasImportRe = /(\w+)\s+from\s+(\w+(?:\.\w+)?)/,
         match,
         imports = [];
 
-    while(match = textCodeMetaImportRe.exec(code)){
+    while(match = textCodeMetaImportRe.exec(meta)){
 
         let content = match[1].trim() ;
 
@@ -148,7 +148,13 @@ class SourceCode extends Code{
 
             if(match){
 
+                let meta = match[0] ;
 
+                return {
+                    imports:get_text_code_imports(meta),
+                    params:get_text_code_params(meta),
+                    code
+                } ;
             }
 
             return {
