@@ -44,19 +44,14 @@ class Code{
 
         let me = this ;
 
-        if(me.hasOwnProperty('$isFile')){
-
-            return me.$isFile ;
-        }
-
         let path = this.path ;
 
         if(path){
 
-            return  me.$isFile = is_file(me.path) ;
+            return is_file(me.path) ;
         }
 
-        return  me.$isFile = false ;
+        return false ;
     }
 }
 
@@ -128,6 +123,8 @@ function get_text_code_imports(meta){
     return imports ;
 }
 
+const textCodeMetaScopedRe = /@scoped/ ;
+
 class SourceCode extends Code{
 
     get code(){
@@ -153,6 +150,7 @@ class SourceCode extends Code{
                 let meta = match[0] ;
 
                 return {
+                    scoped:textCodeMetaScopedRe.test(meta),
                     imports:get_text_code_imports(meta),
                     params:get_text_code_params(meta),
                     code
@@ -165,6 +163,20 @@ class SourceCode extends Code{
                 code
             } ;
         }
+    }
+
+    get importAllSourceCodes(){
+
+        let code = this,
+            codes = [
+                code
+            ];
+
+        get_import_source_codes(code , codes) ;
+
+        codes.pop() ;
+
+        return codes ;
     }
 
     get importSourceCodes(){
@@ -190,6 +202,21 @@ class SourceCode extends Code{
         }
 
         return codes ;
+    }
+}
+
+function get_import_source_codes(code , codes){
+
+    let importCodes = code.importSourceCodes ;
+
+    for(let importCode of importCodes){
+
+        if(!codes.includes(importCode)){
+
+            codes.splice(codes.indexOf(code) , 0 , importCode) ;
+
+            get_import_source_codes(importCode , codes) ;
+        }
     }
 }
 
