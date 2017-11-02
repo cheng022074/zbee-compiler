@@ -1,9 +1,4 @@
-const {
-    parseSourceCodeName,
-    getSourceCode,
-    get,
-    executeBinCode
-} = require('../src/application'),
+const application = require('../src/application'),
 {
     encode
 } = require('../src/object/key'),
@@ -16,7 +11,7 @@ const {
 
 module.exports = name =>{
 
-    let code = getSourceCode(name) ;
+    let code = application.getSourceCode(name) ;
 
     console.log(code) ;
 }

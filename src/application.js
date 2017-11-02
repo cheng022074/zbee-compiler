@@ -11,10 +11,10 @@ const {
     readXMLFile,
     readHTMLFile
 } = require('./fs'),
+compiler = require('./compiler'),
 {
     PROPERTIES:COMPILER_PROPERTIES,
-    getBinCode
-} = require('./compiler'),
+} = compiler,
 {
     join
 } =  require('path'),
@@ -29,12 +29,7 @@ const {
 {
     CommandNotFoundExcepition,
     BinCodeFileNotFoundException
-} = require('./application/exception'),
-{
-    SourceCode,
-    BinCode,
-    LibraryBinCode
-} = require('./application/code');
+} = require('./application/exception');
 
 defineProperties(exports , {
 
@@ -166,6 +161,12 @@ exports.DEFAULT_SCOPE = exports.get('scope.default') ;
 
 require('./mixin/project')(exports) ;
 
+const {
+    SourceCode,
+    BinCode,
+    LibraryBinCode
+} = require('./application/code') ;
+
 exports.generateBinCode = name =>{
 
     let config = exports.parseSourceCodeName(name) ;
@@ -178,10 +179,15 @@ exports.generateBinCode = name =>{
         
         }else{
 
-            return new LibraryBinCode(config) ;
+            let code = new LibraryBinCode(config) ;
+
+            if(code.caller){
+
+                return code ;
+            }
         }
 
-        return getBinCode(name) ;
+        return compiler.getBinCode(name) ;
     }
 }
 
