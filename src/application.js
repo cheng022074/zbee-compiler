@@ -164,9 +164,9 @@ exports.SCOPE_FOLDERS = exports.get('scope.folders') ;
 
 exports.DEFAULT_SCOPE = exports.get('scope.default') ;
 
-require('./mixin/scope')(exports) ;
+require('./mixin/project')(exports) ;
 
-exports.getBinCode = name =>{
+exports.generateBinCode = name =>{
 
     let config = exports.parseSourceCodeName(name) ;
 
@@ -219,7 +219,7 @@ exports.executeCommand = (command , ...args) =>{
     }
 }
 
-exports.getSourceCode = name =>{
+exports.generateSourceCode = name =>{
 
     let config = exports.parseSourceCodeName(name) ;
 

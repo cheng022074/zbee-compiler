@@ -16,7 +16,12 @@ const {
 
 module.exports = name =>{
 
-    let config = parseSourceCodeName(name) ;
+    
+}
+
+/**
+ * 
+ * let config = parseSourceCodeName(name) ;
 
     if(config){
 
@@ -38,4 +43,5 @@ module.exports = name =>{
             console.log('已编译' , path) ;
         }
     }
-}
+ * 
+ */

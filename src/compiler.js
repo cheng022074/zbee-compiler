@@ -104,9 +104,9 @@ exports.SCOPE_SUFFIXES = {
     ]
 } ;
 
-require('./mixin/scope')(exports) ;
+require('./mixin/project')(exports) ;
 
-exports.getBinCode = name =>{
+exports.generateBinCode = name =>{
     
     let config = exports.parseSourceCodeName(name) ;
 
@@ -116,7 +116,7 @@ exports.getBinCode = name =>{
     }
 }
 
-exports.getSourceCode = name =>{
+exports.generateSourceCode = name =>{
     
     let config = exports.parseSourceCodeName(name) ;
     
