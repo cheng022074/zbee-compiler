@@ -1,7 +1,10 @@
 const {
     SourceCode,
     BinCode
-} = require('../code') ;
+} = require('../code'),
+{
+    readTextFile
+} = require('../fs');
 
 class CompilerBinCode extends BinCode{
 

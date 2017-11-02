@@ -89,7 +89,7 @@ function parseSourceCodeNames(codeName){
 function parseSourceCodeName(codeName , suffix){
 
     let match = codeName.match(codeFileNameRe);
-    
+
     if(match){
 
         let me = this,

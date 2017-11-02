@@ -1,10 +1,7 @@
 const {
     render
 } = require('ejs'),
-{
-    getBinCode,
-    parseSourceCodeName
-} = require('./application'),
+application = require('./application'),
 {
     TemplateNotFoundExcepition
 } = require('./template/exception');
@@ -12,11 +9,11 @@ const {
 exports.apply = (name , data) =>{
 
     let templateName = `template::${name}`,
-        template = getBinCode(templateName) ;
+        template = application.getBinCode(templateName) ;
 
     if(template){
 
-        return render(template , data);
+        return render(template.caller , data);
 
     }else{
 

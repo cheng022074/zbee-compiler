@@ -2,13 +2,14 @@ const {
     join
 } = require('path'),
 {
-    BIN_PATH
-} = require('../../application');
+    writeTextFile
+} = require('../../fs');
 
-module.exports = ({
-    scope,
-    name
-}) =>{
+module.exports = (codeStr , code) =>{
 
-    return join(BIN_PATH , scope , `${name}.js`) ;
+    let path = join(code.project.BIN_PATH , code.scope , `${code.name}.js`) ;
+
+    writeTextFile(path , codeStr) ;
+
+    return path ;
 }

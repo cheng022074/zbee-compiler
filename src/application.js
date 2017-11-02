@@ -134,7 +134,7 @@ defineProperties(exports , {
 
         get:() =>{
 
-            return exports.get('path.bin') ;
+            return join(exports.PATH , exports.get('path.bin')) ;
         }
     },
 
@@ -144,7 +144,7 @@ defineProperties(exports , {
 
         get:() =>{
 
-            return exports.get('path.dist') ;
+            return join(exports.PATH , exports.get('path.dist')) ;
         }
     }
 
@@ -186,9 +186,9 @@ exports.generateBinCode = name =>{
                 return code ;
             }
         }
-
-        return compiler.getBinCode(name) ;
     }
+
+    return compiler.getBinCode(name) ;
 }
 
 exports.executeBinCode = (codeName , ...args) =>{

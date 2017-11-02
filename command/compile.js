@@ -1,44 +1,59 @@
 const application = require('../src/application'),
 {
+    get,
+    executeBinCode
+} = application,
+{
     encode
-} = require('../src/object/key'),
-{
-    apply
-} = require('../src/template'),
-{
-    writeTextFile
-} = require('../src/fs');
+} = require('../src/object/key');
 
 module.exports = name =>{
 
-    let code = application.getSourceCode(name) ;
+    if(name){
 
-    console.log(code.importAllSourceCodes)  ;
+        let code = application.getSourceCode(name) ;
+        
+        if(code){
+    
+            compile(code) ;
+
+            let codes = code.importAllSourceCodes ;
+            
+            for(let code of codes){
+
+                compile(code) ;
+            }
+
+        }else{
+
+            console.log('未找到代码' , name) ;
+        }
+
+    }else{
+
+        console.log('请指定代码名称') ;
+    }
 }
 
-/**
- * 
- * let config = parseSourceCodeName(name) ;
+function compile(code){
 
-    if(config){
+    let suffix = encode(code.suffix),
+        scope = code.scope,
+        fromName = get(`compile.${scope}.${suffix}.from`),
+        toName = get(`compile.${scope}.${suffix}.to`) ;
 
-        let {
-            scope,
-            suffix
-        } = config,
-        suffixName = encode(suffix),
-        template = get(`compile.${scope}.${suffixName}.template`),
-        dataName = get(`compile.${scope}.${suffixName}.data`),
-        toName = get(`compile.${scope}.${suffixName}.to`);
+    if(fromName && toName){
 
-        if(template && dataName && toName){
+        let codeStr = executeBinCode(fromName , code) ;
 
-            let path = executeBinCode(toName , config);
+        if(codeStr){
 
-            writeTextFile(path , apply(template , executeBinCode(dataName , getSourceCode(name) , config))) ;
+            let path = executeBinCode(toName , codeStr , code) ;
 
-            console.log('已编译' , path) ;
+            if(path){
+
+                console.log('已编译' , path) ;
+            }
         }
     }
- * 
- */
+}

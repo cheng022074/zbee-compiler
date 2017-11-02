@@ -1,3 +1,1 @@
 <%- code %>
-
-module.exports = main ;
