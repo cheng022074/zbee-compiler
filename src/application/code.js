@@ -13,11 +13,7 @@ const {
 {
     join
 } = require('path'),
-baseSuffixRe = /\.[^\.]+$/,
-{
-    BIN_PATH,
-    LIBRARIES
-} = require('../application');
+baseSuffixRe = /\.[^\.]+$/;
 
 class ApplicationBinCode extends BinCode{
 

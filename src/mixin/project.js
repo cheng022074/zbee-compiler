@@ -15,9 +15,10 @@ const {
 
 function get_scope_paths(){
 
-    let folders = target.SCOPE_FOLDERS,
+    let me = this,
+        folders = me.SCOPE_FOLDERS,
         scopes = Object.keys(folders),
-        rootPath = this.PATH,
+        rootPath = me.PATH,
         paths = {};
 
     for(let scope of scopes){
@@ -158,12 +159,7 @@ function getCode(name , storageKey , generateMethodName){
     let me = this,
         codes = me[`$${storageKey}`];
 
-    if(codes.hasOwnProperty(name)){
-
-        return codes[name] ;
-    }
-
-    if(!codes.hasOwnProperty(name) && !me.hasOwnProperty(generateMethodName)){
+    if(!codes.hasOwnProperty(name) && me.hasOwnProperty(generateMethodName)){
 
         let code = me[generateMethodName](name),
             fullName = code.fullName;
@@ -173,17 +169,17 @@ function getCode(name , storageKey , generateMethodName){
         codes[name] = code ;
     }
 
-    return code[name] ;
+    return codes[name] ;
 }
 
 function getBinCode(name){
 
-    return getCode(name , 'binCodes' , 'generateBinCode') ;
+    return getCode.call(this , name , 'binCodes' , 'generateBinCode') ;
 }
 
 function getSourceCode(name){
 
-    return getCode(name , 'sourceCodes' , 'generateSourceCode') ;
+    return getCode.call(this , name , 'sourceCodes' , 'generateSourceCode') ;
 }
 
 module.exports = target =>{

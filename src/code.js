@@ -69,7 +69,7 @@ class BinCode extends Code{
     }
 }
 
-module.BinCode = BinCode ;
+exports.BinCode = BinCode ;
 
 class SourceCode extends Code{
 
@@ -94,4 +94,4 @@ class SourceCode extends Code{
     }
 }
 
-module.SourceCode = SourceCode ;
+exports.SourceCode = SourceCode ;

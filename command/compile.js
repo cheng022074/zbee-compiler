@@ -16,7 +16,9 @@ const {
 
 module.exports = name =>{
 
-    
+    let code = getSourceCode(name) ;
+
+    console.log(code) ;
 }
 
 /**

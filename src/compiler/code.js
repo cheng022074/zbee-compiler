@@ -1,7 +1,7 @@
 const {
     SourceCode,
     BinCode
-} = require('../../code') ;
+} = require('../code') ;
 
 class CompilerBinCode extends BinCode{
 
