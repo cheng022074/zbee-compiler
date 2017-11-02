@@ -95,7 +95,7 @@ class ApplicationSourceCode extends SourceCode{
     
             let path = me.path ;
     
-            switch(suffix.match(baseSuffixRe)[0]){
+            switch(me.suffix.match(baseSuffixRe)[0]){
                 
                 case '.json':
     
