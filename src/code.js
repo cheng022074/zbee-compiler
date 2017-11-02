@@ -9,7 +9,7 @@ const {
 
 class Code{
 
-    constructor(config){
+    constructor(project , config){
 
         let {
             path,
@@ -18,6 +18,8 @@ class Code{
             suffix
         } = config,
         me = this;
+
+        me.project = project ;
 
         me.path = path ;
 
@@ -158,22 +160,36 @@ class SourceCode extends Code{
             }
 
             return {
+                imports:[],
+                params:[],
                 code
             } ;
+        }
+    }
 
-        }else if(is_simple_object(code)){
+    get importSourceCodes(){
+
+        let me = this,{
+            imports
+        } = me.meta,
+        project = me.project,
+        codes = [];
+
+        for(let importConfig of imports){
 
             let {
-                imports,
-                params
-            } = code;
+                require
+            } = importConfig ;
 
-            return {
-                imports,
-                params,
-                code
+            let code = project.getSourceCode(require) ;
+
+            if(code){
+
+                codes.push(code) ;
             }
         }
+
+        return codes ;
     }
 }
 

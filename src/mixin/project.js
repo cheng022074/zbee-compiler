@@ -161,12 +161,14 @@ function getCode(name , storageKey , generateMethodName){
 
     if(!codes.hasOwnProperty(name) && me.hasOwnProperty(generateMethodName)){
 
-        let code = me[generateMethodName](name),
-            fullName = code.fullName;
+        let code = me[generateMethodName](name) ;
 
-        codes[fullName] = code ;
+        if(code){
 
-        codes[name] = code ;
+            codes[code.fullName] = code ;
+            
+            codes[name] = code ;
+        }
     }
 
     return codes[name] ;

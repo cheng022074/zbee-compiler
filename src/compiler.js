@@ -112,17 +112,22 @@ exports.generateBinCode = name =>{
 
     if(config){
 
-       return new BinCode(config) ;
+       return new BinCode(exports , config) ;
     }
 }
 
 exports.generateSourceCode = name =>{
     
     let config = exports.parseSourceCodeName(name) ;
-    
+
     if(config){
 
-        return new SourceCode(config) ;
+        let code = new SourceCode(exports , config) ;
+
+        if(code.isFile){
+
+            return code ;
+        }
     }
 }
 

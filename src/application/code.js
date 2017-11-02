@@ -13,11 +13,7 @@ const {
 {
     join
 } = require('path'),
-baseSuffixRe = /\.[^\.]+$/,
-{
-    BIN_PATH,
-    LIBRARIES
-} = require('../application');
+baseSuffixRe = /\.[^\.]+$/;
 
 class ApplicationBinCode extends BinCode{
 
@@ -40,7 +36,7 @@ class ApplicationBinCode extends BinCode{
                     return readTextFile(path) ;
             }
     
-            path = join(BIN_PATH , me.scope , `${me.name}.js`) ;
+            path = join(this.project.BIN_PATH , me.scope , `${me.name}.js`) ;
     
             if(is_file(path)){
     
@@ -67,7 +63,9 @@ class LibraryBinCode extends BinCode{
                 fullName
             } = me ;
 
-            for(let library of LIBRARIES){
+            let libraries = me.project.LIBRARIES ;
+
+            for(let library of libraries){
         
                 if(library.hasOwnProperty(fullName)){
         

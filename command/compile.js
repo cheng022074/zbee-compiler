@@ -14,6 +14,8 @@ module.exports = name =>{
     let code = application.getSourceCode(name) ;
 
     console.log(code.meta) ;
+
+    console.log(code.importSourceCodes)  ;
 }
 
 /**

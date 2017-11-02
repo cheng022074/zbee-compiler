@@ -175,11 +175,11 @@ exports.generateBinCode = name =>{
 
         if(config.hasOwnProperty('path')){
 
-            return new BinCode(config) ;
+            return new BinCode(exports , config) ;
         
         }else{
 
-            let code = new LibraryBinCode(config) ;
+            let code = new LibraryBinCode(exports , config) ;
 
             if(code.caller){
 
@@ -231,6 +231,11 @@ exports.generateSourceCode = name =>{
 
     if(config){
 
-        return new SourceCode(config) ;
+        let code = new SourceCode(exports , config) ;
+        
+        if(code.isFile){
+
+            return code ;
+        }
     }
 }
