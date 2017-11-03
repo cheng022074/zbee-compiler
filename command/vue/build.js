@@ -1,4 +1,8 @@
-module.exports = () =>{
+const {
+    exec
+} = require('../../src/child_process') ;
 
-    console.log('VUE 编译') ;
+module.exports = async function(){
+
+    await exec('npm' , 'run' , 'build') ;
 }

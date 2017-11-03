@@ -1,6 +1,4 @@
-const {
-    parseSourceCodeName
-} = require('../../src/compiler'),
+const compiler = require('../../src/compiler'),
 {
     decompress
 } = require('../../src/zip'),
@@ -8,42 +6,23 @@ const {
     PATH
 } =  require('../../src/application'),
 {
-    emptyDirectory
-} = require('../../src/is'),
-{
-    apply
-} = require('../../src/template'),
-{
-    writeTextFile
-} = require('../../src/fs'),
-{
-    join
-} = require('path'),
-{
     exec
-} = require('../../src/child_process');
+} = require('../../src/child_process'),
+vue_dev = require('./dev');
 
 module.exports = async function(name = 'zbee'){
 
     let {
         path
-    } = parseSourceCodeName('template::project.vue' , '.zip') ;
+    } = compiler.parseSourceCodeName('template::project.vue' , '.zip') ;
 
     await decompress(path , PATH) ;
 
-    writeTextFile(join(PATH , 'index.html') , apply('project.vue.index' , {
-        name
-    })) ;
-
-    writeTextFile(join(PATH , 'package.json') , apply('project.vue.package' , {
-        name
-    })) ;
-
-    writeTextFile(join(PATH , 'README.md') , apply('project.vue.README' , {
-        name
-    })) ;
+    console.log('正在准备初始化依赖模块 ...') ;
 
     await exec('cnpm' , 'install') ;
 
-    await exec('npm' , 'start') ;
+    console.log('正在准备启动开发环境 ...') ;
+
+    await vue_dev() ;
 }
