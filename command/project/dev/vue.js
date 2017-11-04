@@ -1,11 +1,11 @@
 const {
     exec
-} = require('../../src/child_process'),
+} = require('../../../src/child_process'),
 opn = require('opn');
 
 module.exports = async function(){
 
-    opn('http://127.0.0.1:8010/') ;
+    console.log('正在准备启动开发环境 ...') ;    
 
     await exec('npm' , 'run' , 'dev') ;
 }

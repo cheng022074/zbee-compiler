@@ -9,7 +9,9 @@
         "run":"command::run",
         "watch":"command::watch",
         "web":"command::web",
-        "init":"command::project.init"
+        "init":"command::project.init",
+        "dev":"command::project.dev",
+        "build":"command::project.build"
     },
     "scope":{
         "folders":{
