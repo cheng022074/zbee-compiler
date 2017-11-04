@@ -9,10 +9,7 @@
         "run":"command::run",
         "watch":"command::watch",
         "web":"command::web",
-        "vue-reinit":"command::vue.reinit",
-        "vue-init":"command::vue.init",
-        "vue-dev":"command::vue.dev",
-        "vue-build":"command::vue.build"
+        "init":"command::project.init"
     },
     "scope":{
         "folders":{

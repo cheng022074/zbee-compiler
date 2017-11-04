@@ -7,7 +7,6 @@ const {
 } = require('../src/process'),
 {
     executeCommand,
-    getBinCode,
     COMMAND_NAMES
 } = require('../src/application'),
 {
