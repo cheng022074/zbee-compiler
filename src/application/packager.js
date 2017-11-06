@@ -1,11 +1,25 @@
 const {
     get
-} = require('./script'),
+} = require('../script'),
 {
     from
-} = require('./array');
+} = require('../array');
 
-exports.get = (names , layer) =>{
+class Packager{
+
+    constructor({
+        includes,
+        excludes,
+        folders
+    }){
+
+        
+    }
+
+
+}
+
+exports.get = (names , project) =>{
 
     names = from(names) ;
 
@@ -14,14 +28,14 @@ exports.get = (names , layer) =>{
     
     for(let name of names){
 
-        let configs = layer.parseSourceCodeNames(name) ;
+        let configs = project.parseSourceCodeNames(name) ;
 
         for(let config of configs){
 
             let {
                 path,
                 requires
-            } = get(config.path , layer) ;
+            } = get(config.path , project) ;
 
             if(!items.hasOwnProperty(path)){
 

@@ -1,11 +1,6 @@
 const application = require('../src/application'),
       compiler = require('../src/compiler'),
-      {
-          get:application_package_get
-      } = require('../src/package/application'),
-      {
-          get:compiler_package_get
-      } = require('../src/package/compiler');
+      application = require('../src/package/application');
 
 module.exports = (name = 'default') =>{
 

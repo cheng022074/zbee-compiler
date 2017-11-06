@@ -11,6 +11,8 @@ module.exports = name =>{
         
         if(code){
 
+            console.log(code.meta) ;
+
             compile(code) ;
 
             let codes = code.importAllSourceCodes ;

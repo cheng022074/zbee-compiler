@@ -182,6 +182,20 @@ function get_text_code_scoped(meta){
     return textCodeMetaScopedRe.test(meta) ;
 }
 
+const textCodeMetaRunAtdRe = /@runat\s+([^\n\r]+)/ ;
+
+function get_text_code_runat(meta){
+
+    let match = meta.match(textCodeMetaRunAtdRe) ;
+
+    if(match){
+
+        return match[1].trim() ;
+    }
+
+    return 'any' ;
+}
+
 class SourceCode extends Code{
 
     get code(){
@@ -207,19 +221,22 @@ class SourceCode extends Code{
                 let meta = match[0] ;
 
                 return {
+                    runat:get_text_code_runat(meta),
                     scoped:get_text_code_scoped(meta),
                     imports:get_text_code_imports(meta),
                     params:get_text_code_params(meta),
                     code
                 } ;
             }
-
-            return {
-                imports:[],
-                params:[],
-                code
-            } ;
         }
+
+        return {
+            runat:'any',
+            scoped:false,
+            imports:[],
+            params:[],
+            code
+        } ;
     }
 
     get importAllSourceCodes(){

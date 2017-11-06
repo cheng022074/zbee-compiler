@@ -50,20 +50,24 @@
     "compile":{
         "src":{
             ".fn.js":{
-                "from":"compile.from.script.function",
-                "to":"compile.to.script"
+                "from":"code.compile.from.script.function",
+                "to":"code.compile.to.script"
             }
         }
     },
     "package":{
         "default":{
-            "compiler":[
-                "object",
-                "string",
-                "json"
-            ],
             "includes":"*",
-            "to":"package.to"
+            "folders":{
+                "src":{
+                    ".fn.js":{
+                        "from":"code.package.from.script.function",
+                        "to":"code.package.to.script"
+                    }
+                }
+            },
+            "runat":"node",
+            "to":"package.to.script"
         }
     },
     "web":{
