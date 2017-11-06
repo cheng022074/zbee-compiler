@@ -70,20 +70,72 @@ class BinCode extends Code{
 
 exports.BinCode = BinCode ;
 
-const textCodeMetaRe = /^\/\*(?:.|[^.])+?\*\//;
+const textCodeMetaRe = /^\/\*(?:.|[^.])+?\*\//,
+      textCodeMetaParamNameRe = /^\w+/,
+      textCodeMetaParamNameDefaultValueRe = /^\w+\s*\=/,
+      {
+          groupMatch
+      } = require('./RegExp');
 
 function get_text_code_params(meta){
     
-    let textCodeMetaParamRe = /@param\s+\{([^\{\}]+)\}\s+([^\s\n\r]+)\s+([^\n\r]+)/g,
+    let textCodeMetaParamRe = /@param\s+\{([^\{\}]+)\}\s+([^\n\r]+)/g,
         match,
         params = [];
 
     while(match = textCodeMetaParamRe.exec(meta)){
-        
-        params.push({
-            type:match[1].trim(),
-            name:match[2].trim()
-        }) ;
+
+        let type = match[1].trim(),
+            content = match[2].trim();
+
+        {
+            let match = content.match(textCodeMetaParamNameRe) ;
+            
+            if(match){
+    
+                params.push({
+                    type,
+                    name:match[0]
+                }) ;
+    
+            }else{
+    
+                let group = groupMatch(content , {
+                    regexp:/\[|\]/g,
+                    region:{
+                        start:'[',
+                        end:']'
+                    },
+                    border:false,
+                    multi:false
+                }) ;
+    
+                if(group){
+    
+                    group = group.trim() ;
+    
+                    let name = group.match(textCodeMetaParamNameRe)[0];
+    
+                    if(name === group){
+    
+                        params.push({
+                            type,
+                            name,
+                            optiontal:true
+                        }) ;
+    
+                    }else{
+    
+                        params.push({
+                            type,
+                            name,
+                            defaultValue:group.replace(textCodeMetaParamNameDefaultValueRe , '').trim(),
+                            optiontal:true
+                        }) ;
+                    }
+                }
+            }
+        }
     }
 
     return params ;

@@ -5,9 +5,6 @@ const {
     join:path_join
 } = require('path'),
 {
-    get:properties_get
-} = require('./properties'),
-{
     defined:is_defined,
     directory:is_directory,
     string:is_string,
