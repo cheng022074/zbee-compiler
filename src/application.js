@@ -42,7 +42,7 @@ class Application extends Project{
     }
 
     get(key){
-        
+
         return get(this.PROPERTIES , key) ;
     }
 
@@ -50,7 +50,7 @@ class Application extends Project{
         
         let me = this,
             config = me.parseSourceCodeName(name) ;
-    
+
         if(config){
     
             if(config.hasOwnProperty('path')){
@@ -237,7 +237,7 @@ defineProperties(Application.prototype , {
 
         get(){
 
-            return me.get('scope.folders') ;
+            return this.get('scope.folders') ;
         }
     },
 
@@ -245,7 +245,7 @@ defineProperties(Application.prototype , {
 
         get(){
 
-            return me.get('scope.default') ;
+            return this.get('scope.default') ;
         }
     }
 }) ;

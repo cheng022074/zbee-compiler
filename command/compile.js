@@ -1,9 +1,5 @@
 const application = require('../src/application'),
 {
-    get,
-    executeBinCode
-} = application,
-{
     encode
 } = require('../src/object/key');
 
@@ -39,16 +35,16 @@ function compile(code){
 
     let suffix = encode(code.suffix),
         scope = code.scope,
-        fromName = get(`compile.${scope}.${suffix}.from`),
-        toName = get(`compile.${scope}.${suffix}.to`) ;
+        fromName = application.get(`compile.${scope}.${suffix}.from`),
+        toName = application.get(`compile.${scope}.${suffix}.to`) ;
 
     if(fromName && toName){
 
-        let codeStr = executeBinCode(fromName , code) ;
+        let codeStr = application.executeBinCode(fromName , code) ;
 
         if(codeStr){
 
-            let path = executeBinCode(toName , codeStr , code) ;
+            let path = application.executeBinCode(toName , codeStr , code) ;
 
             if(path){
 

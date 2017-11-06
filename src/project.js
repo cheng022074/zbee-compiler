@@ -80,7 +80,7 @@ class Project{
     parseSourceCodeName(codeName , suffix){
         
         let match = codeName.match(codeFileNameRe);
-    
+
         if(match){
     
             let me = this,
@@ -148,9 +148,9 @@ class Project{
     static getCode(project , name , storageKey , generateMethodName){
     
         let codes = project[`$${storageKey}`];
-    
-        if(!codes.hasOwnProperty(name) && project.hasOwnProperty(generateMethodName)){
-    
+
+        if(!codes.hasOwnProperty(name) && generateMethodName in project){
+
             let code = project[generateMethodName](name) ;
     
             if(code){
@@ -165,7 +165,7 @@ class Project{
     }
 
     getBinCode(name){
-        
+
         return Project.getCode(this , name , 'binCodes' , 'generateBinCode') ;
     }
         
