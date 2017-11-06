@@ -14,41 +14,106 @@ const {
 {
     BinCode,
     SourceCode
-} = require('./compiler/code');
+} = require('./compiler/code'),
+Project = require('./project');
 
-exports.PATH = join(__dirname , '..') ;
+class Compiler extends Project{
 
-defineProperties(exports , {
+    constructor(){
+
+        super() ;
+
+        let me = this ;
+
+        me.PATH = join(__dirname , '..') ;
+
+        me.SCOPE_FOLDERS = {
+            command:'command',
+            src:'src',
+            config:'config',
+            template:'template'
+        } ;
+        
+        me.DEFAULT_SCOPE = 'src' ;
+        
+        me.SCOPE_SUFFIXES = {
+            command:[
+                '.js'
+            ],
+            src:[
+                '.js'
+            ],
+            config:[
+                '.json'
+            ],
+            template:[
+                '.html',
+                '.js',
+                '.json',
+                '.md'
+            ]
+        } ;
+    }
+
+    get(key){
+        
+        return get(this.PACKAGE , key) ;
+    }
+
+    
+    generateBinCode(name){
+    
+        let me = this,
+            config = me.parseSourceCodeName(name) ;
+
+        if(config){
+
+            return new BinCode(me , config) ;
+        }
+    }
+
+    generateSourceCode(name){
+    
+        let me = this,
+            config = me.parseSourceCodeName(name) ;
+
+        if(config){
+
+            let code = new SourceCode(me , config) ;
+
+            if(code.isFile){
+
+                return code ;
+            }
+        }
+    }
+}
+
+defineProperties(Compiler.prototype , {
     
     PROPERTIES:{
 
-        once:true,
+        get(){
 
-        get:() =>{
-
-            return readJSONFile(join(exports.PATH , 'properties.json')) ;
+            return readJSONFile(join(this.PATH , 'properties.json')) ;
         }
     },
 
     PACKAGE:{
 
-        once:true,
+        get(){
 
-        get:() =>{
-
-            return readJSONFile(join(exports.PATH , 'package.json')) ;
+            return readJSONFile(join(this.PATH , 'package.json')) ;
         }
     },
 
     DEPENDENCIES:{
 
-        once:true,
-
-        get:() =>{
+        get(){
 
             let {
                 dependencies
-            } = exports.PACKAGE,
+            } = this.PACKAGE,
             moduleNames = Object.keys(dependencies),
             result = {};
 
@@ -63,71 +128,12 @@ defineProperties(exports , {
 
     VERSION:{
 
-        once:true,
+        get(){
 
-        get:() =>{
-
-            return exports.get('version') ;
+            return this.get('version') ;
         }
     }
 }) ;
 
-exports.get = key =>{
-    
-    return get(exports.PACKAGE , key) ;
-}
-
-exports.SCOPE_FOLDERS = {
-    command:'command',
-    src:'src',
-    config:'config',
-    template:'template'
-} ;
-
-exports.DEFAULT_SCOPE = 'src' ;
-
-exports.SCOPE_SUFFIXES = {
-    command:[
-        '.js'
-    ],
-    src:[
-        '.js'
-    ],
-    config:[
-        '.json'
-    ],
-    template:[
-        '.html',
-        '.js',
-        '.json',
-        '.md'
-    ]
-} ;
-
-require('./mixin/project')(exports) ;
-
-exports.generateBinCode = name =>{
-    
-    let config = exports.parseSourceCodeName(name) ;
-
-    if(config){
-
-       return new BinCode(exports , config) ;
-    }
-}
-
-exports.generateSourceCode = name =>{
-    
-    let config = exports.parseSourceCodeName(name) ;
-
-    if(config){
-
-        let code = new SourceCode(exports , config) ;
-
-        if(code.isFile){
-
-            return code ;
-        }
-    }
-}
+module.exports = new Compiler() ;
 

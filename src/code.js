@@ -85,7 +85,7 @@ function get_text_code_params(meta){
 
     while(match = textCodeMetaParamRe.exec(meta)){
 
-        let type = match[1].trim(),
+        let type = match[1].trim().toUpperCase(),
             content = match[2].trim();
 
         {
@@ -177,6 +177,11 @@ function get_text_code_imports(meta){
 
 const textCodeMetaScopedRe = /@scoped/ ;
 
+function get_text_code_scoped(meta){
+
+    return textCodeMetaScopedRe.test(meta) ;
+}
+
 class SourceCode extends Code{
 
     get code(){
@@ -202,7 +207,7 @@ class SourceCode extends Code{
                 let meta = match[0] ;
 
                 return {
-                    scoped:textCodeMetaScopedRe.test(meta),
+                    scoped:get_text_code_scoped(meta),
                     imports:get_text_code_imports(meta),
                     params:get_text_code_params(meta),
                     code

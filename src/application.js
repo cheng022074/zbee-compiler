@@ -1,5 +1,3 @@
-exports.PATH = process.cwd() ;
-
 const {
     defineProperties,
     assign,
@@ -11,10 +9,6 @@ const {
     readXMLFile,
     readHTMLFile
 } = require('./fs'),
-compiler = require('./compiler'),
-{
-    PROPERTIES:COMPILER_PROPERTIES,
-} = compiler,
 {
     join
 } =  require('path'),
@@ -29,34 +23,130 @@ compiler = require('./compiler'),
 {
     CommandNotFoundExcepition,
     BinCodeFileNotFoundException
-} = require('./application/exception');
+} = require('./application/exception'),
+{
+    SourceCode,
+    BinCode,
+    LibraryBinCode
+} = require('./application/code'),
+Project = require('./project'),
+compiler = require('./compiler');
 
-defineProperties(exports , {
+class Application extends Project{
+
+    constructor(){
+
+        super() ;
+
+        this.PATH = process.cwd() ;
+    }
+
+    get(key){
+        
+        return get(this.PROPERTIES , key) ;
+    }
+
+    generateBinCode(name){
+        
+        let me = this,
+            config = me.parseSourceCodeName(name) ;
+    
+        if(config){
+    
+            if(config.hasOwnProperty('path')){
+    
+                return new BinCode(me , config) ;
+            
+            }else{
+    
+                let code = new LibraryBinCode(me , config) ;
+    
+                if(code.caller){
+    
+                    return code ;
+                }
+            }
+        }
+    
+        return compiler.getBinCode(name) ;
+    }
+        
+    executeBinCode(codeName , ...args){
+        
+        let binCode = this.getBinCode(codeName) ;
+    
+        if(binCode){
+    
+            binCode = binCode.caller ;
+    
+            if(is_function(binCode)){
+    
+                return binCode(...args) ;
+            
+            }
+    
+        }else{
+    
+            throw new BinCodeFileNotFoundException(codeName) ;
+        }
+    }
+        
+    executeCommand(command , ...args){
+        
+        let me = this,
+            commandCodeNames = me.COMMAND_CODE_NAMES ;
+    
+        if(commandCodeNames.hasOwnProperty(command)){
+    
+            return me.executeBinCode(commandCodeNames[command] , ...args) ;
+        
+        }else{
+    
+            throw new CommandNotFoundExcepition(command) ;
+        }
+    }
+        
+    generateSourceCode(name){
+    
+        let me = this,
+            config = me.parseSourceCodeName(name) ;
+    
+        if(config){
+    
+            let code = new SourceCode(me , config) ;
+            
+            if(code.isFile){
+    
+                return code ;
+            }
+        }
+    }
+}
+
+defineProperties(Application.prototype , {
 
     PROPERTIES:{
 
         once:true,
 
-        get:() =>{
+        get:function(){
 
-            let properties = readJSONFile(join(exports.PATH , 'properties.json'));
+            let properties = readJSONFile(join(this.PATH , 'properties.json'));
 
             if(properties){
 
-                return assign({} , COMPILER_PROPERTIES , properties) ;
+                return assign({} , compiler.PROPERTIES , properties) ;
             }
 
-            return COMPILER_PROPERTIES ;
+            return compiler.PROPERTIES ;
         }
     },
 
     SCOPE_SUFFIXES:{
 
-        once:true,
+        get(){
 
-        get:() =>{
-
-            let suffixes =  exports.get('scope.suffixes'),
+            let suffixes =  this.get('scope.suffixes'),
                 names = Object.keys(suffixes),
                 result = {};
 
@@ -71,12 +161,11 @@ defineProperties(exports , {
 
     LIBRARIES:{
 
-        once:true,
+        get(){
 
-        get:() =>{
-
-            let libraryPaths = from(exports.get('libraries')),
-                rootPath = exports.PATH,
+            let me = this,
+                libraryPaths = from(me.get('libraries')),
+                rootPath = me.PATH,
                 libraries = [];
 
             for(let libraryPath of libraryPaths){
@@ -95,11 +184,9 @@ defineProperties(exports , {
 
     COMMAND_CODE_NAMES:{
 
-        once:true,
+        get(){
 
-        get:() =>{
-
-            let commands = exports.get('command'),
+            let commands = this.get('command'),
                 names = Object.keys(commands),
                 result = {};
 
@@ -120,122 +207,47 @@ defineProperties(exports , {
 
     COMMAND_NAMES:{
 
-        once:true,
+        get(){
 
-        get:() =>{
-
-            return Object.keys(exports.COMMAND_CODE_NAMES) ;
+            return Object.keys(this.COMMAND_CODE_NAMES) ;
         }
     },
 
     BIN_PATH:{
 
-        once:true,
+        get(){
 
-        get:() =>{
+            let me = this ;
 
-            return join(exports.PATH , exports.get('path.bin')) ;
+            return join(me.PATH , me.get('path.bin')) ;
         }
     },
 
     DIST_PATH:{
 
-        once:true,
+        get(){
 
-        get:() =>{
+            let me = this ;
 
-            return join(exports.PATH , exports.get('path.dist')) ;
+            return join(me.PATH , me.get('path.dist')) ;
+        }
+    },
+
+    SCOPE_FOLDERS:{
+
+        get(){
+
+            return me.get('scope.folders') ;
+        }
+    },
+
+    DEFAULT_SCOPE:{
+
+        get(){
+
+            return me.get('scope.default') ;
         }
     }
-
 }) ;
 
-exports.get = key =>{
-
-    return get(exports.PROPERTIES , key) ;
-}
-
-exports.SCOPE_FOLDERS = exports.get('scope.folders') ;
-
-exports.DEFAULT_SCOPE = exports.get('scope.default') ;
-
-require('./mixin/project')(exports) ;
-
-const {
-    SourceCode,
-    BinCode,
-    LibraryBinCode
-} = require('./application/code') ;
-
-exports.generateBinCode = name =>{
-
-    let config = exports.parseSourceCodeName(name) ;
-
-    if(config){
-
-        if(config.hasOwnProperty('path')){
-
-            return new BinCode(exports , config) ;
-        
-        }else{
-
-            let code = new LibraryBinCode(exports , config) ;
-
-            if(code.caller){
-
-                return code ;
-            }
-        }
-    }
-
-    return compiler.getBinCode(name) ;
-}
-
-exports.executeBinCode = (codeName , ...args) =>{
-
-    let binCode = exports.getBinCode(codeName) ;
-
-    if(binCode){
-
-        binCode = binCode.caller ;
-
-        if(is_function(binCode)){
-
-            return binCode(...args) ;
-        
-        }
-
-    }else{
-
-        throw new BinCodeFileNotFoundException(codeName) ;
-    }
-}
-
-exports.executeCommand = (command , ...args) =>{
-
-    let commandCodeNames = exports.COMMAND_CODE_NAMES ;
-
-    if(commandCodeNames.hasOwnProperty(command)){
-
-        return exports.executeBinCode(commandCodeNames[command] , ...args) ;
-    
-    }else{
-
-        throw new CommandNotFoundExcepition(command) ;
-    }
-}
-
-exports.generateSourceCode = name =>{
-
-    let config = exports.parseSourceCodeName(name) ;
-
-    if(config){
-
-        let code = new SourceCode(exports , config) ;
-        
-        if(code.isFile){
-
-            return code ;
-        }
-    }
-}
+module.exports = new Application() ;

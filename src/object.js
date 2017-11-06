@@ -252,26 +252,22 @@ exports.defineProperty = (target , name , config) =>{
 
 function processPropertyConfig(target , name , config){
 
-    if(config.once === true){
+    let originGet = config.get ;
+    
+    if(originGet){
 
-        let originGet = config.get ;
-        
-        if(originGet){
-    
-            config.get = () =>{
-    
-                let privateName = `__${name}__` ;
-    
-                if(!target.hasOwnProperty(privateName)){
-    
-                    target[privateName] = originGet.call(target) ;
-    
-                }
-    
-                return target[privateName] ;
+        config.get = function(){
+
+            let privateName = `__${name}__`,
+                me = this;
+
+            if(!me.hasOwnProperty(privateName)){
+
+                me[privateName] = originGet.call(me) ;
+
             }
+
+            return me[privateName] ;
         }
     }
-
-    delete config.once ;
 }

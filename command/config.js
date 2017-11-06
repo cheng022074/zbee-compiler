@@ -1,6 +1,4 @@
-const {
-    get
-} = require('../src/application/config'),
+const application = require('../src/application/config'),
 {
     format
 } = require('../src/json');
@@ -10,7 +8,7 @@ module.exports = name =>{
 
     if(name){
 
-        let config = get(name) ;
+        let config = application.get(name) ;
 
         if(config){
 

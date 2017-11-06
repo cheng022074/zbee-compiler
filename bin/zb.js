@@ -5,10 +5,7 @@ const {
     argv,
     execArgv
 } = require('../src/process'),
-{
-    executeCommand,
-    COMMAND_NAMES
-} = require('../src/application'),
+application = require('../src/application'),
 {
     Exception
 } = require('../src/exception'),
@@ -48,7 +45,7 @@ if(command){
 
     try{
 
-        let result = executeCommand(command , ...argv) ;
+        let result = application.executeCommand(command , ...argv) ;
 
         if(result instanceof Promise){
 
@@ -69,7 +66,7 @@ if(command){
 
 }else{
 
-    for(let name of COMMAND_NAMES){
+    for(let name of application.COMMAND_NAMES){
 
         console.log(name) ;
     }

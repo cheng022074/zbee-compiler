@@ -1,106 +1,200 @@
 const {
-    defineProperties,
-    get:object_get
+    defineProperties
 } = require('./object'),
-SourceName = require('./project/source/name'),
-SourcePath = require('./project/source/path'),
 {
-    getSourceFilePath,
-    getSourceFilePaths
-} = require('./project/path'),
-{
-    join:path_join
+    join,
+    sep
 } = require('path'),
 {
-    readJSONFile,
-    readDirectoryNames
-} = require('./fs');
+    file:is_file,
+    directory:is_directory
+} = require('./is'),
+{
+    readNames
+} = require('./fs'),
+codeNameRe = /^(?:(\w+)\:{2})?((?:\w+(?:\.\w+)*(?:\.\*)?)|\*)$/,
+codeFileNameRe = /^(?:(\w+)\:{2})?(\w+(?:\.\w+)*)$/,
+suffixCodeNameRe = /\.?\*$/;
 
-defineProperties(exports , {
+class Project{
 
-    PATH:{
+    constructor(){
+
+        let me = this ;
+
+        me.$binCodes = {} ;
         
-        once:true,
+        me.$sourceCodes = {} ;
+    }
 
-        get:() =>{
-
-            return process.cwd() ;
-        }
-    },
-
-    SCOPES:{
-
-        once:true,
-        
-        get:() =>{
+    parseSourceCodeNames(codeName){
     
-            return readDirectoryNames(this.PATH) ;
-        }
-    },
-
-    PROPERTIES:{
-
-        once:true,
-        
-        get:() =>{
+        let match = codeName.match(codeFileNameRe),
+            me = this;
     
-            return readJSONFile(path_join(this.PATH , 'properties.json')) || {};
+        if(match){
+    
+            return [
+                me.parseSourceCodeName(codeName)
+            ] ;
+    
+        }else{
+    
+            let match = codeName.match(codeNameRe) ;
+    
+            if(match){
+    
+                let me = this,
+                    scopePaths = me.SCOPE_PATHS,
+                    scope = match[1] || me.DEFAULT_SCOPE,
+                    name = match[2].replace(suffixCodeNameRe , '');
+    
+                if(scopePaths.hasOwnProperty(scope)){
+                    
+                    let basePath = join(scopePaths[scope] , name.replace(/\./g , sep)) ;
+    
+                    if(is_directory(basePath)){
+    
+                        let names = readNames(basePath),
+                            result = [];
+    
+                        for(let name of names){
+    
+                            let config = me.parseSourceCodeName(`${scope}::${name}`) ;
+    
+                            if(config){
+    
+                                result.push(config) ;
+                            }
+                        }
+    
+                        return result ;
+                    }
+                }
+            }
         }
-    },
+    
+        return [] ;
+    }
 
-    BIN_PATH:{
-
-        once:true,
-
-        get:() =>{
-
-            return exports.getScopePath(exports.get('scope.bin')) ;
-        }
-    },
-
-    DIST_PATH:{
-
-        once:true,
+    parseSourceCodeName(codeName , suffix){
         
-        get:() =>{
-
-            return exports.getScopePath(exports.get('scope.dist')) ;
+        let match = codeName.match(codeFileNameRe);
+    
+        if(match){
+    
+            let me = this,
+                scopeSuffixes = me.SCOPE_SUFFIXES,
+                scopePaths = me.SCOPE_PATHS,
+                scope = match[1] || me.DEFAULT_SCOPE,
+                name = match[2];
+    
+            if(scopePaths.hasOwnProperty(scope)){
+    
+                let basePath = join(scopePaths[scope] , name.replace(/\./g , sep)) ;
+    
+                if(suffix){
+                    
+                    let path = `${basePath}${suffix}` ;
+    
+                    if(is_file(path)){
+    
+                        return {
+                            path,
+                            name,
+                            scope,
+                            suffix
+                        } ;
+    
+                    }else{
+    
+                        return {
+                            scope,
+                            name,
+                            suffix
+                        } ;
+                    }
+    
+                }else if(scopeSuffixes.hasOwnProperty(scope)){
+    
+                    let suffixes = scopeSuffixes[scope];
+    
+                    for(let suffix of suffixes){
+    
+                        let path = `${basePath}${suffix}` ;
+    
+                        if(!is_file(path)){
+    
+                            continue ;
+                        }
+    
+                        return {
+                            path,
+                            name,
+                            scope,
+                            suffix
+                        } ;
+                    }
+    
+                    return {
+                        scope,
+                        name
+                    } ;
+                }
+            }
         }
     }
 
+    static getCode(project , name , storageKey , generateMethodName){
+    
+        let codes = project[`$${storageKey}`];
+    
+        if(!codes.hasOwnProperty(name) && project.hasOwnProperty(generateMethodName)){
+    
+            let code = project[generateMethodName](name) ;
+    
+            if(code){
+    
+                codes[code.fullName] = code ;
+                
+                codes[name] = code ;
+            }
+        }
+    
+        return codes[name] ;
+    }
+
+    getBinCode(name){
+        
+        return Project.getCode(this , name , 'binCodes' , 'generateBinCode') ;
+    }
+        
+    getSourceCode(name){
+    
+        return Project.getCode(this , name , 'sourceCodes' , 'generateSourceCode') ;
+    }
+}
+
+defineProperties(Project.prototype , {
+
+    SCOPE_PATHS:{
+
+        get(){
+
+            let me = this,
+                folders = me.SCOPE_FOLDERS,
+                scopes = Object.keys(folders),
+                rootPath = me.PATH,
+                paths = {};
+
+            for(let scope of scopes){
+
+                paths[scope] = join(rootPath , folders[scope]) ;
+            }
+
+            return paths ;
+        }
+    }
 }) ;
 
-exports.get = key =>{
-
-    return object_get(exports.PROPERTIES , key) ;
-}
-
-exports.isScope = scope =>{
-
-    return exports.SCOPES.includes(scope) ;
-}
-
-exports.getScopePath = scope =>{
-
-    if(!exports.isScope(scope)){
-
-        throw new Error(`${scope} 不是一个有效的作用域`) ;
-    }
-
-    return path_join(exports.PATH , scope);
-}
-
-exports.getSourcePath = (name , suffixes) =>{
-
-    return getSourceFilePath(new SourceName(exports , name) , suffixes) ;
-}
-
-exports.getSourcePaths = (name , suffixes) =>{
-
-    return getSourceFilePaths(new SourceName(exports , name) , suffixes) ;
-}
-
-exports.parseSourcePath = path =>{
-
-    return new SourcePath(exports , path) ;
-}
+module.exports = Project ;
