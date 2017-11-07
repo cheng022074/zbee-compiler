@@ -13,11 +13,14 @@ const {
 {
     join
 } = require('path'),
+{
+    require:module_require
+} = require('../module'),
 baseSuffixRe = /\.[^\.]+$/;
 
 class ApplicationBinCode extends BinCode{
 
-    get caller(){
+    generateCaller(){
 
         let me = this;
 
@@ -40,7 +43,7 @@ class ApplicationBinCode extends BinCode{
     
             if(is_file(path)){
     
-                return require(path) ;
+                return module_require(path) ;
             }
         }
     }
@@ -50,7 +53,7 @@ exports.BinCode = ApplicationBinCode ;
 
 class LibraryBinCode extends BinCode{
 
-    get caller(){
+    generateCaller(){
 
         let me = this,
         {
@@ -80,7 +83,7 @@ exports.LibraryBinCode = LibraryBinCode ;
 
 class ApplicationSourceCode extends SourceCode{
 
-    get code(){
+    generateCode(){
 
         let me = this ;
 
@@ -88,7 +91,7 @@ class ApplicationSourceCode extends SourceCode{
 
             if(me.scope === 'template'){
                 
-                return super.code ;
+                return super.generateCode() ;
             }
     
             let path = me.path ;
@@ -108,7 +111,7 @@ class ApplicationSourceCode extends SourceCode{
                     return readHTMLFile(path) ;
             }
     
-            return super.code ;
+            return super.generateCode() ;
         }
     }
 }

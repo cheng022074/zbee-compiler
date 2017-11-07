@@ -4,11 +4,14 @@ const {
 } = require('../code'),
 {
     readTextFile
-} = require('../fs');
+} = require('../fs'),
+{
+    require:module_require
+} = require('../module');
 
 class CompilerBinCode extends BinCode{
 
-    get caller(){
+    generateCaller(){
 
         let me = this ;
 
@@ -20,7 +23,7 @@ class CompilerBinCode extends BinCode{
             }  
         }
 
-        return super.caller ;
+        return super.generateCaller() ;
     }
 }
 
@@ -28,7 +31,7 @@ exports.BinCode = CompilerBinCode ;
 
 class CompilerSourceCode extends SourceCode{
 
-    get code(){
+    generateCode(){
 
         let me = this ;
 
@@ -36,11 +39,11 @@ class CompilerSourceCode extends SourceCode{
 
             if(me.scope === 'config'){
     
-                return require(me.path) ;
+                return module_require(me.path) ;
             }
         }
 
-        return super.code ;
+        return super.generateCode() ;
     }
 }
 

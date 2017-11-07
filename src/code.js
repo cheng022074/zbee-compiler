@@ -12,7 +12,7 @@ const {
     deleteKeys
 } = require('./object'),
 {
-    require:script_require
+    require:module_require
 } = require('./module'),
 {
     split
@@ -105,8 +105,15 @@ class BinCode extends Code{
 
         if(me.isFile){
 
-            return script_require(me.path) ;
+            return module_require(me.path) ;
         }
+    }
+
+    doSync(){
+
+        super.doSync() ;
+
+        delete this.$caller ;
     }
 }
 
@@ -253,8 +260,13 @@ class SourceCode extends Code{
 
     get code(){
 
-        let me = this ;
+        return defineKey(this , '$code' , 'generateCode') ;
+    }
 
+    generateCode(){
+
+        let me = this ;
+        
         if(me.isFile){
 
             return readTextFile(me.path) ;
@@ -263,8 +275,13 @@ class SourceCode extends Code{
 
     get meta(){
 
-        let code = this.code ;
+        return defineKey(this , '$meta' , 'generateMeta') ;
+    }
 
+    generateMeta(){
+
+        let code = this.code ;
+        
         if(is_string(code)){
 
             let match = code.trim().match(textCodeMetaRe) ;
@@ -294,6 +311,11 @@ class SourceCode extends Code{
 
     get importAllSourceCodes(){
 
+        return defineKey(this , '$importAllSourceCodes' , 'generateImportAllSourceCodes') ;
+    }
+
+    generateImportAllSourceCodes(){
+
         let code = this,
             codes = [
                 code
@@ -307,6 +329,11 @@ class SourceCode extends Code{
     }
 
     get importSourceCodes(){
+
+        return defineKey(this , '$importSourceCodes' , 'generateImportSourceCodes') ;
+    }
+
+    generateImportSourceCodes(){
 
         let me = this,{
             imports
