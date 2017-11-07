@@ -198,12 +198,22 @@ class Project{
 
     getBinCode(name){
 
-        return Project.getCode(this , name , 'binCodes' , 'generateBinCode') ;
+        let code =  Project.getCode(this , name , 'binCodes' , 'generateBinCode') ;
+
+        if(code && code.caller){
+
+            return code ;
+        }
     }
         
     getSourceCode(name){
     
-        return Project.getCode(this , name , 'sourceCodes' , 'generateSourceCode') ;
+        let code = Project.getCode(this , name , 'sourceCodes' , 'generateSourceCode') ;
+
+        if(code && code.code){
+
+            return code ;
+        }
     }
 }
 

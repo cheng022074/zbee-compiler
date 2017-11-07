@@ -1,6 +1,10 @@
+const {
+    apply
+} = require('../../../template') ;
+
 module.exports = code =>{
 
-    console.log('这是被打包代码' , code.fullName) ;
+    console.log(code.meta) ;
 
-    return '' ;
+    return apply('code.package.script.function' , code.meta) ;
 }
