@@ -63,8 +63,7 @@
                     ".fn.js":"code.package.script.function"
                 }
             },
-            "runat":"node",
-            "to":"package.to.script"
+            "to":"code.package.to.script"
         }
     },
     "web":{

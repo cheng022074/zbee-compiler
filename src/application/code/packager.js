@@ -11,7 +11,8 @@ class Packager{
 
     constructor(name){
 
-        let config = application.get(`package.${name}`) ;
+        let config = application.get(`package.${name}`),
+            me = this;
 
         me.name = name ;
 
@@ -47,13 +48,14 @@ class Packager{
 
     package(){
 
+        let me = this ;
+
         if(!me.exists){
 
-            return ;
+            return false;
         }
 
         let result = [],
-            me = this,
             name = me.name,
             toName = me.toName;
 
@@ -69,7 +71,7 @@ class Packager{
     
                 if(fromName){
             
-                    let codeStr = application.executeBinCode(fromName , code) ;
+                    let codeStr = application.executeBinCode(fromName , sourceCode) ;
             
                     if(codeStr){
 
@@ -77,8 +79,8 @@ class Packager{
                     }
                 }
             }
-   
-            return application.executeBinCode(toName , result.join('\n') , codes) ;
+
+            return application.executeBinCode(toName , result.join('\n') , me) ;
         }
 
         return false ;

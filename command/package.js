@@ -3,12 +3,19 @@ const application = require('../src/application'),
 
 module.exports = (name = 'default') =>{
 
-    let config = application.get(`package.${name}`) ;
+    let packager = new Packager(name) ;
 
-    if(config){
+    if(packager.exists){
 
-        let packager = new Packager(config) ;
+        path = packager.package();
 
-        console.log(packager.sourceCodes) ;
+        if(path){
+
+            console.log('已打包' , path) ;
+        }
+    
+    }else{
+
+        console.log('未找到打包设置') ;
     }
 }

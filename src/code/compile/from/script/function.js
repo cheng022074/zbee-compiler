@@ -4,5 +4,5 @@ const {
 
 module.exports = code =>{
 
-    return apply('compile.script.function' , code.meta) ;
+    return apply('code.compile.script.function' , code.meta) ;
 }
