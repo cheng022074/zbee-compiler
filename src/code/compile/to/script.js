@@ -3,7 +3,7 @@ const {
 } = require('path'),
 {
     writeTextFile
-} = require('../../fs');
+} = require('../../../fs');
 
 module.exports = (codeStr , code) =>{
 

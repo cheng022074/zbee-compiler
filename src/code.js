@@ -4,8 +4,19 @@ const {
     simpleObject:is_simple_object
 } = require('./is'),
 {
-    readTextFile
-} = require('./fs');
+    readTextFile,
+    getFileUpdateTime
+} = require('./fs'),
+{
+    defineKey,
+    deleteKeys
+} = require('./object'),
+{
+    require:script_require
+} = require('./module'),
+{
+    split
+} = require('./string');
 
 class Code{
 
@@ -28,6 +39,8 @@ class Code{
         me.scope = scope ;
 
         me.suffix = suffix ;
+
+        me.updateTime = getFileUpdateTime(path) ;
     }
 
     get fullName(){
@@ -53,17 +66,46 @@ class Code{
 
         return false ;
     }
+
+    get isUpdated(){
+
+        let me = this ;
+    
+        return getFileUpdateTime(me.path) !== me.updateTime ;
+    }
+
+    sync(){
+
+        let me = this ;
+
+        if(me.isUpdated){
+
+            me.doSync() ;
+        }
+    }
+
+    doSync(){
+
+        let me = this ;
+
+        me.updateTime = getFileUpdateTime(me) ;
+    }
 }
 
 class BinCode extends Code{
 
     get caller(){
 
+        return defineKey(this , '$caller' , 'generateCaller') ;
+    }
+
+    generateCaller(){
+
         let me = this ;
 
         if(me.isFile){
 
-            return require(me.path) ;
+            return script_require(me.path) ;
         }
     }
 }
@@ -73,6 +115,7 @@ exports.BinCode = BinCode ;
 const textCodeMetaRe = /^\/\*(?:.|[^.])+?\*\//,
       textCodeMetaParamNameRe = /^\w+/,
       textCodeMetaParamNameDefaultValueRe = /^\w+\s*\=/,
+      textCodeMetaParamTypeSplitRe = /\|/,
       {
           groupMatch
       } = require('./RegExp');
@@ -87,6 +130,16 @@ function get_text_code_params(meta){
 
         let type = match[1].trim().toUpperCase(),
             content = match[2].trim();
+
+        if(type){
+
+            let types = split(type , textCodeMetaParamTypeSplitRe) ;
+
+            if(types.length > 1){
+
+                type = types ;
+            }
+        }
 
         {
             let match = content.match(textCodeMetaParamNameRe) ;

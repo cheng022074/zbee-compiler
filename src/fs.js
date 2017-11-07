@@ -12,7 +12,8 @@ const {
     readFileSync,
     writeFileSync,
     mkdirSync,
-    readdirSync
+    readdirSync,
+    statSync
 } = require('fs'),
 {
     parse:xml_parse
@@ -22,17 +23,10 @@ const {
 } = require('./path'),
 {
     parse:html_parse
-} = require('./html');
-
-exports.searchFilePath = (path , suffix) =>{
-
-    path = join(dirname(path) , basename(path , suffix)) ;
-
-    if(is_file(path)){
-
-        return path ;
-    }
-}
+} = require('./html'),
+{
+    unique
+} = require('./array');
 
 
 const folderRe = /(?:^\/)|(?:[^\/\\]+(?:[\/\\]|$))/g;
@@ -108,7 +102,7 @@ exports.readHTMLFile = path =>{
 
 const suffixRe = /(?:\.[^\.]+)+$/ ;
 
-function readNames(path , rootName = ''){
+function readCodeNames(path , suffixes , rootName = ''){
     
     let names ;
 
@@ -129,15 +123,36 @@ function readNames(path , rootName = ''){
 
         if(is_file(targetPath)){
 
-            result.push(`${rootName}${name.replace(suffixRe , '')}`) ;
-        
+            let match = name.match(suffixRe) ;
+
+            if(match){
+
+                suffix = match[0] ;
+
+                if(suffixes.includes(suffix)){
+
+                    result.push(`${rootName}${name.replace(suffixRe , '')}`) ;
+                }
+            }
+
         }else{
 
-            result.push(...readNames(targetPath , `${rootName}${name}.`)) ;
+            result.push(...readCodeNames(targetPath , `${rootName}${name}.`)) ;
         }
     }
 
-    return result ;
+    return unique(result) ;
 }
 
-exports.readNames = readNames ;
+exports.readCodeNames = readCodeNames ;
+
+exports.getFileUpdateTime = path => {
+
+    try{
+
+        return statSync(path).mtime.getTime() ;
+
+    }catch(err){
+        
+    }
+}

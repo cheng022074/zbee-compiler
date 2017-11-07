@@ -1,6 +1,6 @@
 const {
     apply
-} = require('../../../template') ;
+} = require('../../../../template') ;
 
 module.exports = code =>{
 

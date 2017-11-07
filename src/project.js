@@ -1,5 +1,5 @@
 const {
-    defineProperties
+    defineProperty
 } = require('./object'),
 {
     join,
@@ -10,7 +10,7 @@ const {
     directory:is_directory
 } = require('./is'),
 {
-    readNames
+    readCodeNames
 } = require('./fs'),
 codeNameRe = /^(?:(\w+)\:{2})?((?:\w+(?:\.\w+)*(?:\.\*)?)|\*)$/,
 codeFileNameRe = /^(?:(\w+)\:{2})?(\w+(?:\.\w+)*)$/,
@@ -45,6 +45,7 @@ class Project{
             if(match){
     
                 let me = this,
+                    scopeSuffixes = me.SCOPE_SUFFIXES,
                     scopePaths = me.SCOPE_PATHS,
                     scope = match[1] || me.DEFAULT_SCOPE,
                     name = match[2].replace(suffixCodeNameRe , '');
@@ -53,9 +54,9 @@ class Project{
                     
                     let basePath = join(scopePaths[scope] , name.replace(/\./g , sep)) ;
     
-                    if(is_directory(basePath)){
+                    if(is_directory(basePath) && scopeSuffixes.hasOwnProperty(scope)){
     
-                        let names = readNames(basePath),
+                        let names = readCodeNames(basePath , scopeSuffixes[scope]),
                             result = [];
     
                         for(let name of names){
@@ -175,25 +176,22 @@ class Project{
     }
 }
 
-defineProperties(Project.prototype , {
+defineProperty(Project.prototype , 'SCOPE_PATHS' , {
 
-    SCOPE_PATHS:{
+    get(){
 
-        get(){
+        let me = this,
+            folders = me.SCOPE_FOLDERS,
+            scopes = Object.keys(folders),
+            rootPath = me.PATH,
+            paths = {};
 
-            let me = this,
-                folders = me.SCOPE_FOLDERS,
-                scopes = Object.keys(folders),
-                rootPath = me.PATH,
-                paths = {};
+        for(let scope of scopes){
 
-            for(let scope of scopes){
-
-                paths[scope] = join(rootPath , folders[scope]) ;
-            }
-
-            return paths ;
+            paths[scope] = join(rootPath , folders[scope]) ;
         }
+
+        return paths ;
     }
 }) ;
 

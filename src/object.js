@@ -7,7 +7,10 @@ const {
 {
     decode,
     encode
-} = require('./object/key');
+} = require('./object/key'),
+{
+    from
+} = require('./array');
 
 exports.get = (data , key) =>{
 
@@ -270,4 +273,26 @@ function processPropertyConfig(target , name , config){
             return me[privateName] ;
         }
     }
+}
+
+exports.defineKey = (target , key , generateMethodName) =>{
+
+    if(!target.hasOwnProperty(key)){
+
+        target[key] = target[generateMethodName].call(target) ;
+    }
+
+    return target[key] ;
+}
+
+exports.deleteKeys = (target , keys) =>{
+
+    keys = from(keys) ;
+
+    for(let key of keys){
+
+        delete target[key] ;
+    }
+
+    return target ;
 }

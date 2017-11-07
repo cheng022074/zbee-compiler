@@ -11,7 +11,7 @@ module.exports = name =>{
         
         if(code){
 
-            console.log(code.meta) ;
+            console.log(JSON.stringify(code.meta)) ;
 
             compile(code) ;
 
