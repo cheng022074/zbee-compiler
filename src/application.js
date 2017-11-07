@@ -130,9 +130,7 @@ defineProperties(Application.prototype , {
 
     PROPERTIES:{
 
-        once:true,
-
-        get:function(){
+        get(){
 
             let properties = readJSONFile(join(this.PATH , 'properties.json'));
 
