@@ -2,7 +2,8 @@ const {
     empty:is_empty,
     object:is_object,
     iterable:is_iterable,
-    number:is_number
+    number:is_number,
+    boolean:is_boolean
 } = require('./is'),
 {
     decode,
@@ -205,7 +206,30 @@ exports.keys = get_keys ;
 
 exports.values = get_values ;
 
-exports.assign = (dest , source , isCover) =>{
+exports.assign = (dest , ...sources) =>{
+
+    if(sources.length){
+
+        let lastValue = sources[sources.length - 1],
+            isCover = true;
+
+        if(is_boolean(lastValue)){
+
+            isCover = lastValue ;
+
+            sources.pop() ;
+        }
+
+        for(let source of sources){
+
+            assign(dest , source) ;
+        }
+    }
+
+    return dest ;
+}
+
+function assign(dest , source , isCover){
 
     let data = get_values(source),
         {
@@ -217,8 +241,6 @@ exports.assign = (dest , source , isCover) =>{
 
         set(dest , key , data[key] , isCover) ;
     }
-
-    return dest ;
 }
 
 exports.clone = (target , count = 1) =>{

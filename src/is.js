@@ -85,6 +85,11 @@ exports.number = data =>{
     return is_type(data , 'number') ;
 }
 
+exports.boolean = data =>{
+
+    return is_type(data , 'boolean') ;
+}
+
 const classRe = /^class/ ;
 
 exports.function = data =>{
