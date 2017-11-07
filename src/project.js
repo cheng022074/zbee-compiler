@@ -163,7 +163,10 @@ class Project{
 
                 let code = project[generateMethodName](name) ;
 
-                return codes[code.fullName] = code ;
+                if(code){
+
+                    return codes[code.fullName] = code ;
+                }
             }
 
         }
@@ -176,9 +179,12 @@ class Project{
 
             let code = project[generateMethodName](project.parseSourceCodeName(name)) ;
 
-            code[name] = code ;
+            if(code){
 
-            return codes[code.fullName] = code ;
+                codes[name] = code ;
+                
+                return codes[code.fullName] = code ;
+            }
         }
     }
 

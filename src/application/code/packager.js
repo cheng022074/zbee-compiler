@@ -1,14 +1,11 @@
 const {
     get
 } = require('../../script'),
-{
-    from,
-    unique
-} = require('../../array'),
 application = require('../../application'),
 {
     encode
-} = require('../../object/key');
+} = require('../../object/key'),
+get_source_codes = require('./get');
 
 class Packager{
 
@@ -86,31 +83,6 @@ class Packager{
 
         return false ;
     }
-}
-
-function get_source_codes(names){
-
-    names = from(names) ;
-
-    let codes = [] ;
-    
-    for(let name of names){
-
-        let configs = application.parseSourceCodeNames(name) ;
-
-        for(let config of configs){
-
-            let code = application.getSourceCode(config);
-
-            console.log(config.name , code.fullName) ;
-
-            codes.push(...code.importAllSourceCodes) ;
-
-            codes.push(code) ;
-        }
-    }
-
-    return unique(codes);
 }
 
 module.exports = Packager ;

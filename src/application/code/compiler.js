@@ -2,50 +2,52 @@ const {
     get
 } = require('../../script'),
 {
-    from,
-    unique
-} = require('../../array'),
-application = require('../../application'),
-{
     encode
-} = require('../../object/key');
+} = require('../../object/key'),
+application = require('../../application'),
+get_source_codes = require('./get');
 
 class Compiler{
 
     constructor(names){
 
-        this.name = name ;
+        this.sourceCodes = get_source_codes(names) ;
+    }
 
+    get isEmpty(){
 
+        return this.sourceCodes.length === 0 ;
     }
 
     compile(){
 
+        let result = [] ;
 
-    }
-}
+        for(let sourceCode of this.sourceCodes){
 
-function get_source_codes(names){
+            let suffix = encode(sourceCode.suffix),
+                scope = sourceCode.scope,
+                fromName = application.get(`compile.${scope}.${suffix}.from`),
+                toName = application.get(`compile.${scope}.${suffix}.to`) ;
 
-    names = from(names) ;
+            if(fromName && toName){
 
-    let codes = [] ;
-    
-    for(let name of names){
+                let codeStr = application.executeBinCode(fromName , sourceCode) ;
 
-        let configs = application.parseSourceCodeNames(name) ;
+                if(codeStr){
 
-        for(let config of configs){
+                    let path = application.executeBinCode(toName , codeStr , sourceCode) ;
 
-            let code = application.getSourceCode(config);
+                    if(path){
 
-            codes.push(...code.importAllSourceCodes) ;
-
-            codes.push(code) ;
+                        result.push(path) ;
+                    }
+                }
+            }
         }
-    }
 
-    return unique(codes);
+        return result ;
+    }
 }
 
 module.exports = Compiler ;
