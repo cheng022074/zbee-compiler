@@ -16,7 +16,8 @@ const {
 } = require('./module'),
 {
     split
-} = require('./string');
+} = require('./string'),
+namespaceRe = /\.\*$/;
 
 class Code{
 
@@ -44,6 +45,11 @@ class Code{
     }
 
     get fullName(){
+
+        return defineKey(this , '$fullName' , 'generateFullName') ;
+    }
+
+    generateFullName(){
 
         let {
             scope,

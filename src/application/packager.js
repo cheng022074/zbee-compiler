@@ -2,8 +2,10 @@ const {
     get
 } = require('../script'),
 {
-    from
-} = require('../array');
+    from,
+    unique
+} = require('../array'),
+application = require('../application');
 
 class Packager{
 
@@ -13,58 +15,43 @@ class Packager{
         folders
     }){
 
-        
+        this.sourceCodes = get_source_codes(includes) ;
     }
 
+    notify(name){
 
+
+    }
+
+    package(){
+
+
+    }
 }
 
-exports.get = (names , project) =>{
+function get_source_codes(names){
 
     names = from(names) ;
 
-    let paths = [],
-        items = {} ;
+    let codes = [] ;
     
     for(let name of names){
 
-        let configs = project.parseSourceCodeNames(name) ;
+        let configs = application.parseSourceCodeNames(name) ;
 
         for(let config of configs){
 
-            let {
-                path,
-                requires
-            } = get(config.path , project) ;
+            let code = application.getSourceCode(config);
 
-            if(!items.hasOwnProperty(path)){
+            console.log(config.name , code.fullName) ;
 
-                paths.push(path) ;
+            codes.push(...code.importAllSourceCodes) ;
 
-                package(path , Object.values(items[path] = requires) , paths , items , layer) ;
-            }
+            codes.push(code) ;
         }
     }
 
-    return {
-        paths,
-        items
-    } ;
+    return unique(codes);
 }
 
-function package(path , requirePaths , paths , items , layer){
-
-    const {
-        values
-    } = Object ;
-
-    for(let requirePath of requirePaths){
-
-        if(!items.hasOwnProperty(requirePath)){
-
-            paths.splice(paths.indexOf(path) , 0 , requirePath) ;
-
-            package(path , values(items[requirePath] = get(requirePath , layer).requires) , paths , items , layer) ;
-        }
-    }
-}
+module.exports = Packager ;

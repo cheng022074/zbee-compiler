@@ -1,6 +1,5 @@
 const application = require('../src/application'),
-      compiler = require('../src/compiler'),
-      application = require('../src/package/application');
+      Packager = require('../src/application/packager');
 
 module.exports = (name = 'default') =>{
 
@@ -8,6 +7,8 @@ module.exports = (name = 'default') =>{
 
     if(config){
 
-        console.log(compiler_package_get(config.compiler)) ;
+        let packager = new Packager(config) ;
+
+        console.log(packager.sourceCodes) ;
     }
 }

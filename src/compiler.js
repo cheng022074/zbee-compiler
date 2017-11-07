@@ -61,10 +61,9 @@ class Compiler extends Project{
     }
 
     
-    generateBinCode(name){
+    generateBinCode(config){
     
-        let me = this,
-            config = me.parseSourceCodeName(name) ;
+        let me = this;
 
         if(config){
 
@@ -72,10 +71,9 @@ class Compiler extends Project{
         }
     }
 
-    generateSourceCode(name){
+    generateSourceCode(config){
     
-        let me = this,
-            config = me.parseSourceCodeName(name) ;
+        let me = this ;
 
         if(config){
 

@@ -137,7 +137,7 @@ function readCodeNames(path , suffixes , rootName = ''){
 
         }else{
 
-            result.push(...readCodeNames(targetPath , `${rootName}${name}.`)) ;
+            result.push(...readCodeNames(targetPath , suffixes , `${rootName}${name}.`)) ;
         }
     }
 

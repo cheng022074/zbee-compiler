@@ -46,10 +46,9 @@ class Application extends Project{
         return get(this.PROPERTIES , key) ;
     }
 
-    generateBinCode(name){
+    generateBinCode(config){
         
-        let me = this,
-            config = me.parseSourceCodeName(name) ;
+        let me = this ;
 
         if(config){
     
@@ -65,10 +64,15 @@ class Application extends Project{
     
                     return code ;
                 }
+
+                let {
+                    scope,
+                    name
+                } = config ;
+            
+                return compiler.getBinCode(`${scope}::${name}`) ;
             }
         }
-    
-        return compiler.getBinCode(name) ;
     }
         
     executeBinCode(codeName , ...args){
@@ -106,10 +110,9 @@ class Application extends Project{
         }
     }
         
-    generateSourceCode(name){
+    generateSourceCode(config){
     
-        let me = this,
-            config = me.parseSourceCodeName(name) ;
+        let me = this ;
     
         if(config){
     

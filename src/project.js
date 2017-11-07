@@ -7,7 +7,8 @@ const {
 } = require('path'),
 {
     file:is_file,
-    directory:is_directory
+    directory:is_directory,
+    simpleObject:is_simple_object
 } = require('./is'),
 {
     readCodeNames
@@ -31,7 +32,7 @@ class Project{
     
         let match = codeName.match(codeFileNameRe),
             me = this;
-    
+
         if(match){
     
             return [
@@ -41,7 +42,7 @@ class Project{
         }else{
     
             let match = codeName.match(codeNameRe) ;
-    
+
             if(match){
     
                 let me = this,
@@ -49,16 +50,16 @@ class Project{
                     scopePaths = me.SCOPE_PATHS,
                     scope = match[1] || me.DEFAULT_SCOPE,
                     name = match[2].replace(suffixCodeNameRe , '');
-    
+
                 if(scopePaths.hasOwnProperty(scope)){
                     
                     let basePath = join(scopePaths[scope] , name.replace(/\./g , sep)) ;
-    
+
                     if(is_directory(basePath) && scopeSuffixes.hasOwnProperty(scope)){
     
                         let names = readCodeNames(basePath , scopeSuffixes[scope]),
                             result = [];
-    
+
                         for(let name of names){
     
                             let config = me.parseSourceCodeName(`${scope}::${name}`) ;
@@ -150,19 +151,35 @@ class Project{
     
         let codes = project[`$${storageKey}`];
 
-        if(!codes.hasOwnProperty(name) && generateMethodName in project){
+        if(is_simple_object(name)){
 
-            let code = project[generateMethodName](name) ;
-    
-            if(code){
-    
-                codes[code.fullName] = code ;
-                
-                codes[name] = code ;
+            let codeName = `${name.scope}::${name.name}` ;
+
+            if(codes.hasOwnProperty(codeName)){
+
+                return codes[codeName] ;
+            
+            }else{
+
+                let code = project[generateMethodName](name) ;
+
+                return codes[code.fullName] = code ;
             }
+
         }
-    
-        return codes[name] ;
+
+        if(codes.hasOwnProperty(name)){
+
+            return codes[name] ;
+        
+        }else{
+
+            let code = project[generateMethodName](project.parseSourceCodeName(name)) ;
+
+            code[name] = code ;
+
+            return codes[code.fullName] = code ;
+        }
     }
 
     getBinCode(name){
