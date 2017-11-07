@@ -143,6 +143,14 @@ class Project{
                         name
                     } ;
                 }
+
+            }else{
+
+                return {
+                    scope,
+                    name,
+                    suffix
+                } ;
             }
         }
     }

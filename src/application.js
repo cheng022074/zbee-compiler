@@ -51,7 +51,7 @@ class Application extends Project{
         let me = this ;
 
         if(config){
-    
+
             if(config.hasOwnProperty('path')){
     
                 return new BinCode(me , config) ;
@@ -64,14 +64,14 @@ class Application extends Project{
     
                     return code ;
                 }
-
-                let {
-                    scope,
-                    name
-                } = config ;
-            
-                return compiler.getBinCode(`${scope}::${name}`) ;
             }
+
+            let {
+                scope,
+                name
+            } = config ;
+
+            return compiler.getBinCode(`${scope}::${name}`) ;
         }
     }
         
