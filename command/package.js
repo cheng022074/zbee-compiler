@@ -1,5 +1,5 @@
 const application = require('../src/application'),
-      Packager = require('../src/application/packager');
+      Packager = require('../src/application/code/packager');
 
 module.exports = (name = 'default') =>{
 

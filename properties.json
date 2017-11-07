@@ -58,7 +58,7 @@
     "package":{
         "default":{
             "includes":"*",
-            "folders":{
+            "scope":{
                 "src":{
                     ".fn.js":"code.package.script.function"
                 }
