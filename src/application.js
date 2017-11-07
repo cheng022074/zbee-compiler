@@ -136,7 +136,9 @@ defineProperties(Application.prototype , {
 
             if(properties){
 
-                return assign({} , compiler.PROPERTIES , properties) ;
+                let config = assign({} , compiler.PROPERTIES) ;
+
+                return assign(config , properties) ;
             }
 
             return compiler.PROPERTIES ;

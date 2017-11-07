@@ -13,9 +13,20 @@ const {
 
 module.exports = (code , packager) =>{
 
-    let application = packager.application ;
+    let application = packager.application,
+        {
+            target
+        } = packager.config,
+        path;
 
-    let path = join(application.DIST_PATH , `${packager.name}.js`) ;
+    if(target){
+
+        path = join(application.PATH , target) ;
+
+    }else{
+
+        path = join(application.DIST_PATH , `${packager.name}.js`) ;
+    }
 
     writeTextFile(path , format(apply('code.package.to.script' , {
         code,

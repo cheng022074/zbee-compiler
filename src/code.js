@@ -15,7 +15,8 @@ const {
     require:module_require
 } = require('./module'),
 {
-    split
+    split,
+    capitalizeName
 } = require('./string'),
 namespaceRe = /\.\*$/;
 
@@ -233,7 +234,7 @@ function get_text_code_imports(meta){
         }
 
         imports.push({
-            var:content,
+            var:capitalizeName(content),
             require:content
         }) ;
     }

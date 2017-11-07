@@ -4,6 +4,27 @@ exports.capitalize = data =>{
     return `${data.charAt(0).toUpperCase()}${data.substr(1)}` ;
 }
 
+const nameSplitRe = /\./g ;
+
+exports.capitalizeName = name =>{
+
+    let names = exports.split(name , nameSplitRe),
+        firstName = names[0];
+
+    const capitalize = exports.capitalize ;
+
+    names.shift() ;
+
+    let result = [] ;
+
+    for(let name of names){
+
+        result.push(capitalize(name)) ;
+    }
+
+    return `${firstName}${result.join('')}` ;
+}
+
 const intRe = /^\d+$/ ;
 
 exports.toInt = data =>{

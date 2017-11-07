@@ -11,11 +11,25 @@ application = require('../src/application'),
 } = require('../src/exception'),
 {
     empty:is_empty,
-    simpleObject:is_simple_object
+    simpleObject:is_simple_object,
+    directory:is_directory
 } = require('../src/is'),
 {
     format
-} = require('../src/json');
+} = require('../src/json'),
+{
+    join
+} = require('path');
+
+if(execArgv.hasOwnProperty('project')){
+
+    let path = join(process.cwd() , execArgv.project) ;
+
+    if(is_directory(path)){
+
+        application.PATH = path ;
+    }
+}
 
 if(command){
 

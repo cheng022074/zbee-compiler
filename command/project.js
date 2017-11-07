@@ -1,12 +1,10 @@
-const {
-    executeBinCode
-} = require('../src/application') ;
+const application = require('../src/application') ;
 
 module.exports = (folder , commandName , ...args) =>{
 
     if(commandName){
 
-        executeBinCode(`command::project.${folder}.${commandName}` , ...args) ;
+        application.executeBinCode(`command::project.${folder}.${commandName}` , ...args) ;
 
     }else{
 
