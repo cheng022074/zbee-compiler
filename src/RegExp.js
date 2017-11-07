@@ -62,6 +62,16 @@
             lastTarget = targets[targets.length - 1] ;
         }
     }
+
+    if(multi === false){
+
+        if(result.length){
+
+            return result[0] ;
+        }
+
+        return ;
+    }
     
     return result ;
  }

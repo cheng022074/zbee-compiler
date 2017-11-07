@@ -178,7 +178,7 @@ function get_text_code_params(meta){
                 }) ;
     
                 if(group){
-    
+
                     group = group.trim() ;
     
                     let name = group.match(textCodeMetaParamNameRe)[0];

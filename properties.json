@@ -5,6 +5,7 @@
         "config":"command::config",
         "dependencies":"command::dependencies",
         "compile":"command::compile",
+        "doc":"command::doc",
         "package":"command::package",
         "run":"command::run",
         "watch":"command::watch",
