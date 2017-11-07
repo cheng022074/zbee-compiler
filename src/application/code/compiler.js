@@ -11,7 +11,11 @@ class Compiler{
 
     constructor(names){
 
-        this.sourceCodes = get_source_codes(names) ;
+        let me = this ;
+
+        me.sourceCodes = get_source_codes(names) ;
+
+        me.application = application ;
     }
 
     get isEmpty(){

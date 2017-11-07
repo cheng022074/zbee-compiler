@@ -1,0 +1,4 @@
+exports['<%- fullName %>'] = (<%- params %>) =>{
+
+    <%- code %>
+}

@@ -11,8 +11,6 @@ exports.apply = (name , data) =>{
     let templateName = `template::${name}`,
         template = application.getBinCode(templateName) ;
 
-    console.log(template) ;
-
     if(template){
 
         return render(template.caller , data);

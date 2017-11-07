@@ -16,6 +16,8 @@ class Packager{
 
         me.name = name ;
 
+        me.application = application ;
+
         me.sourceCodes = [] ;
 
         if(config){
@@ -34,6 +36,8 @@ class Packager{
             me.exists = true ;
 
             me.toName = to ;
+
+            me.config = config ;
         
         }else{
 

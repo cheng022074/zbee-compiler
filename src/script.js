@@ -10,7 +10,10 @@ const {
     transformFileSync
 } = require('babel-core'),
 BABEL_PRESET_ENV = require('babel-preset-env'),
-useStrictRe = /^[\'\"]use\sstrict[\'\"];/;
+useStrictRe = /^[\'\"]use\sstrict[\'\"];/,
+{
+    js
+} = require('js-beautify');
 
 function process_compile_result({
     code
@@ -35,4 +38,18 @@ exports.compilePath = path =>{
             BABEL_PRESET_ENV
         ]
     })) ;
+}
+
+exports.format = code =>{
+
+    try{
+
+        return js(code) ;
+
+    }catch(err){
+
+
+    }
+
+    return code ;
 }

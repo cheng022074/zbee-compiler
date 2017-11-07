@@ -1,8 +1,19 @@
 const {
     apply
-} = require('../../../template') ;
+} = require('../../../template'),
+function_params = require('./function/params');
 
-module.exports = code =>{
+module.exports = sourceCode =>{
 
-    return apply('code.package.script.function' , code.meta) ;
+    let {
+        fullName,
+        code,
+        meta
+    } = sourceCode ;
+
+    return apply('code.package.script.function' , {
+        fullName,
+        code,
+        params:function_params(meta.params)
+    }) ;
 }
