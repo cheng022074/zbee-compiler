@@ -74,14 +74,14 @@ class Application extends Project{
             return compiler.getBinCode(`${scope}::${name}`) ;
         }
     }
-        
+ 
     executeBinCode(codeName , ...args){
         
         let binCode = this.getBinCode(codeName) ;
     
         if(binCode){
     
-            exec(binCode.caller) ;
+            return exec(binCode.caller , args) ;
     
         }else{
     
@@ -120,7 +120,7 @@ class Application extends Project{
     }
 }
 
-function exec(target){
+function exec(target , args){
 
     if(is_function(target)){
 
