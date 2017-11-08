@@ -81,7 +81,13 @@ class Application extends Project{
     
         if(binCode){
     
-            return exec(binCode.caller , args) ;
+            let caller = binCode.caller ;
+
+            if(is_function(caller)){
+        
+                return caller(...args) ;
+            
+            }
     
         }else{
     
@@ -117,15 +123,6 @@ class Application extends Project{
                 return code ;
             }
         }
-    }
-}
-
-function exec(target , args){
-
-    if(is_function(target)){
-
-        return target(...args) ;
-    
     }
 }
 
