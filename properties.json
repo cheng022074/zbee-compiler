@@ -19,7 +19,8 @@
             "src":"src",
             "config":"config",
             "command":"command",
-            "html":"html"
+            "html":"html",
+            "test":"test"
         },
         "suffixes":{
             "command":[
@@ -35,9 +36,9 @@
                 ".js",
                 ".html"
             ],
-            "html":[
-                ".html.json",
-                ".html"
+            "test":[
+                ".js",
+                ".json"
             ]
         },
         "default":"src"
@@ -52,6 +53,12 @@
     "compile":{
         "src":{
             ".fn.js":{
+                "from":"code.compile.from.script.function",
+                "to":"code.compile.to.script"
+            }
+        },
+        "test":{
+            ".js":{
                 "from":"code.compile.from.script.function",
                 "to":"code.compile.to.script"
             }
