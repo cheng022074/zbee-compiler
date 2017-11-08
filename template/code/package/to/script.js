@@ -1,15 +1,28 @@
-const codes = {},
-      prefixRe = /^[^\:]+\:{2}/,
-      defaultPrefix = '<%- defaultScope %>',
-      include = exports.include = name =>{
+
+const codes = {};
+
+{
+      const prefixRe = /^[^\:]+\:{2}/,
+            defaultPrefix = '<%- defaultScope %>',
+            usedCodes = {};
+
+      function include(name){
+
+            if(usedCodes.hasOwnProperty(name)){
+
+                  return usedCodes[name] ;
+            }
 
             if(prefixRe.test(name)){
 
-            return codes[name] ;
+                  return usedCodes[name] = codes[name] ;
             }
 
-            return codes[`${defaultPrefix}::${name}`] ;
+            return usedCodes[name] = codes[`${defaultPrefix}::${name}`] ;
       }
+
+      exports.include = include ;
+}
 
 {
     const exports = codes ;

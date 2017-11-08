@@ -6,13 +6,20 @@ const {
 } = require('../../../fs'),
 {
     format
-} = require('../../../script');
+} = require('../../../script'),
+{
+    apply
+} = require('../../../template');
 
 module.exports = (codeStr , code) =>{
 
-    let path = join(code.project.BIN_PATH , code.scope , `${code.name}.js`) ;
+    let application = code.project,
+        path = join(application.BIN_PATH , code.scope , `${code.name}.js`) ;
 
-    writeTextFile(path , format(codeStr)) ;
+    writeTextFile(path , format(apply('code.compile.to.script' , {
+        code:codeStr,
+        defaultScope:application.DEFAULT_SCOPE
+    }))) ;
 
     return path ;
 }

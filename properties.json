@@ -60,7 +60,7 @@
             "includes":"*",
             "scope":{
                 "src":{
-                    ".fn.js":"code.package.script.function"
+                    ".fn.js":"code.package.from.script.function"
                 }
             },
             "to":"code.package.to.script"
