@@ -11,8 +11,7 @@
  exports.groupMatch = (data , {
      regexp,
      region,
-     border = true,
-     multi = true
+     border = true
  }) =>{
 
     let match,
@@ -54,24 +53,44 @@
                 result.push(data.substring(lastTarget.index + 1 , index +  match[0].length - 1)) ;
             }
 
-            if(multi === false){
-
-                return result[0] ;
-            }
-
             lastTarget = targets[targets.length - 1] ;
         }
     }
-
-    if(multi === false){
-
-        if(result.length){
-
-            return result[0] ;
-        }
-
-        return ;
-    }
     
     return result ;
+ }
+
+ exports.genreatePlaceholderString = (data , placeholderRe , placeholderFn) =>{
+
+    let config = {} ;
+    
+    data = data.replace(placeholderRe , match =>{
+
+        data[match] = placeholderFn(match) ;
+
+    }) ;
+
+    return {
+        data,
+        config
+    } ;
+    
+ }
+
+ exports.restorePlaceholderString = (data , placeholderData) =>{
+
+    let keys = Object.keys(placeholderData) ;
+
+    const replaceFn = key =>{
+
+        return placeholderData[key] ;
+    } ;
+
+    for(let key of keys){
+
+        data = data.replace(key , replaceFn) ;
+    }
+
+    return data ;
+
  }

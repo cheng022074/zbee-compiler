@@ -228,8 +228,7 @@ function get_text_code_params(meta){
                         start:'[',
                         end:']'
                     },
-                    border:false,
-                    multi:false
+                    border:false
                 }) ;
     
                 if(group){
