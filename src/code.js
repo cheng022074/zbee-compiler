@@ -161,11 +161,13 @@ exports.BinCode = BinCode ;
 
 const textCodeMetaRe = /^\/\*(?:.|[^.])+?\*\//,
       textCodeMetaParamNameRe = /^\w+/,
+      textCodeMetaParamRestRe = /^\.{3}(\w+)/,
       textCodeMetaParamNameDefaultValueRe = /^\w+\s*\=/,
       textCodeMetaParamTypeSplitRe = /\|/,
       {
           groupMatch
-      } = require('./RegExp');
+      } = require('./RegExp'),
+      textCodeMetaParamArrayRe = /\[\]$/;
 
 function get_text_code_params(meta){
     
@@ -199,6 +201,26 @@ function get_text_code_params(meta){
                 }) ;
     
             }else{
+
+                {
+                    let match = content.match(textCodeMetaParamRestRe) ;
+
+                    if(match){
+
+                        if(!textCodeMetaParamArrayRe.test(type)){
+
+                            type = `${type}[]` ;
+                        }
+
+                        params.push({
+                            type,
+                            rest:true,
+                            name:match[1]
+                        }) ;
+
+                        continue ;
+                    }
+                }
     
                 let group = groupMatch(content , {
                     regexp:/\[|\]/g,

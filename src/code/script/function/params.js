@@ -7,12 +7,17 @@ function generate(param){
 
     let {
         name,
-        defaultValue
+        defaultValue,
+        rest
     } = param ;
 
     if(defaultValue){
 
         return `${name}=${defaultValue}` ;
+    
+    }else if(rest === true){
+
+        return `...${name}` ;
     }
 
     return name ;
