@@ -16,7 +16,9 @@ const {
 } = require('./module'),
 {
     split,
-    capitalizeName
+    capitalizeName,
+    genreatePlaceholderString,
+    restorePlaceholderString
 } = require('./string'),
 namespaceRe = /\.\*$/,
 baseSuffixRe = /\.[^\.]+$/;
@@ -221,8 +223,10 @@ function get_text_code_params(meta){
                         continue ;
                     }
                 }
-    
-                let group = groupMatch(content , {
+
+                let placeholder = genreatePlaceholderString(content , /\"(?:\\.|[^\"])*\"|\'(?:\\.|[^\'])*\'/ , ()=> Date.now()) ;
+
+                let group = groupMatch(placeholder.data , {
                     regexp:/\[|\]/g,
                     region:{
                         start:'[',
@@ -233,7 +237,7 @@ function get_text_code_params(meta){
     
                 if(group){
 
-                    group = group.trim() ;
+                    group = restorePlaceholderString(group[0].trim() , placeholder.values) ;
     
                     let name = group.match(textCodeMetaParamNameRe)[0];
     

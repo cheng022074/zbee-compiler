@@ -62,7 +62,7 @@
 
  exports.genreatePlaceholderString = (data , placeholderRe , placeholderFn) =>{
 
-    let config = {} ;
+    let values = {} ;
     
     data = data.replace(placeholderRe , match =>{
 
@@ -72,7 +72,7 @@
 
     return {
         data,
-        config
+        values
     } ;
     
  }
