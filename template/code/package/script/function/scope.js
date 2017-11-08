@@ -6,7 +6,10 @@ exports['<%- fullName %>'] = (() =>{
 
     if(typeof main === 'function'){
 
-        return main ;
+        return function(<%- params %>){
+
+            return main.call(undefined , arguments) ;
+        } ;
     }
 
 })() ;

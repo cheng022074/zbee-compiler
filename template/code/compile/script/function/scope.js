@@ -6,7 +6,10 @@ module.exports = (() =>{
 
     if(typeof main === 'function'){
 
-        return main ;
+        return function(<%- params %>){
+
+            return main.apply(undefined , arguments) ;
+        } ;
     }
 
 })() ;

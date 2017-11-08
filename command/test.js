@@ -46,17 +46,19 @@ module.exports = async function(name){
 
                         application.executeBinCode(`test::${tester.action}`) ;
 
-                        console.log(green('成功') , test) ;
+                        console.log('\t' , green('成功') , test) ;
 
                     }catch(err){
 
-                        console.log(red('失败') , test , err.message) ;
+                        console.log('\t' , red('失败') , test , err.message) ;
 
                         console.log(err) ;
 
                     }
                 }
             }
+
+            console.log('测试完成') ;
 
         }else{
 
