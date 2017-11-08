@@ -27,12 +27,18 @@ class ApplicationBinCode extends BinCode{
         if(me.isFile){
 
             let path = me.path;
-            
-            if(me.scope === 'config'){
 
-                return readJSONFile(path) ;
+            switch(me.scope){
+
+                case 'template':
+
+                    return readTextFile(path) ;
+
+                case 'config':
+
+                    return readJSONFile(path) ;
             }
-    
+
             path = join(this.project.BIN_PATH , me.scope , `${me.name}.js`) ;
     
             if(is_file(path)){

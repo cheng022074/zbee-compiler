@@ -9,7 +9,7 @@ application = require('./application'),
 exports.apply = (name , data) =>{
 
     let templateName = `template::${name}`,
-        template = application.getSourceCode(templateName) ;
+        template = application.getBinCode(templateName) ;
 
     if(template){
 
