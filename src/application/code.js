@@ -15,8 +15,7 @@ const {
 } = require('path'),
 {
     require:module_require
-} = require('../module'),
-baseSuffixRe = /\.[^\.]+$/;
+} = require('../module');
 
 class ApplicationBinCode extends BinCode{
 
@@ -87,38 +86,6 @@ class LibraryBinCode extends BinCode{
 exports.LibraryBinCode = LibraryBinCode ;
 
 class ApplicationSourceCode extends SourceCode{
-
-    generateCode(){
-
-        let me = this ;
-
-        if(me.isFile){
-
-            if(me.scope === 'template'){
-                
-                return super.generateCode() ;
-            }
-    
-            let path = me.path ;
-    
-            switch(me.suffix.match(baseSuffixRe)[0]){
-                
-                case '.json':
-    
-                    return require(path) ;
-    
-                case '.xml':
-    
-                    return readXMLFile(path) ;
-    
-                case '.html':
-    
-                    return readHTMLFile(path) ;
-            }
-    
-            return super.generateCode() ;
-        }
-    }
 }
 
 exports.SourceCode = ApplicationSourceCode ;

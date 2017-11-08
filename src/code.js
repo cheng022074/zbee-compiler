@@ -18,7 +18,8 @@ const {
     split,
     capitalizeName
 } = require('./string'),
-namespaceRe = /\.\*$/;
+namespaceRe = /\.\*$/,
+baseSuffixRe = /\.[^\.]+$/;
 
 class Code{
 
@@ -121,7 +122,30 @@ class BinCode extends Code{
 
         if(me.isFile){
 
-            return module_require(me.path) ;
+            let path = me.path ;
+            
+            if(me.scope === 'template'){
+                
+                return readTextFile(path) ;
+            }
+    
+            switch(me.suffix.match(baseSuffixRe)[0]){
+                
+                case '.json':
+                case '.js':
+    
+                    return module_require(path) ;
+    
+                case '.xml':
+    
+                    return readXMLFile(path) ;
+    
+                case '.html':
+    
+                    return readHTMLFile(path) ;
+            }
+
+            return readTextFile(path) ;
         }
     }
 
@@ -285,12 +309,12 @@ class SourceCode extends Code{
         
         if(me.isFile){
 
+            let path = me.path ;
+
             if(me.scope === 'template'){
                 
-                return super.generateCode() ;
+                return readTextFile(path) ;
             }
-    
-            let path = me.path ;
     
             switch(me.suffix.match(baseSuffixRe)[0]){
                 
@@ -307,7 +331,7 @@ class SourceCode extends Code{
                     return readHTMLFile(path) ;
             }
 
-            return readTextFile(me.path) ;
+            return readTextFile(path) ;
         }
     }
 
