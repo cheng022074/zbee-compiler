@@ -18,9 +18,12 @@ module.exports = names =>{
 
             let code = application.getSourceCode(config);
 
-            codes.push(...code.importAllSourceCodes) ;
+            if(code){
 
-            codes.push(code) ;
+                codes.push(...code.importAllSourceCodes) ;
+                
+                codes.push(code) ;
+            }
         }
     }
 

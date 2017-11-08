@@ -36,6 +36,13 @@ class ApplicationBinCode extends BinCode{
                 case 'config':
 
                     return readJSONFile(path) ;
+
+                case 'test':
+
+                    if(me.suffix === '.json'){
+
+                        return readJSONFile(path) ;
+                    }
             }
 
             path = join(this.project.BIN_PATH , me.scope , `${me.name}.js`) ;

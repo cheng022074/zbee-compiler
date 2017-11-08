@@ -80,7 +80,7 @@ class Project{
     }
 
     parseSourceCodeName(codeName , suffix){
-        
+
         let match = codeName.match(codeFileNameRe);
 
         if(match){
@@ -90,11 +90,11 @@ class Project{
                 scopePaths = me.SCOPE_PATHS,
                 scope = match[1] || me.DEFAULT_SCOPE,
                 name = match[2];
-    
+
             if(scopePaths.hasOwnProperty(scope)){
     
                 let basePath = join(scopePaths[scope] , name.replace(/\./g , sep)) ;
-    
+
                 if(suffix){
                     
                     let path = `${basePath}${suffix}` ;
@@ -129,7 +129,7 @@ class Project{
     
                             continue ;
                         }
-    
+
                         return {
                             path,
                             name,
@@ -177,9 +177,7 @@ class Project{
                 }
             }
 
-        }
-
-        if(codes.hasOwnProperty(name)){
+        }else if(codes.hasOwnProperty(name)){
 
             return codes[name] ;
         
