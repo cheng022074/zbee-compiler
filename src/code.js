@@ -364,6 +364,18 @@ class SourceCode extends Code{
 
         return codes ;
     }
+
+    doSync(){
+
+        super.doSync() ;
+
+        deleteKeys(this , [
+            '$importSourceCodes',
+            '$importAllSourceCodes',
+            '$meta',
+            '$code'
+        ]) ;
+    }
 }
 
 function get_import_source_codes(code , codes){

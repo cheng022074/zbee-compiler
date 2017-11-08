@@ -80,6 +80,8 @@ class Application extends Project{
         let binCode = this.getBinCode(codeName) ;
     
         if(binCode){
+
+            binCode.sync() ;
     
             binCode = binCode.caller ;
     
