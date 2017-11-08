@@ -2,7 +2,11 @@ const application = require('../src/application'),
 {
     from
 } = require('../src/array'),
-Compiler = require('../src/application/code/compiler');
+Compiler = require('../src/application/code/compiler'),
+{
+    red,
+    green
+} = require('cli-color');
 
 module.exports = async function(name){
 
@@ -42,11 +46,11 @@ module.exports = async function(name){
 
                         application.executeBinCode(`test::${tester.action}`) ;
 
-                        console.log('成功' , test) ;
+                        console.log(green('成功') , test) ;
 
                     }catch(err){
 
-                        console.log('失败' , test , err.message) ;
+                        console.log(red('失败') , test , err.message) ;
 
                         console.log(err) ;
 
