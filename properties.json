@@ -6,6 +6,7 @@
         "dependencies":"command::dependencies",
         "compile":"command::compile",
         "package":"command::package",
+        "test":"command::test",
         "run":"command::run",
         "watch":"command::watch",
         "web":"command::web",
@@ -44,7 +45,8 @@
 
     "path":{
         "dist":"dist",
-        "bin":"bin"
+        "bin":"bin",
+        "library":"library"
     },
 
     "compile":{

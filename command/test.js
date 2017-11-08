@@ -4,5 +4,7 @@ module.exports = async function(name){
 
    // 根据测试配置中的测试代码名称开始编译
 
-   
+    console.log('测试') ;
+
+    
 }

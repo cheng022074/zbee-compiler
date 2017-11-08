@@ -160,14 +160,14 @@ defineProperties(Application.prototype , {
         }
     },
 
-    LIBRARIES:{
+    LIBRARY_PATHS:{
 
         get(){
 
             let me = this,
                 libraryPaths = from(me.get('libraries')),
-                rootPath = me.PATH,
-                libraries = [];
+                rootPath = me.LIBRARY_PATH,
+                paths = [];
 
             for(let libraryPath of libraryPaths){
 
@@ -175,11 +175,26 @@ defineProperties(Application.prototype , {
 
                 if(is_file(path)){
 
-                    libraries.push(require(path)) ;
+                    paths.push(path) ;
                 }
             }
 
-            return libraries ;
+            return paths ;
+        }
+    },
+
+    LIBRARIES:{
+
+        get(){
+
+            let result = [] ;
+
+            for(let path of this.LIBRARY_PATHS){
+
+                result.push(require(path)) ;
+            }
+
+            return result ;
         }
     },
 
@@ -211,6 +226,16 @@ defineProperties(Application.prototype , {
         get(){
 
             return Object.keys(this.COMMAND_CODE_NAMES) ;
+        }
+    },
+
+    LIBRARY_PATH:{
+
+        get(){
+
+            let me = this ;
+
+            return join(me.PATH , me.get('path.library')) ;
         }
     },
 
