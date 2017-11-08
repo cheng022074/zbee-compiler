@@ -69,10 +69,15 @@ class LibraryBinCode extends BinCode{
             let libraries = me.project.LIBRARIES ;
 
             for(let library of libraries){
+
+                let {
+                    include
+                } = library ;
         
-                if(library.hasOwnProperty(fullName)){
+                if(include){
         
-                    return library[fullName] ;
+                    return include(fullName) ;
+                
                 }
             }
         }
