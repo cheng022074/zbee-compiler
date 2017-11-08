@@ -80,16 +80,8 @@ class Application extends Project{
         let binCode = this.getBinCode(codeName) ;
     
         if(binCode){
-
-            binCode.sync() ;
     
-            binCode = binCode.caller ;
-    
-            if(is_function(binCode)){
-    
-                return binCode(...args) ;
-            
-            }
+            exec(binCode.caller) ;
     
         }else{
     
@@ -125,6 +117,15 @@ class Application extends Project{
                 return code ;
             }
         }
+    }
+}
+
+function exec(target){
+
+    if(is_function(target)){
+
+        return target(...args) ;
+    
     }
 }
 

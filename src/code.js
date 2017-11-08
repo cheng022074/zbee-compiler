@@ -42,7 +42,10 @@ class Code{
 
         me.suffix = suffix ;
 
-        me.updateTime = getFileUpdateTime(path) ;
+        if(path){
+
+            me.updateTime = getFileUpdateTime(path) ;
+        }
     }
 
     get fullName(){
@@ -76,16 +79,22 @@ class Code{
 
     get isUpdated(){
 
-        let me = this ;
-    
-        return getFileUpdateTime(me.path) !== me.updateTime ;
+        let me = this,
+            path = me.path;
+
+        if(path){
+
+            return getFileUpdateTime(path) !== me.updateTime ;
+        }
+
+        return false ;
     }
 
     sync(){
 
         let me = this ;
 
-        if(me.isUpdated){
+        if(me.isUpdated === true){
 
             me.doSync() ;
         }
