@@ -243,8 +243,8 @@ function get_text_code_params(meta){
 
 function get_text_code_imports(meta){
 
-    let textCodeMetaImportRe = /@import\s+(\w+(?:\.\w+)?)/g,
-        textCodeMetaAliasImportRe = /(\w+)\s+from\s+(\w+(?:\.\w+)?)/,
+    let textCodeMetaImportRe = /@import\s+([^\n\r]+)/g,
+        textCodeMetaAliasImportRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)/,
         match,
         imports = [];
 

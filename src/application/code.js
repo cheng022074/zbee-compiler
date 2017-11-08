@@ -15,7 +15,10 @@ const {
 } = require('path'),
 {
     require:module_require
-} = require('../module');
+} = require('../module'),
+{
+    encode
+} = require('../object/key');
 
 class ApplicationBinCode extends BinCode{
 
@@ -25,31 +28,29 @@ class ApplicationBinCode extends BinCode{
 
         if(me.isFile){
 
+            let scope = me.scope,
+                type = me.project.get(`scope.bin.${scope}.${encode(me.suffix)}`) ;
+
             let path = me.path;
 
-            switch(me.scope){
+            switch(type){
 
-                case 'template':
+                case 'text':
 
                     return readTextFile(path) ;
 
-                case 'config':
+                case 'json':
 
                     return readJSONFile(path) ;
 
-                case 'test':
+                case 'bin':
 
-                    if(me.suffix === '.json'){
-
-                        return readJSONFile(path) ;
+                    path = join(this.project.BIN_PATH , me.scope , `${me.name}.js`) ;
+                
+                    if(is_file(path)){
+            
+                        return module_require(path) ;
                     }
-            }
-
-            path = join(this.project.BIN_PATH , me.scope , `${me.name}.js`) ;
-    
-            if(is_file(path)){
-    
-                return module_require(path) ;
             }
         }
     }

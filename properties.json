@@ -41,6 +41,25 @@
                 ".json"
             ]
         },
+        "bin":{
+            "command":{
+                ".js":"bin"   
+            },
+            "src":{
+                ".fn.js":"bin"
+            },
+            "config":{
+                ".json":"json"
+            },
+            "template":{
+                ".js":"text",
+                ".html":"text"
+            },
+            "test":{
+                ".js":"bin",
+                ".json":"json"
+            }
+        },
         "default":"src"
     },
 
