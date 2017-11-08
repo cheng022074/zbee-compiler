@@ -1,8 +1,8 @@
 const {
     apply
 } = require('../../../template'),
-function_params = require('./function/params'),
-import_codes = require('./imports');
+function_params = require('../../script/function/params'),
+import_codes = require('../../script/imports');
 
 module.exports = sourceCode =>{
 

@@ -3,13 +3,16 @@ const {
 } = require('path'),
 {
     writeTextFile
-} = require('../../../fs');
+} = require('../../../fs'),
+{
+    format
+} = require('../../../script');
 
 module.exports = (codeStr , code) =>{
 
     let path = join(code.project.BIN_PATH , code.scope , `${code.name}.js`) ;
 
-    writeTextFile(path , codeStr) ;
+    writeTextFile(path , format(codeStr)) ;
 
     return path ;
 }

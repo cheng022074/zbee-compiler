@@ -1,1 +1,6 @@
-<%- code %>
+module.exports = (<%- params %>) =>{
+
+    <%- imports %>
+
+    <%- code %>
+} ;
