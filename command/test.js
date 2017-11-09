@@ -52,7 +52,7 @@ module.exports = async function(name){
 
                     try{
 
-                        application.executeBinCode(`test::${tester.action}` , params) ;
+                        await application.executeBinCode(`test::${tester.action}` , params) ;
 
                         console.log('\t' , green('成功') , test) ;
 

@@ -164,9 +164,9 @@ class BinCode extends Code{
 exports.BinCode = BinCode ;
 
 const textCodeMetaRe = /^\/\*(?:.|[^.])+?\*\//,
-      textCodeMetaParamNameRe = /^\w+/,
-      textCodeMetaParamRestRe = /^\.{3}(\w+)/,
-      textCodeMetaParamNameDefaultValueRe = /^\w+\s*\=/,
+      textCodeMetaParamNameRe = /^\w+(?:\.\w+)?/,
+      textCodeMetaParamRestRe = /^\.{3}(\w+(?:\.\w+))/,
+      textCodeMetaParamNameDefaultValueRe = /^\w+(?:\.\w+)\s*\=/,
       textCodeMetaParamTypeSplitRe = /\|/,
       {
           groupMatch

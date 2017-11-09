@@ -235,7 +235,7 @@ defineProperties(Application.prototype , {
 
             let me = this ;
 
-            return join(me.PATH , me.get('path.library')) ;
+            return join(me.PATH , me.get('path.lib')) ;
         }
     },
 
