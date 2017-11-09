@@ -6,7 +6,10 @@ Compiler = require('../src/application/code/compiler'),
 {
     red,
     green
-} = require('cli-color');
+} = require('cli-color'),
+{
+    params
+} = require('../src/script/function');
 
 module.exports = async function(name){
 
@@ -44,7 +47,14 @@ module.exports = async function(name){
 
                     try{
 
-                        application.executeBinCode(`test::${tester.action}`) ;
+                        let code = application.getBinCode(`test::${tester.action}`) ;
+
+                        if(code){
+
+                            console.log(params(code.caller)) ;
+                        }
+
+                        //application.executeBinCode(`test::${tester.action}`) ;
 
                         console.log('\t' , green('成功') , test) ;
 

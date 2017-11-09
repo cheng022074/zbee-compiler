@@ -78,7 +78,7 @@
         },
         "test":{
             ".js":{
-                "from":"code.compile.from.script.function",
+                "from":"code.compile.from.script.function.test",
                 "to":"code.compile.to.script"
             }
         }

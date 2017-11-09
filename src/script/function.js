@@ -9,11 +9,34 @@ exports.params = fn =>{
         let paramRe = /\(\s*(\w+)|(\w+)\s*\,|(\w+)\s*\=|(\w+)\s*\)/g,
             match,
             data = fn.toString(),
-            params = [];
+            params = [],
+            endRe = /\)$/,
+            startRe = /^\(/,
+            equalRe = /\=$/,
+            commaRe = /\,$/;
 
         while(match = paramRe.exec(data)){
 
-            params.push(match[1]) ;
+            let value = match[0] ;
+
+            if(startRe.test(value)){
+
+                params.push(match[1]) ;
+
+            }else if(commaRe.test(value)){
+
+                params.push(match[2]) ;
+
+            }else if(equalRe.test(value)){
+
+                params.push(match[3]) ;
+
+            }else if(endRe.test(value)){
+
+                params.push(match[4]) ; 
+
+                break ;
+            }
         }
 
         return params ;
