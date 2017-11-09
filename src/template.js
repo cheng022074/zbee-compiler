@@ -1,21 +1,27 @@
 const {
-    render
+    compile
 } = require('ejs'),
 application = require('./application'),
 {
     TemplateNotFoundExcepition
-} = require('./template/exception');
-
-// 考虑将模板编译后在内存级进行缓存
+} = require('./template/exception'),
+templates = {};
 
 exports.apply = (name , data) =>{
+
+    if(templates.hasOwnProperty(name)){
+
+        return templates[name](data) ;
+    }
 
     let templateName = `template::${name}`,
         template = application.getBinCode(templateName) ;
 
     if(template){
 
-        return render(template.caller , data);
+        template = templates[name] = compile(template.caller) ;
+
+        return template(data);
 
     }else{
 
