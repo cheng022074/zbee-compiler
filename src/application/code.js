@@ -188,7 +188,7 @@ class ApplicationSourceCode extends SourceCode{
 
             let code = project.getSourceCode(require) ;
 
-            if(code){
+            if(code && !codes.includes(code)){
 
                 codes.push(code) ;
             }
