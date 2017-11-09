@@ -1,7 +1,4 @@
-const {
-    parseSourceCodeName,
-    getBinCode
-} = require('../application'),
+const application = require('../application'),
 {
     get:object_get
 } = require('../object'),
@@ -15,7 +12,7 @@ const {
 
 function get(name , key){
 
-    let config = getBinCode(`config::${name}`) ;
+    let config = application.getBinCode(`config::${name}`) ;
 
     if(config){
 
