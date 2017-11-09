@@ -4,5 +4,7 @@ exports['<%- fullName %>'] = (<%- params %>) =>{
 
     <%- values %>
 
+    <%- extend %>
+
     <%- code %>
 } ;

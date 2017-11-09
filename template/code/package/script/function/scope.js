@@ -4,6 +4,8 @@ exports['<%- fullName %>'] = (() =>{
 
     <%- values %>
 
+    <%- extend %>
+
     <%- code %>
 
     if(typeof main === 'function'){

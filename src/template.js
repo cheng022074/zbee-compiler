@@ -19,7 +19,9 @@ exports.apply = (name , data) =>{
 
     if(template){
 
-        template = templates[name] = compile(template.caller) ;
+        template = templates[name] = compile(template.caller , {
+            rmWhitespace:true
+        }) ;
 
         return template(data);
 
