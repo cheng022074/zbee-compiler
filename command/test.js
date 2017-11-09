@@ -5,11 +5,9 @@ const application = require('../src/application'),
 Compiler = require('../src/application/code/compiler'),
 {
     red,
-    green
-} = require('cli-color'),
-{
-    params
-} = require('../src/script/function');
+    green,
+    yellow
+} = require('cli-color');
 
 module.exports = async function(name){
 
@@ -40,21 +38,15 @@ module.exports = async function(name){
 
                 let {
                     test,
-                    action
+                    action,
+                    params = {}
                 } = tester ;
             
                 if(action){
 
                     try{
 
-                        let code = application.getBinCode(`test::${tester.action}`) ;
-
-                        if(code){
-
-                            console.log(params(code.caller)) ;
-                        }
-
-                        //application.executeBinCode(`test::${tester.action}`) ;
+                        application.executeBinCode(`test::${tester.action}` , params) ;
 
                         console.log('\t' , green('成功') , test) ;
 
@@ -65,6 +57,10 @@ module.exports = async function(name){
                         console.log(err) ;
 
                     }
+
+                }else{
+
+                    console.log('\t' , yellow('准备') , test) ;
                 }
             }
 
