@@ -133,6 +133,7 @@ class ApplicationSourceCode extends SourceCode{
                     imports:get_text_code_imports(meta),
                     params:get_text_code_params(meta),
                     values:get_text_code_config_values(meta , me.project),
+                    extend:get_extend_name(meta),
                     code
                 } ;
             }
@@ -214,7 +215,18 @@ const textCodeMetaRe = /^\/\*(?:.|[^.])+?\*\//,
     textCodeMetaParamRestRe = /^\.{3}(\w+(?:\.\w+))/,
     textCodeMetaParamNameDefaultValueRe = /^\w+(?:\.\w+)\s*\=/,
     textCodeMetaParamTypeSplitRe = /\|/,
-    textCodeMetaParamArrayRe = /\[\]$/;
+    textCodeMetaParamArrayRe = /\[\]$/,
+    textCodeMetaExtendRe = /@extend\s+([^\n\r]+)/;
+
+function get_extend_name(meta){
+        
+    let match = meta.match(textCodeMetaExtendRe) ;
+    
+    if(match){
+
+        return match[1].trim() ;
+    }
+}
 
 function get_text_code_config_values(meta , application){
     
