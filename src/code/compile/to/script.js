@@ -9,7 +9,8 @@ const {
 } = require('../../../script'),
 {
     apply
-} = require('../../../template');
+} = require('../../../template'),
+library_codes = require('../../script/libraries');
 
 module.exports = (codeStr , code) =>{
 
@@ -18,7 +19,8 @@ module.exports = (codeStr , code) =>{
 
     writeTextFile(path , format(apply('code.compile.to.script' , {
         code:codeStr,
-        defaultScope:application.DEFAULT_SCOPE
+        defaultScope:application.DEFAULT_SCOPE,
+        libraries:library_codes(application.LIBRARY_PATHS)
     }))) ;
 
     return path ;
