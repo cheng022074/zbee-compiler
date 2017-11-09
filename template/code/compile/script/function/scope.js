@@ -4,6 +4,8 @@ module.exports = (() =>{
 
     <%- values %>
 
+    <%- extend %>
+
     <%- code %>
 
     if(typeof main === 'function'){

@@ -10,5 +10,10 @@ function generate(target){
         require
     } = target ;
 
-    return `const ${varName} = include('${require}') ;` ;
+    if(varName){
+
+        return `const ${varName} = include('${require}') ;` ;
+    }
+
+    return '' ;
 }

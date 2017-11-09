@@ -4,5 +4,7 @@ module.exports = (<%- params %>) =>{
 
     <%- values %>
 
+    <%- extend %>
+
     <%- code %>
 } ;

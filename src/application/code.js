@@ -366,6 +366,15 @@ function get_text_code_imports(meta){
             var:capitalizeName(content),
             require:content
         }) ;
+
+        let name = get_extend_name(meta) ;
+
+        if(name){
+
+            imports.push({
+                require:name
+            }) ;
+        }
     }
 
     return imports ;
