@@ -7,7 +7,10 @@ Compiler = require('../src/application/code/compiler'),
     red,
     green,
     yellow
-} = require('cli-color');
+} = require('cli-color'),
+{
+    execArgv
+} = require('../src/process');
 
 module.exports = async function(name){
 
@@ -20,19 +23,22 @@ module.exports = async function(name){
            let testers = from(binCode.caller),
                names = [];
 
-           console.log('装载测试配置...') ;
+           if(execArgv && execArgv.compile !== 'false'){
 
-           for(let tester of testers){
-
-                if(tester.hasOwnProperty('action')){
-
-                    names.push(`test::${tester.action}`) ;
+                console.log('编译测试用代码...') ;
+               
+                for(let tester of testers){
+                
+                    if(tester.hasOwnProperty('action')){
+    
+                        names.push(`test::${tester.action}`) ;
+                    }
                 }
+    
+                new Compiler(names).compile() ;
            }
 
-           console.log('准备测试代码...') ;
-
-           new Compiler(names).compile() ;
+           console.log('测试开始...') ;
 
            for(let tester of testers){
 

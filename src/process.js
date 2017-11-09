@@ -9,7 +9,7 @@ if(processArgv.length >= 3){
         argv = exports.argv = [],
         execArgv = exports.execArgv = [];
 
-    const execArgvRe = /^\-{1,2}([^\-\=]+)(?:\=(.+))?$/ ;
+    const execArgvRe = /^\-{2}([^\-\=]+)(?:\=(.+))?$/ ;
 
     for(let arg of args){
         
