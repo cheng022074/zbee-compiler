@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/cheng022074/zbee-compiler#readme",
   "engines": {
-    "node": ">= 8.6"
+    "node": ">= 9.0"
   },
   "dependencies": {
     "babel-core": "^6.26.0",

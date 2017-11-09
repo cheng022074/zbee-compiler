@@ -237,7 +237,7 @@ function get_text_code_params(meta){
                     border:false
                 }) ;
     
-                if(group){
+                if(group && group.length){
 
                     group = restorePlaceholderString(group[0].trim() , placeholder.values) ;
 
