@@ -2,7 +2,8 @@ const {
     apply
 } = require('../../../../template'),
 function_params = require('../../../script/function/params'),
-import_codes = require('../../../script/imports');
+import_codes = require('../../../script/imports'),
+value_codes = require('../../../script/values');
 
 module.exports = sourceCode =>{
 
@@ -31,6 +32,7 @@ module.exports = sourceCode =>{
         fullName,
         code,
         params:function_params(meta.params),
-        imports:import_codes(meta.imports)
+        imports:import_codes(meta.imports),
+        values:value_codes(meta.values)
     }) ;
 }

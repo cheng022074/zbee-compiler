@@ -116,7 +116,8 @@ class ApplicationSourceCode extends SourceCode{
 
     generateMeta(){
 
-        let code = this.code ;
+        let me = this,
+            code = me.code ;
         
         if(is_string(code)){
 
@@ -131,6 +132,7 @@ class ApplicationSourceCode extends SourceCode{
                     scoped:get_text_code_scoped(meta),
                     imports:get_text_code_imports(meta),
                     params:get_text_code_params(meta),
+                    values:get_text_code_config_values(meta , me.project),
                     code
                 } ;
             }
@@ -214,7 +216,21 @@ const textCodeMetaRe = /^\/\*(?:.|[^.])+?\*\//,
     textCodeMetaParamTypeSplitRe = /\|/,
     textCodeMetaParamArrayRe = /\[\]$/;
 
-function get_text_code_params(meta){
+function get_text_code_config_values(meta , application){
+    
+    let textCodeMetaConfigRe = /@config\s+(\w+)\s*\=\s*([^\n\r]+)/g,
+        match,
+        values = {};
+
+    while(match = textCodeMetaConfigRe.exec(meta)){
+
+        values[match[1].trim().toUpperCase()] = application.config(match[2].trim()) ;
+    }
+
+    return values ;
+}
+
+function get_text_code_params(meta , project){
 
     let textCodeMetaParamRe = /@param\s+\{([^\{\}]+)\}\s+([^\n\r]+)/g,
     match,
@@ -222,7 +238,7 @@ function get_text_code_params(meta){
 
     while(match = textCodeMetaParamRe.exec(meta)){
 
-        let type = match[1].trim().toUpperCase(),
+        let type = match[1].trim().toLowerCase(),
             content = match[2].trim();
 
         if(type){

@@ -1,5 +1,4 @@
-const application = require('../application'),
-{
+const {
     get:object_get
 } = require('../object'),
 {
@@ -10,11 +9,13 @@ const application = require('../application'),
     ConfigNotFoundException
 } = require('../application/exception');
 
-function get(name , key){
+function get(application , name , key){
 
-    let config = application.getBinCode(`config::${name}`) ;
+    let code = application.getBinCode(`config::${name}`) ;
 
-    if(config){
+    if(code){
+
+        let config = code.caller ;
 
         if(is_string(key)){
 
@@ -29,16 +30,39 @@ function get(name , key){
     }
 }
 
-exports.get = get ;
+const configRe = /^([^\:]+)\:{2}([^\:]+)$/ ;
 
-exports.keys = (name , key) =>{
+class Config{
 
-    let config = get(name , key) ;
+    constructor(application){
 
-    if(is_simple_object(config)){
-
-        return Object.keys(config) ;
+        this.application = application ;
     }
 
-    return [] ;
+    get(name , key){
+
+        let application = this.application,
+            match = name.match(configRe);
+
+        if(match){
+
+            return get(application , match[1].trim() , match[2].trim()) ;
+        }
+
+        return get(application , name , key) ;
+    }
+
+    keys(name , key){
+
+        let config = this.get(name , key) ;
+        
+        if(is_simple_object(config)){
+    
+            return Object.keys(config) ;
+        }
+    
+        return [] ;
+    }
 }
+
+module.exports = Config ;

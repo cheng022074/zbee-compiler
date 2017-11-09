@@ -30,7 +30,8 @@ const {
     LibraryBinCode
 } = require('./application/code'),
 Project = require('./project'),
-compiler = require('./compiler');
+compiler = require('./compiler'),
+Config = require('./application/config');
 
 class Application extends Project{
 
@@ -38,7 +39,11 @@ class Application extends Project{
 
         super() ;
 
-        this.PATH = process.cwd() ;
+        let me = this ;
+
+        me.PATH = process.cwd() ;
+
+        me.CONFIG = new Config(me) ;
     }
 
     get(key){
@@ -123,6 +128,11 @@ class Application extends Project{
                 return code ;
             }
         }
+    }
+
+    config(name , key){
+
+        return this.CONFIG.get(name , key) ;
     }
 }
 
