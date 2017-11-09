@@ -2,6 +2,8 @@ module.exports = (() =>{
     
     <%- imports %>
 
+    <%- values %>
+
     <%- code %>
 
     if(typeof main === 'function'){

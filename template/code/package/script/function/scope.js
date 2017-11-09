@@ -2,6 +2,8 @@ exports['<%- fullName %>'] = (() =>{
 
     <%- imports %>
 
+    <%- values %>
+
     <%- code %>
 
     if(typeof main === 'function'){
