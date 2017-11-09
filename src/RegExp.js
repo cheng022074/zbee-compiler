@@ -66,7 +66,7 @@
     
     data = data.replace(placeholderRe , match =>{
 
-        data[match] = placeholderFn(match) ;
+        return values[placeholderFn(match)] = match ;
 
     }) ;
 

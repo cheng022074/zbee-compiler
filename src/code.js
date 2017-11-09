@@ -16,12 +16,14 @@ const {
 } = require('./module'),
 {
     split,
-    capitalizeName,
-    genreatePlaceholderString,
-    restorePlaceholderString
+    capitalizeName
 } = require('./string'),
 namespaceRe = /\.\*$/,
-baseSuffixRe = /\.[^\.]+$/;
+baseSuffixRe = /\.[^\.]+$/,
+{
+    genreatePlaceholderString,
+    restorePlaceholderString
+} = require('./RegExp');
 
 class Code{
 
@@ -238,7 +240,7 @@ function get_text_code_params(meta){
                 if(group){
 
                     group = restorePlaceholderString(group[0].trim() , placeholder.values) ;
-    
+
                     let name = group.match(textCodeMetaParamNameRe)[0];
     
                     if(name === group){
