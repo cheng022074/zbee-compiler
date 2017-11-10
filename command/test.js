@@ -10,7 +10,14 @@ Compiler = require('../src/application/code/compiler'),
 } = require('cli-color'),
 {
     execArgv
-} = require('../src/process');
+} = require('../src/process'),
+{
+    defined:is_defined,
+    simpleObject:is_simple_object
+} = require('../src/is'),
+{
+    format
+} = require('../src/json');
 
 module.exports = async function(name){
 
@@ -52,9 +59,32 @@ module.exports = async function(name){
 
                     try{
 
-                        await application.executeBinCode(`test::${tester.action}` , params) ;
+                        let result = await application.executeBinCode(`test::${tester.action}` , params) ;
 
                         console.log('\t' , green('成功') , test) ;
+
+                        if(tester.out === true){
+
+                            console.log('参数 ---------------------------------------------------') ;
+
+                            console.log(format(params)) ;
+
+                            console.log('结果 ---------------------------------------------------') ;
+
+                            if(is_defined(result)){
+
+                                if(is_simple_object(result)){
+
+                                    console.log(format(result)) ;
+                                
+                                }else{
+
+                                    console.log(result) ;
+                                }
+                            }
+
+                            console.log('---------------------------------------------------') ;
+                        }
 
                     }catch(err){
 

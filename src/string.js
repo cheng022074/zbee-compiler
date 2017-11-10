@@ -4,7 +4,7 @@ exports.capitalize = data =>{
     return `${data.charAt(0).toUpperCase()}${data.substr(1)}` ;
 }
 
-const nameSplitRe = /\./g ;
+const nameSplitRe = /\:{2}|\./ ;
 
 exports.capitalizeName = name =>{
 

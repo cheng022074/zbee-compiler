@@ -212,7 +212,7 @@ class ApplicationSourceCode extends SourceCode{
 
 const textCodeMetaRe = /^\/\*(?:.|[^.])+?\*\//,
     textCodeMetaParamNameRe = /^\w+(?:\.\w+)?/,
-    textCodeMetaParamRestRe = /^\.{3}(\w+(?:\.\w+))/,
+    textCodeMetaParamRestRe = /^\.{3}(\w+)/,
     textCodeMetaParamNameDefaultValueRe = /^\w+(?:\.\w+)\s*\=/,
     textCodeMetaParamTypeSplitRe = /\|/,
     textCodeMetaParamArrayRe = /\[\]$/,
@@ -336,6 +336,7 @@ function get_text_code_params(meta , project){
 
     return params ;
 }
+
 
 function get_text_code_imports(meta){
 
