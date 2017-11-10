@@ -6,4 +6,4 @@
 
 <%- code %>
 
-module.exports = <%- name %> ;
+module.exports = <%- shortName %> ;

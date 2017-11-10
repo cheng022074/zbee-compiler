@@ -9,7 +9,7 @@ extend_code = require('../../../script/function/extend');
 module.exports = sourceCode =>{
 
     let {
-        name,
+        shortName,
         code,
         meta,
     } = sourceCode,
@@ -21,7 +21,7 @@ module.exports = sourceCode =>{
     templateName;
 
     return apply('code.compile.script.class' , {
-        name,
+        shortName,
         code,
         imports:import_codes(meta.imports),
         values:value_codes(meta.values),

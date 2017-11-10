@@ -8,6 +8,6 @@ exports['<%- fullName %>'] = (() =>{
 
     <%- code %>
 
-    return <%- name %> ;
+    return <%- shortName %> ;
 
 })() ;

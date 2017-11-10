@@ -10,7 +10,7 @@ module.exports = sourceCode =>{
 
     let {
         fullName,
-        name,
+        shortName,
         code,
         meta,
     } = sourceCode,
@@ -23,7 +23,7 @@ module.exports = sourceCode =>{
     return apply('code.package.script.class' , {
         fullName,
         code,
-        name,
+        shortName,
         imports:import_codes(meta.imports),
         values:value_codes(meta.values),
         extend:extend_code(meta.extend)

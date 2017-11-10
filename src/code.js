@@ -11,7 +11,8 @@ const {
 {
     require:module_require
 } = require('./module'),
-baseSuffixRe = /\.[^\.]+$/;
+baseSuffixRe = /\.[^\.]+$/,
+lastNameRe = /[^\.]+$/;
 
 class Code{
 
@@ -46,6 +47,11 @@ class Code{
         return defineKey(this , '$fullName' , 'generateFullName') ;
     }
 
+    get shortName(){
+
+        return defineKey(this , '$shortName' , 'generateShortName') ;
+    }
+
     generateFullName(){
 
         let {
@@ -54,6 +60,15 @@ class Code{
         } = this ;
 
         return `${scope}::${name}` ;
+    }
+
+    generateShortName(){
+
+        let {
+            name
+        } = this ;
+
+        return name.match(lastNameRe)[0];
     }
 
     get isFile(){
