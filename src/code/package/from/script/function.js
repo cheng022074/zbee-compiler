@@ -14,6 +14,7 @@ module.exports = sourceCode =>{
         meta,
     } = sourceCode,
     {
+        scoped,
         params,
         imports,
         configs,
