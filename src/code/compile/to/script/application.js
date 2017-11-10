@@ -17,7 +17,7 @@ module.exports = (codeStr , code) =>{
     let application = code.project,
         path = join(application.BIN_PATH , code.scope , `${code.name}.js`) ;
 
-    writeTextFile(path , format(apply('code.compile.to.script.compiler' , {
+    writeTextFile(path , format(apply('code.compile.to.script.application' , {
         code:codeStr,
         defaultScope:application.DEFAULT_SCOPE,
         libraries:library_codes(application.LIBRARY_PATHS)
