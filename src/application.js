@@ -44,6 +44,8 @@ class Application extends Project{
         me.PATH = process.cwd() ;
 
         me.CONFIG = new Config(me) ;
+
+        me.COMPILER = compiler ;
     }
 
     get(key){

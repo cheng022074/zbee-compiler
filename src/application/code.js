@@ -134,6 +134,7 @@ class ApplicationSourceCode extends SourceCode{
                     params:get_text_code_params(meta),
                     configs:get_text_code_config_values(meta , me.project),
                     extend:get_extend_name(meta),
+                    requires:get_text_code_requires(meta),
                     code
                 } ;
             }
@@ -335,6 +336,49 @@ function get_text_code_params(meta , project){
     }
 
     return params ;
+}
+
+function get_text_code_requires(meta){
+
+    let textCodeMetaImportRe = /@require\s+([^\n\r]+)/g,
+        textCodeMetaAliasImportRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)/,
+        match,
+        imports = [];
+
+    while(match = textCodeMetaImportRe.exec(meta)){
+
+        let content = match[1].trim() ;
+
+        {
+            let match = content.match(textCodeMetaAliasImportRe) ;
+
+            if(match){
+
+                imports.push({
+                    var:match[1],
+                    require:match[2]
+                }) ;
+
+                continue ;
+            }
+        }
+
+        imports.push({
+            var:content.replace(/\-/ , '_').replace(/\./g , '_').toUpperCase(),
+            require:content
+        }) ;
+    }
+
+    let name = get_extend_name(meta) ;
+
+    if(name){
+
+        imports.push({
+            require:name
+        }) ;
+    }
+
+    return imports ;
 }
 
 
