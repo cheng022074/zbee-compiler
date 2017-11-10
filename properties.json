@@ -27,7 +27,8 @@
                 ".js"
             ],
             "src":[
-                ".fn.js"
+                ".fn.js",
+                ".class.js"
             ],
             "config":[
                 ".json"
@@ -46,7 +47,8 @@
                 ".js":"bin"   
             },
             "src":{
-                ".fn.js":"bin"
+                ".fn.js":"bin",
+                ".class.js":"bin"
             },
             "config":{
                 ".json":"json"
@@ -74,6 +76,10 @@
             ".fn.js":{
                 "from":"code.compile.from.script.function",
                 "to":"code.compile.to.script"
+            },
+            ".class.js":{
+                "from":"code.compile.from.script.class",
+                "to":"code.compile.to.script"
             }
         },
         "test":{
@@ -88,7 +94,8 @@
             "includes":"*",
             "scope":{
                 "src":{
-                    ".fn.js":"code.package.from.script.function"
+                    ".fn.js":"code.package.from.script.function",
+                    ".class.js":"code.package.from.script.class"
                 }
             },
             "to":"code.package.to.script"
