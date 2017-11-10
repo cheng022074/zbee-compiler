@@ -3,7 +3,7 @@ const {
 } = require('../../../../template'),
 function_params = require('../../../script/function/params'),
 import_codes = require('../../../script/imports'),
-value_codes = require('../../../script/values'),
+config_codes = require('../../../script/configs'),
 extend_code = require('../../../script/function/extend');
 
 module.exports = sourceCode =>{

@@ -3,7 +3,7 @@ const {
 } = require('../../../../../template'),
 function_params = require('../../../../script/function/params/object'),
 import_codes = require('../../../../script/imports'),
-value_codes = require('../../../../script/values'),
+config_codes = require('../../../../script/configs'),
 extend_code = require('../../../../script/function/extend');
 
 module.exports = sourceCode =>{
@@ -26,7 +26,7 @@ module.exports = sourceCode =>{
         code,
         params:function_params(params),
         imports:import_codes(imports),
-        configs:value_codes(configs),
+        configs:config_codes(configs),
         extend:extend_code(extend)
     }) ;
 }
