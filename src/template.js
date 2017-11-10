@@ -5,7 +5,8 @@ application = require('./application'),
 {
     TemplateNotFoundExcepition
 } = require('./template/exception'),
-templates = {};
+templates = {},
+suffixRe = /\.[^\.]+$/;
 
 exports.apply = (name , data) =>{
 
@@ -20,7 +21,7 @@ exports.apply = (name , data) =>{
     if(template){
 
         template = templates[name] = compile(template.caller , {
-            rmWhitespace:true
+            rmWhitespace:template.baseSuffix !== '.html'
         }) ;
 
         return template(data);

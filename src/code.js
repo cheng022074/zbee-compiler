@@ -42,6 +42,11 @@ class Code{
         }
     }
 
+    get baseSuffix(){
+
+        return defineKey(this , '$baseSuffix' , 'generateBaseSuffix') ;
+    }
+
     get fullName(){
 
         return defineKey(this , '$fullName' , 'generateFullName') ;
@@ -50,6 +55,15 @@ class Code{
     get shortName(){
 
         return defineKey(this , '$shortName' , 'generateShortName') ;
+    }
+
+    generateBaseSuffix(){
+
+        let {
+            suffix
+        } = this ;
+
+        return suffix.match(baseSuffixRe)[0] ;
     }
 
     generateFullName(){
@@ -187,7 +201,7 @@ class SourceCode extends Code{
                 return readTextFile(path) ;
             }
     
-            switch(me.suffix.match(baseSuffixRe)[0]){
+            switch(me.baseSuffix){
                 
                 case '.json':
     
