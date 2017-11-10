@@ -65,6 +65,12 @@
     },
 
     "compile":{
+        "command":{
+            ".js":{
+                "from":"code.compile.from.script.function",
+                "to":"code.compile.to.script.compiler"
+            }
+        },
         "src":{
             ".fn.js":{
                 "from":"code.compile.from.script.function",
