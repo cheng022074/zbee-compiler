@@ -6,7 +6,8 @@ Compiler = require('../src/application/code/compiler'),
 {
     red,
     green,
-    yellow
+    yellow,
+    magenta
 } = require('cli-color'),
 {
     execArgv
