@@ -1,11 +1,11 @@
 {
     "command":{
-        "version":"command::version",
-        "properties":"command::properties",
-        "dependencies":"command::dependencies",
-        "compile":"command::compile",
-        "package":"command::package",
-        "test":"command::test"
+        "version":"version",
+        "properties":"properties",
+        "dependencies":"dependencies",
+        "compile":"compile",
+        "package":"package",
+        "test":"test"
     },
     "scope":{
         "folders":{

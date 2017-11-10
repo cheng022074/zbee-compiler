@@ -109,7 +109,7 @@ class Application extends Project{
     
         if(commandCodeNames.hasOwnProperty(command)){
     
-            return me.executeBinCode(commandCodeNames[command] , ...args) ;
+            return me.executeBinCode(`command::${commandCodeNames[command]}` , ...args) ;
         
         }else{
     
