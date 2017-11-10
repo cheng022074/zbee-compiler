@@ -68,7 +68,7 @@
         "command":{
             ".js":{
                 "from":"code.compile.from.script.function",
-                "to":"code.compile.to.script.application"
+                "to":"code.compile.to.script"
             }
         },
         "src":{
