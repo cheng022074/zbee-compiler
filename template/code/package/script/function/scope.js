@@ -1,5 +1,7 @@
 exports['<%- fullName %>'] = (() =>{
 
+    <%- requires %>
+
     <%- imports %>
 
     <%- configs %>
