@@ -14,3 +14,19 @@ class ResourceException extends Exception{
 }
 
 exports.ResourceException = ResourceException ;
+
+class NotDefinedException extends Exception{
+
+    constructor(target , key , message = '未定义'){
+
+        super(`${target} ${key} ${message}`) ;
+
+        let me = this ;
+
+        me.target = target ;
+
+        me.key = key ;
+    }
+}
+
+exports.NotDefinedException = NotDefinedException ;

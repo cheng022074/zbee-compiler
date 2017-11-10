@@ -36,7 +36,7 @@ module.exports = sourceCode =>{
         code,
         params:function_params(params),
         imports:import_codes(imports),
-        configs:value_codes(configs),
+        configs:config_codes(configs),
         extend:extend_code(extend)
     }) ;
 }

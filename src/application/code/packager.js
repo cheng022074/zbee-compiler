@@ -5,7 +5,10 @@ application = require('../../application'),
 {
     encode
 } = require('../../object/key'),
-get_source_codes = require('./get');
+get_source_codes = require('./get'),
+{
+    NotDefinedException
+} = require('../../exception');
 
 class Packager{
 
@@ -85,6 +88,10 @@ class Packager{
             }
 
             return application.executeBinCode(toName , result.join('\n') , me) ;
+        
+        }else{
+
+            throw new NotDefinedException('打包器' , name , `打包方式未定义`) ;
         }
 
         return false ;
