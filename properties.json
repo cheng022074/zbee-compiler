@@ -2,17 +2,10 @@
     "command":{
         "version":"command::version",
         "properties":"command::properties",
-        "config":"command::config",
         "dependencies":"command::dependencies",
         "compile":"command::compile",
         "package":"command::package",
-        "test":"command::test",
-        "run":"command::run",
-        "watch":"command::watch",
-        "web":"command::web",
-        "init":"command::project.init",
-        "dev":"command::project.dev",
-        "build":"command::project.build"
+        "test":"command::test"
     },
     "scope":{
         "folders":{
