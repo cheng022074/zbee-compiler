@@ -2,7 +2,7 @@ exports['<%- fullName %>'] = (<%- params %>) =>{
 
     <%- imports %>
 
-    <%- values %>
+    <%- configs %>
 
     <%- extend %>
 

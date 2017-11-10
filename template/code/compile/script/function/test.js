@@ -13,7 +13,7 @@ module.exports = (<%- params %>) =>{
 
     <%- imports %>
 
-    <%- values %>
+    <%- configs %>
 
     <%- extend %>
 

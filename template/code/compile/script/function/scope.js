@@ -4,7 +4,7 @@ module.exports = (() =>{
 
     <%- values %>
 
-    <%- extend %>
+    <%- configs %>
 
     <%- code %>
 

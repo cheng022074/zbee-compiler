@@ -132,7 +132,7 @@ class ApplicationSourceCode extends SourceCode{
                     scoped:get_text_code_scoped(meta),
                     imports:get_text_code_imports(meta),
                     params:get_text_code_params(meta),
-                    values:get_text_code_config_values(meta , me.project),
+                    configs:get_text_code_config_values(meta , me.project),
                     extend:get_extend_name(meta),
                     code
                 } ;

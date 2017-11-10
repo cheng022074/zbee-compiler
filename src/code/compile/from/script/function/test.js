@@ -16,16 +16,17 @@ module.exports = sourceCode =>{
     {
         params,
         imports,
-        scoped
+        configs,
+        extend
     } = meta,
     templateName;
 
     return apply('code.compile.script.function.test' , {
         fullName,
         code,
-        params:function_params(meta.params),
-        imports:import_codes(meta.imports),
-        values:value_codes(meta.values),
-        extend:extend_code(meta.extend)
+        params:function_params(params),
+        imports:import_codes(imports),
+        configs:value_codes(configs),
+        extend:extend_code(extend)
     }) ;
 }

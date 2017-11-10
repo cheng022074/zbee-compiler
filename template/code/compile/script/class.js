@@ -1,6 +1,6 @@
 <%- imports %>
 
-<%- values %>
+<%- configs %>
 
 <%- extend %>
 

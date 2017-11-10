@@ -2,7 +2,7 @@ exports['<%- fullName %>'] = (() =>{
 
     <%- imports %>
 
-    <%- values %>
+    <%- configs %>
 
     <%- extend %>
 
