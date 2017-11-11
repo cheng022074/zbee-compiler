@@ -4,7 +4,7 @@ module.exports = sourceCode =>{
 
     let {
         shortName
-    } = sourceCode.meta;
+    } = sourceCode;
 
     return compile_script(sourceCode , 'code.compile.script.class' , {
         shortName

@@ -7,16 +7,9 @@ const function_params = require('../../script/function/params'),
           apply
       } = require('../../../template');
 
-/**
- * 
- * @param {*} sourceCode 
- * @param {*} template 
- * @param {*} param2 
- */
-
 module.exports = (sourceCode , template , {
-    ...data = {}
-}) =>{
+    ...data
+} = {}) =>{
 
     let {
         fullName,
