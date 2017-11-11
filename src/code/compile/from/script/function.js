@@ -1,45 +1,24 @@
-const {
-    apply
-} = require('../../../../template'),
-function_params = require('../../../script/function/params'),
-import_codes = require('../../../script/imports'),
-require_codes = require('../../../script/requires'),
-config_codes = require('../../../script/configs'),
-extend_code = require('../../../script/function/extend');
+const get_script_data = require('../script');
 
 module.exports = sourceCode =>{
 
-    let {
-        fullName,
-        code,
-        meta,
-    } = sourceCode,
-    {
-        scoped,
-        params,
-        imports,
-        configs,
-        extend,
-        requires,
-    } = meta,
-    templateName;
+    let data = get_script_data(sourceCode),
+        {
+            scoped
+        } = data,
+        template;
 
     if(scoped){
-
-        templateName = 'code.compile.script.function.scope' ;
+        
+        template = 'code.compile.script.function.scope' ;
     
     }else{
 
-        templateName = 'code.compile.script.function' ;
+        template = 'code.compile.script.function' ;
     }
 
-    return apply(templateName , {
-        fullName,
-        code,
-        params:function_params(params),
-        imports:import_codes(imports),
-        requires:require_codes(requires),
-        configs:config_codes(configs),
-        extend:extend_code(extend)
-    }) ;
+    return {
+        template,
+        ...data
+    } ;
 }
