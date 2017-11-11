@@ -1,9 +1,11 @@
-const get_script_data = require('../script');
+const compile_script = require('../script'),
+      param_codes = require('../../../script/function/params');
 
 module.exports = sourceCode =>{
 
     let {
-            scoped
+            scoped,
+            params
         } = sourceCode.meta,
         template;
 
@@ -16,5 +18,9 @@ module.exports = sourceCode =>{
         template = 'code.compile.script.function' ;
     }
 
-    return get_script_data(sourceCode , template) ;
+    params = param_codes(params) ;
+
+    return compile_script(sourceCode , template , {
+        params
+    }) ;
 }

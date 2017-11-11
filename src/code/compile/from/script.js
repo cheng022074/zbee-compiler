@@ -2,12 +2,14 @@ const function_params = require('../../script/function/params'),
       import_codes = require('../../script/imports'),
       require_codes = require('../../script/requires'),
       config_codes = require('../../script/configs'),
-      extend_code = require('../../script/function/extend'),
+      extend_code = require('../../script/extend'),
       {
           apply
       } = require('../../../template');
 
-module.exports = (sourceCode , template) =>{
+module.exports = (sourceCode , template , {
+    ...data = {}
+}) =>{
 
     let {
         fullName,
@@ -15,8 +17,6 @@ module.exports = (sourceCode , template) =>{
         meta,
     } = sourceCode,
     {
-        scoped,
-        params,
         imports,
         configs,
         extend,
@@ -26,10 +26,10 @@ module.exports = (sourceCode , template) =>{
     return apply(template , {
         fullName,
         code,
-        params:function_params(params),
         imports:import_codes(imports),
         requires:require_codes(requires),
         configs:config_codes(configs),
-        extend:extend_code(extend)
+        extend:extend_code(extend),
+        ...data
     }) ;
 }
