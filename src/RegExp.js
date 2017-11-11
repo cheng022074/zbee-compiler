@@ -8,6 +8,11 @@
      from
  } = require('./array') ;
 
+ exports.removeBorders = (data , borderRe) =>{
+
+    return data.replace(borderRe , (match , value) => value) ;
+ }
+
  exports.groupMatch = (data , {
      regexp,
      region,
