@@ -84,24 +84,6 @@ exports.toString = data =>{
     return data ;
 }
 
-exports.toLiteral = data =>{
-
-    if(intRe.test(data) || floatRe.test(data) || booleanRe.test(data)){
-
-        return data ;
-    }
-    
-    try{
-
-        return JSON.parse(data) ;
-    
-    }catch(err){
-
-    }
-
-    return `'${data}'` ;
-}
-
 exports.split = (data , splitRe) =>{
 
     return data.split(splitRe).filter(value => value.trim() !== '') ;
