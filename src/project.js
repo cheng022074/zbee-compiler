@@ -90,7 +90,7 @@ class Project{
                 scopePaths = me.SCOPE_PATHS,
                 scope = match[1] || me.DEFAULT_SCOPE,
                 name = match[2];
-
+                
             if(scopePaths.hasOwnProperty(scope)){
     
                 let basePath = join(scopePaths[scope] , name.replace(/\./g , sep)) ;
@@ -118,7 +118,7 @@ class Project{
                     }
     
                 }else if(scopeSuffixes.hasOwnProperty(scope)){
-    
+
                     let suffixes = scopeSuffixes[scope];
     
                     for(let suffix of suffixes){

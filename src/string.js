@@ -4,7 +4,7 @@ exports.capitalize = data =>{
     return `${data.charAt(0).toUpperCase()}${data.substr(1)}` ;
 }
 
-const nameSplitRe = /\:{2}|\./ ;
+const nameSplitRe = /\:{2}|\./g ;
 
 exports.capitalizeName = name =>{
 
@@ -23,6 +23,11 @@ exports.capitalizeName = name =>{
     }
 
     return `${firstName}${result.join('')}` ;
+}
+
+exports.namePath = name =>{
+
+    return name.replace(nameSplitRe , '/') ;
 }
 
 const intRe = /^\d+$/ ;

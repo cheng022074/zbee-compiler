@@ -9,8 +9,7 @@ const {
 } = require('../../script'),
 {
     apply
-} = require('../../template'),
-library_codes = require('../script/libraries');
+} = require('../../template') ;
 
 /**
  *
@@ -31,8 +30,7 @@ module.exports = (codeStr , code) =>{
 
     writeTextFile(path , format(apply('code.compile.to.script' , {
         code:codeStr,
-        defaultScope:application.DEFAULT_SCOPE,
-        libraries:library_codes(application.LIBRARY_PATHS)
+        defaultScope:application.DEFAULT_SCOPE
     }))) ;
 
     return path ;

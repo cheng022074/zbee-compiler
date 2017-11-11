@@ -204,7 +204,10 @@ function get_keys(data , iterableByValue = false , rootKey = ''){
 
 exports.keys = get_keys ;
 
-exports.values = get_values ;
+exports.values = (data , iterableByValue) =>{
+
+    return Object.values(get_values(data , iterableByValue)) ;
+} ;
 
 exports.assign = (dest , ...sources) =>{
 

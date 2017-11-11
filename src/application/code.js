@@ -3,6 +3,7 @@ const {
     BinCode
 } = require('../code'),
 {
+    readTextFile,
     readJSONFile,
     readHTMLFile,
     readXMLFile

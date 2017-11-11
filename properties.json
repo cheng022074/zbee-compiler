@@ -12,7 +12,8 @@
             "config":"config",
             "command":"command",
             "html":"html",
-            "test":"test"
+            "test":"test",
+            "template":"template"
         },
         "suffixes":{
             "command":[
