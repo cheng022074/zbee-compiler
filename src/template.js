@@ -18,7 +18,7 @@ exports.apply = (name , data) =>{
     let templateName = `template::${name}`,
         template = application.getBinCode(templateName) ;
 
-    if(template){
+    if(template && template.isFile){
 
         template = templates[name] = compile(template.caller , {
             rmWhitespace:template.baseSuffix !== '.html'

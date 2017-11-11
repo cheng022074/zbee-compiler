@@ -18,7 +18,7 @@ module.exports = names =>{
 
             let code = application.getSourceCode(config);
 
-            if(code){
+            if(code && code.isFile){
 
                 codes.push(...code.importAllSourceCodes) ;
                 

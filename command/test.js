@@ -26,7 +26,7 @@ module.exports = async function(name){
 
         let binCode = application.getBinCode(`test::${name}`) ;
 
-        if(binCode){
+        if(binCode && binCode.isFile){
 
            let testers = from(binCode.caller),
                names = [];

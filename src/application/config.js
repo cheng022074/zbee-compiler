@@ -13,7 +13,7 @@ function get(application , name , key){
 
     let code = application.getBinCode(`config::${name}`) ;
 
-    if(code){
+    if(code && code.isFile){
 
         let config = code.caller ;
 

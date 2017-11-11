@@ -54,23 +54,22 @@ function doWatch(type , scopePaths , scopes , scopeSuffixes , fn , path){
 
                 let name = `${scope}::${basename(path , scopePath)}` ;
 
-                try{
+                application.getSourceCode(name).sync() ;
 
-                    application.getSourceCode(name).sync() ;
-
-                    let code = application.getBinCode(name) ;
-
-                    if(code){
-
-                        code.sync() ;
-                    }
-
-                }catch(err){
-
-                    console.log('文件读取错误' , name) ;
-                }
+                let code = application.getBinCode(name);
                 
-                fn(type , name) ;
+                code.sync() ;
+
+                console.log(name , code.isFile) ;
+
+                if(!code.isFile){
+
+                    console.log('代码执行出现错误' , name) ;
+
+                }else{
+
+                    fn(type , name) ;
+                }
 
                 break ;
             }

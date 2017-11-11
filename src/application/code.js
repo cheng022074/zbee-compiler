@@ -39,27 +39,26 @@ class ApplicationBinCode extends BinCode{
 
     generateCaller(){
 
-        let me = this;
+        let me = this,
+            scope = me.scope,
+            type = me.project.get(`scope.bin.${scope}.${encode(me.suffix)}`) ;
 
-        if(me.isFile){
+        let path = me.path;
 
-            let scope = me.scope,
-                type = me.project.get(`scope.bin.${scope}.${encode(me.suffix)}`) ;
-
-            let path = me.path;
+        if(path){
 
             switch(type){
-
+                
                 case 'text':
-
+    
                     return readTextFile(path) ;
-
+    
                 case 'json':
-
+    
                     return readJSONFile(path) ;
-
+    
                 case 'bin':
-
+    
                     path = join(this.project.BIN_PATH , me.scope , `${me.name}.js`) ;
                 
                     if(is_file(path)){
@@ -67,7 +66,7 @@ class ApplicationBinCode extends BinCode{
                         return module_require(path) ;
                     }
             }
-        }
+        }   
     }
 }
 
@@ -79,28 +78,21 @@ class LibraryBinCode extends BinCode{
 
         let me = this,
         {
-            isFile
+            fullName
         } = me ;
 
-        if(!isFile){
+        let libraries = me.project.LIBRARIES ;
+
+        for(let library of libraries){
 
             let {
-                fullName
-            } = me ;
-
-            let libraries = me.project.LIBRARIES ;
-
-            for(let library of libraries){
-
-                let {
-                    include
-                } = library ;
-        
-                if(include){
-        
-                    return include(fullName) ;
-                
-                }
+                include
+            } = library ;
+    
+            if(include){
+    
+                return include(fullName) ;
+            
             }
         }
     }

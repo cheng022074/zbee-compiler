@@ -140,14 +140,18 @@ class BinCode extends Code{
         return defineKey(this , '$caller' , 'generateCaller') ;
     }
 
+    get isFile(){
+
+        return !!(super.isFile && this.caller) ;
+    }
+
     generateCaller(){
 
-        let me = this ;
+        let me = this,
+            path = me.path ;
 
-        if(me.isFile){
+        if(path){
 
-            let path = me.path ;
-            
             if(me.scope === 'template'){
                 
                 return readTextFile(path) ;
@@ -156,11 +160,11 @@ class BinCode extends Code{
             switch(me.suffix.match(baseSuffixRe)[0]){
                 
                 case '.json':
-
+    
                     return readJSONFile(path) ;
-
+    
                 case '.js':
-
+    
                     return module_require(path) ;
     
                 case '.xml':
@@ -171,8 +175,9 @@ class BinCode extends Code{
     
                     return readHTMLFile(path) ;
             }
-
+    
             return readTextFile(path) ;
+
         }
     }
 
@@ -194,13 +199,17 @@ class SourceCode extends Code{
         return defineKey(this , '$code' , 'generateCode') ;
     }
 
+    get isFile(){
+
+        return !!(super.isFile && this.code) ;
+    }
+
     generateCode(){
 
-        let me = this ;
-        
-        if(me.isFile){
+        let me = this,
+            path = me.path ;
 
-            let path = me.path ;
+        if(path){
 
             if(me.scope === 'template'){
                 
@@ -210,7 +219,7 @@ class SourceCode extends Code{
             switch(me.baseSuffix){
                 
                 case '.json':
-
+    
                     return readJSONFile(path) ;
     
                 case '.xml':
@@ -221,7 +230,7 @@ class SourceCode extends Code{
     
                     return readHTMLFile(path) ;
             }
-
+    
             return readTextFile(path) ;
         }
     }

@@ -29,11 +29,20 @@ exports.exec = (...args) =>{
         
         stderr.on('data', log);
         
-        cp.on('exit', ()=>{
+        cp.on('close', ()=>{
             
             callback() ;
 
         });
+
+        process.on('exit' , () =>{
+
+            if(!cp.killed){
+
+                cp.kill() ;
+            }
+            
+        }) ;
 
     }) ;
 }
