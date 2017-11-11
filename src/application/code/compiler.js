@@ -31,8 +31,8 @@ class Compiler{
 
             let suffix = encode(sourceCode.suffix),
                 scope = sourceCode.scope,
-                fromName = `code.compile.from.${application.get(`compile.${scope}.${suffix}.from`)}`,
-                toName = `code.compile.to.${application.get(`compile.${scope}.${suffix}.to`)}` ;
+                fromName = `code.${application.get(`compile.${scope}.${suffix}.from`)}`,
+                toName = `code.compile.${application.get(`compile.${scope}.${suffix}.to`)}` ;
 
             if(fromName && toName){
 
