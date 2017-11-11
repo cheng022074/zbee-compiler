@@ -2,7 +2,6 @@
     "command":{
         "version":"version",
         "properties":"properties",
-        "dependencies":"dependencies",
         "compile":"compile",
         "package":"package",
         "test":"test"
