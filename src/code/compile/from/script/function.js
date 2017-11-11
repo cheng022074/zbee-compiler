@@ -2,10 +2,9 @@ const get_script_data = require('../script');
 
 module.exports = sourceCode =>{
 
-    let data = get_script_data(sourceCode),
-        {
+    let {
             scoped
-        } = data,
+        } = sourceCode.meta,
         template;
 
     if(scoped){
@@ -17,8 +16,5 @@ module.exports = sourceCode =>{
         template = 'code.compile.script.function' ;
     }
 
-    return {
-        template,
-        ...data
-    } ;
+    return get_script_data(sourceCode , template) ;
 }
