@@ -64,11 +64,13 @@ module.exports = async function(name){
 
                         console.log('\t' , green('成功') , test) ;
 
-                        if(tester.out === true){
+                        if(tester.print === true){
 
                             console.log('参数 ---------------------------------------------------') ;
 
                             console.log(format(params)) ;
+
+                            console.log('--------------------------------------------------------') ;
 
                             console.log('结果 ---------------------------------------------------') ;
 
@@ -84,7 +86,7 @@ module.exports = async function(name){
                                 }
                             }
 
-                            console.log('---------------------------------------------------') ;
+                            console.log('--------------------------------------------------------') ;
                         }
 
                     }catch(err){
