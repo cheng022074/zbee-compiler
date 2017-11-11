@@ -2,11 +2,16 @@ const CHOKIDAR = require('chokidar'),
       application = require('../../application'),
       {
           from
-      } = require('../../array');
+      } = require('../../array'),
+      {
+          extname,
+          basename
+      } = require('../../path');
 
 module.exports = (scopes , fn) =>{
 
     let SCOPE_PATHS = application.SCOPE_PATHS,
+        SCOPE_SUFFIXES = application.SCOPE_SUFFIXES,
         paths = [];
 
     scopes = from(scopes) ;
@@ -19,16 +24,56 @@ module.exports = (scopes , fn) =>{
     CHOKIDAR.watch(paths , {
         persistent: true
     })
-    .on('ready', doWatch);
+    .on('ready', function(){
+
+        let me = this ;
+        
+        me.on('add' , doWatch.bind(me , 'add' , paths , scopes , SCOPE_SUFFIXES , fn)) ;
+
+        me.on('change' , doWatch.bind(me , 'change' , paths , scopes , SCOPE_SUFFIXES , fn)) ;
+
+        me.on('unlink' , doWatch.bind(me , 'remove' , paths , scopes , SCOPE_SUFFIXES , fn)) ;
+
+    });
 }
 
-function doWatch(){
+function doWatch(type , scopePaths , scopes , scopeSuffixes , fn , path){
 
-    let me = this ;
+    let len = scopePaths.length ;
 
-   me.on('add' , path =>{
+    for(let i = 0 ; i < len ; i ++){
 
-        console.log(path) ;
+        let scopePath = scopePaths[i] ;
 
-   }) ;
+        if(path.indexOf(scopePath) === 0){
+
+            let scope = scopes[i],
+                suffixes = scopeSuffixes[scope];
+
+            if(suffixes.includes(extname(path))){
+
+                let name = `${scope}::${basename(path , scopePath)}` ;
+
+                try{
+
+                    application.getSourceCode(name).sync() ;
+
+                    let code = application.getBinCode(name) ;
+
+                    if(code){
+
+                        code.sync() ;
+                    }
+
+                }catch(err){
+
+                    console.log('文件读取错误' , name) ;
+                }
+                
+                fn(type , name) ;
+
+                break ;
+            }
+        }
+    }
 }

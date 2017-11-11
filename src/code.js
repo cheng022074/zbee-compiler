@@ -3,6 +3,9 @@ const {
 } = require('./is'),
 {
     readTextFile,
+    readHTMLFile,
+    readJSONFile,
+    readXMLFile,
     getFileUpdateTime
 } = require('./fs'),
 {
@@ -153,8 +156,11 @@ class BinCode extends Code{
             switch(me.suffix.match(baseSuffixRe)[0]){
                 
                 case '.json':
+
+                    return readJSONFile(path) ;
+
                 case '.js':
-    
+
                     return module_require(path) ;
     
                 case '.xml':
@@ -204,8 +210,8 @@ class SourceCode extends Code{
             switch(me.baseSuffix){
                 
                 case '.json':
-    
-                    return module_require(path) ;
+
+                    return readJSONFile(path) ;
     
                 case '.xml':
     

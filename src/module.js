@@ -1,6 +1,8 @@
 exports.require = path =>{
     
-    delete require.cache[path] ;
+    let target = require(path) ;
 
-    return require(path) ;
+    delete require.cache[path] ;
+    
+    return target ;
 }
