@@ -1,23 +1,21 @@
 const compile_script = require('../script'),
       param_codes = require('../../../script/function/params');
 
-module.exports = (sourceCode , template) =>{
+module.exports = (sourceCode) =>{
 
     let {
             scoped,
             params
-        } = sourceCode.meta;
+        } = sourceCode.meta,
+        template;
 
-    if(!template){
-
-        if(scoped){
-            
-            template = 'code.compile.script.function.scope' ;
+    if(scoped){
         
-        }else{
+        template = 'code.compile.script.function.scope' ;
     
-            template = 'code.compile.script.function' ;
-        }
+    }else{
+
+        template = 'code.compile.script.function' ;
     }
 
     params = param_codes(params) ;

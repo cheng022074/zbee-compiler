@@ -1,6 +1,15 @@
-const compile_script_function_test = require('../function');
+const compile_script = require('../../script'),
+      param_codes = require('../../../../script/function/params/object');
 
-module.exports = sourceCode =>{
+module.exports = (sourceCode) =>{
 
-    return compile_script_function_test(sourceCode , 'code.compile.script.function.test') ;
+    let {
+        params
+    } = sourceCode.meta;
+
+    params = param_codes(params) ;
+
+    return compile_script(sourceCode , 'code.compile.script.function.test' , {
+        params
+    }) ;
 }
