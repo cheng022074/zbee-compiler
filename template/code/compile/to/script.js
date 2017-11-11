@@ -57,6 +57,16 @@
                 return target ;
             }
         }
+
+        if(ZBEE_APPLICATION){
+
+            let code = ZBEE_APPLICATION.COMPILER.getBinCode(name) ;
+
+            if(code){
+
+                return code.caller ;
+            }
+        }
     }
 }
 

@@ -4,8 +4,6 @@ module.exports = (() =>{
     
     <%- imports %>
 
-    <%- values %>
-
     <%- configs %>
 
     <%- code %>

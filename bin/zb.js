@@ -21,7 +21,7 @@ application = require('../src/application'),
     join
 } = require('path');
 
-
+global.ZBEE_APPLICATION = application ;
 
 if(execArgv && execArgv.hasOwnProperty('project')){
 
