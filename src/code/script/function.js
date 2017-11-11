@@ -1,5 +1,5 @@
 const compile_script = require('../script'),
-      param_codes = require('../../../script/function/params');
+      param_codes = require('../script/function/params');
 
 module.exports = (sourceCode) =>{
 

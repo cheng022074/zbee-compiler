@@ -3,14 +3,14 @@ const {
 } = require('path'),
 {
     writeTextFile
-} = require('../../../fs'),
+} = require('../../fs'),
 {
     format
-} = require('../../../script'),
+} = require('../../script'),
 {
     apply
-} = require('../../../template'),
-library_codes = require('../../script/libraries');
+} = require('../../template'),
+library_codes = require('../script/libraries');
 
 /**
  *

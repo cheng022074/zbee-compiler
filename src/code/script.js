@@ -1,11 +1,11 @@
-const function_params = require('../../script/function/params'),
-      import_codes = require('../../script/imports'),
-      require_codes = require('../../script/requires'),
-      config_codes = require('../../script/configs'),
-      extend_code = require('../../script/extend'),
+const function_params = require('./script/function/params'),
+      import_codes = require('./script/imports'),
+      require_codes = require('./script/requires'),
+      config_codes = require('./script/configs'),
+      extend_code = require('./script/extend'),
       {
           apply
-      } = require('../../../template');
+      } = require('../template');
 
 module.exports = (sourceCode , template , {
     ...data
