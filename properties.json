@@ -66,24 +66,24 @@
     "compile":{
         "command":{
             ".js":{
-                "from":"code.compile.from.script.function",
-                "to":"code.compile.to.script"
+                "from":"script.function",
+                "to":"script"
             }
         },
         "src":{
             ".fn.js":{
-                "from":"code.compile.from.script.function",
-                "to":"code.compile.to.script"
+                "from":"script.function",
+                "to":"script"
             },
             ".class.js":{
-                "from":"code.compile.from.script.class",
-                "to":"code.compile.to.script"
+                "from":"script.class",
+                "to":"script"
             }
         },
         "test":{
             ".js":{
-                "from":"code.compile.from.script.function.test",
-                "to":"code.compile.to.script"
+                "from":"function.test",
+                "to":"script"
             }
         }
     },
