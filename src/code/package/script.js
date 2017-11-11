@@ -1,15 +1,15 @@
 const {
     apply
-} = require('../../../template'),
+} = require('../../template'),
 {
     writeTextFile
-} = require('../../../fs'),
+} = require('../../fs'),
 {
     join
 } = require('path'),
 {
     format
-} = require('../../../script');
+} = require('../../script');
 
 module.exports = (code , packager) =>{
 

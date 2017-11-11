@@ -78,7 +78,7 @@ class Packager{
     
                 if(fromName){
             
-                    let codeStr = application.executeBinCode(fromName , sourceCode) ;
+                    let codeStr = application.executeBinCode(`code.${fromName}` , sourceCode) ;
             
                     if(codeStr){
 
@@ -87,7 +87,7 @@ class Packager{
                 }
             }
 
-            return application.executeBinCode(toName , result.join('\n') , me) ;
+            return application.executeBinCode(`code.package.${toName}` , result.join('\n') , me) ;
         
         }else{
 

@@ -31,16 +31,16 @@ class Compiler{
 
             let suffix = encode(sourceCode.suffix),
                 scope = sourceCode.scope,
-                fromName = `code.${application.get(`compile.${scope}.${suffix}.from`)}`,
-                toName = `code.compile.${application.get(`compile.${scope}.${suffix}.to`)}` ;
+                fromName = application.get(`compile.${scope}.${suffix}.from`),
+                toName = application.get(`compile.${scope}.${suffix}.to`) ;
 
             if(fromName && toName){
 
-                let codeStr = application.executeBinCode(fromName , sourceCode) ;
+                let codeStr = application.executeBinCode(`code.${fromName}` , sourceCode) ;
 
                 if(codeStr){
 
-                    let path = application.executeBinCode(toName , codeStr , sourceCode) ;
+                    let path = application.executeBinCode(`code.compile.${toName}` , codeStr , sourceCode) ;
 
                     if(path){
 
