@@ -82,7 +82,7 @@
         },
         "test":{
             ".js":{
-                "from":"function.test",
+                "from":"script.function.test",
                 "to":"script"
             }
         }
