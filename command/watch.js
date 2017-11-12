@@ -4,7 +4,7 @@ const application_watch = require('../src/application/code/watch'),
 
 module.exports = () =>{
 
-    application_watch(application.get('command') , (type , name) =>{
+    application_watch(application.get('watch') , (type , name) =>{
 
         switch(type){
 
