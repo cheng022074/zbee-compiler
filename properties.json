@@ -101,6 +101,9 @@
             "to":"script"
         }
     },
+    "watch":[
+        "command"
+    ],
     "web":{
         "routers":{
             "/":"."
