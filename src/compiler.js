@@ -77,12 +77,7 @@ class Compiler extends Project{
 
         if(config){
 
-            let code = new SourceCode(me , config) ;
-
-            if(code.isFile){
-
-                return code ;
-            }
+            return new SourceCode(me , config) ;
         }
     }
 }

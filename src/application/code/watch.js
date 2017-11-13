@@ -54,13 +54,13 @@ function doWatch(type , scopePaths , scopes , scopeSuffixes , fn , path){
 
                 let name = `${scope}::${basename(path , scopePath)}` ;
 
+                console.log(name) ;
+
                 application.getSourceCode(name).sync() ;
 
-                let code = application.getBinCode(name);
+                let code = application.getBinCode(name) ;
                 
                 code.sync() ;
-
-                console.log(name , code.isFile) ;
 
                 if(!code.isFile){
 
