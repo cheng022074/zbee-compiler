@@ -1,10 +1,7 @@
 const Koa = require('koa'),
       Koa_static = require('koa-static'),
       koa_mount = require('koa-mount'),
-      {
-        PATH,
-        get
-      } = require('../src/application'),
+      application = require('../src/application'),
       {
           join
       } = require('path'),
@@ -17,12 +14,12 @@ module.exports = port =>{
     const app = new Koa();
 
     {
-        let routers = get('web.routers'),
+        let routers = application.parseSourceCodeNamesget('web.routers'),
             urls = Object.keys(routers);
         
         for(let url of urls){
     
-            let path = join(PATH , routers[url]);
+            let path = join(application.PATH , routers[url]);
     
             if(is_directory(path)){
     
@@ -31,7 +28,7 @@ module.exports = port =>{
         }
     }
 
-    port = port || get('web.port') ;
+    port = port || application.get('web.port') ;
 
     app.listen(port) ;
 

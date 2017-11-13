@@ -5,7 +5,8 @@
         "compile":"compile",
         "package":"package",
         "test":"test",
-        "watch":"watch"
+        "watch":"watch",
+        "web":"web"
     },
     "scope":{
         "folders":{

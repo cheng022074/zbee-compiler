@@ -11,7 +11,7 @@ const {
     format
 } = require('../../script');
 
-module.exports = (code , packager) =>{
+module.exports = (code , packager , template = 'code.package.to.script') =>{
 
     let application = packager.application,
         {
@@ -28,7 +28,7 @@ module.exports = (code , packager) =>{
         path = join(application.DIST_PATH , `${packager.name}.js`) ;
     }
 
-    writeTextFile(path , format(apply('code.package.to.script' , {
+    writeTextFile(path , format(apply(template , {
         code,
         defaultScope:application.DEFAULT_SCOPE
     }))) ;

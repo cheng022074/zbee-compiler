@@ -302,7 +302,7 @@ function get_text_code_params(meta , project){
 
                 if(group && group.length){
 
-                    group = restorePlaceholderString(group[0].trim() , placeholder.values) ;
+                    group = restorePlaceholderString(group[group.length - 1].trim() , placeholder.values) ;
 
                     let name = group.match(textCodeMetaParamNameRe)[0];
 

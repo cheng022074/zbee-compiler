@@ -1,6 +1,3 @@
-
-const codes = {};
-
 {
       const prefixRe = /^[^\:]+\:{2}/,
             defaultPrefix = '<%- defaultScope %>',
@@ -25,7 +22,6 @@ const codes = {};
 }
 
 {
-    const exports = codes ;
 
     <%- code %>
 }
