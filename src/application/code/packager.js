@@ -71,6 +71,11 @@ class Packager{
             let codes = me.sourceCodes ;
 
             for(let sourceCode of codes){
+
+                if(!sourceCode.code){
+
+                    continue ;
+                }
                 
                 let suffix = encode(sourceCode.suffix),
                     scope = sourceCode.scope,
