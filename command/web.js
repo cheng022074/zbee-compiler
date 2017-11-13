@@ -14,7 +14,7 @@ module.exports = port =>{
     const app = new Koa();
 
     {
-        let routers = application.parseSourceCodeNamesget('web.routers'),
+        let routers = application.get('web.routers'),
             urls = Object.keys(routers);
         
         for(let url of urls){
