@@ -29,6 +29,11 @@ class Compiler{
 
         for(let sourceCode of this.sourceCodes){
 
+            if(!sourceCode.code){
+
+                continue ;
+            }
+
             let suffix = encode(sourceCode.suffix),
                 scope = sourceCode.scope,
                 fromName = application.get(`compile.${scope}.${suffix}.from`),
@@ -36,7 +41,7 @@ class Compiler{
 
             if(fromName && toName){
 
-                let codeStr = application.executeBinCode(`code.${fromName}` , sourceCode) ;
+                let codeStr = application.executeBinCode(`code.${fromName}` , sourceCode , 'compile') ;
 
                 if(codeStr){
 

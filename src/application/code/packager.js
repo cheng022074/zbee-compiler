@@ -83,7 +83,7 @@ class Packager{
     
                 if(fromName){
             
-                    let codeStr = application.executeBinCode(`code.${fromName}` , sourceCode) ;
+                    let codeStr = application.executeBinCode(`code.${fromName}` , sourceCode , 'package') ;
             
                     if(codeStr){
 
