@@ -46,10 +46,13 @@ class Packager{
             let {
                 includes,
                 to
-            } = config,
-            me = this;
+            } = config;
 
-            me.sourceCodes = get_source_codes(this.includeRegExes = generateRegExes(from(includes))) ;
+            includes = from(includes) ;
+
+            me.sourceCodes = get_source_codes(includes) ;
+
+            me.includeRegExes = generateRegExes(includes) ;
             
             me.exists = true ;
 
