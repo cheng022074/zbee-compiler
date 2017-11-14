@@ -1,7 +1,8 @@
 {
     const nameRe = /^([^\:]+)\:{2}(.+)$/,
           defaultPrefix = '<%- defaultScope %>',
-          usedCodes = {};
+          usedCodes = {},
+          libraries = <%- libraries %>;
 
     function include(name){
 
@@ -34,7 +35,24 @@
                 scope = defaultPrefix ;
             }
 
-            return  usedCodes[name] = usedCodes[`${scope}::${baseName}`] = require(`../${scope}/${baseName}.js`) ;
+            let fullName = `${scope}::${baseName}` ;
+
+            try{
+
+                return  usedCodes[name] = usedCodes[fullName] = require(`../${scope}/${baseName}.js`) ;
+            
+            }catch(err){
+
+
+            }
+
+            for(let library of libraries){
+
+                if(library.hasOwnProperty(fullName)){
+
+                    return usedCodes[name] = usedCodes[fullName] =library[fullName] ;
+                }
+            }
         }
     }
 }

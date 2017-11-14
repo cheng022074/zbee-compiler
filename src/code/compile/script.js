@@ -13,7 +13,8 @@ const {
 {
     relative,
     dirname
-} = require('path');
+} = require('path'),
+get_libraries = require('../script/libraries');
 
 /**
  *
@@ -31,19 +32,21 @@ module.exports = (codeStr , code) =>{
 
     let application = code.project,
         path = join(application.BIN_PATH , code.scope , `${code.name}.js`),
-        libPaths = application.BROWSER_LIBRARY_PATHS,
-        dirPath = dirname(path);
-
-    console.log(libPaths) ;
+        libPaths = application.NODE_LIBRARY_PATHS,
+        dirPath = dirname(path),
+        libraries = [];
 
     for(let libPath of libPaths){
 
-        console.log(relative(dirPath , libPath)) ;
+        libraries.push(relative(dirPath , libPath)) ;
     }
+
+    libraries = get_libraries(libraries) ;
 
     writeTextFile(path , format(apply('code.compile.to.script' , {
         code:codeStr,
-        defaultScope:application.DEFAULT_SCOPE
+        defaultScope:application.DEFAULT_SCOPE,
+        libraries
     }))) ;
 
     return path ;
