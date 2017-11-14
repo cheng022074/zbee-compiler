@@ -1,5 +1,4 @@
-const application = require('../src/application'),
-      Packager = require('../src/application/code/packager');
+const Packager = require('../src/application/code/packager');
 
 module.exports = (name = 'default') =>{
 

@@ -5,11 +5,16 @@ const {
     encode
 } = require('../../object/key'),
 application = require('../../application'),
-get_source_codes = require('./get');
+get_source_codes = require('./get'),
+{
+    from
+} = require('../../array');
 
 class Compiler{
 
     constructor(names){
+
+        names = from(names) ;
 
         let me = this ;
 

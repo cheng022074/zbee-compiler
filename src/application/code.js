@@ -336,7 +336,7 @@ function get_text_code_params(meta , project){
 function get_text_code_requires(meta){
 
     let textCodeMetaImportRe = /@require\s+([^\n\r]+)/g,
-        textCodeMetaAliasImportRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)/,
+        textCodeMetaAliasImportRe = /(\{?[\w\,\s\:]+\}?)\s+from\s+(\w+(?:\.\w+)*)/,
         match,
         imports = [];
 
@@ -380,7 +380,7 @@ function get_text_code_requires(meta){
 function get_text_code_imports(meta){
 
     let textCodeMetaImportRe = /@import\s+([^\n\r]+)/g,
-        textCodeMetaAliasImportRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)/,
+        textCodeMetaAliasImportRe = /(\{?[\w\,\s\:]+\}?)\s+from\s+((?:\w+\:{2})?\w+(?:\.\w+)*)/,
         match,
         imports = [];
 
