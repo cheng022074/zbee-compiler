@@ -181,32 +181,9 @@ defineProperties(Application.prototype , {
 
         get(){
 
-            return get_lib_paths.call(this , 'node') ;
+            return get_library_paths.call(this , 'node') ;
         }
 
-    },
-
-    LIBRARY_PATHS:{
-
-        get(){
-
-            let me = this,
-                libraryPaths = from(me.get('libraries')),
-                rootPath = me.LIBRARY_PATH,
-                paths = [];
-
-            for(let libraryPath of libraryPaths){
-
-                let path = join(rootPath , libraryPath) ;
-
-                if(is_file(path)){
-
-                    paths.push(path) ;
-                }
-            }
-
-            return paths ;
-        }
     },
 
     LIBRARIES:{
@@ -304,7 +281,7 @@ defineProperties(Application.prototype , {
 
 module.exports = new Application() ;
 
-function get_lib_paths(type){
+function get_library_paths(type){
 
     let me = this,
         libraries = from(me.get('libraries')),

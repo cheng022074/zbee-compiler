@@ -31,8 +31,10 @@ module.exports = (codeStr , code) =>{
 
     let application = code.project,
         path = join(application.BIN_PATH , code.scope , `${code.name}.js`),
-        libPaths = application.LIBRARY_PATHS,
+        libPaths = application.BROWSER_LIBRARY_PATHS,
         dirPath = dirname(path);
+
+    console.log(libPaths) ;
 
     for(let libPath of libPaths){
 
