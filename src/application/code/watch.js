@@ -28,9 +28,9 @@ module.exports = (scopes , fn) =>{
 
         let me = this ;
         
-        me.on('add' , doWatch.bind(me , 'add' , paths , scopes , SCOPE_SUFFIXES , fn)) ;
+        me.on('add' , doWatch.bind(me , 'create' , paths , scopes , SCOPE_SUFFIXES , fn)) ;
 
-        me.on('change' , doWatch.bind(me , 'change' , paths , scopes , SCOPE_SUFFIXES , fn)) ;
+        me.on('change' , doWatch.bind(me , 'update' , paths , scopes , SCOPE_SUFFIXES , fn)) ;
 
         me.on('unlink' , doWatch.bind(me , 'remove' , paths , scopes , SCOPE_SUFFIXES , fn)) ;
 
@@ -54,15 +54,13 @@ function doWatch(type , scopePaths , scopes , scopeSuffixes , fn , path){
 
                 let name = `${scope}::${basename(path , scopePath)}` ;
 
-                console.log(name) ;
+                let code = application.getSourceCode(name) ;
 
-                application.getSourceCode(name).sync() ;
-
-                let code = application.getBinCode(name) ;
-                
                 code.sync() ;
 
-                if(!code.isFile){
+                application.getBinCode(name).sync();
+
+                if(!code.isFile && type !== 'remove'){
 
                     console.log('代码执行出现错误' , name) ;
 

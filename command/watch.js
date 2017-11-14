@@ -8,8 +8,8 @@ module.exports = () =>{
 
         switch(type){
 
-            case 'add':
-            case 'change':
+            case 'create':
+            case 'update':
             case 'remove':
 
                 compile(name) ;

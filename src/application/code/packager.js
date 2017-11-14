@@ -14,9 +14,10 @@ get_source_codes = require('./get'),
     remove
 } = require('../../array'),
 dotRe = /\./g,
-lastMatchRe = /\*$/;
+lastMatchRe = /\*$/,
+application_watch = require('./watch');
 
-function generateRegExes(names){
+function generate_regexes(names){
 
     let result = [] ;
 
@@ -45,25 +46,61 @@ class Packager{
 
             let {
                 includes,
-                to
+                to,
+                watch
             } = config;
 
             includes = from(includes) ;
 
             me.sourceCodes = get_source_codes(includes) ;
 
-            me.includeRegExes = generateRegExes(includes) ;
+            me.includeRegExes = generate_regexes(includes) ;
             
             me.exists = true ;
 
             me.toName = to ;
 
             me.config = config ;
-        
+
+            me.watchScopes = watch ;
+    
         }else{
 
             me.exists = false ;
         }
+    }
+
+    watch(fn){
+
+        let me = this,
+            scopes = me.watchScopes ;
+
+        if(scopes){
+
+            application_watch(scopes , (type , name) =>{
+
+                switch(type){
+
+                    case 'create':
+                    case 'update':
+
+                        me.add(name) ;
+
+                        break ;
+
+                    case 'remove':
+
+                        me.remove(name) ;
+                }
+
+                fn(me.package()) ;
+
+            }) ;
+
+            return true ;
+        }
+
+        return false ;
     }
 
     add(name){

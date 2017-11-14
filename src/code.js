@@ -1,5 +1,6 @@
 const {
-    file:is_file
+    file:is_file,
+    defined:is_defined
 } = require('./is'),
 {
     readTextFile,
@@ -201,7 +202,7 @@ class SourceCode extends Code{
 
     get isFile(){
 
-        return !!(super.isFile && this.code) ;
+        return !!(super.isFile && is_defined(this.code)) ;
     }
 
     generateCode(){

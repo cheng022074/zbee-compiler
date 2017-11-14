@@ -12,6 +12,12 @@ module.exports = (name = 'default') =>{
         if(path){
 
             console.log('已打包' , path) ;
+
+            packager.watch(path =>{
+
+                console.log('已打包' , path) ;
+
+            }) ;
         }
     
     }else{
