@@ -18,7 +18,8 @@ const {
 {
     file:is_file,
     function:is_function,
-    string:is_string
+    string:is_string,
+    simpleObject:is_simple_object
 } = require('./is'),
 {
     CommandNotFoundExcepition,
@@ -167,6 +168,24 @@ defineProperties(Application.prototype , {
         }
     },
 
+    BROWSER_LIBRARY_PATHS:{
+
+        get(){
+
+            return get_library_paths.call(this , 'browser') ;
+        }
+
+    },
+
+    NODE_LIBRARY_PATHS:{
+
+        get(){
+
+            return get_lib_paths.call(this , 'node') ;
+        }
+
+    },
+
     LIBRARY_PATHS:{
 
         get(){
@@ -196,7 +215,7 @@ defineProperties(Application.prototype , {
 
             let result = [] ;
 
-            for(let path of this.LIBRARY_PATHS){
+            for(let path of this.NODE_LIBRARY_PATHS){
 
                 result.push(require(path)) ;
             }
@@ -284,3 +303,38 @@ defineProperties(Application.prototype , {
 }) ;
 
 module.exports = new Application() ;
+
+function get_lib_paths(type){
+
+    let me = this,
+        libraries = from(me.get('libraries')),
+        rootPath = me.LIBRARY_PATH,
+        paths = [];
+
+    for(let library of libraries){
+
+        let path ;
+
+        if(is_string(library)){
+
+            path = library ;
+
+        }else if(is_simple_object(library) && library.type === type){
+
+            path = library.path ;
+        
+        }else{
+
+            continue ;
+        }
+
+        path = join(rootPath , path) ;
+
+        if(is_file(path)){
+
+            paths.push(path) ;
+        }
+    }
+
+    return paths ;
+}

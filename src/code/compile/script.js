@@ -9,7 +9,11 @@ const {
 } = require('../../script'),
 {
     apply
-} = require('../../template') ;
+} = require('../../template'),
+{
+    relative,
+    dirname
+} = require('path');
 
 /**
  *
@@ -26,7 +30,14 @@ const {
 module.exports = (codeStr , code) =>{
 
     let application = code.project,
-        path = join(application.BIN_PATH , code.scope , `${code.name}.js`) ;
+        path = join(application.BIN_PATH , code.scope , `${code.name}.js`),
+        libPaths = application.LIBRARY_PATHS,
+        dirPath = dirname(path);
+
+    for(let libPath of libPaths){
+
+        console.log(relative(dirPath , libPath)) ;
+    }
 
     writeTextFile(path , format(apply('code.compile.to.script' , {
         code:codeStr,
