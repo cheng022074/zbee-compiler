@@ -8,7 +8,25 @@ application = require('../../application'),
 get_source_codes = require('./get'),
 {
     NotDefinedException
-} = require('../../exception');
+} = require('../../exception'),
+{
+    from,
+    remove
+} = require('../../array'),
+dotRe = /\./g,
+lastMatchRe = /\*$/;
+
+function generateRegExes(names){
+
+    let result = [] ;
+
+    for(let name of names){
+
+        result.push(new RegExp(`^${name.replace(dotRe , '\\\.').replace(lastMatchRe , '.+')}$`)) ;
+    }
+
+    return result ;
+}
 
 class Packager{
 
@@ -30,12 +48,9 @@ class Packager{
                 to
             } = config,
             me = this;
-    
-            if(includes){
-    
-                me.sourceCodes = get_source_codes(includes) ;
-            }
 
+            me.sourceCodes = get_source_codes(this.includeRegExes = generateRegExes(from(includes))) ;
+            
             me.exists = true ;
 
             me.toName = to ;
@@ -48,9 +63,52 @@ class Packager{
         }
     }
 
-    notify(name){
+    add(name){
 
+        let me = this,
+            includeRegExes = me.includeRegExes,
+            sourceCodes = me.sourceCodes;
 
+        for(let includeRegEx of includeRegExes){
+
+            if(includeRegEx.test(name)){
+
+                let code = application.getSourceCode(name) ;
+
+                if(code){
+
+                    if(!sourceCodes.includes(code)){
+
+                        sourceCodes.push(code) ;
+
+                        let codes = code.importAllSourceCodes ;
+                        
+                        for(let code of codes){
+
+                            if(!sourceCodes.includes(code)){
+        
+                                sourceCodes.push(code) ;
+                            }
+                        }
+
+                    }else{
+
+                        code.sync() ;
+                    }
+
+                    return true ;
+                }
+            }
+        }
+
+        return false ;
+    }
+
+    remove(name){
+
+        let me = this;
+        
+        return remove(me.sourceCodes , me.application.getSourceCode(name)) ;
     }
 
     package(){

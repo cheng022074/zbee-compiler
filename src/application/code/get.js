@@ -1,12 +1,9 @@
 const {
-    from,
     unique
 } = require('../../array'),
 application = require('../../application');
 
 module.exports = names =>{
-    
-    names = from(names) ;
 
     let codes = [] ;
     
