@@ -15,9 +15,13 @@
             "command":"command",
             "html":"html",
             "test":"test",
-            "template":"template"
+            "template":"template",
+            "ue":"ue"
         },
         "suffixes":{
+            "ue":[
+                ".js"
+            ],
             "command":[
                 ".js"
             ],

@@ -1,4 +1,4 @@
-exports['<%- fullName %>'] = (<%- params %>) =>{
+exports['<%- fullName %>'] = function(<%- params %>){
 
     <%- requires %>
 

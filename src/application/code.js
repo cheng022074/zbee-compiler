@@ -138,6 +138,8 @@ class ApplicationSourceCode extends SourceCode{
             scoped:false,
             imports:[],
             params:[],
+            configs:[],
+            requires:[],
             code
         } ;
     }
