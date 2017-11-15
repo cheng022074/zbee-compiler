@@ -23,12 +23,7 @@ class Compiler{
         me.application = application ;
     }
 
-    get isEmpty(){
-
-        return this.sourceCodes.length === 0 ;
-    }
-
-    compile(){
+    compile(fn = () =>{}){
 
         let result = [] ;
 
@@ -41,8 +36,8 @@ class Compiler{
 
             let suffix = encode(sourceCode.suffix),
                 scope = sourceCode.scope,
-                fromName = application.get(`compile.${scope}.${suffix}.from`),
-                toName = application.get(`compile.${scope}.${suffix}.to`) ;
+                fromName = application.get(`compile.scope.${scope}.${suffix}.from`),
+                toName = application.get(`compile.scope.${scope}.${suffix}.to`) ;
 
             if(fromName && toName){
 
@@ -53,6 +48,8 @@ class Compiler{
                     let path = application.executeBinCode(`code.compile.${toName}` , codeStr , sourceCode) ;
 
                     if(path){
+
+                        fn(path) ;
 
                         result.push(path) ;
                     }

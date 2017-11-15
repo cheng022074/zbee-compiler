@@ -1,27 +1,27 @@
-const Compiler = require('../src/application/code/compiler');
+const Compiler = require('../src/application/code/compiler'),
+      application = require('../src/application');
 
 module.exports = name =>{
 
     if(name){
 
-        let compiler = new Compiler(name) ;
-
-        if(compiler.isEmpty){
-
-            console.log('未找到代码' , name) ;
-        
-        }else{
-
-            let paths = compiler.compile() ;
-
-            for(let path of paths){
-
-                console.log('已编译' , path) ;
-            }
-        }
+        result(new Compiler(name).compile(compile)) ;
 
     }else{
 
-        console.log('请指定代码名称') ;
+        new Compiler(application.get('compile.batch')).compile(compile) ;
+    }
+}
+
+function compile(path){
+
+    console.log('已编译' , path) ;
+}
+
+function result(paths){
+
+    if(paths.length === 0){
+
+        console.log('未找到代码' , name) ;
     }
 }

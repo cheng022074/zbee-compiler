@@ -71,28 +71,31 @@
     },
 
     "compile":{
-        "command":{
-            ".js":{
-                "from":"script.function",
-                "to":"script"
-            }
-        },
-        "src":{
-            ".fn.js":{
-                "from":"script.function",
-                "to":"script"
+        "scope":{
+            "command":{
+                ".js":{
+                    "from":"script.function",
+                    "to":"script"
+                }
             },
-            ".class.js":{
-                "from":"script.class",
-                "to":"script"
+            "src":{
+                ".fn.js":{
+                    "from":"script.function",
+                    "to":"script"
+                },
+                ".class.js":{
+                    "from":"script.class",
+                    "to":"script"
+                }
+            },
+            "test":{
+                ".js":{
+                    "from":"script.function.test",
+                    "to":"script"
+                }
             }
         },
-        "test":{
-            ".js":{
-                "from":"script.function.test",
-                "to":"script"
-            }
-        }
+        "batch":[]
     },
     "package":{
         "default":{
