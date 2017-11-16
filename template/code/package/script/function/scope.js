@@ -14,7 +14,7 @@ exports['<%- fullName %>'] = (() =>{
 
         return function(<%- params %>){
 
-            return main.call(undefined , arguments) ;
+            return main.apply(undefined , arguments) ;
         } ;
     }
 
