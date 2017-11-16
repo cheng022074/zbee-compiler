@@ -60,7 +60,7 @@ module.exports = async function(name){
 
                     try{
 
-                        let result = await application.executeBinCode(`test::${tester.action}` , params) ;
+                        let result = await application.executeBinCode(`test::${action}` , params) ;
 
                         console.log('\t' , green('成功') , test) ;
 
