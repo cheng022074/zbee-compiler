@@ -14,7 +14,8 @@ Compiler = require('../src/application/code/compiler'),
 } = require('../src/process'),
 {
     defined:is_defined,
-    simpleObject:is_simple_object
+    simpleObject:is_simple_object,
+    array:is_array
 } = require('../src/is'),
 {
     format
@@ -76,14 +77,8 @@ module.exports = async function(name){
 
                             if(is_defined(result)){
 
-                                if(is_simple_object(result)){
-
-                                    console.log(format(result)) ;
-                                
-                                }else{
-
-                                    console.log(result) ;
-                                }
+                                console.log(format(result)) ;
+                             
                             }
 
                             console.log('--------------------------------------------------------') ;

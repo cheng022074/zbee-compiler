@@ -1,5 +1,6 @@
 const {
-    simpleObject:is_simpleObject
+    simpleObject:is_simpleObject,
+    array:is_array
 } = require('./is') ;
 
 exports.parse = data =>{
@@ -9,16 +10,10 @@ exports.parse = data =>{
 
 exports.format = data =>{
 
-    if(is_simpleObject(data)){
+    if(is_array(data) || is_simpleObject(data)){
 
-        try{
+        return JSON.stringify(data , null , 2) ;
 
-            return JSON.stringify(data , null , 2) ;
-
-        }catch(err){
-
-
-        }
     }
 
     return data ;
