@@ -21,7 +21,7 @@ Compiler = require('../src/application/code/compiler'),
     format
 } = require('../src/json');
 
-module.exports = async function(name){
+module.exports = async function(name , testName){
 
     if(name){
 
@@ -50,6 +50,11 @@ module.exports = async function(name){
            console.log('测试开始...') ;
 
            for(let tester of testers){
+
+                if(testName && testName !== tester.test){
+
+                    continue ;
+                }
 
                 let {
                     test,
