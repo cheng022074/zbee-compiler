@@ -246,6 +246,24 @@ function assign(dest , source , isCover){
     }
 }
 
+exports.copy = (dest , source , keys) =>{
+
+    let {
+        set,
+        get
+    } = exports ;
+
+    for(let key of keys){
+        
+        if(key in source){
+
+            set(dest , key , get(source , key)) ;
+        }
+    }
+
+    return dest ;
+}
+
 exports.clone = (target , count = 1) =>{
 
     let source = JSON.stringify(target),

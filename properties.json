@@ -4,6 +4,7 @@
         "properties":"properties",
         "compile":"compile",
         "package":"package",
+        "code":"code",
         "test":"test",
         "watch":"watch",
         "web":"web"
