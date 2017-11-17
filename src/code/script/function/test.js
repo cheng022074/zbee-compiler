@@ -7,9 +7,7 @@ module.exports = (sourceCode) =>{
         params
     } = sourceCode.meta;
 
-    params = param_codes(params) ;
-
     return compile_script(sourceCode , 'code.compile.script.function.test' , {
-        params
+        params:param_codes(params)
     }) ;
 }

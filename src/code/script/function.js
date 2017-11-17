@@ -18,9 +18,7 @@ module.exports = (sourceCode , used) =>{
         template = `code.${used}.script.function` ;
     }
 
-    params = param_codes(params) ;
-
     return compile_script(sourceCode , template , {
-        params
+        params:param_codes(params)
     }) ;
 }

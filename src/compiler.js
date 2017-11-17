@@ -49,8 +49,7 @@ class Compiler extends Project{
             template:[
                 '.html',
                 '.js',
-                '.json',
-                '.md'
+                '.json'
             ]
         } ;
     }
