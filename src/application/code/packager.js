@@ -7,7 +7,7 @@ application = require('../../application'),
 } = require('../../object/key'),
 get_source_codes = require('./get'),
 {
-    NotDefinedException
+    TargetKeyException
 } = require('../../exception'),
 {
     from,
@@ -194,7 +194,7 @@ class Packager{
         
         }else{
 
-            throw new NotDefinedException('打包器' , name , `打包方式未定义`) ;
+            throw new TargetKeyException('打包器' , name , `打包方式未定义`) ;
         }
 
         return false ;

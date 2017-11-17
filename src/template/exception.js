@@ -1,8 +1,8 @@
 const {
-    ResourceException
+    NotDefinedException
 } = require('../exception') ;
 
-class TemplateNotFoundExcepition extends ResourceException{
+class TemplateNotFoundExcepition extends NotDefinedException{
     
     constructor(name){
 

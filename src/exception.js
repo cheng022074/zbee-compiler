@@ -3,22 +3,44 @@ class Exception extends Error{
 
 exports.Exception = Exception ;
 
-class ResourceException extends Exception{
+class KeyException extends Exception{
 
-    constructor(name , message){
+    constructor(key , message){
 
-        super(`${name} ${message}`) ;
+        super(`${key} ${message}`) ;
 
-        this.resourceName = name ;
+        let me = this ;
+
+        me.key = key ;
     }
 }
 
-exports.ResourceException = ResourceException ;
+exports.KeyException = KeyException ;
 
-class NotDefinedException extends Exception{
+class NotDefinedException extends KeyException{
 
-    constructor(target , key , message = '未定义'){
+    constructor(key , message = '未定义'){
 
+        super(key , message) ;
+    }
+}
+
+exports.NotDefinedException = NotDefinedException ;
+
+class ExistsException extends KeyException{
+
+    constructor(key , message = '已存在'){
+
+        super(key , message) ;
+    }
+}
+
+exports.ExistsException = ExistsException ;
+
+class TargetKeyException extends Exception{
+
+    constructor(target , key , message){
+        
         super(`${target} ${key} ${message}`) ;
 
         let me = this ;
@@ -29,4 +51,4 @@ class NotDefinedException extends Exception{
     }
 }
 
-exports.NotDefinedException = NotDefinedException ;
+exports.TargetKeyException = TargetKeyException ;

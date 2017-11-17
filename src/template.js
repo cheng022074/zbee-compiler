@@ -8,7 +8,7 @@ application = require('./application'),
 templates = {},
 suffixRe = /\.[^\.]+$/;
 
-exports.apply = (name , data) =>{
+exports.apply = (name , data = {}) =>{
 
     if(templates.hasOwnProperty(name)){
 

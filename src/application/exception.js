@@ -1,8 +1,8 @@
 const {
-    ResourceException
+    NotDefinedException
 } = require('../exception') ;
 
-class BinCodeFileNotFoundException extends ResourceException{
+class BinCodeFileNotFoundException extends NotDefinedException{
 
     constructor(name){
 
@@ -12,7 +12,7 @@ class BinCodeFileNotFoundException extends ResourceException{
 
 exports.BinCodeFileNotFoundException = BinCodeFileNotFoundException ;
 
-class CommandNotFoundExcepition extends ResourceException{
+class CommandNotFoundExcepition extends NotDefinedException{
 
     constructor(name){
 
@@ -22,7 +22,7 @@ class CommandNotFoundExcepition extends ResourceException{
 
 exports.CommandNotFoundExcepition = CommandNotFoundExcepition ;
 
-class ConfigNotFoundException extends ResourceException{
+class ConfigNotFoundException extends NotDefinedException{
 
     constructor(name){
 

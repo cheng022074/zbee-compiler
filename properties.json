@@ -16,9 +16,13 @@
             "html":"html",
             "test":"test",
             "template":"template",
+            "ui":"ui",
             "ue":"ue"
         },
         "suffixes":{
+            "ui":[
+                ".json"
+            ],
             "ue":[
                 ".js"
             ],
@@ -54,7 +58,8 @@
             },
             "template":{
                 ".js":"text",
-                ".html":"text"
+                ".html":"text",
+                ".json":"text"
             },
             "test":{
                 ".js":"bin",
