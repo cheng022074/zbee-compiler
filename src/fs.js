@@ -13,7 +13,8 @@ const {
     writeFileSync,
     mkdirSync,
     readdirSync,
-    statSync
+    statSync,
+    unlinkSync
 } = require('fs'),
 {
     parse:xml_parse
@@ -154,5 +155,17 @@ exports.getFileUpdateTime = path => {
 
     }catch(err){
         
+    }
+}
+
+exports.removeFile = path =>{
+
+    try{
+
+        unlinkSync(path) ;
+    
+    }catch(err){
+
+
     }
 }
