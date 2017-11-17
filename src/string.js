@@ -25,10 +25,9 @@ exports.capitalizeName = name =>{
     return `${firstName}${result.join('')}` ;
 }
 
-exports.namePath = name =>{
+exports.nameToPath = name => name.replace(nameSplitRe , '/') ;
 
-    return name.replace(nameSplitRe , '/') ;
-}
+exports.nameToTag = name => name.replace(nameSplitRe , '-').toLowerCase() ;
 
 const intRe = /^\d+$/ ;
 
