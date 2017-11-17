@@ -20,9 +20,7 @@ exports.apply = (name , data) =>{
 
     if(template && template.isFile){
 
-        template = templates[name] = compile(template.caller , {
-            rmWhitespace:template.baseSuffix !== '.html'
-        }) ;
+        template = templates[name] = compile(template.caller) ;
 
         return template(data);
 
