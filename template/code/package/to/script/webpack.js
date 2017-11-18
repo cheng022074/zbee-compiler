@@ -19,6 +19,11 @@ export function include(name){
       return usedCodes[name] = exports[`${defaultPrefix}::${name}`] ;
 }
 
+export function has(name){
+
+      return exports.hasOwnProperty(name) ;
+}
+
 <%- code %>
 
 export default exports ;

@@ -15,13 +15,20 @@ get_source_codes = require('./get'),
 } = require('../../array'),
 dotRe = /\./g,
 lastMatchRe = /\*$/,
-application_watch = require('./watch');
+application_watch = require('./watch'),
+DEFAULT_SCOPE = application.DEFAULT_SCOPE,
+prefixRe = /^\w+\:{2}/;
 
 function generate_regexes(names){
 
     let result = [] ;
 
     for(let name of names){
+
+        if(!prefixRe.test(name)){
+
+            name = `${DEFAULT_SCOPE}::${name}` ;
+        }
 
         result.push(new RegExp(`^${name.replace(dotRe , '\\\.').replace(lastMatchRe , '.+')}$`)) ;
     }
@@ -68,6 +75,8 @@ class Packager{
 
             me.exists = false ;
         }
+
+        me.packaged = false ;
     }
 
     watch(fn){
@@ -136,6 +145,8 @@ class Packager{
                         code.sync() ;
                     }
 
+                    me.packaged = false ;
+
                     return true ;
                 }
             }
@@ -158,6 +169,11 @@ class Packager{
         if(!me.exists){
 
             return false;
+        }
+
+        if(me.packaged){
+
+            return false ;
         }
 
         let result = [],
@@ -189,6 +205,8 @@ class Packager{
                     }
                 }
             }
+
+            me.packaged = true ;
 
             return application.executeBinCode(`code.package.${toName}` , result.join('\n') , me) ;
         
