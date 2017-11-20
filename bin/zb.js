@@ -21,8 +21,6 @@ application = require('../src/application'),
     join
 } = require('path');
 
-global.ZBEE_APPLICATION = application ;
-
 let projectPath = execArgv.project ;
 
 if(execArgv && projectPath){

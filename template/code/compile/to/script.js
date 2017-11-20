@@ -43,15 +43,15 @@
             
             }catch(err){
 
-
-            }
-
-            for(let library of libraries){
-
-                if(library.hasOwnProperty(fullName)){
-
-                    return usedCodes[name] = usedCodes[fullName] =library[fullName] ;
+                for(let library of libraries){
+                    
+                    if(library.hasOwnProperty(fullName)){
+    
+                        return usedCodes[name] = usedCodes[fullName] =library[fullName] ;
+                    }
                 }
+
+                console.log(err) ;
             }
         }
     }
