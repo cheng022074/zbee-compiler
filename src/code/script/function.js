@@ -5,7 +5,8 @@ module.exports = (sourceCode , used) =>{
 
     let {
             scoped,
-            params
+            params,
+            async
         } = sourceCode.meta,
         template;
 
@@ -19,6 +20,7 @@ module.exports = (sourceCode , used) =>{
     }
 
     return compile_script(sourceCode , template , {
+        async,
         params:param_codes(params)
     }) ;
 }

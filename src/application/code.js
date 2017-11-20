@@ -121,6 +121,7 @@ class ApplicationSourceCode extends SourceCode{
                 let meta = match[0] ;
 
                 return {
+                    async:get_text_code_async(meta),
                     runat:get_text_code_runat(meta),
                     scoped:get_text_code_scoped(meta),
                     imports:get_text_code_imports(meta),
@@ -427,11 +428,18 @@ function get_text_code_scoped(meta){
     return textCodeMetaScopedRe.test(meta) ;
 }
 
-const textCodeMetaRunAtdRe = /@runat\s+([^\n\r]+)/ ;
+const textCodeMetaAsyncRe = /@async/ ;
+
+function get_text_code_async(meta){
+
+    return textCodeMetaAsyncRe.test(meta) ;
+}
+
+const textCodeMetaRunAtRe = /@runat\s+([^\n\r]+)/ ;
 
 function get_text_code_runat(meta){
 
-    let match = meta.match(textCodeMetaRunAtdRe) ;
+    let match = meta.match(textCodeMetaRunAtRe) ;
 
     if(match){
 
