@@ -46,8 +46,8 @@ exports.exec = (...args) =>{
         
         stderr.on('data', log.bind(fn));
         
-        cp.on('close', ()=>{
-            
+        cp.on('exit', ()=>{
+
             callback() ;
 
         });
