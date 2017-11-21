@@ -118,11 +118,17 @@
     },
     "backup":{
         "default":{
-            "excludes":[
-                "node_modules",
-                "bin",
-                "dist",
-                "zb-dev"
+            "includes":[
+                "command",
+                "config",
+                "lib",
+                "src",
+                "test",
+                "template",
+                "ue",
+                "ui",
+                ".gitignore",
+                "properties.json"
             ],
             "plugin":"zip"   
         }
