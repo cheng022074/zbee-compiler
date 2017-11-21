@@ -12,7 +12,9 @@ module.exports = (name = 'default') =>{
 
         if(config.hasOwnProperty('backup')){
 
-            application.getBinCode(`backup.${config.backup}`)() ;
+            let backup = application.getBinCode(`backup.${config.backup}`) ;
+
+            backup.from() ;
         }
     
     }else{
