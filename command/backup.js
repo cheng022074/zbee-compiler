@@ -10,7 +10,10 @@ module.exports = (name = 'default') =>{
 
         console.log('备份设置' , config) ;
 
-        
+        if(config.hasOwnProperty('backup')){
+
+            application.getBinCode(`backup.${config.backup}`)() ;
+        }
     
     }else{
 

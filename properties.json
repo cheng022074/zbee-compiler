@@ -130,7 +130,7 @@
                 ".gitignore",
                 "properties.json"
             ],
-            "plugin":"zip"   
+            "backup":"zip"   
         }
     },
     "watch":[

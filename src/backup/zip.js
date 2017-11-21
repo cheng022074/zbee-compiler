@@ -1,6 +1,11 @@
-exports.from = config =>{
+exports.from = ({
+    includes
+}) =>{
+
+    console.log(includes) ;
+}
+
+exports.to = (name , config) =>{
 
 
 }
-
-exports.to = (config)
