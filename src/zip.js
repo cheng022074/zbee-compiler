@@ -34,4 +34,6 @@ exports.zip = ({
         path,
         name
     }) => archive.directory(path , name)) ;
+
+    archive.finalize();
 }
