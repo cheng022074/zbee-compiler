@@ -7,7 +7,8 @@
         "code":"code",
         "test":"test",
         "watch":"watch",
-        "web":"web"
+        "web":"web",
+        "backup":"backup"
     },
     "scope":{
         "folders":{
