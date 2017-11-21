@@ -74,7 +74,8 @@
     "path":{
         "dist":"dist",
         "bin":"bin",
-        "lib":"lib"
+        "lib":"lib",
+        "backup":"backup"
     },
 
     "compile":{

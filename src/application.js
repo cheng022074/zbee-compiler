@@ -262,6 +262,16 @@ defineProperties(Application.prototype , {
         }
     },
 
+    BACKUP_PATH:{
+
+        get(){
+
+            let me = this ;
+
+            return join(me.PATH , me.get('path.backup')) ;
+        }
+    },
+
     SCOPE_FOLDERS:{
 
         get(){
