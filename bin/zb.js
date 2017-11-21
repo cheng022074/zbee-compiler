@@ -23,11 +23,9 @@ application = require('../src/application'),
 
 global.ZBEE_APPLICATION = application ;
 
-let projectPath = execArgv.project ;
+if(execArgv && execArgv.project){
 
-if(execArgv && projectPath){
-
-    let path = join(process.cwd() , projectPath) ;
+    let path = join(process.cwd() , execArgv.project) ;
 
     if(is_directory(path)){
 
