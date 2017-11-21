@@ -48,6 +48,8 @@ function create_directory(path){
     }
 }
 
+exports.generateDirectory = create_directory ;
+
 exports.writeTextFile = (path , data) =>{
 
     create_directory(dirname(path)) ;

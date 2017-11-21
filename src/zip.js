@@ -1,4 +1,13 @@
-const decompress = require('decompress');
+const decompress = require('decompress'),
+{
+    createReadStream
+} = require('fs'),
+{
+    generateDirectory
+} = require('./fs'),
+{
+    dirname
+} = require('path');
 
 exports.unzip = (sourcePath , distPath) =>{
 
@@ -20,6 +29,8 @@ exports.zip = ({
             level: 9
         }
     }) ;
+
+    generateDirectory(dirname(distPath)) ;
 
     archive.pipe(createWriteStream(distPath));
 
