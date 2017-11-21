@@ -1,6 +1,11 @@
 const decompress = require('decompress');
 
-exports.decompress = (sourcePath , distPath) =>{
+exports.unzip = (sourcePath , distPath) =>{
 
     return decompress(sourcePath , distPath) ;
+}
+
+exports.zip = () =>{
+
+    
 }
