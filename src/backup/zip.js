@@ -1,11 +1,4 @@
-exports.from = ({
-    includes
-}) =>{
+module.exports = (name , config) =>{
 
-    console.log(includes) ;
-}
-
-exports.to = (name , config) =>{
-
-
+    console.log(name , config) ;
 }

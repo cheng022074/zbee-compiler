@@ -8,13 +8,14 @@ module.exports = (name = 'default') =>{
 
         let config = backup[name] ;
 
-        console.log('备份设置' , config) ;
-
         if(config.hasOwnProperty('backup')){
 
-            let backup = application.getBinCode(`backup.${config.backup}`) ;
+            let path = application.executeBinCode(`backup.${config.backup}` , name , config) ;
 
-            backup.from() ;
+            if(path){
+
+                console.log('已备份' , path) ;
+            }
         }
     
     }else{
