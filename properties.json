@@ -131,7 +131,7 @@
                 ".gitignore",
                 "properties.json"
             ],
-            "backup":"zip"   
+            "to":"zip"   
         }
     },
     "watch":[

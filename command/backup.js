@@ -8,9 +8,9 @@ module.exports = (name = 'default') =>{
 
         let config = backup[name] ;
 
-        if(config.hasOwnProperty('backup')){
+        if(config.hasOwnProperty('to')){
 
-            let path = application.executeBinCode(`backup.${config.backup}` , name , config) ;
+            let path = application.executeBinCode(`backup.${config.to}` , name , config) ;
 
             if(path){
 
