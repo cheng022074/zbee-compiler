@@ -68,8 +68,6 @@ function log(data){
 
     let result = data.toString('utf8') ;
 
-    console.log(result) ;
-
     let fn = this ;
 
     if(is_function(fn)){
