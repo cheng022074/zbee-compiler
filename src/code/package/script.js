@@ -8,14 +8,19 @@ const {
     join
 } = require('path'),
 {
-    format
+    format,
+    compile
 } = require('../../script');
 
-module.exports = (code , packager , template = 'code.package.to.script') =>{
+module.exports = (code , packager , {
+    template = 'code.package.to.script',
+    name,
+    isCompile = false
+} = {}) =>{
 
     let application = packager.application,
         {
-            target
+            target,
         } = packager.config,
         path;
 
@@ -28,10 +33,22 @@ module.exports = (code , packager , template = 'code.package.to.script') =>{
         path = join(application.DIST_PATH , `${packager.name}.js`) ;
     }
 
-    writeTextFile(path , format(apply(template , {
+    let data = apply(template , {
+        name:name || packager.name,
         code,
         defaultScope:application.DEFAULT_SCOPE
-    }))) ;
+    }) ;
+
+    if(isCompile){
+
+        data = compile(data) ;
+
+    }else{
+
+        data = format(data) ;
+    }
+
+    writeTextFile(path , data) ;
 
     return path ;
 }

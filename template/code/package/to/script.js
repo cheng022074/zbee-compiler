@@ -12,10 +12,10 @@
 
             if(prefixRe.test(name)){
 
-                  return usedCodes[name] = codes[name] ;
+                  return usedCodes[name] = exports[name] ;
             }
 
-            return usedCodes[name] = codes[`${defaultPrefix}::${name}`] ;
+            return usedCodes[name] = exports[`${defaultPrefix}::${name}`] ;
       }
 
       exports.exists = name =>{
