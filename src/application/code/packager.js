@@ -190,15 +190,15 @@ class Packager{
 
                     continue ;
                 }
-                
+
                 let suffix = encode(sourceCode.suffix),
                     scope = sourceCode.scope,
                     fromName = application.get(`package.${name}.scope.${scope}.${suffix}`);
-    
+
                 if(fromName){
             
                     let codeStr = application.executeBinCode(`code.${fromName}` , sourceCode , 'package') ;
-            
+
                     if(codeStr){
 
                         result.push(codeStr) ;

@@ -33,7 +33,8 @@
             ],
             "src":[
                 ".fn.js",
-                ".class.js"
+                ".class.js",
+                ".mdl.js"
             ],
             "config":[
                 ".json"
@@ -111,7 +112,8 @@
             "scope":{
                 "src":{
                     ".fn.js":"script.function",
-                    ".class.js":"script.class"
+                    ".class.js":"script.class",
+                    ".mdl.js":"script.module"
                 }
             },
             "to":"script"
