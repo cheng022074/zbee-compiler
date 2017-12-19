@@ -112,43 +112,48 @@ class Packager{
         return false ;
     }
 
+    refreshSourceCode(code){
+
+        let me = this,
+            codes = code.importAllSourceCodes,
+            sourceCodes = me.sourceCodes;
+                    
+        for(let code of codes){
+
+            if(!sourceCodes.includes(code)){
+
+                sourceCodes.push(code) ;
+            }
+        }
+
+        me.packaged = false ;
+    }
+
     add(name){
 
         let me = this,
             includeRegExes = me.includeRegExes,
-            sourceCodes = me.sourceCodes;
+            sourceCodes = me.sourceCodes,
+            code = application.getSourceCode(name) ;
+
+        if(sourceCodes.includes(code)){
+
+            code.sync() ;
+
+            me.refreshSourceCode(code) ;
+
+            return true ;
+        }
 
         for(let includeRegEx of includeRegExes){
 
             if(includeRegEx.test(name)){
 
-                let code = application.getSourceCode(name) ;
+                sourceCodes.push(code) ;
 
-                if(code){
+                me.refreshSourceCode(code) ;
 
-                    if(!sourceCodes.includes(code)){
-
-                        sourceCodes.push(code) ;
-
-                        let codes = code.importAllSourceCodes ;
-                        
-                        for(let code of codes){
-
-                            if(!sourceCodes.includes(code)){
-        
-                                sourceCodes.push(code) ;
-                            }
-                        }
-
-                    }else{
-
-                        code.sync() ;
-                    }
-
-                    me.packaged = false ;
-
-                    return true ;
-                }
+                return true ;
             }
         }
 
@@ -157,9 +162,27 @@ class Packager{
 
     remove(name){
 
-        let me = this;
-        
-        return remove(me.sourceCodes , me.application.getSourceCode(name)) ;
+        let me = this,
+            code = me.application.getSourceCode(name) ;
+
+        if(code){
+
+            let me = this,
+                sourceCodes = me.sourceCodes;
+
+            remove(sourceCodes , code) ;
+
+            let codes = code.importAllSourceCodes ;
+
+            for(let code of codes){
+
+                remove(sourceCodes , code) ;
+            }
+
+            return true ;
+        }
+
+        return false ;
     }
 
     package(){
