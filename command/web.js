@@ -1,6 +1,7 @@
 const Koa = require('koa'),
       Koa_static = require('koa-static'),
       koa_mount = require('koa-mount'),
+      koa_range = require('koa-range'),
       application = require('../src/application'),
       {
           join
@@ -12,6 +13,8 @@ const Koa = require('koa'),
 module.exports = port =>{
 
     const app = new Koa();
+
+    app.use(koa_range) ;
 
     {
         let routers = application.get('web.routers'),
