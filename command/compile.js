@@ -5,7 +5,7 @@ module.exports = name =>{
 
     if(name){
 
-        result(new Compiler(name).compile(compile)) ;
+        result(new Compiler(name).compile(compile) , name) ;
 
     }else{
 
@@ -18,7 +18,7 @@ function compile(path){
     console.log('已编译' , path) ;
 }
 
-function result(paths){
+function result(paths , name){
 
     if(paths.length === 0){
 

@@ -14,11 +14,9 @@ class Compiler{
 
     constructor(names){
 
-        names = from(names) ;
-
         let me = this ;
 
-        me.sourceCodes = get_source_codes(names) ;
+        me.sourceCodes = get_source_codes(from(names)) ;
 
         me.application = application ;
     }
