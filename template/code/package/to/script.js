@@ -3,7 +3,7 @@
             defaultPrefix = '<%- defaultScope %>',
             usedCodes = {};
 
-      exports.include = name =>{
+      function include(name){
 
             if(usedCodes.hasOwnProperty(name)){
 
@@ -16,7 +16,10 @@
             }
 
             return usedCodes[name] = exports[`${defaultPrefix}::${name}`] ;
+            
       }
+
+      exports.include = include ;
 
       exports.exists = name =>{
 

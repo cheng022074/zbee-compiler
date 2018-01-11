@@ -10,7 +10,10 @@ const {
 {
     format,
     compile
-} = require('../../script');
+} = require('../../script'),
+{
+    from
+} = require('../../array');
 
 module.exports = (code , packager , {
     template = 'code.package.to.script',
@@ -22,15 +25,25 @@ module.exports = (code , packager , {
         {
             target,
         } = packager.config,
-        path;
+        paths = [];
 
     if(target){
 
-        path = join(application.PATH , target) ;
+        let targetPaths  = from(target),
+            {
+                PATH
+            } = application;
+
+        for(let targetPath of targetPaths){
+
+            paths.push(join(PATH , targetPath)) ;
+        }
 
     }else{
 
-        path = join(application.DIST_PATH , `${packager.name}.js`) ;
+        paths = [
+            join(application.DIST_PATH , `${packager.name}.js`)
+        ] ;
     }
 
     let data = apply(template , {
@@ -48,7 +61,11 @@ module.exports = (code , packager , {
         data = format(data) ;
     }
 
-    writeTextFile(path , data) ;
+    for(let path of paths){
 
-    return path ;
+        writeTextFile(path , data) ;
+        
+    }
+
+    return paths ;
 }

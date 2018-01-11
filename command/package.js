@@ -6,21 +6,20 @@ module.exports = (name = 'default') =>{
 
     if(packager.exists){
 
-        path = packager.package();
+        let paths = packager.package();
 
-        if(path){
+        for(let path of paths){
 
             console.log('已打包' , path) ;
-
-            packager.watch(path =>{
-
-                if(path){
-
-                    console.log('已打包' , path) ;
-                }
-                
-            }) ;
         }
+
+        packager.watch(paths =>{
+
+            for(let path of paths){
+
+                console.log('已打包' , path) ;
+            }            
+        }) ;
     
     }else{
 
