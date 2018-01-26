@@ -21,7 +21,13 @@ export function include(name){
 
 export function exists(name){
 
-      return exports.hasOwnProperty(name) ;
+      if(prefixRe.test(name)){
+
+            return exports.hasOwnProperty(name) ;
+
+      }
+
+      return exports.hasOwnProperty(`${defaultPrefix}::${name}`) ;
 }
 
 <%- code %>
