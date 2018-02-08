@@ -1,4 +1,10 @@
-exports['<%- fullName %>'] = function(<%- params %>){
+<% if(async){ %>
+exports = async (<%- params %>) =>{
+<% }else{ %>
+exports['<%- fullName %>'] = (<%- params %>) =>{
+<%
+    }
+%>
 
     <%- requires %>
 

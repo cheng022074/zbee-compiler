@@ -337,7 +337,7 @@ function get_text_code_params(meta , project){
 function get_text_code_requires(meta){
 
     let textCodeMetaImportRe = /@require\s+([^\n\r]+)/g,
-        textCodeMetaAliasImportRe = /(\{?[\w\,\s\:]+\}?)\s+from\s+(\w+(?:\.\w+)*)/,
+        textCodeMetaAliasImportRe = /(\{?[\w\,\s\:]+\}?)\s+from\s+([\w\.\-]+)/,
         match,
         imports = [];
 
