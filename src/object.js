@@ -1,0 +1,4 @@
+exports.defineExecuteOnceProperties = (target , names) =>{
+
+
+}
