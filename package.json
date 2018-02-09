@@ -1,6 +1,6 @@
 {
   "name": "zbee",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "description": "基于控制台的代码设计辅助工具",
   "repository": {
     "type": "git",
@@ -13,12 +13,7 @@
     "cli"
   ],
   "files": [
-    "properties.json",
-    "bin",
-    "src",
-    "command",
-    "config",
-    "template"
+    "src"
   ],
   "author": "nero chen",
   "license": "ISC",
@@ -27,30 +22,8 @@
   },
   "homepage": "https://github.com/cheng022074/zbee-compiler#readme",
   "engines": {
-    "node": ">= 9.0"
+    "node": ">= 9.5"
   },
   "dependencies": {
-    "archiver": "^2.1.0",
-    "babel-core": "^6.26.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
-    "chokidar": "^1.7.0",
-    "cli-color": "^1.2.0",
-    "decompress": "^4.2.0",
-    "ejs": "^2.5.7",
-    "elementtree": "^0.1.7",
-    "js-beautify": "^1.7.3",
-    "jsdom": "^11.3.0",
-    "koa": "^2.0.0-alpha.8",
-    "koa-mount": "^3.0.0",
-    "koa-range": "^0.3.0",
-    "koa-send": "^4.1.1",
-    "koa-static": "^4.0.1",
-    "node-html-encoder": "^0.0.2",
-    "nodemailer": "^4.1.3",
-    "nodemailer-smtp-transport": "^2.7.4",
-    "opn": "^5.1.0",
-    "request": "^2.83.0",
-    "strip-comment": "^1.1.3"
   }
 }

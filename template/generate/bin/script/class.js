@@ -1,2 +1,0 @@
-<%- body %>
-module.exports = <%- className%> ;
