@@ -3,31 +3,24 @@ class Exception extends Error{
 
 class TargetException extends Exception{
 
-    constructor(name , message , title){
+    constructor(title , name , msg){
+
+        super(`${title}:${name} ${msg}`) ;
 
         let me = this ;
 
         me.name = name,
-        me.message = message,
+        me.msg = msg,
         me.title = title ;
-
-        if(title){
-
-            super(`${title}:${name} ${message}`) ;
-        
-        }else{
-
-            super(`${name} ${message}`) ;
-        }
     }
 }
 
 {
     class NotDefinedException extends TargetException{
 
-        constructor(name , message = '未定义' , title){
+        constructor(name , msg = '未定义' , title){
     
-            super(name , message , title) ;
+            super(name , msg , title) ;
         }
     }
     
@@ -35,9 +28,9 @@ class TargetException extends Exception{
     
     class NotFoundException extends TargetException{
     
-        constructor(title , message = '未找到'){
+        constructor(title , name , msg = '未找到'){
     
-            super(title , message) ;
+            super(title , name , msg) ;
         }
     }
     

@@ -3,7 +3,7 @@ const {
     CommandNotFoundException
 } = require('../src/command') ;
 
-let command = new Command(process.argv) ;
+let command = new Command() ;
 
 if(command.exists){
 
@@ -15,7 +15,7 @@ if(command.exists){
 
         if(err instanceof CommandNotFoundException){
 
-            console.log(err.message) ;
+            console.log('\n' , err.message) ;
 
             Command.printCommandNameList() ;
         

@@ -4,19 +4,22 @@
         Code
     } = require('./code'),
     {
-        defineExecuteOnceProperties
+        defineCacheProperties
     } = require('./object'),
     {
-        get
+        get,
+        keys
     } = require('./config');
 
     class Command{
 
-        constructor(argv){
-    
-            this.argv = argv ;
+        constructor(){
 
-            defineExecuteOnceProperties(this , [
+            let me = this ;
+    
+            me.argv = process.argv ;
+
+            defineCacheProperties(me , [
                 'name',
                 'code'
             ]) ;
@@ -62,42 +65,51 @@
         }
     
         run(){
-    
-            console.log('执行命令') ;
+
+            let {
+                code
+            } = this ;
+
+            code.run() ;
         }
     }
 
     Command.printCommandNameList = () =>{
 
-        console.log('打印所有命令名称列表') ;
+        let names = keys('command') ;
+
+        console.log('\n' , '可用命令:') ;
+
+        for(let name of names){
+
+            console.log('\t' , name) ;
+        }
     }
     
     exports.Command = Command ;
 }
 
-{
-    const {
-        NotDefinedException,
-        NotFoundException
-    } = require('./exception') ;
+const {
+    NotDefinedException,
+    NotFoundException
+} = require('./exception') ;
 
-    class CommandNotFoundException　extends NotFoundException{
+class CommandNotFoundException　extends NotFoundException{
 
-        constructor(name){
-    
-            super('命令' , name) ;
-        }
+    constructor(name){
+
+        super('命令' , name) ;
     }
-    
-    exports.CommandNotFoundException　= CommandNotFoundException ;
-    
-    class CommandNotDefinedException extends NotDefinedException{
-    
-        constructor(){
-    
-            super('命令') ;
-        }
-    }
-    
-    exports.CommandNotDefinedException = CommandNotDefinedException ;
 }
+
+exports.CommandNotFoundException　= CommandNotFoundException ;
+
+class CommandNotDefinedException extends NotDefinedException{
+
+    constructor(){
+
+        super('命令') ;
+    }
+}
+
+exports.CommandNotDefinedException = CommandNotDefinedException ;

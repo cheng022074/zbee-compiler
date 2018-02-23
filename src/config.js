@@ -1,6 +1,9 @@
 const {
     get:object_get
-} = require('./object') ;
+} = require('./object'),
+{
+    simpleObject:is_object
+} = require('./is');
 
 function get(name , key){
 
@@ -10,4 +13,16 @@ function get(name , key){
 exports.get = (name , key) =>{
 
     return get(name , key) ;
+}
+
+exports.keys = (name , key) =>{
+
+    let config = get(name , key) ;
+
+    if(is_object(config)){
+
+        return Object.keys(config) ;
+    }
+
+    return [] ;
 }

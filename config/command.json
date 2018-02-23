@@ -1,3 +1,5 @@
 {
-    "run":"command.run"
+    "run":"command.run",
+    "compile":"command.compile",
+    "package":"command.package"
 }
