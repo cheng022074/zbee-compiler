@@ -1,5 +1,5 @@
 const {
-    fucntion:is_function,
+    function:is_function,
     object:is_object,
     class:is_class
 } = require('./is') ;

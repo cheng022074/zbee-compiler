@@ -9,7 +9,10 @@
     {
         get,
         keys
-    } = require('./config');
+    } = require('./config'),
+    {
+        run
+    } = require('./runner');
 
     class Command{
 
@@ -70,7 +73,7 @@
                 code
             } = this ;
 
-            console.log(code.target) ;
+            run(code.target) ;
         }
     }
 
