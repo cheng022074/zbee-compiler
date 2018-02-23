@@ -7,47 +7,44 @@ const {
     resolve
 } = require('path'),
 {
-    toPath
+    toPath,
+    parse,
+    normalize
 } = require('./name'),
 {
     defineCacheProperties
-} = require('./object');
+} = require('./object'),
+BIN_CODES = {};
 
 class BinCode{
 
     static get(name){
 
+        name = normalize(name) ;
 
+        if(!BIN_CODES.hasOwnProperty(name)){
+
+            BIN_CODES[name] = new BinCode(name) ;
+        }
+
+        return BIN_CODES[name] ;
     }
 
-    constructor(name){
+    constructor(fullName){
 
-        let me = this ;
+        let me = this,
+            {
+                folder,
+                name
+            } = parse(me.fullName = fullName) ;
 
-        me.$name = name ;
+        me.folder = folder,
+        me.name = name ;
 
         defineCacheProperties(me , [
-            'folder',
-            'name',
-            'fullName',
             'target',
             'targets'
         ]) ;
-    }
-
-    applyFullName(){
-
-
-    }
-
-    applyName(){
-
-
-    }
-
-    applyFolder(){
-
-
     }
 
     applyPath(){
