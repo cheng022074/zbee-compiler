@@ -13,11 +13,11 @@
 
     class Command{
 
-        constructor(){
+        constructor(argv){
 
             let me = this ;
     
-            me.argv = process.argv ;
+            me.argv = argv ;
 
             defineCacheProperties(me , [
                 'name',

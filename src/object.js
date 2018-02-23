@@ -55,12 +55,47 @@
     }
 }
 
-exports.get = (data , key) =>{
+{
+    const {
+        split
+    } = require('./string') ;
+    
+    exports.get = (data , key) =>{
+    
+        if(key){
+    
+            if(data.hasOwnProperty(key)){
+    
+                return data[key] ;
+            }
+    
+            let names = split(key),
+                prefix = '';
 
-    if(key){
+            for(let name of names){
 
-        return data[key] ;
+                let key = `${prefix}${name}` ;
+
+                if(data.hasOwnProperty(key)){
+
+                    data = data[key] ;
+
+                    prefix = '' ;
+                
+                }else{
+
+                    prefix = `${key}.` ;
+                }
+            }
+
+            if(prefix){
+
+                return ;
+            }
+    
+            return data ;
+        }
+    
+        return data ;
     }
-
-    return data ;
 }

@@ -8,6 +8,8 @@ const {
 exports.initApplicationPath = path =>{
 
     exports.APPLICATION = path ;
+
+    exports.initApplicationPath = () => {} ;
 }
 
 exports.applyCOMPILER = () =>{

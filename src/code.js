@@ -11,7 +11,7 @@ const {
 } = require('./name'),
 {
     defineCacheProperties
-} = require('./object'),;
+} = require('./object');
 
 class BinCode{
 
@@ -27,9 +27,11 @@ class BinCode{
         me.$name = name ;
 
         defineCacheProperties(me , [
-            'scope',
+            'folder',
             'name',
-            'fullName'
+            'fullName',
+            'target',
+            'targets'
         ]) ;
     }
 
@@ -43,7 +45,7 @@ class BinCode{
 
     }
 
-    applyScope(){
+    applyFolder(){
 
 
     }
@@ -52,14 +54,14 @@ class BinCode{
 
         let {
             name,
-            scope
+            folder
         } = this;
 
-        let path = APPLICATION.getPath('bin' , name , scope) ;
+        let path = APPLICATION.getPath(folder , name) ;
 
         if(path === false){
 
-            path = COMPILER.getPath('src' , name , scope) ;
+            path = COMPILER.getPath(folder , name) ;
         }
 
         return path ;
@@ -80,6 +82,22 @@ class BinCode{
         }
         
         return APPLICATION.libraries.get(fullName) ;
+    }
+
+    applyTargets(){
+
+        let {
+            path,
+            fullName
+        } = this,
+        targets = [];
+
+        if(path){
+
+            targets.push(require(path)) ;
+        }
+
+        targets.push(...APPLICATION.libraries.getAll(fullName)) ;
     }
 }
 

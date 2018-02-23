@@ -1,9 +1,15 @@
 const {
+    initApplicationPath
+} = require('../src/path') ;
+
+initApplicationPath(process.cwd()) ;
+
+const {
     Command,
     CommandNotFoundException
-} = require('../src/command') ;
+} = require('../src/command');
 
-let command = new Command() ;
+let command = new Command(process.argv) ;
 
 if(command.exists){
 
