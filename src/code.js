@@ -58,7 +58,10 @@ class BinCode{
 
         if(path === false){
 
-            path = COMPILER.getPath(folder , name) ;
+            path = COMPILER.getPath(folder , name , [
+                '.js',
+                '.json'
+            ]) ;
         }
 
         return path ;
@@ -71,7 +74,6 @@ class BinCode{
             path,
             fullName
         } = this;
-
   
         if(path){
 

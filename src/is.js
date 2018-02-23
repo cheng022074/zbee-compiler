@@ -17,6 +17,11 @@ function is_type(data , type){
     }
 }
 
+exports.string = data =>{
+
+    return is_type(data , 'string') ;
+}
+
 exports.simpleObject = data =>{
 
     return data instanceof Object && data.constructor === Object;
@@ -49,4 +54,9 @@ exports.simpleObject = data =>{
     
         return path && existsSync(path) && statSync(path).isDirectory() ;
     }
+}
+
+exports.empty = data =>{
+
+    return data === null || data === undefined || data === '' || data.length === 0;
 }

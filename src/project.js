@@ -16,11 +16,45 @@ const {
 } = require('./name'),
 {
     file:is_file
-} = require('./is');
+} = require('./is'),
+{
+    from
+} = require('./array');
 
-class Application{
+class Project{
+
+    constructor(path){
+
+        this.rootPath = path ;
+    }
+
+    getPath(folder , name , suffixes){
+
+        suffixes = from(suffixes) ;
+
+        let {
+            rootPath
+        } = this ;
+
+        for(let suffix of suffixes){
+
+            let path = join(rootPath , folder , toPath(name , suffix)) ;
+
+            if(is_file(path)){
+
+                return path ;
+            }
+        }
+
+        return false ;
+    }
+}
+
+class Application extends Project{
 
     constructor(){
+
+        super(APPLICATION_PATH) ;
 
         let me = this ;
 
@@ -34,7 +68,20 @@ class Application{
 
     getBinPath(folder , name){
 
-        let path = join(APPLICATION_PATH , 'bin' , folder , `${name}.js`) ;
+        let path ;
+
+        switch(folder){
+
+            case 'config':
+
+                path = join(APPLICATION_PATH , 'config' , toPath(name , '.json')) ;
+
+                break ;
+
+            default:
+
+                path = join(APPLICATION_PATH , 'bin' , folder , `${name}.js`) ;
+        }
 
         if(is_file(path)){
 
@@ -44,9 +91,9 @@ class Application{
         return false ;
     }
 
-    getPath(folder , name , suffiex){
+    getPath(folder , name , suffixes){
 
-        return join(APPLICATION_PATH , get(this.properties , `folders.${folder}`) || folder , toPath(name , suffix)) ;
+        return super.getPath(get(this.properties , `folders.${folder}`) || folder , name , suffixes) ;
     }
 }
 
@@ -84,11 +131,11 @@ class Libraries{
 
 exports.APPLICATION = new Application() ;
 
-class Compiler{
+class Compiler extends Project{
 
-    getPath(folder , name , suffix){
+    constructor(){
 
-        return join(COMPILER_PATH , folder , toPath(name , suffix)) ;
+        super(COMPILER_PATH) ;
     }
 }
 

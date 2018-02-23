@@ -10,7 +10,7 @@ const {
 
 function get(name , key){
 
-    return object_get(require(`../config/${name}`) , key) ;
+    return object_get(BinCode.get(`config::${name}`).target || {} , key) ;
 }
 
 exports.get = (name , key) =>{
