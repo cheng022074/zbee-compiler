@@ -6,11 +6,17 @@ const {
 } = require('./is'),
 {
     BinCode
-} = require('./code');
+} = require('./code'),
+CONFIGS = {};
 
 function get(name , key){
 
-    return object_get(BinCode.get(`config::${name}`).target || {} , key) ;
+    if(!CONFIGS.hasOwnProperty(name)){
+
+        CONFIGS[name] = Object.freeze(BinCode.get(`config::${name}`).target || {}) ;
+    }
+
+    return object_get(CONFIGS[name] , key) ;
 }
 
 exports.get = (name , key) =>{
