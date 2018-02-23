@@ -1,7 +1,7 @@
 {
 
     const {
-        Code
+        BinCode
     } = require('./code'),
     {
         defineCacheProperties
@@ -49,7 +49,7 @@
 
             if(codeName){
 
-                return new Code(codeName) ;
+                return new BinCode(codeName) ;
             }
 
             throw new CommandNotFoundException(name) ;
@@ -69,8 +69,6 @@
             let {
                 code
             } = this ;
-
-            code.run() ;
         }
     }
 

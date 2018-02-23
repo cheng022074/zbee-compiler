@@ -1,21 +1,86 @@
+
+const {
+    APPLICATION,
+    COMPILER
+} = require('./project'),
 {
-    class Code{
+    resolve
+} = require('path'),
+{
+    toPath
+} = require('./name'),
+{
+    defineCacheProperties
+} = require('./object'),;
 
-        constructor(name){
+class BinCode{
 
-        }
+    static get(name){
 
-        run(){
 
-            
-        }
     }
 
-    exports.Code = Code ;
+    constructor(name){
+
+        let me = this ;
+
+        me.$name = name ;
+
+        defineCacheProperties(me , [
+            'scope',
+            'name',
+            'fullName'
+        ]) ;
+    }
+
+    applyFullName(){
+
+
+    }
+
+    applyName(){
+
+
+    }
+
+    applyScope(){
+
+
+    }
+
+    applyPath(){
+
+        let {
+            name,
+            scope
+        } = this;
+
+        let path = APPLICATION.getPath('bin' , name , scope) ;
+
+        if(path === false){
+
+            path = COMPILER.getPath('src' , name , scope) ;
+        }
+
+        return path ;
+
+    }
+
+    applyTarget(){
+
+        let {
+            path,
+            fullName
+        } = this;
+
+        if(path){
+
+            return require(path) ;
+
+        }
+        
+        return APPLICATION.libraries.get(fullName) ;
+    }
 }
 
-class CodeNotFoundException extends Error{
-    
-}
-
-exports.CodeNotFoundException = CodeNotFoundException ;
+exports.BinCode = BinCode ;
