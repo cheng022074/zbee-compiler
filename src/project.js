@@ -43,7 +43,7 @@ class Application{
 class Libraries{
 
     constructor({
-        libraries:[]
+        libraries = []
     }){
 
         let len = libraries.length ;
@@ -53,7 +53,7 @@ class Libraries{
             libraries[i] = require(join(APPLICATION_PATH , libraries[i])) ;
         }
 
-        me.libraries = libraries ;
+        this.libraries = libraries ;
     }
 
     get(name){
@@ -72,6 +72,8 @@ class Libraries{
     }
 }
 
+exports.APPLICATION = new Application() ;
+
 class Compiler{
 
     getPath(folder , name , suffix){
@@ -79,3 +81,5 @@ class Compiler{
         return join(COMPILER_PATH , folder , toPath(name , suffix)) ;
     }
 }
+
+exports.COMPILER = new Compiler() ;

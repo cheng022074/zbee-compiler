@@ -20,7 +20,7 @@ class BinCode{
 
     static get(name){
 
-        name = normalize(name) ;
+        name = normalize(name , APPLICATION.defaultFolder) ;
 
         if(!BIN_CODES.hasOwnProperty(name)){
 

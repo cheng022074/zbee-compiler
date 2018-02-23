@@ -9,12 +9,9 @@ exports.toPath = (name , suffix = '.js') =>{
     const splitRe = /\:{2}/,
         {
             split
-        } = require('./string'),
-        {
-            defaultFolder
-        } = require('./application');
+        } = require('./string');
 
-    function parse(name){
+    function parse(name , defaultFolder){
 
         let items = split(name , splitRe) ;
 
@@ -38,9 +35,9 @@ exports.toPath = (name , suffix = '.js') =>{
 
     exports.parse = parse ;
 
-    exports.normalize = name =>{
+    exports.normalize = (name , defaultFolder) =>{
 
-        let config = parse(name) ;
+        let config = parse(name , defaultFolder) ;
 
         if(config){
 
