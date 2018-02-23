@@ -42,6 +42,7 @@ class BinCode{
         me.name = name ;
 
         defineCacheProperties(me , [
+            'path',
             'target',
             'targets'
         ]) ;
@@ -54,7 +55,7 @@ class BinCode{
             folder
         } = this;
 
-        let path = APPLICATION.getPath(folder , name) ;
+        let path = APPLICATION.getBinPath(folder , name) ;
 
         if(path === false){
 
@@ -72,6 +73,7 @@ class BinCode{
             fullName
         } = this;
 
+  
         if(path){
 
             return require(path) ;

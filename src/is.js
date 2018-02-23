@@ -10,9 +10,43 @@ function is_type(data , type){
 
         return is_type(data , 'function') && !classRe.test(data.toString());
     }
+
+    exports.class = data =>{
+
+        return is_type(data , 'function') && classRe.test(data.toString());
+    }
 }
 
 exports.simpleObject = data =>{
 
     return data instanceof Object && data.constructor === Object;
+}
+
+{
+    const {
+        toString
+    } = Object.prototype ;
+    
+    exports.object = data =>{
+    
+        return toString.call(data) === '[object Object]' ;
+    }
+}
+
+{
+    const {
+        existsSync,
+        statSync,
+        readdirSync
+    } = require('fs') ;
+    
+    exports.file = path =>{
+    
+        return path && existsSync(path) && statSync(path).isFile() ;
+    }
+    
+    exports.directory = path =>{
+    
+        return path && existsSync(path) && statSync(path).isDirectory() ;
+    }
 }

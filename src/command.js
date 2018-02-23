@@ -49,7 +49,7 @@
 
             if(codeName){
 
-                return new BinCode(codeName) ;
+                return BinCode.get(codeName) ;
             }
 
             throw new CommandNotFoundException(name) ;
@@ -69,6 +69,8 @@
             let {
                 code
             } = this ;
+
+            console.log(code.target) ;
         }
     }
 

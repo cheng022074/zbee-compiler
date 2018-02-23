@@ -13,7 +13,10 @@ const {
 } = require('./object'),
 {
     toPath
-} = require('./name');
+} = require('./name'),
+{
+    file:is_file
+} = require('./is');
 
 class Application{
 
@@ -31,7 +34,14 @@ class Application{
 
     getBinPath(folder , name){
 
-        return join(APPLICATION_PATH , 'bin' , `${folder}::${name}.js`) ;
+        let path = join(APPLICATION_PATH , 'bin' , folder , `${name}.js`) ;
+
+        if(is_file(path)){
+
+            return path ;
+        }
+
+        return false ;
     }
 
     getPath(folder , name , suffix){
