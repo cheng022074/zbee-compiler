@@ -43,8 +43,7 @@ class BinCode{
 
         defineCacheProperties(me , [
             'path',
-            'target',
-            'targets'
+            'target'
         ]) ;
     }
 
@@ -81,22 +80,6 @@ class BinCode{
         }
         
         return APPLICATION.libraries.get(fullName) ;
-    }
-
-    applyTargets(){
-
-        let {
-            path,
-            fullName
-        } = this,
-        targets = [];
-
-        if(path){
-
-            targets.push(require(path)) ;
-        }
-
-        targets.push(...APPLICATION.libraries.getAll(fullName)) ;
     }
 }
 

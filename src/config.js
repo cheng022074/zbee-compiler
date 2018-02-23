@@ -3,7 +3,10 @@ const {
 } = require('./object'),
 {
     simpleObject:is_object
-} = require('./is');
+} = require('./is'),
+{
+    BinCode
+} = require('./code');
 
 function get(name , key){
 

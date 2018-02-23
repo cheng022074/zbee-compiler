@@ -44,7 +44,7 @@ class Application{
         return false ;
     }
 
-    getPath(folder , name , suffix){
+    getPath(folder , name , suffiex){
 
         return join(APPLICATION_PATH , get(this.properties , `folders.${folder}`) || folder , toPath(name , suffix)) ;
     }
