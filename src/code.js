@@ -17,6 +17,9 @@ const {
 {
     defaultFolder
 } = APPLICATION,
+{
+    readTextFile
+} = require('./fs'),
 CODES = {
     BIN:{},
     SOURCE:{}
@@ -54,6 +57,11 @@ class Code{
             'target'
         ]) ;
     }
+
+    get exists(){
+
+        return !!this.path ;
+    }
 }
 
 class BinCode extends Code{
@@ -74,10 +82,7 @@ class BinCode extends Code{
 
         if(path === false){
 
-            path = COMPILER.getPath(folder , name , [
-                '.js',
-                '.json'
-            ]) ;
+            path = COMPILER.getPath(folder , name) ;
         }
 
         return path ;
@@ -87,11 +92,17 @@ class BinCode extends Code{
     applyTarget(){
 
         let {
+            folder,
             path,
             fullName
         } = this;
   
         if(path){
+
+            if(folder === 'template'){
+
+                return readTextFile(path) ;
+            }
 
             return require(path) ;
 
@@ -112,10 +123,7 @@ const {
 } = require('./path'),
 {
     run
-} = require('./runner'),
-{
-    readTextFile
-} = require('./fs');
+} = require('./runner');
 
 class SourceCode extends Code{
 

@@ -1,6 +1,7 @@
 const {
     APPLICATION:APPLICATION_PATH,
-    COMPILER:COMPILER_PATH
+    COMPILER:COMPILER_PATH,
+    fileNormalize
 } = require('./path'),
 {
     join
@@ -35,6 +36,11 @@ class Project{
         let {
             rootPath
         } = this ;
+
+        if(suffixes.length === 0){
+
+            return fileNormalize(join(rootPath , folder , toPath(name))) ;
+        }
 
         for(let suffix of suffixes){
 
@@ -75,6 +81,12 @@ class Application extends Project{
             case 'config':
 
                 path = join(APPLICATION_PATH , 'config' , toPath(name , '.json')) ;
+
+                break ;
+
+            case 'template':
+
+                path = fileNormalize(join(APPLICATION_PATH , 'template' , toPath(name))) ;
 
                 break ;
 

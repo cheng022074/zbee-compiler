@@ -1,6 +1,14 @@
+const {
+    ScriptMeta
+} = require('../../script') ;
+
 module.exports = (data , code) =>{
 
-    console.log(data) ;
+    let meta = new ScriptMeta(data) ;
 
-    return '' ;
+    console.log(meta.scoped , meta.async , meta.runAt) ;
+
+    return {
+        
+    } ;
 }

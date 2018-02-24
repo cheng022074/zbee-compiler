@@ -1,6 +1,6 @@
 const dotRe = /\./g ;
 
-exports.toPath = (name , suffix = '.js') =>{
+exports.toPath = (name , suffix = '') =>{
 
     return `${name.replace(dotRe , '/')}${suffix}` ;
 }

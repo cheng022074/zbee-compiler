@@ -3,7 +3,10 @@ const {
 } = require('./object'),
 {
     join
-} = require('path');
+} = require('path'),
+{
+    directory:is_directory
+} = require('./is');
 
 exports.initApplicationPath = path =>{
 
@@ -31,4 +34,40 @@ exports.extname = path =>{
     }
 
     return '' ;
+}
+
+const {
+    dirname,
+    basename,
+    extname,
+    normalize
+} = require('path'),
+{
+    readdirSync
+} = require('fs');
+
+exports.fileNormalize = path =>{
+
+    if(extname(path)){
+
+        return normalize(path) ;
+    }
+
+    let dirPath = dirname(path),
+        fileName = basename(path);
+
+    if(is_directory(dirPath)){
+
+        let names = readdirSync(dirPath) ;
+
+        for(let name of names){
+
+            if(fileName !== name && name.indexOf(fileName) === 0){
+
+                return join(dirPath , name) ;
+            }
+        }
+    }
+
+    return false ;
 }
