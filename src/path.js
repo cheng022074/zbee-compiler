@@ -18,3 +18,17 @@ exports.applyCOMPILER = () =>{
 }
 
 defineCacheProperty(exports , 'COMPILER') ;
+
+const suffixRe = /(?:\.[^\.\/\\]+)+$/;
+
+exports.extname = path =>{
+
+    let match = path.match(suffixRe) ;
+
+    if(match){
+
+        return match[0] ;
+    }
+
+    return '' ;
+}

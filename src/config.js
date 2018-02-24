@@ -1,5 +1,6 @@
 const {
-    get:object_get
+    get:object_get,
+    has:object_has
 } = require('./object'),
 {
     simpleObject:is_object
@@ -9,20 +10,22 @@ const {
 } = require('./code'),
 CONFIGS = {};
 
-function get(name , key){
+function get_config(name){
 
     if(!CONFIGS.hasOwnProperty(name)){
 
         CONFIGS[name] = Object.freeze(BinCode.get(`config::${name}`).target || {}) ;
     }
 
-    return object_get(CONFIGS[name] , key) ;
+    return CONFIGS[name] ;
 }
 
-exports.get = (name , key) =>{
+function get(name , key){
 
-    return get(name , key) ;
+    return object_get(get_config(name) , key) ;
 }
+
+exports.get = get ;
 
 exports.keys = (name , key) =>{
 
@@ -34,4 +37,9 @@ exports.keys = (name , key) =>{
     }
 
     return [] ;
+}
+
+exports.has = (name , key) =>{
+
+    return object_has(get_config(name) , key) ;
 }

@@ -66,14 +66,20 @@
 
             return argv.length >= 3 ;
         }
+
+        get args(){
+
+            return this.argv.slice(3) ;
+        }
     
         run(){
 
             let {
-                code
+                code,
+                args
             } = this ;
 
-            run(code.target) ;
+            run(code.target , ...args) ;
         }
     }
 

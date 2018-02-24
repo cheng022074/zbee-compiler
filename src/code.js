@@ -14,20 +14,28 @@ const {
 {
     defineCacheProperties
 } = require('./object'),
-BIN_CODES = {};
+{
+    defaultFolder
+} = APPLICATION,
+CODES = {
+    BIN:{},
+    SOURCE:{}
+};
 
-class BinCode{
+class Code{
 
-    static get(name){
+    static get(type , classRef , name){
 
-        name = normalize(name , APPLICATION.defaultFolder) ;
+        name = normalize(name , defaultFolder) ;
 
-        if(!BIN_CODES.hasOwnProperty(name)){
+        let codes = CODES[type] ;
 
-            BIN_CODES[name] = new BinCode(name) ;
+        if(!codes.hasOwnProperty(name)){
+
+            codes[name] = new classRef(name) ;
         }
 
-        return BIN_CODES[name] ;
+        return codes[name] ;
     }
 
     constructor(fullName){
@@ -45,6 +53,14 @@ class BinCode{
             'path',
             'target'
         ]) ;
+    }
+}
+
+class BinCode extends Code{
+
+    static get(name){
+
+       return Code.get('BIN' , this , name) ;
     }
 
     applyPath(){
@@ -86,3 +102,70 @@ class BinCode{
 }
 
 exports.BinCode = BinCode ;
+
+const {
+    keys:config_keys,
+    get:config_get,
+} = require('./config'),
+{
+    extname
+} = require('./path'),
+{
+    run
+} = require('./runner'),
+{
+    readTextFile
+} = require('./fs');
+
+class SourceCode extends Code{
+
+    static get(name){
+
+        return Code.get('SOURCE' , this , name) ;
+    }
+
+    applyPath(){
+
+        let {
+            name,
+            folder
+        } = this;
+
+        let suffixes = config_keys('code.source' , folder) ;
+
+        if(suffixes.length === 0){
+
+            return false ;
+        }
+
+        let path = APPLICATION.getPath(folder , name , suffixes) ;
+
+        if(path === false){
+
+            path = COMPILER.getPath(folder , name , suffixes) ;
+        }
+
+        return path ;
+    }
+
+    applyTarget(){
+
+        let me = this,
+        {
+            folder,
+            path
+        } = me;
+  
+        if(path){
+
+            let name = config_get('code.source' , `${folder}.${extname(path)}`) ;
+
+            if(name){
+
+                return run(BinCode.get(name).target , readTextFile(path) , me) ;
+            }
+        }
+    }
+}
+
+exports.SourceCode = SourceCode ;

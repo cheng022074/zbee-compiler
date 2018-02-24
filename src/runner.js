@@ -10,7 +10,7 @@ exports.run = (target , ...args) =>{
 
         return target(...args) ;
     
-    }else if(is_class(target) || is_object(target)){
+    }else if((is_class(target) || is_object(target)) && 'main' in target){
 
         return target.main(...args) ;
     }

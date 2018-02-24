@@ -1,4 +1,8 @@
-module.exports = () =>{
+const {
+    SourceCode
+} = require('../code') ;
 
-    console.log('编译程序') ;
+module.exports = name =>{
+
+    console.log(SourceCode.get(name).target) ;
 }

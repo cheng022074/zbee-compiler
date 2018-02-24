@@ -56,9 +56,7 @@
 }
 
 {
-    const {
-        split
-    } = require('./string') ;
+    const splitRe = /\./;
     
     exports.get = (data , key) =>{
     
@@ -69,7 +67,7 @@
                 return data[key] ;
             }
     
-            let names = split(key),
+            let names = key.split(splitRe),
                 prefix = '';
 
             for(let name of names){
@@ -97,5 +95,32 @@
         }
     
         return data ;
+    }
+
+    exports.has = (data , key) =>{
+
+        if(data.hasOwnProperty(key)){
+    
+            return data[key] ;
+        }
+
+        let names = key.split(splitRe),
+            prefix = '';
+
+        for(let name of names){
+
+            let key = `${prefix}${name}` ;
+
+            if(data.hasOwnProperty(key)){
+
+                prefix = '' ;
+            
+            }else{
+
+                prefix = `${key}.` ;
+            }
+        }
+
+        return !!prefix ;
     }
 }
