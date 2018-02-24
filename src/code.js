@@ -170,7 +170,7 @@ class SourceCode extends Code{
 
             if(name){
 
-                return run(BinCode.get(name).target , readTextFile(path) , me) ;
+                return run(BinCode.get(name).target , me) ;
             }
         }
     }

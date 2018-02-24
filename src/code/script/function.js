@@ -1,14 +1,8 @@
-const {
-    ScriptMeta
-} = require('../../script') ;
+const
+Meta = require('../meta/script'),
+Target = require('../target');
 
-module.exports = (data , code) =>{
+module.exports = code =>{
 
-    let meta = new ScriptMeta(data) ;
-
-    console.log(meta.scoped , meta.async , meta.runAt) ;
-
-    return {
-        
-    } ;
+    return new Target(code , Meta , 'code.bin.script.function' , 'code.package.script.function') ;
 }

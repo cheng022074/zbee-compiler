@@ -7,16 +7,20 @@ textCodeMetaRunAtSplitRe = /\s+/,
 textCodeMetaExtendRe = /@extend\s+([^\n\r]+)/,
 {
     defineCacheProperties
-} = require('./object'),
+} = require('../../object'),
 {
     split
-} = require('./string');
+} = require('../../string'),
+{
+    readTextFile
+} = require('../../fs');
 
-class Meta{
+module.exports = class {
 
-    constructor(data){
+    constructor(code){
 
-        let me = this,
+        let data = readTextFile(code.path),
+            me = this,
             match = data.match(textCodeMetaRe) ;
 
         if(match){
@@ -94,5 +98,3 @@ class Meta{
         return this.data ;
     }
 }
-
-exports.ScriptMeta = Meta ;

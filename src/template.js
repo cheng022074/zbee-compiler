@@ -5,6 +5,7 @@ const {
     compile
 } = require('ejs'),
 TEMPLATES = {};
+
 exports.apply = (name , data) =>{
 
     if(!TEMPLATES.hasOwnProperty(name)){

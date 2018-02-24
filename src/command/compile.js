@@ -4,5 +4,10 @@ const {
 
 module.exports = name =>{
 
-    console.log(SourceCode.get(name).target) ;
+    let code = SourceCode.get(name) ;
+
+    if(code.exists){
+
+        console.log(code.target.binCodeText) ;
+    }
 }
