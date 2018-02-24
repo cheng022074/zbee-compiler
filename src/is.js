@@ -22,6 +22,11 @@ exports.string = data =>{
     return is_type(data , 'string') ;
 }
 
+exports.array = data =>{
+
+    return Array.isArray(data) ;
+}
+
 exports.simpleObject = data =>{
 
     return data instanceof Object && data.constructor === Object;

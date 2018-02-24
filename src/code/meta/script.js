@@ -5,6 +5,10 @@ textCodeMetaScopedRe = /@scoped/,
 textCodeMetaRunAtRe = /@runat\s+([^\n\r]+)/,
 textCodeMetaRunAtSplitRe = /\s+/,
 textCodeMetaExtendRe = /@extend\s+([^\n\r]+)/,
+textCodeMetaParamTypeSplitRe = /\|/,
+textCodeMetaParamNameRe = /^(\w+)(?:\.(\w+))?/,
+textCodeMetaParamRestRe = /^\.{3}(\w+)/,
+textCodeMetaParamArrayRe = /\[\]$/,
 {
     defineCacheProperties
 } = require('../../object'),
@@ -13,7 +17,10 @@ textCodeMetaExtendRe = /@extend\s+([^\n\r]+)/,
 } = require('../../string'),
 {
     readTextFile
-} = require('../../fs');
+} = require('../../fs'),
+{
+    array:is_array
+} = require('../../is') ;
 
 module.exports = class {
 
@@ -42,6 +49,7 @@ module.exports = class {
             'isApplyExtendKeyword',
             'requires',
             'imports',
+            'params',
             'ast',
         ]) ;
     }
@@ -91,6 +99,132 @@ module.exports = class {
             'node',
             'browser'
         ] ;
+    }
+
+    applyParams(){
+
+        let textCodeMetaParamRe = /@param\s+\{([^\{\}]+)\}\s+([^\n\r]+)/g,
+            match,
+            params = [],
+            paramSet = {};
+
+        while(match = textCodeMetaParamRe.exec(meta)){
+
+            let type = match[1].trim().toLowerCase(),
+                content = match[2].trim(),
+                types = split(type , textCodeMetaParamTypeSplitRe) ;
+
+            if(types.length > 1){
+
+                type = types ;
+            }
+
+            {
+                let match = content.match(textCodeMetaParamNameRe) ;
+                
+                if(match){
+
+                    let [
+                        ,
+                        targetName,
+                        propertyName
+                    ] = match;
+
+                    if(targetName && propertyName){
+
+                        if(paramSet.hasOwnProperty(targetName)){
+
+                            let param = paramsSet[targetName] ;
+
+                            param.type = 'object' ;
+
+                            if(!param.hasOwnProperty('items')){
+
+                                param.items = [] ;
+                            
+                            }
+
+                            param.items.push({
+                                type,
+                                name:propertyName
+                            }) ;
+                        }
+
+                    }else{
+
+                        params.push({
+                            type,
+                            name:targetName
+                        }) ;
+                    }
+
+                }else{
+
+                    {
+                        let match = content.match(textCodeMetaParamRestRe) ;
+
+                        if(match){
+
+                            if(is_array(type)){
+
+                                type = type[0] ;
+                            }
+
+                            if(!textCodeMetaParamArrayRe.test(type)){
+
+                                type = `${type}[]` ;
+                            }
+
+                            params.push({
+                                type,
+                                rest:true,
+                                name:match[1]
+                            }) ;
+
+                            continue ;
+                        }
+                    }
+
+                    let placeholder = genreatePlaceholderString(content , /\"(?:\\.|[^\"])*\"|\'(?:\\.|[^\'])*\'/ , ()=> Date.now()) ;
+
+                    let group = groupMatch(placeholder.data , {
+                        regexp:/\[|\]/g,
+                        region:{
+                            start:'[',
+                            end:']'
+                        },
+                        border:false
+                    }) ;
+
+                    if(group && group.length){
+
+                        group = restorePlaceholderString(group[group.length - 1].trim() , placeholder.values) ;
+
+                        let name = group.match(textCodeMetaParamNameRe)[0];
+
+                        if(name === group){
+
+                            params.push({
+                                type,
+                                name,
+                                optiontal:true
+                            }) ;
+
+                        }else{
+
+                            params.push({
+                                type,
+                                name,
+                                defaultValue:group.replace(textCodeMetaParamNameDefaultValueRe , '').trim(),
+                                optiontal:true
+                            }) ;
+                        }
+                    }
+                }
+            }
+        }
+
+        return params ;
     }
 
     toString(){

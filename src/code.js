@@ -12,7 +12,8 @@ const {
     normalize
 } = require('./name'),
 {
-    defineCacheProperties
+    defineCacheProperties,
+    defineCacheProperty
 } = require('./object'),
 {
     defaultFolder
@@ -123,9 +124,22 @@ const {
 } = require('./path'),
 {
     run
-} = require('./runner');
+} = require('./runner'),
+baseNameRe = /[^\.]+$/;
 
 class SourceCode extends Code{
+
+    constructor(fullName){
+
+        super(fullName) ;
+        
+        defineCacheProperty(this , 'baseName') ;
+    }
+
+    applyBaseName(){
+
+        return this.name.match(baseNameRe)[0] ;
+    }
 
     static get(name){
 
