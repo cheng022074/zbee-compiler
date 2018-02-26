@@ -169,7 +169,7 @@ module.exports = class {
                             
                             }
 
-                            param.items.push(paramSet[`${targetName}.${propertyName}`] = {
+                            add_params(param.items , paramSet , `${targetName}.${propertyName}` , {
                                 type,
                                 name:propertyName
                             }) ;
@@ -177,7 +177,7 @@ module.exports = class {
 
                     }else{
 
-                        params.push(paramSet[targetName] = {
+                        add_params(params , paramSet , targetName , {
                             type,
                             name:targetName
                         }) ;
@@ -202,7 +202,7 @@ module.exports = class {
 
                             let name = match[1] ;
 
-                            params.push(paramSet[name] = {
+                            add_params(params , paramSet , name , {
                                 type,
                                 rest:true,
                                 name
@@ -226,7 +226,7 @@ module.exports = class {
 
                                     let name = match[1] ;
 
-                                    params.push(paramSet[name] = {
+                                    add_params(params , paramSet , name , {
                                         type,
                                         name,
                                         defaultValue:match[2].trim(),
@@ -237,7 +237,7 @@ module.exports = class {
 
                                     let name = data ;
 
-                                    params.push(paramSet[name] = {
+                                    add_params(params , paramSet , name , {
                                         type,
                                         name,
                                         optiontal:true
@@ -260,5 +260,13 @@ module.exports = class {
     toString(){
 
         return this.data ;
+    }
+}
+
+function add_params(params , paramSet ,  name , config){
+
+    if(!paramSet.hasOwnProperty(name)){
+
+        params.push(paramSet[name] = config) ;
     }
 }
