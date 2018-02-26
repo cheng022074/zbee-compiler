@@ -226,7 +226,10 @@ class SourceCode extends Code{
                     converter
                 } = config ;
 
-                return run(BinCode.get(converter).target , me) ;
+                if(converter){
+
+                    return run(BinCode.get(converter).target , me) ;
+                }
             }
         }
     }
