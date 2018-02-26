@@ -8,7 +8,9 @@ textCodeMetaExtendRe = /@extend\s+([^\n\r]+)/,
 textCodeMetaParamTypeSplitRe = /\|/,
 textCodeMetaParamNameRe = /^(\w+)(?:\.(\w+))?/,
 textCodeMetaParamRestRe = /^\.{3}(\w+)/,
-textCodeMetaParamArrayRe = /\[\]$/,
+textCodeMetaParamTypeArrayRe = /\[\]$/,
+textCodeMetaParamOptionalRe = /^\[(.+)\]$/,
+textCodeMetaParamOptionalDefaultValueRe = /^(\w+)\s*\=(.+)$/,
 {
     defineCacheProperties
 } = require('../../object'),
@@ -50,6 +52,8 @@ module.exports = class {
             'requires',
             'imports',
             'params',
+            'paramSet',
+            'paramInformations',
             'ast',
         ]) ;
     }
@@ -103,12 +107,23 @@ module.exports = class {
 
     applyParams(){
 
+        return this.paramInformations.params ;
+    }
+
+    applyParamSet(){
+
+        return this.paramInformations.paramSet ;
+
+    }
+
+    applyParamInformations(){
+
         let textCodeMetaParamRe = /@param\s+\{([^\{\}]+)\}\s+([^\n\r]+)/g,
             match,
             params = [],
             paramSet = {};
 
-        while(match = textCodeMetaParamRe.exec(meta)){
+        while(match = textCodeMetaParamRe.exec(this.data)){
 
             let type = match[1].trim().toLowerCase(),
                 content = match[2].trim(),
@@ -136,7 +151,17 @@ module.exports = class {
 
                             let param = paramsSet[targetName] ;
 
-                            param.type = 'object' ;
+                            switch(param.type){
+
+                                case 'object':
+                                case 'array':
+
+                                    break ;
+
+                                default:
+
+                                    param.type = 'object' ;
+                            }
 
                             if(!param.hasOwnProperty('items')){
 
@@ -144,7 +169,7 @@ module.exports = class {
                             
                             }
 
-                            param.items.push({
+                            param.items.push(paramSet[`${targetName}.${propertyName}`] = {
                                 type,
                                 name:propertyName
                             }) ;
@@ -152,7 +177,7 @@ module.exports = class {
 
                     }else{
 
-                        params.push({
+                        params.push(paramSet[targetName] = {
                             type,
                             name:targetName
                         }) ;
@@ -170,61 +195,66 @@ module.exports = class {
                                 type = type[0] ;
                             }
 
-                            if(!textCodeMetaParamArrayRe.test(type)){
+                            if(!textCodeMetaParamTypeArrayRe.test(type)){
 
                                 type = `${type}[]` ;
                             }
 
-                            params.push({
+                            let name = match[1] ;
+
+                            params.push(paramSet[name] = {
                                 type,
                                 rest:true,
-                                name:match[1]
+                                name
                             }) ;
 
-                            continue ;
+                            break ;
                         }
                     }
 
-                    let placeholder = genreatePlaceholderString(content , /\"(?:\\.|[^\"])*\"|\'(?:\\.|[^\'])*\'/ , ()=> Date.now()) ;
+                    {
+                        let match = content.match(textCodeMetaParamOptionalRe) ;
 
-                    let group = groupMatch(placeholder.data , {
-                        regexp:/\[|\]/g,
-                        region:{
-                            start:'[',
-                            end:']'
-                        },
-                        border:false
-                    }) ;
+                        if(match){
 
-                    if(group && group.length){
+                            let data = match[1];
 
-                        group = restorePlaceholderString(group[group.length - 1].trim() , placeholder.values) ;
+                            {
+                                let match = data.match(textCodeMetaParamOptionalDefaultValueRe) ;
 
-                        let name = group.match(textCodeMetaParamNameRe)[0];
+                                if(match){
 
-                        if(name === group){
+                                    let name = match[1] ;
 
-                            params.push({
-                                type,
-                                name,
-                                optiontal:true
-                            }) ;
+                                    params.push(paramSet[name] = {
+                                        type,
+                                        name,
+                                        defaultValue:match[2].trim(),
+                                        optiontal:true
+                                    }) ;
+                                
+                                }else{
 
-                        }else{
+                                    let name = data ;
 
-                            params.push({
-                                type,
-                                name,
-                                defaultValue:group.replace(textCodeMetaParamNameDefaultValueRe , '').trim(),
-                                optiontal:true
-                            }) ;
+                                    params.push(paramSet[name] = {
+                                        type,
+                                        name,
+                                        optiontal:true
+                                    }) ;
+                                }
+                            }
+
                         }
                     }
                 }
             }
         }
 
-        return params ;
+        return {
+            params,
+            paramSet
+        } ;
     }
 
     toString(){

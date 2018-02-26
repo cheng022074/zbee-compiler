@@ -8,6 +8,6 @@ module.exports = name =>{
 
     if(code.exists){
 
-        console.log(code.target.binCodeText) ;
+        console.log(code.target.meta.params) ;
     }
 }
