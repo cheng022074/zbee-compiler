@@ -23,7 +23,7 @@ const {
     from
 } = require('./array'),
 {
-    readAllFilePath
+    getAllFilePaths
 } = require('./fs'),
 {
     toName,
@@ -140,7 +140,7 @@ class Application extends Project{
         for(let folder of folders){
 
             let folderPath = me.getFolderPath(folder),
-                paths = readAllFilePath(folderPath);
+                paths = getAllFilePaths(folderPath);
 
             for(let path of paths){
 

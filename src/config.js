@@ -14,32 +14,59 @@ function get_config(name){
 
     if(!CONFIGS.hasOwnProperty(name)){
 
-        CONFIGS[name] = Object.freeze(BinCode.get(`config::${name}`).target || {}) ;
+        CONFIGS[name] = Object.freeze(BinCode.get(`config::${name}`).targets) ;
     }
 
     return CONFIGS[name] ;
 }
 
-function get(name , key){
+exports.get = function(name , key){
 
-    return object_get(get_config(name) , key) ;
-}
+    let targets = get_config(name) ;
 
-exports.get = get ;
+    for(let target of targets){
+
+        let value = object_get(target , key) ;
+
+        if(value !== undefined){
+
+            return value ;
+        }
+    }
+} ;
 
 exports.keys = (name , key) =>{
 
-    let config = get(name , key) ;
+    let targets = get_config(name),
+        keys = [];
 
-    if(is_object(config)){
+    for(let target of targets){
 
-        return Object.keys(config) ;
+        let value = object_get(target , key) ;
+
+        if(is_object(value)){
+
+            keys.push(...Object.keys(value)) ;
+        }
     }
 
-    return [] ;
+    return keys ;
 }
 
 exports.has = (name , key) =>{
 
-    return object_has(get_config(name) , key) ;
+    let targets = get_config(name),
+        keys = [];
+
+    for(let target of targets){
+
+        let result = object_has(target , key) ;
+
+        if(result){
+
+            return true ;
+        }
+    }
+
+    return false ;
 }

@@ -1,3 +1,7 @@
+const {
+    APPLICATION
+} = require('../project') ;
+
 module.exports = (type = 'forward') =>{
 
     switch(type){
@@ -27,5 +31,5 @@ function forward(){
 
 function reverse(){
 
-    console.log('逆向工程') ;
+    console.log(APPLICATION.manifest) ;
 }

@@ -72,6 +72,13 @@ class BinCode extends Code{
        return Code.get('BIN' , this , name) ;
     }
 
+    constructor(fullName){
+
+        super(fullName) ;
+
+        defineCacheProperty(this , 'targets') ;
+    }
+
     applyPath(){
 
         let {
@@ -110,6 +117,37 @@ class BinCode extends Code{
         }
         
         return APPLICATION.libraries.get(fullName) ;
+    }
+
+    applyTargets(){
+
+        let {
+            folder,
+            path,
+            fullName
+        } = this,
+        targets = [];
+  
+        if(path){
+
+            if(folder === 'template'){
+
+                targets.push(readTextFile(path)) ;
+            
+            }else{
+
+                targets.push(require(path)) ;
+            }
+        }
+
+        let target = APPLICATION.libraries.get(fullName) ;
+
+        if(target){
+
+            targets.push(target) ;
+        }
+
+        return targets ;
     }
 }
 

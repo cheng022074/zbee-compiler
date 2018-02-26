@@ -79,7 +79,7 @@ exports.toName = (filePath , rootPath) =>{
 
     rootPath = normalize(`${rootPath}${sep}`) ;
 
-    filePath.replace(suffixRe , '') ;
+    filePath = filePath.replace(suffixRe , '') ;
 
     if(filePath.indexOf(rootPath) === 0){
 
