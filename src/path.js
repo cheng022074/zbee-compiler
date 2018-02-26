@@ -2,7 +2,8 @@ const {
     defineCacheProperty
 } = require('./object'),
 {
-    join
+    join,
+    sep
 } = require('path'),
 {
     directory:is_directory
@@ -70,4 +71,18 @@ exports.fileNormalize = path =>{
     }
 
     return false ;
+}
+
+const pathSplitRe = /\/|\\/g ;
+
+exports.toName = (filePath , rootPath) =>{
+
+    rootPath = normalize(`${rootPath}${sep}`) ;
+
+    filePath.replace(suffixRe , '') ;
+
+    if(filePath.indexOf(rootPath) === 0){
+
+        return filePath.replace(rootPath , '').replace(pathSplitRe , '.') ;
+    }
 }

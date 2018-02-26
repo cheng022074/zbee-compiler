@@ -10,7 +10,8 @@ const {
     load
 } = require('./json'),
 {
-    get
+    get,
+    defineCacheProperty
 } = require('./object'),
 {
     toPath
@@ -20,7 +21,7 @@ const {
 } = require('./is'),
 {
     from
-} = require('./array');
+} = require('./array') ;
 
 class Project{
 
@@ -65,6 +66,10 @@ class Application extends Project{
         let me = this ;
 
         me.libraries = new Libraries(me.properties = load(join(APPLICATION_PATH , 'properties'))) ;
+
+        defineCacheProperty(me , [
+            'folderPaths'
+        ]) ;
     }
 
     get defaultFolder(){
@@ -105,8 +110,36 @@ class Application extends Project{
 
     getPath(folder , name , suffixes){
 
-        return super.getPath(get(this.properties , `folders.${folder}`) || folder , name , suffixes) ;
+        return super.getPath(this.getFolderName(folder) , name , suffixes) ;
     }
+
+    getFolderName(folder){
+
+        return get(this.properties , `folders.${folder}`) || folder ;
+    }
+
+    applyFolderPaths(){
+
+        const folders = [
+            'config',
+            'src',
+            'template'
+        ],
+        paths = [],
+        me = this,
+        {
+            rootPath
+        } = me;
+
+        for(let folder of folders){
+
+            paths.push(join(rootPath , me.getFolderName(folder))) ;
+        }
+
+        return paths ;
+    }
+
+    
 }
 
 class Libraries{
