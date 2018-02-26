@@ -1,5 +1,8 @@
 {
     "src":{
-        ".fn.js":"code.script.function"
+        ".fn.js":{
+            "template":"code.template.script.function",
+            "converter":"code.script.function"
+        }
     }
 }

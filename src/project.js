@@ -73,10 +73,6 @@ class Application extends Project{
         let me = this ;
 
         me.libraries = new Libraries(me.properties = load(join(APPLICATION_PATH , 'properties'))) ;
-
-        defineCacheProperties(me , [
-            'manifest'
-        ]) ;
     }
 
     get defaultFolder(){
@@ -117,48 +113,7 @@ class Application extends Project{
 
     getPath(folder , name , suffixes){
 
-        return super.getPath(this.getFolderName(folder) , name , suffixes) ;
-    }
-
-    getFolderPath(folder){
-
-        let me = this ;
-
-        return join(me.rootPath , get(me.properties , `folders.${folder}`) || folder) ;
-    }
-
-    applyManifest(){
-
-        let folders = [
-            'config',
-            'src',
-            'template'
-        ],
-        me = this,
-        manifest = {};
-
-        for(let folder of folders){
-
-            let folderPath = me.getFolderPath(folder),
-                paths = getAllFilePaths(folderPath);
-
-            for(let path of paths){
-
-                let name = toName(path , folderPath) ;
-
-                if(!manifest.hasOwnProperty(folder)){
-
-                    manifest[folder] = [];
-                }
-
-                manifest[folder].push({
-                    name,
-                    suffix:extname(path)
-                }) ;
-            }
-        }
-
-        return manifest ;
+        return super.getPath(get(this.properties , `folders.${folder}`) || folder , name , suffixes) ;
     }
 }
 

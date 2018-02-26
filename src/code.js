@@ -218,11 +218,15 @@ class SourceCode extends Code{
   
         if(path){
 
-            let name = config_get('code.source' , `${folder}.${extname(path)}`) ;
+            let config = config_get('code.source' , `${folder}.${extname(path)}`) ;
 
-            if(name){
+            if(config){
 
-                return run(BinCode.get(name).target , me) ;
+                let {
+                    converter
+                } = config ;
+
+                return run(BinCode.get(converter).target , me) ;
             }
         }
     }

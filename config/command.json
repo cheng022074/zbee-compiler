@@ -2,5 +2,5 @@
     "run":"command.run",
     "compile":"command.compile",
     "package":"command.package",
-    "manifest":"command.manifest"
+    "generate":"command.generate"
 }

@@ -1,6 +1,7 @@
 const {
     readFileSync,
-    readdirSync
+    readdirSync,
+    writeFileSync
 } = require('fs'),
 {
     directory:is_directory
@@ -19,6 +20,27 @@ exports.readTextFile = path =>{
     }
 
     return '' ;
+}
+
+function writeTextFile(path , data){
+
+    writeFileSync(path , data) ;
+}
+
+exports.writeTextFile = writeTextFile ;
+
+exports.writeJSONFile = (path , data , isFormat = true) =>{
+
+    if(isFormat){
+
+        data = JSON.stringify(data , null , 2) ;
+    
+    }else{
+
+        data = JSON.stringify(data) ;
+    }
+
+    writeTextFile(path , data) ;
 }
 
 function getFilePaths(path){
