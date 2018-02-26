@@ -11,7 +11,7 @@ const {
 } = require('./json'),
 {
     get,
-    defineCacheProperty
+    defineCacheProperties
 } = require('./object'),
 {
     toPath
@@ -21,7 +21,14 @@ const {
 } = require('./is'),
 {
     from
-} = require('./array') ;
+} = require('./array'),
+{
+    readAllFilePath
+} = require('./fs'),
+{
+    toName,
+    extname
+} = require('./path');
 
 class Project{
 
@@ -67,8 +74,8 @@ class Application extends Project{
 
         me.libraries = new Libraries(me.properties = load(join(APPLICATION_PATH , 'properties'))) ;
 
-        defineCacheProperty(me , [
-            'folderPaths'
+        defineCacheProperties(me , [
+            'manifest'
         ]) ;
     }
 
@@ -113,33 +120,46 @@ class Application extends Project{
         return super.getPath(this.getFolderName(folder) , name , suffixes) ;
     }
 
-    getFolderName(folder){
+    getFolderPath(folder){
 
-        return get(this.properties , `folders.${folder}`) || folder ;
+        let me = this ;
+
+        return join(me.rootPath , get(me.properties , `folders.${folder}`) || folder) ;
     }
 
-    applyFolderPaths(){
+    applyManifest(){
 
-        const folders = [
+        let folders = [
             'config',
             'src',
             'template'
         ],
-        paths = [],
         me = this,
-        {
-            rootPath
-        } = me;
+        manifest = {};
 
         for(let folder of folders){
 
-            paths.push(join(rootPath , me.getFolderName(folder))) ;
+            let folderPath = me.getFolderPath(folder),
+                paths = readAllFilePath(folderPath);
+
+            for(let path of paths){
+
+                let name = toName(path , folderPath) ;
+
+                if(!manifest.hasOwnProperty(folder)){
+
+                    manifest[folder] = [];
+                }
+
+                manifest[folder].push({
+                    name,
+                    suffix:extname(path)
+                }) ;
+            }
         }
 
-        return paths ;
+        return manifest ;
     }
-
-    
 }
 
 class Libraries{
