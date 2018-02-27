@@ -1,8 +1,29 @@
-const dotRe = /\./g ;
+const dotRe = /\./g,
+{
+    split,
+    capitalize
+} = require('./string');
 
 exports.toPath = (name , suffix = '') =>{
 
     return `${name.replace(dotRe , '/')}${suffix}` ;
+}
+
+exports.toCamelCase = name =>{
+
+    let names = split(name , dotRe),
+        firstName = names[0];
+
+    names.shift() ;
+
+    let result = [] ;
+
+    for(let name of names){
+
+        result.push(capitalize(name)) ;
+    }
+
+    return `${firstName}${result.join('')}` ;
 }
 
 {

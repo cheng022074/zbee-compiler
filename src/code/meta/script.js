@@ -10,7 +10,9 @@ textCodeMetaParamNameRe = /^(\w+)(?:\.(\w+))?/,
 textCodeMetaParamRestRe = /^\.{3}(\w+)/,
 textCodeMetaParamTypeArrayRe = /\[\]$/,
 textCodeMetaParamOptionalRe = /^\[(.+)\]$/,
-textCodeMetaParamOptionalDefaultValueRe = /^(\w+)\s*\=(.+)$/,
+textCodeMetaParamOptionalDefaultValueRe = /^(\w+)\s*\=(.+?)$/,
+textCodeMetaAliasImportRe = /(\.?\w+)\s+from\s+((?:\w+\:{2})?\w+(?:\.\w+)*)/,
+textCodeMetaAliasFirstDotImportRe = /^\./,
 {
     defineCacheProperties
 } = require('../../object'),
@@ -22,7 +24,10 @@ textCodeMetaParamOptionalDefaultValueRe = /^(\w+)\s*\=(.+)$/,
 } = require('../../fs'),
 {
     array:is_array
-} = require('../../is') ;
+} = require('../../is'),
+{
+    toCamelCase
+} = require('../../string');
 
 module.exports = class {
 
@@ -54,6 +59,8 @@ module.exports = class {
             'params',
             'paramSet',
             'paramInformations',
+            'imports',
+            'importNames',
             'ast',
         ]) ;
     }
@@ -103,6 +110,78 @@ module.exports = class {
             'node',
             'browser'
         ] ;
+    }
+
+    applyImports(){
+
+        let textCodeMetaImportRe = /@import\s+([^\n\r]+)/g,
+            match,
+            imports = [];
+
+        while(match = textCodeMetaImportRe.exec(meta)){
+
+            let content = match[1].trim() ;
+
+            {
+                let match = content.match(textCodeMetaAliasImportRe) ;
+
+                if(match){
+
+                    let name = match[1],
+                        implement = match[2];
+
+                    if(textCodeMetaAliasFirstDotImportRe.test(name)){
+
+                        imports.push({
+                            var:name.replace(textCodeMetaAliasFirstDotImportRe , ''),
+                            item:true,
+                            include:implement
+                        }) ;
+                    
+                    }else{
+
+                        imports.push({
+                            var:name,
+                            include:implement
+                        }) ;
+                    }
+
+                    continue ;
+                }
+            }
+
+            imports.push({
+                var:toCamelCase(content),
+                include:content
+            }) ;
+        }
+
+        let name = this.extend ;
+
+        if(name){
+
+            imports.push({
+                var:toCamelCase(name),
+                include:name
+            }) ;
+        }
+
+        return imports ;
+    }
+
+    applyImportNames(){
+
+        let {
+            imports
+        } = this,
+        names = [];
+
+        for(let config of imports){
+
+            names.push(config.include) ;
+        }
+
+        return names ;
     }
 
     applyParams(){
