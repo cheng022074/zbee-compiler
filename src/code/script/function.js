@@ -18,12 +18,30 @@ class ScriptFunctionTarget extends Target{
 
         let {
             scoped,
-            code:body
+            code:body,
+            params,
         } = meta ;
 
         return {
             scoped,
+            params:process_params(params),
             body
         }
     }
+}
+
+function process_params(params){
+
+    let result = [] ;
+
+    for(let param of params){
+
+        let {
+            name
+        } = param ;
+
+        result.push(name) ;
+    }
+
+    return result.join(',') ;
 }
