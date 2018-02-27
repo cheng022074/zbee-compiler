@@ -171,7 +171,11 @@ class SourceCode extends Code{
 
         super(fullName) ;
         
-        defineCacheProperty(this , 'baseName') ;
+        defineCacheProperties(this , [
+            'baseName',
+            'importSourceCodes',
+            'importAllSourceCodes'
+        ]) ;
     }
 
     applyBaseName(){
@@ -208,6 +212,45 @@ class SourceCode extends Code{
         return path ;
     }
 
+    applyImportAllSourceCodes(){
+
+        let code = this,
+            codes = [];
+
+        get_import_source_codes(code , codes) ;
+
+        codes.pop();
+
+        return codes ;
+
+    }
+
+    applyImportSourceCodes(){
+
+        let me = this ;
+
+        if(me.exists){
+
+            let {
+                meta
+            } = me.target ;
+
+            let names = meta.importNames,
+                codes = [];
+
+            for(let name of names){
+
+                codes.push(SourceCode.get(name)) ;
+            }
+
+            return codes ;
+        }
+
+        return [] ;
+    }
+
+
+
     applyTarget(){
 
         let me = this,
@@ -231,6 +274,21 @@ class SourceCode extends Code{
                     return run(BinCode.get(converter).target , me) ;
                 }
             }
+        }
+    }
+}
+
+function get_import_source_codes(code , codes){
+    
+    let importCodes = code.importSourceCodes ;
+
+    for(let importCode of importCodes){
+
+        if(!codes.includes(importCode)){
+
+            codes.splice(codes.indexOf(code) , 0 , importCode) ;
+
+            get_import_source_codes(importCode , codes) ;
         }
     }
 }

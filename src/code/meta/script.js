@@ -27,7 +27,10 @@ textCodeMetaAliasFirstDotImportRe = /^\./,
 } = require('../../is'),
 {
     toCamelCase
-} = require('../../name');
+} = require('../../name'),
+{
+    unique
+} = require('../../array');
 
 module.exports = class {
 
@@ -52,7 +55,6 @@ module.exports = class {
             'async',
             'scoped',
             'runAt',
-            'isApplyExtendKeyword',
             'requires',
             'params',
             'paramSet',
@@ -146,7 +148,7 @@ module.exports = class {
             names.push(config.include) ;
         }
 
-        return names ;
+        return unique(names) ;
     }
 
     applyParams(){
