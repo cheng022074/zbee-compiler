@@ -7,7 +7,10 @@
     } = require('./string'),
     {
         function:is_function
-    } = require('./is');
+    } = require('./is'),
+    {
+        unique
+    } = require('./array');
     
     function defineCacheProperty(target , name){
     
@@ -47,6 +50,8 @@
     exports.defineCacheProperty = defineCacheProperty ;
     
     exports.defineCacheProperties = (target , names) =>{
+
+        names = unique(names) ;
     
         for(let name of names){
     

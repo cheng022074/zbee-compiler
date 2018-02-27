@@ -1,1 +1,1 @@
-<%- meta.code %>
+<%- body %>

@@ -52,39 +52,14 @@ module.exports = class {
             'async',
             'scoped',
             'runAt',
-            'extend',
             'isApplyExtendKeyword',
             'requires',
-            'imports',
             'params',
             'paramSet',
             'paramInformations',
             'imports',
-            'importNames',
-            'ast',
+            'importNames'
         ]) ;
-    }
-
-    applyAst(){
-
-        //  将源代码解析出Ast JSON树
-    }
-
-    applyIsApplyExtendKeyword(){
-
-        // 解析代码
-    }
-
-    applyExtend(){
-
-        let match = meta.match(textCodeMetaExtendRe) ;
-        
-        if(match){
-
-            return match[1].trim() ;
-        }
-
-        return false ;
     }
 
     applyAsync(){
@@ -153,16 +128,6 @@ module.exports = class {
             imports.push({
                 var:toCamelCase(content),
                 include:content
-            }) ;
-        }
-
-        let name = this.extend ;
-
-        if(name){
-
-            imports.push({
-                var:toCamelCase(name),
-                include:name
             }) ;
         }
 

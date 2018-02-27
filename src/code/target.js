@@ -18,7 +18,9 @@ module.exports = class {
 
         defineCacheProperties(me , [
             'meta',
+            'binCodeData',
             'binCodeText',
+            'packageCodeData',
             'packageCodeText'
         ]) ;
     }
@@ -33,17 +35,26 @@ module.exports = class {
         return new MetaClass(sourceCode) ;
     }
 
-    applyBinCodeText(){
+    applyBinCodeData(){
 
         let {
-            binTemplate,
             sourceCode:code,
             meta
         } = this;
 
-        return apply(binTemplate , {
+        return {
             code,
             meta
-        }) ;
+        } ;
+    }
+
+    applyBinCodeText(){
+
+        let me = this,
+        {
+            binTemplate
+        } = me;
+
+        return apply(binTemplate , me.binCodeData) ;
     }
 }
