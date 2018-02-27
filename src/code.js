@@ -215,7 +215,9 @@ class SourceCode extends Code{
     applyImportAllSourceCodes(){
 
         let code = this,
-            codes = [];
+            codes = [
+                code
+            ];
 
         get_import_source_codes(code , codes) ;
 

@@ -17,17 +17,30 @@ module.exports = name =>{
 
     if(code.exists){
 
+        compile(code) ;
+
         let {
-            folder,
-            name:baseName
-        } = parse(name , APPLICATION.defaultFolder) ;
+            importAllSourceCodes
+        } = code ;
 
-        writeTextFile(APPLICATION.generateBinPath(folder , baseName) , code.target.binCodeText) ;
+        for(let code of importAllSourceCodes){
 
-        console.log('已生成' , name) ;
+            compile(code) ;
+        }
     
     }else{
 
         console.log('不存在' , name) ;
     }
+}
+
+function compile(code){
+
+    let {
+        name
+    } = code ;
+
+    writeTextFile(APPLICATION.generateBinPath(code.folder , name) , code.target.binCodeText) ;
+
+    console.log('已生成' , name) ;
 }
