@@ -1,6 +1,15 @@
 const {
     SourceCode
-} = require('../code') ;
+} = require('../code'),
+{
+    APPLICATION
+} = require('../project'),
+{
+    parse
+} = require('../name'),
+{
+    writeTextFile
+} = require('../fs');
 
 module.exports = name =>{
 
@@ -8,6 +17,17 @@ module.exports = name =>{
 
     if(code.exists){
 
-        console.log(code.target.binCodeText) ;
+        let {
+            folder,
+            name:baseName
+        } = parse(name , APPLICATION.defaultFolder) ;
+
+        writeTextFile(APPLICATION.generateBinPath(folder , baseName) , code.target.binCodeText) ;
+
+        console.log('已生成' , name) ;
+    
+    }else{
+
+        console.log('不存在' , name) ;
     }
 }

@@ -77,30 +77,31 @@ class Application extends Project{
 
     get defaultFolder(){
 
-        return this.libraries.defaultFolder || 'src';
+        return this.properties.defaultFolder || 'src';
     }
 
     getBinPath(folder , name){
 
-        let path ;
+        let path,
+            me = this;
 
         switch(folder){
 
             case 'config':
 
-                path = join(APPLICATION_PATH , 'config' , toPath(name , '.json')) ;
+                path = join(me.getFolderPath('config') , toPath(name , '.json')) ;
 
                 break ;
 
             case 'template':
 
-                path = fileNormalize(join(APPLICATION_PATH , 'template' , toPath(name))) ;
+                path = fileNormalize(join(me.getFolderPath('template') , toPath(name))) ;
 
                 break ;
 
             default:
 
-                path = join(APPLICATION_PATH , 'bin' , folder , `${name}.js`) ;
+                path = me.generateBinPath(folder , name) ;
         }
 
         if(is_file(path)){
@@ -111,9 +112,26 @@ class Application extends Project{
         return false ;
     }
 
+    generateBinPath(folder , name){
+
+        return join(this.getFolderPath('bin') , folder , `${name}.js`) ;
+    }
+
+    getFolderName(folder){
+
+        return get(this.properties , `folders.${folder}`) || folder ;
+    }
+
+    getFolderPath(folder){
+
+        let me = this ;
+
+        return join(me.rootPath , me.getFolderName(folder)) ;
+    }
+
     getPath(folder , name , suffixes){
 
-        return super.getPath(get(this.properties , `folders.${folder}`) || folder , name , suffixes) ;
+        return super.getPath(this.getFolderName(folder) , name , suffixes) ;
     }
 }
 
