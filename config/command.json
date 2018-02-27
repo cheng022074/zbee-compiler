@@ -2,5 +2,7 @@
     "run":"command.run",
     "compile":"command.compile",
     "package":"command.package",
-    "generate":"command.generate"
+    "generate":"command.generate",
+    "remove":"command.remove",
+    "rename":"command.rename"
 }
