@@ -27,7 +27,7 @@ textCodeMetaAliasFirstDotImportRe = /^\./,
 } = require('../../is'),
 {
     toCamelCase
-} = require('../../string');
+} = require('../../name');
 
 module.exports = class {
 
@@ -93,7 +93,7 @@ module.exports = class {
             match,
             imports = [];
 
-        while(match = textCodeMetaImportRe.exec(meta)){
+        while(match = textCodeMetaImportRe.exec(this.data)){
 
             let content = match[1].trim() ;
 
@@ -108,7 +108,7 @@ module.exports = class {
                     if(textCodeMetaAliasFirstDotImportRe.test(name)){
 
                         imports.push({
-                            var:name.replace(textCodeMetaAliasFirstDotImportRe , ''),
+                            name:name.replace(textCodeMetaAliasFirstDotImportRe , ''),
                             item:true,
                             include:implement
                         }) ;
@@ -116,7 +116,7 @@ module.exports = class {
                     }else{
 
                         imports.push({
-                            var:name,
+                            name,
                             include:implement
                         }) ;
                     }
@@ -126,7 +126,7 @@ module.exports = class {
             }
 
             imports.push({
-                var:toCamelCase(content),
+                name:toCamelCase(content),
                 include:content
             }) ;
         }

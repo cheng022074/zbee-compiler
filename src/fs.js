@@ -1,13 +1,15 @@
 const {
     readFileSync,
     readdirSync,
-    writeFileSync
+    writeFileSync,
+    mkdirSync
 } = require('fs'),
 {
     directory:is_directory
 } =  require('./is'),
 {
-    join
+    join,
+    dirname
 } = require('path');
 
 exports.readTextFile = path =>{
@@ -22,7 +24,27 @@ exports.readTextFile = path =>{
     return '' ;
 }
 
+const folderRe = /(?:^\/)|(?:[^\/\\]+(?:[\/\\]|$))/g;
+
+function create_directory(path){
+
+    let folderNames = path.match(folderRe),
+        folderPath = '';
+
+    for(let folderName of folderNames){
+
+        folderPath += folderName ;
+
+        if(folderName !== '/' && !is_directory(folderPath)){
+
+            mkdirSync(folderPath) ;
+        }
+    }
+}
+
 function writeTextFile(path , data){
+
+    create_directory(dirname(path)) ;
 
     writeFileSync(path , data) ;
 }

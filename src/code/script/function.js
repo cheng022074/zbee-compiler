@@ -20,11 +20,13 @@ class ScriptFunctionTarget extends Target{
             scoped,
             code:body,
             params,
+            imports,
         } = meta ;
 
         return {
             scoped,
             params:process_params(params),
+            imports:process_imports(imports),
             body
         }
     }
@@ -44,4 +46,21 @@ function process_params(params){
     }
 
     return result.join(',') ;
+}
+
+function process_imports(imports){
+
+    let result = [] ;
+
+    for(let config of imports){
+
+        let {
+            name,
+            include
+        } = config ;
+
+        result.push(`const ${name} = include('${include}');`) ;
+    }
+
+    return result.join('\n') ;
 }
