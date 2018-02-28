@@ -11,9 +11,7 @@ module.exports = class extends Coder{
         } = this ;
 
         return `
-        it('${el.getAttribute('name')}' , function(){
-            ${super.applyCode()}
-        });
+        include('${el.getAttribute('name')}')();
         ` ;
     }
 }
