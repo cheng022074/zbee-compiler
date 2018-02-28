@@ -22,7 +22,8 @@ exports.readTextFile = path =>{
     }
 
     return '' ;
-}
+} ;
+
 
 const folderRe = /(?:^\/)|(?:[^\/\\]+(?:[\/\\]|$))/g;
 

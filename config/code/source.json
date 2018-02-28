@@ -2,7 +2,7 @@
     "src":{
         ".fn.js":{
             "template":"code.template.script.function",
-            "converter":"code.script.function"
+            "converter":"code.converter.script.function"
         }
     }
 }

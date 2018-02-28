@@ -1,13 +1,6 @@
-const
-Meta = require('../meta/script'),
-Target = require('../target');
+const Target = require('../../target') ;
 
-module.exports = code =>{
-
-    return new ScriptFunctionTarget(code , Meta , 'code.bin.script.function' , 'code.package.script.function') ;
-}
-
-class ScriptFunctionTarget extends Target{
+module.exports = class extends Target{
 
     applyBinCodeData(){
 
