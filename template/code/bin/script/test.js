@@ -1,5 +1,8 @@
+<%- apply('code.bin' , {
+    defaultFolder:data.defaultFolder
+}) %>
 const {
     deepStrictEqual  
 } = require('assert') ;
 
-<%- meta.code %>
+<%- data.body %>

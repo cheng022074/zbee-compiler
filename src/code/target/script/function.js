@@ -1,28 +1,18 @@
-const Target = require('../../target') ;
+const Target = require('../script') ;
 
 module.exports = class extends Target{
 
     applyBinCodeData(){
 
         let {
-            code,
-            meta
-        } = super.applyBinCodeData() ;
-
-        let {
             scoped,
-            code:body,
-            params,
-            imports,
-        } = meta ;
+            params
+        } = this.meta ;
 
-        return {
-            defaultFolder:code.project.defaultFolder,
+        return Object.assign({
             scoped,
-            params:process_params(params),
-            imports:process_imports(imports),
-            body
-        }
+            params:process_params(params)
+        } , super.applyBinCodeData()) ;
     }
 }
 
@@ -40,21 +30,4 @@ function process_params(params){
     }
 
     return result.join(',') ;
-}
-
-function process_imports(imports){
-
-    let result = [] ;
-
-    for(let config of imports){
-
-        let {
-            name,
-            include
-        } = config ;
-
-        result.push(`const ${name} = include('${include}');`) ;
-    }
-
-    return result.join('\n') ;
 }

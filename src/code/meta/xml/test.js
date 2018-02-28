@@ -6,4 +6,9 @@ module.exports = class extends Meta{
 
         super(code , 'code.generate.test') ;
     }
+
+    get imports(){
+
+        return [] ;
+    }
 }
