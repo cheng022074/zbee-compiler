@@ -11,7 +11,7 @@ module.exports = class extends ContainerCoder{
         } = this ;
 
         return `
-        describle('${el.getAttribute('name')}' , function(){
+        describe('${el.getAttribute('name')}' , function(){
             ${super.applyCode()}
         });
         ` ;

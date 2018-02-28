@@ -9,7 +9,10 @@ const {
 } = require('../name'),
 {
     writeTextFile
-} = require('../fs');
+} = require('../fs'),
+{
+    format
+} = require('../script');
 
 module.exports = name =>{
 
@@ -40,7 +43,7 @@ function compile(code){
         name
     } = code ;
 
-    writeTextFile(APPLICATION.generateBinPath(code.folder , name) , code.target.binCodeText) ;
+    writeTextFile(APPLICATION.generateBinPath(code.folder , name) , format(code.target.binCodeText)) ;
 
     console.log('已生成' , name) ;
 }

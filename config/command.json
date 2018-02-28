@@ -4,5 +4,6 @@
     "package":"command.package",
     "generate":"command.generate",
     "remove":"command.remove",
-    "rename":"command.rename"
+    "rename":"command.rename",
+    "test":"command.test"
 }
