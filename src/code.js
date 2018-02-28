@@ -167,6 +167,11 @@ baseNameRe = /[^\.]+$/;
 
 class SourceCode extends Code{
 
+    get project(){
+
+        return APPLICATION ;
+    }
+
     constructor(fullName){
 
         super(fullName) ;

@@ -6,7 +6,7 @@ const {
 } = require('ejs'),
 TEMPLATES = {};
 
-exports.apply = (name , data) =>{
+function apply(name , data){
 
     if(!TEMPLATES.hasOwnProperty(name)){
 
@@ -22,9 +22,14 @@ exports.apply = (name , data) =>{
         }
     }
 
-    return TEMPLATES[name](data) ;
+    return TEMPLATES[name]({
+        data,
+        apply
+    }) ;
 
 }
+
+exports.apply = apply ;
 
 function emptyFn(){
 

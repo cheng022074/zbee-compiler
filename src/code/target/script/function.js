@@ -17,6 +17,7 @@ module.exports = class extends Target{
         } = meta ;
 
         return {
+            defaultFolder:code.project.defaultFolder,
             scoped,
             params:process_params(params),
             imports:process_imports(imports),

@@ -1,3 +1,4 @@
 {
-    "describe":"generator.coder.test.describe"
+    "describe":"generator.coder.test.describe",
+    "it":"generator.coder.test.it"
 }

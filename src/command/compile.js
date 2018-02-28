@@ -45,5 +45,5 @@ function compile(code){
 
     writeTextFile(APPLICATION.generateBinPath(code.folder , name) , format(code.target.binCodeText)) ;
 
-    console.log('已生成' , name) ;
+    console.log('已生成' , code.fullName) ;
 }

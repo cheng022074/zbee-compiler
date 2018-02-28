@@ -1,18 +1,21 @@
-<%- imports %>
+<%- apply('code.bin' , {
+    defaultFolder:data.defaultFolder
+}) %>
+<%- data.imports %>
 <%
-    if(scoped){
+    if(data.scoped){
 %>
-<%- body %>
-module.exports = function(<%- params %>){
+<%- data.body %>
+module.exports = function(<%- data.params %>){
 
-    return main(<%- params %>) ;
+    return main(<%- data.params %>) ;
 }
 <%
     }else{
 %>
-module.exports = function(<%- params %>){
+module.exports = function(<%- data.params %>){
 
-    <%- body %>
+    <%- data.body %>
 }
 <%
     }
