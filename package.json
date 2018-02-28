@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "ejs": "^2.5.7",
+    "js-beautify": "^1.7.5",
     "xmldom": "^0.1.27",
     "xpath": "^0.0.27"
   }

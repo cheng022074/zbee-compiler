@@ -2,7 +2,7 @@ const {
     ContainerCoder
 } = require('../../coder') ;
 
-class Describe extends ContainerCoder{
+module.exports = class extends ContainerCoder{
 
     applyCode(){
 

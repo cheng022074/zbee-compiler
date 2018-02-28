@@ -58,6 +58,8 @@ class ContainerCoder extends Coder{
         } = el,
         items = [];
 
+        childNodes = Array.from(childNodes) ;
+
         for(let node of childNodes){
 
             items.push(generator.getCoder(node)) ;

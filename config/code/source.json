@@ -4,5 +4,11 @@
             "template":"code.template.script.function",
             "converter":"code.converter.script.function"
         }
+    },
+    "test":{
+        ".xml":{
+            "template":"code.template.script.test",
+            "converter":"code.converter.script.test"
+        }
     }
 }

@@ -1,8 +1,14 @@
 const
-Generator = require('../../script/generator'),
+Generator = require('../../generator'),
 {
     get:config_get
-} = require('../../config');
+} = require('../../config'),
+{
+    load
+} = require('../../xml'),
+{
+    defineCacheProperties
+} = require('../../object');
 
 module.exports = class {
 
