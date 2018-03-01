@@ -1,4 +1,4 @@
-const placeholderRe = /\$\{(.+?)\}/ ;
+const placeholderRe = /\$\{(.+)\}/ ;
 
 function expression(expression){
 
