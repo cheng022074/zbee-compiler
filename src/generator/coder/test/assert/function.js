@@ -1,6 +1,16 @@
 const {
     Coder
-} = require('../../../coder') ;
+} = require('../../../coder'),
+{
+    expression,
+    params,
+} = require('../../../../script/generator'),
+{
+    from
+} = require('../../../../array'),
+{
+    selectNodes
+} = require('../../../../xml');
 
 module.exports = class extends Coder{
 
@@ -11,7 +21,7 @@ module.exports = class extends Coder{
         } = this ;
 
         return `
-        include('${el.getAttribute('name')}')();
+        deepStrictEqual(include('${el.getAttribute('name')}')(${params(selectNodes(el , 'param'))}) , ${expression(el.getAttribute('value'))});
         ` ;
     }
 }

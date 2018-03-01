@@ -4,6 +4,10 @@ const {
 {
     readTextFile
 } = require('./fs'),
+{
+    select,
+    select1
+} = require('xpath'),
 doc = new DOMParser();
 
 function parse(data){
@@ -23,4 +27,14 @@ function parse(data){
 exports.load = path =>{
 
     return parse(readTextFile(path)) ;
+}
+
+exports.selectSingleNode = (target , xpath) =>{
+
+
+}
+
+exports.selectNodes = (target , xpath) =>{
+
+    return select(xpath , target) ; 
 }

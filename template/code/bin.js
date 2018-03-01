@@ -1,23 +1,36 @@
-function include(name){
+const include = (() =>{
 
-    let match = name.match(/^(\w+)\:(.+?)$/),
-        folder,
-        className;
+    const nameRe = /^(\w+)\:(.+?)$/,
+          CODES = {};
 
-    if(match){
+    return name =>{
 
-        folder = match[1],
-        className = match[2] ;
+        if(CODES.hasOwnProperty(name)){
 
-    }else{
+            return CODES[name] ;
+        }
 
-        folder = '<%- data.defaultFolder %>',
-        className = name ;
-    }
+        let match = name.match(nameRe),
+            folder,
+            className;
+    
+        if(match){
+    
+            folder = match[1],
+            className = match[2] ;
+    
+        }else{
+    
+            folder = '<%- data.defaultFolder %>',
+            className = name ;
+        }
+    
+        const {
+            join
+        } = require('path') ;
+    
+        return CODES[name] = CODES[`${folder}::${className}`] = require(`../${folder}/${className}.js`) ;
 
-    const {
-        join
-    } = require('path') ;
+    } ;
 
-    return require(`../${folder}/${className}.js`) ;
-}
+})() ;
