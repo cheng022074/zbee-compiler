@@ -29,12 +29,12 @@ exports.load = path =>{
     return parse(readTextFile(path)) ;
 }
 
-exports.selectSingleNode = (target , xpath) =>{
+exports.selectSingleNode = (node , xpath) =>{
 
-
+    return select1(xpath , node) ;
 }
 
-exports.selectNodes = (target , xpath) =>{
+exports.selectNodes = (node , xpath) =>{
 
-    return select(xpath , target) ; 
+    return select(xpath , node) ; 
 }

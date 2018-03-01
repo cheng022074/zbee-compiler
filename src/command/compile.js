@@ -12,7 +12,11 @@ const {
 } = require('../fs'),
 {
     format
-} = require('../script');
+} = require('../script'),
+{
+    getMotifyTime,
+    readTextFile
+} = require('../fs');
 
 module.exports = name =>{
 
@@ -30,20 +34,49 @@ module.exports = name =>{
 
             compile(code) ;
         }
-    
-    }else{
 
-        console.log('不存在' , name) ;
+        return true ;
+    
     }
+
+    console.log('不存在' , name) ;
+
+    return false ;
 }
 
 function compile(code){
 
     let {
         name
-    } = code ;
+    } = code,
+    path = APPLICATION.generateBinPath(code.folder , name),
+    motifyTime = getMotifyTime(code.path);
 
-    writeTextFile(APPLICATION.generateBinPath(code.folder , name) , format(code.target.binCodeText)) ;
+    if(motifyTime === getLastCompileTime(path)){
+
+        return ;
+    }
+
+    writeTextFile(path , format(code.target.binCodeText)) ;
+
+    writeTextFile(getLastCompileTimePath(path) , motifyTime) ;
 
     console.log('已生成' , code.fullName) ;
+}
+
+function getLastCompileTime(path){
+
+    let time = readTextFile(getLastCompileTimePath(path)) ;
+
+    if(time){
+
+        return Number(time) ;
+    }
+
+    return -1 ;
+}
+
+function getLastCompileTimePath(path){
+
+    return path.replace(/\.js$/ , '') ;
 }

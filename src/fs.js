@@ -2,10 +2,12 @@ const {
     readFileSync,
     readdirSync,
     writeFileSync,
-    mkdirSync
+    mkdirSync,
+    statSync
 } = require('fs'),
 {
-    directory:is_directory
+    directory:is_directory,
+    file:is_file,
 } =  require('./is'),
 {
     join,
@@ -96,4 +98,14 @@ exports.getAllFilePaths = path =>{
     }
 
     return [] ;
+}
+
+exports.getMotifyTime = path =>{
+
+    if(is_file(path)){
+
+        return statSync(path).mtime.getTime() ;
+    }
+
+    return -1 ;
 }

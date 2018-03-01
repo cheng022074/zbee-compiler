@@ -7,11 +7,22 @@ const {
 } = require('path'),
 {
     APPLICATION
-} = require('../project');
+} = require('../project'),
+compile = require('./compile');
 
 module.exports = name => {
 
-    fork(resolve(__dirname , '../../node_modules/mocha/bin/mocha') , [
-        join(APPLICATION.generateBinPath('test' , 'is'))
-    ]) ;
+    if(!name){
+
+        console.info('请指定测试名称') ;
+
+        return ;
+    }
+
+    if(compile(`test::${name}`)){
+
+        fork(resolve(__dirname , '../../node_modules/mocha/bin/mocha') , [
+            join(APPLICATION.generateBinPath('test' , name))
+        ]) ;
+    }
 }

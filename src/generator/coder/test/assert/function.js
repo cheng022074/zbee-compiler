@@ -24,4 +24,12 @@ module.exports = class extends Coder{
         deepStrictEqual(include('${el.getAttribute('name')}')(${params(selectNodes(el , 'param'))}) , ${expression(el.getAttribute('value'))});
         ` ;
     }
+
+    
+    applyImports(){
+
+        return [
+            this.el.getAttribute('name')
+        ] ;
+    }
 }

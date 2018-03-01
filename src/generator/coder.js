@@ -1,7 +1,10 @@
 const {
     defineCacheProperties,
     defineCacheProperty
-} = require('../object') ;
+} = require('../object'),
+{
+    unique
+} = require('../array');
 
 class Coder {
 
@@ -103,7 +106,7 @@ class ContainerCoder extends Coder{
             imports.push(...item.imports) ;
         }
 
-        return imports ;
+        return unique(imports) ;
     }
 }
 
