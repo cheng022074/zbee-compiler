@@ -1,16 +1,23 @@
-const placeholderRe = /\$\{(.+)\}/ ;
+const placeholderBorderRe = /(?:^\$\{)|(?:\}$)/g,
+{
+    range
+} = require('../regexp');
 
 function expression(expression){
 
-    let match = expression.match(placeholderRe) ;
+    let result = range(expression , /(?:\$\{)|\{|\}/g , [{
+        start:'${',
+        end:'}'
+    },{
+        start:'{',
+        end:'}'
+    }]) ;
 
-    if(match){
-
-        let result = match[0] ;
+    if(result){
 
         if(result === expression){
 
-            return match[1] ;
+            return result.replace(placeholderBorderRe , '') ;
         }
 
         return `\`${expression}\`` ;
