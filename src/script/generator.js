@@ -1,11 +1,11 @@
 const placeholderBorderRe = /(?:^\$\{)|(?:\}$)/g,
 {
-    range
+    match
 } = require('../regexp');
 
 function expression(expression){
 
-    let result = range(expression , /(?:\$\{)|\{|\}/g , [{
+    let result = match(expression , /(?:\$\{)|\{|\}/g , [{
         start:'${',
         end:'}'
     },{
@@ -14,6 +14,8 @@ function expression(expression){
     }]) ;
 
     if(result){
+
+        result = result[0] ;
 
         if(result === expression){
 

@@ -2,13 +2,14 @@ const {
     from
 } = require('./array') ;
 
-exports.range = (data , reg , tags) =>{
+exports.match = (data , reg , tags) =>{
 
     tags = from(tags) ;
 
     let startTags = [],
         startTagLength,
-        match;
+        match,
+        result = [];
 
     while(match = reg.exec(data)){
 
@@ -31,22 +32,36 @@ exports.range = (data , reg , tags) =>{
             let {
                 tag:startTag,
                 index:startIndex
-            } = startTags[startTagLength - 1] ;
+            } = startTags[startTagLength - 1],
+            config = get(tags , startTag , tag);
 
-            if(exists(tags , startTag , tag)){
+            if(config){
 
                 startTags.pop() ;
 
+                let {
+                    inner
+                } = config ;
+
+                if(inner){
+
+                    result.unshift(data.substring(startIndex + startTag.length , index)) ;
+
+                }else{
+
+                    result.unshift(data.substring(startIndex , index + tag.length)) ;
+                }
+
                 if(startTags.length === 0){
 
-                    return data.substr(startIndex , index + tag.length) ;
+                    return result ;
                 }
 
             }
         }
     }
 
-    return false ;
+    return null ;
 }
 
 function includes(tags , key , value){
@@ -62,16 +77,18 @@ function includes(tags , key , value){
     return false ;
 }
 
-function exists(tags , startTagName , endTagName){
+function get(tags , startTagName , endTagName){
 
-    for(let {
-        start,
-        end
-    } of tags){
+    for(let tag of tags){
+
+        let {
+            start,
+            end
+        } = tag ;
 
         if(start === startTagName && end === endTagName){
 
-            return true ;
+            return tag ;
         }
     }
 
