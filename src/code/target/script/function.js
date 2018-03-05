@@ -20,15 +20,21 @@ function process_params(params){
 
     let result = [] ;
 
-    console.log(params) ;
-
     for(let param of params){
 
         let {
-            name
+            name,
+            defaultValue
         } = param ;
 
-        result.push(name) ;
+        if(defaultValue){
+
+            result.push(`${name} = ${defaultValue}`) ;
+        
+        }else{
+
+            result.push(name) ;
+        }
     }
 
     return result.join(',') ;
