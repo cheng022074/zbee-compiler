@@ -30,7 +30,10 @@ textCodeMetaAliasFirstDotImportRe = /^\./,
 } = require('../../name'),
 {
     unique
-} = require('../../array');
+} = require('../../array'),
+{
+    match:string_match
+} = require('../../regexp');
 
 module.exports = class {
 
@@ -259,11 +262,15 @@ module.exports = class {
                     }
 
                     {
-                        let match = content.match(textCodeMetaParamOptionalRe) ;
+                        let match = string_match(content , /\[|\]/g , {
+                            start:'[',
+                            inner:true,
+                            end:']'
+                        }) ;
 
                         if(match){
 
-                            let data = match[1];
+                            let data = match[0];
 
                             {
                                 let match = data.match(textCodeMetaParamOptionalDefaultValueRe) ;

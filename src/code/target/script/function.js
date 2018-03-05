@@ -20,6 +20,8 @@ function process_params(params){
 
     let result = [] ;
 
+    console.log(params) ;
+
     for(let param of params){
 
         let {
