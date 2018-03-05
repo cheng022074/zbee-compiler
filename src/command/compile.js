@@ -52,10 +52,10 @@ function compile(code){
     path = APPLICATION.generateBinPath(code.folder , name),
     motifyTime = getMotifyTime(code.path);
 
-    /*if(motifyTime === getLastCompileTime(path)){
+    if(motifyTime === getLastCompileTime(path)){
 
         return ;
-    }*/
+    }
 
     writeTextFile(path , format(code.target.binCodeText)) ;
 
