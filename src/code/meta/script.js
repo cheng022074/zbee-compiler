@@ -10,7 +10,7 @@ textCodeMetaParamNameRe = /^(\w+)(?:\.(\w+))?/,
 textCodeMetaParamRestRe = /^\.{3}(\w+)/,
 textCodeMetaParamTypeArrayRe = /\[\]$/,
 textCodeMetaParamOptionalRe = /^\[(.+)\]$/,
-textCodeMetaParamOptionalDefaultValueRe = /^(\w+)\s*\=(.+)$/,
+textCodeMetaParamOptionalDefaultValueRe = /^(\w+)\s*\=(.+?)$/,
 textCodeMetaAliasImportRe = /(\.?\w+)\s+from\s+((?:\w+\:{2})?\w+(?:\.\w+)*)/,
 textCodeMetaAliasFirstDotImportRe = /^\./,
 {
