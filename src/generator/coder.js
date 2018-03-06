@@ -71,8 +71,6 @@ class ContainerCoder extends Coder{
 
         for(let node of nodes){
 
-            console.log(stringify(node)) ;
-
             items.push(generator.getCoder(node)) ;
         }
 

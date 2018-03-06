@@ -1,14 +1,14 @@
 <class>
     <constructors>
-        <constructor implement=".constructors.constructor">
+        <constructor implement="<%- data.name %>.constructors.constructor">
             <param type="mixed"/>
         </constructor>
     </constructors>
     <properties>
-        <property name="property" type="mixed" implement=".properties.property"/>
+        <property name="property" type="mixed" implement="<%- data.name %>.properties.property"/>
     </properties>
     <methods>
-        <method name="method" implement=".methods.method" type="mixed">
+        <method name="method" implement="<%- data.name %>.methods.method" type="mixed">
             <param type="mixed"/>
         </method>
     </methods>

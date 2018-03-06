@@ -46,7 +46,9 @@ module.exports = (name , suffix) =>{
 
             if(!fileNormalize(path)){
 
-                writeTextFile(`${path}${suffix}` , apply(template)) ;
+                writeTextFile(`${path}${suffix}` , apply(template , {
+                    name:baseName
+                })) ;
 
                 console.log('已生成' , name) ;
             
