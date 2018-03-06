@@ -8,7 +8,7 @@
 <%- data.body %>
 module.exports = function(<%- data.params %>){
 
-    return main(<%- data.params %>) ;
+    return main(<%- data.paramNames %>) ;
 }
 <%
     }else{

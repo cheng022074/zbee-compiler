@@ -4,7 +4,10 @@ const {
 } = require('../object'),
 {
     unique
-} = require('../array');
+} = require('../array'),
+{
+    selectNodes
+} = require('../xml');
 
 class Coder {
 
@@ -49,19 +52,21 @@ class ContainerCoder extends Coder{
         defineCacheProperty(this , 'items') ;
     }
 
+    getXPathForQueryItems(){
+
+        return '*' ;
+    }
+
     applyItems(){
 
-        let 
+        let me = this,
         {
             el,
             generator
-        } = this,
-        {
-            childNodes
-        } = el,
+        } = me,
         items = [];
 
-        childNodes = Array.from(childNodes) ;
+        let childNodes = selectNodes(el , me.getXPathForQueryItems()) ;
 
         for(let node of childNodes){
 

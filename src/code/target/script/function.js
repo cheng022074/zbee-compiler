@@ -11,7 +11,8 @@ module.exports = class extends Target{
 
         return Object.assign({
             scoped,
-            params:process_params(params)
+            params:process_params(params),
+            paramNames:process_param_names(params),
         } , super.applyBinCodeData()) ;
     }
 }
@@ -20,12 +21,10 @@ function process_params(params){
 
     let result = [] ;
 
-    for(let param of params){
-
-        let {
-            name,
-            defaultValue
-        } = param ;
+    for(let {
+        name,
+        defaultValue
+    } of params){
 
         if(defaultValue){
 
@@ -38,4 +37,18 @@ function process_params(params){
     }
 
     return result.join(',') ;
+}
+
+function process_param_names(params){
+
+    let names = [] ;
+
+    for(let {
+        name
+    } of params){
+
+        names.push(name) ;
+    }
+
+    return names ;
 }

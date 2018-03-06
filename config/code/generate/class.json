@@ -1,0 +1,6 @@
+{
+    "class":"generator.coder.class",
+    "constructors":"generator.coder.constructors",
+    "properties":"generator.coder.class.properties",
+    "methods":"generator.coder.class.methods"
+}

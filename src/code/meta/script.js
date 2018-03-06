@@ -10,7 +10,7 @@ textCodeMetaParamNameRe = /^(\w+)(?:\.(\w+))?/,
 textCodeMetaParamRestRe = /^\.{3}(\w+)/,
 textCodeMetaParamTypeArrayRe = /\[\]$/,
 textCodeMetaParamOptionalDefaultValueRe = /^(\w+)\s*\=(.+?)$/,
-textCodeMetaAliasImportRe = /(\.?\w+)\s+from\s+((?:\w+\:{2})?\w+(?:\.\w+)*)/,
+textCodeMetaAliasImportRe = /(\.?\w+)\s+from\s+((?:\w+\:{2})?(?:\w+)?(?:\.\w+)*)/,
 textCodeMetaAliasFirstDotImportRe = /^\./,
 {
     defineCacheProperties
@@ -52,6 +52,8 @@ module.exports = class {
         }
 
         me.code = data.replace(textCodeMetaRe , '') ;
+
+        me.fullName = code.fullName ;
 
         defineCacheProperties(this , [
             'async',
@@ -95,7 +97,10 @@ module.exports = class {
 
         let textCodeMetaImportRe = /@import\s+([^\n\r]+)/g,
             match,
-            imports = [];
+            imports = [],
+            {
+                fullName
+            } = this;
 
         while(match = textCodeMetaImportRe.exec(this.data)){
 
@@ -114,14 +119,14 @@ module.exports = class {
                         imports.push({
                             name:name.replace(textCodeMetaAliasFirstDotImportRe , ''),
                             item:true,
-                            include:implement
+                            include:process_import(fullName , implement)
                         }) ;
                     
                     }else{
 
                         imports.push({
                             name,
-                            include:implement
+                            include:process_import(fullName , implement)
                         }) ;
                     }
 
@@ -131,7 +136,7 @@ module.exports = class {
 
             imports.push({
                 name:toCamelCase(content),
-                include:content
+                include:process_import(fullName , content)
             }) ;
         }
 
@@ -321,4 +326,16 @@ function add_params(params , paramSet ,  name , config){
 
         params.push(paramSet[name] = config) ;
     }
+}
+
+const prefixDotRe = /^\./ ;
+
+function process_import(rootName , name){
+
+    if(prefixDotRe.test(name)){
+
+        return `${rootName}${name}` ;
+    }
+
+    return name ;
 }
