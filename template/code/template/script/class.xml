@@ -1,0 +1,15 @@
+<class>
+    <constructs>
+        <constructor implement=".constructors.constructor">
+            <param type="mixed"/>
+        </constructor>
+    </constructs>
+    <properties>
+        <property name="property" type="mixed" implement=".properties.property"/>
+    </properties>
+    <methods>
+        <method name="method" implement=".methods.method" type="mixed">
+            <param type="mixed"/>
+        </method>
+    </methods>
+</class>
