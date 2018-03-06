@@ -39,8 +39,6 @@ module.exports = name =>{
     
     }
 
-    console.log('不存在' , name) ;
-
     return false ;
 }
 
@@ -52,10 +50,10 @@ function compile(code){
     path = APPLICATION.generateBinPath(code.folder , name),
     motifyTime = getMotifyTime(code.path);
 
-    if(motifyTime === getLastCompileTime(path)){
+    /*if(motifyTime === getLastCompileTime(path)){
 
         return ;
-    }
+    }*/
 
     writeTextFile(path , format(code.target.binCodeText)) ;
 

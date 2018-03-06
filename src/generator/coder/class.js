@@ -18,7 +18,7 @@ module.exports = class extends ContainerCoder{
         return `
         class Main{
             ${super.applyCode()}
-        });
+        };
         ` ;
     }
 }

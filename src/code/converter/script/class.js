@@ -1,5 +1,5 @@
 const
-Meta = require('../../meta/xml/test'),
+Meta = require('../../meta/xml/class'),
 Target = require('../../target/script');
 
 module.exports = code =>{

@@ -1,9 +1,9 @@
 <class>
-    <constructs>
+    <constructors>
         <constructor implement=".constructors.constructor">
             <param type="mixed"/>
         </constructor>
-    </constructs>
+    </constructors>
     <properties>
         <property name="property" type="mixed" implement=".properties.property"/>
     </properties>

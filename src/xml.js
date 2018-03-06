@@ -1,5 +1,6 @@
 const {
-    DOMParser
+    DOMParser,
+    XMLSerializer
 } = require('xmldom'),
 {
     readTextFile
@@ -8,13 +9,14 @@ const {
     select,
     select1
 } = require('xpath'),
-doc = new DOMParser();
+parser = new DOMParser(),
+serializer = new XMLSerializer();
 
 function parse(data){
 
     try{
 
-        return doc.parseFromString(data , 'text/xml') ;
+        return parser.parseFromString(data , 'text/xml') ;
 
     }catch(err){
 
@@ -22,6 +24,22 @@ function parse(data){
     }
 
     return doc.parseFromString('<xml/>' , 'text/xml') ;
+}
+
+exports.parse = parse ;
+
+exports.stringify = node =>{
+
+    try{
+
+        return serializer.serializeToString(node) ;
+    
+    }catch(err){
+
+
+    }
+
+    return '<xml/>' ;
 }
 
 exports.load = path =>{

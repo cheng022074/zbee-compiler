@@ -6,7 +6,8 @@ const {
     unique
 } = require('../array'),
 {
-    selectNodes
+    selectNodes,
+    stringify
 } = require('../xml');
 
 class Coder {
@@ -66,9 +67,11 @@ class ContainerCoder extends Coder{
         } = me,
         items = [];
 
-        let childNodes = selectNodes(el , me.getXPathForQueryItems()) ;
+        let nodes = selectNodes(el , me.getXPathForQueryItems()) ;
 
-        for(let node of childNodes){
+        for(let node of nodes){
+
+            console.log(stringify(node)) ;
 
             items.push(generator.getCoder(node)) ;
         }
