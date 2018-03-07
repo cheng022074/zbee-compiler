@@ -6,7 +6,8 @@ for(let value of values){
     argumentTypes.push(gettype(value)) ;
 }
 
-let functions = <%- JSON.stringify(data.functions) %>,
+let argumentLen = argumentTypes.length,
+    functions = <%- JSON.stringify(data.functions) %>,
     me = this;
 
 for(let {
@@ -14,11 +15,11 @@ for(let {
     paramTypes
 } of functions){
 
-    if(len === paramTypes.length){
+    if(argumentLen === paramTypes.length){
 
         let isThis = true ;
 
-        for(let i = 0 ; i < len ; i ++){
+        for(let i = 0 ; i < argumentLen ; i ++){
 
             if(paramTypes[i] !== argumentTypes[i]){
 

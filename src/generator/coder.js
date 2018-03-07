@@ -76,7 +76,7 @@ class ContainerCoder extends Coder{
         let nodes = selectNodes(el , me.getXPathForQueryItems()) ;
 
         for(let node of nodes){
-    
+
             items.push(generator.getCoder(node)) ;
         }
 

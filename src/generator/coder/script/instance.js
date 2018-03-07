@@ -1,16 +1,16 @@
 const {
     Coder
-} = require('../coder'),
+} = require('../../coder'),
 {
     expression,
     params,
-} = require('../../script/generator'),
+} = require('../../../script/generator'),
 {
     from
-} = require('../../array'),
+} = require('../../../array'),
 {
     selectNodes
-} = require('../../xml');
+} = require('../../../xml');
 
 module.exports = class extends Coder{
 

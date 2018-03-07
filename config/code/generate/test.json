@@ -1,5 +1,6 @@
 {
     "describe":"generator.coder.test.describe",
     "it":"generator.coder.test.it",
-    "assert-function":"generator.coder.test.assert.function"
+    "assert-function":"generator.coder.test.assert.function",
+    "instance":"generator.coder.script.instance"
 }
