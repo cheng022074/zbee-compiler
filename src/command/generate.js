@@ -23,9 +23,15 @@ const {
 } = require('../is'),
 {
     fileNormalize
-} = require('../path');
+} = require('../path'),
+{
+    extname
+} = require('path'),
+{
+    SourceCode
+} = require('../code');
 
-module.exports = (name , suffix) =>{
+function generate(name , suffix){
 
     if(name && suffix){
 
@@ -42,9 +48,10 @@ module.exports = (name , suffix) =>{
             let {
                 template
             } =  config,
-            path = join(APPLICATION.rootPath , folder , toPath(baseName));
+            path = join(APPLICATION.rootPath , folder , toPath(baseName)),
+            filePath = fileNormalize(path);
 
-            if(!fileNormalize(path)){
+            if(!filePath){
 
                 writeTextFile(`${path}${suffix}` , apply(template , {
                     name:baseName
@@ -54,8 +61,47 @@ module.exports = (name , suffix) =>{
             
             }else{
 
-                console.log('已存在' , name) ;
+                doGenerate(name) ;
             }
         }
+
+    }else if(name){
+
+        doGenerate(name) ;
+    }
+}
+
+module.exports = generate ;
+
+function doGenerate(name){
+
+    let code = SourceCode.get(name) ;
+
+    if(!code.exists){
+
+        return ;
+    }
+
+    let {
+        generates
+    } = SourceCode.get(name).target.meta ;
+
+    if(generates){
+
+        for(let {
+            name,
+            suffix
+        } of generates){
+    
+            let code = SourceCode.get(name) ;
+    
+            if(code.exists){
+    
+                continue ;
+            }
+    
+            generate(name , suffix) ;
+        }
+
     }
 }

@@ -44,6 +44,11 @@ module.exports = name =>{
 
 function compile(code){
 
+    if(!code.exists){
+
+        return ;
+    }
+
     let {
         name
     } = code,

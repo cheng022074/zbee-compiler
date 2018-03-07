@@ -20,7 +20,8 @@ module.exports = class {
 
         defineCacheProperties(me , [
             'code',
-            'importNames'
+            'importNames',
+            'generates'
         ]) ;
 
         me.coder = new Generator(config_get(coderConfigURI)).parse(me.data) ;
@@ -34,5 +35,10 @@ module.exports = class {
     applyImportNames(){
 
         return this.coder.imports ;
+    }
+
+    applyGenerates(){
+
+        return this.coder.generates ;
     }
 }

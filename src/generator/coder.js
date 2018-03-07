@@ -22,8 +22,14 @@ class Coder {
 
         defineCacheProperties(me , [
             'code',
-            'imports'
+            'imports',
+            'generates'
         ]) ;
+   }
+
+   applyGenerates(){
+
+        return [] ;
    }
 
    applyImports(){
@@ -70,7 +76,7 @@ class ContainerCoder extends Coder{
         let nodes = selectNodes(el , me.getXPathForQueryItems()) ;
 
         for(let node of nodes){
-
+    
             items.push(generator.getCoder(node)) ;
         }
 
@@ -113,6 +119,29 @@ class ContainerCoder extends Coder{
         }
 
         return unique(imports) ;
+    }
+
+    getGenerates(){
+
+        return [] ;
+    }
+
+    applyGenerates(){
+
+        let me = this,
+            generates = [],
+            {
+                items
+            } = me;
+
+        generates.push(...me.getGenerates()) ;
+
+        for(let item of items){
+
+            generates.push(...item.generates) ;
+        }
+
+        return generates ;
     }
 }
 

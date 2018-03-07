@@ -9,12 +9,15 @@
         function:is_function
     } = require('./is'),
     {
-        unique
+        unique,
+        from
     } = require('./array');
     
     function defineCacheProperty(target , name){
     
         defineProperty(target , name , {
+
+            enumerable:true,
     
             set(value){
     
@@ -56,6 +59,28 @@
         for(let name of names){
     
             defineCacheProperty(target , name) ;
+        }
+    }
+
+    exports.clearCacheProperties = (target , names) =>{
+
+        if(names){
+
+            names = from(names) ;
+        
+        }else{
+
+            names = Object.keys(target) ;
+        }
+
+        for(let name in names){
+
+            let innerName = `$${name}` ;
+
+            if(target.hasOwnProperty(name) && target.hasOwnProperty(innerName)){
+
+                delete target[innerName] ;
+            }
         }
     }
 }
