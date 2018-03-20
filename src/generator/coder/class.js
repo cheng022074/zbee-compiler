@@ -6,7 +6,7 @@ module.exports = class extends ContainerCoder{
 
     getXPathForQueryItems(){
 
-        return 'constructors|properties|methods' ;
+        return 'constructor|constructors|properties|methods' ;
     }
 
     applyCode(){
