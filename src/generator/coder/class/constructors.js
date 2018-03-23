@@ -35,9 +35,12 @@ module.exports = class extends Coder{
             }) ;
         }
 
-        return apply('code.generate.class.constructor' , {
-            constructors
-        }) ;
+        return `constructor(){
+
+            ${apply('code.generate.function.overload' , {
+                functions:constructors
+            })}
+        } ;` ;
     }
 
     applyImports(){

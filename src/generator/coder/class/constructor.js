@@ -23,12 +23,15 @@ module.exports = class extends Coder{
             paramTypes.push(paramNode.getAttribute('type')) ;
         }
 
-        return apply('code.generate.class.constructor' , {
-            constructors:[{
-                implement:el.getAttribute('implement'),
-                paramTypes
-            }]
-        }) ;
+        return `constructor(){
+
+            ${apply('code.generate.function.overload' , {
+                functions:[{
+                    implement:el.getAttribute('implement'),
+                    paramTypes
+                }]
+            })}
+        } ;` ;
     }
 
     applyImports(){

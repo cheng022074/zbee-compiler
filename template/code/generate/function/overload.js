@@ -31,9 +31,11 @@ for(let {
 
         if(isThis){
 
-            include(implement)(me , ...values) ;
-
-            break ;
+            return include(implement)(me , ...values) ;
         }
     }
 }
+
+throw new ReferenceError('参数类型或者数量不匹配') ;
+
+
