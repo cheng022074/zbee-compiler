@@ -31,7 +31,7 @@ for(let {
 
         if(isThis){
 
-            return include(implement)(me , ...values) ;
+            return include(implement).apply(me , values) ;
         }
     }
 }

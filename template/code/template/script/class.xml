@@ -1,9 +1,7 @@
 <class>
-    <constructors>
-        <constructor implement="<%- data.name %>.constructors.constructor">
-            <param type="mixed"/>
-        </constructor>
-    </constructors>
+    <constructor implement="<%- data.name %>.constructors.constructor">
+        <param type="mixed"/>
+    </constructor>
     <properties>
         <property name="property" type="mixed" implement="<%- data.name %>.properties.property"/>
     </properties>

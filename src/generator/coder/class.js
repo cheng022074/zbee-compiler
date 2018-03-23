@@ -15,10 +15,37 @@ module.exports = class extends ContainerCoder{
             el
         } = this ;
 
-        return `
-        class Main{
-            ${super.applyCode()}
-        };
-        ` ;
+        if(el.hasAttribute('extend')){
+
+            return `
+            class Main extends include('${el.getAttribute('extend')}'){
+                ${super.applyCode()}
+            };
+            ` ;
+        
+        }else{
+
+            return `
+            class Main{
+                ${super.applyCode()}
+            };
+            ` ;
+        }
+    }
+
+    getImports(){
+
+        let {
+            el
+        } = this ;
+
+        if(el.hasAttribute('extend')){
+
+            return [
+                el.getAttribute('extend')
+            ] ;
+        }
+
+        return [];
     }
 }

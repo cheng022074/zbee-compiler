@@ -6,9 +6,6 @@ const {
     params,
 } = require('../../../../script/generator'),
 {
-    from
-} = require('../../../../array'),
-{
     selectNodes
 } = require('../../../../xml');
 
