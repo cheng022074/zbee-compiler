@@ -31,7 +31,7 @@ const {
     SourceCode
 } = require('../code');
 
-function generate(name , suffix){
+function generate(name , suffix , options = {}){
 
     if(name && suffix){
 
@@ -54,7 +54,8 @@ function generate(name , suffix){
             if(!filePath){
 
                 writeTextFile(`${path}${suffix}` , apply(template , {
-                    name:baseName
+                    name:baseName,
+                    ...options
                 })) ;
 
                 console.log('已生成' , name) ;
@@ -90,7 +91,8 @@ function doGenerate(name){
 
         for(let {
             name,
-            suffix
+            suffix,
+            ...options
         } of generates){
     
             let code = SourceCode.get(name) ;
@@ -100,7 +102,7 @@ function doGenerate(name){
                 continue ;
             }
     
-            generate(name , suffix) ;
+            generate(name , suffix , options) ;
         }
 
     }

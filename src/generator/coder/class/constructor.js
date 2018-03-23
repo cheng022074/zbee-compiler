@@ -25,12 +25,7 @@ module.exports = class extends Coder{
 
         return `constructor(){
 
-            ${apply('code.generate.function.overload' , {
-                functions:[{
-                    implement:el.getAttribute('implement'),
-                    paramTypes
-                }]
-            })}
+            include('${el.getAttribute('implement')}').apply(this , arguments) ;
         } ;` ;
     }
 
@@ -49,10 +44,23 @@ module.exports = class extends Coder{
 
         let {
             el
-        } = this ;
+        } = this,
+        params = [],
+        paramNodes = selectNodes(el , 'param');
+
+        for(let paramNode of paramNodes){
+
+            params.push({
+                name:paramNode.getAttribute('name'),
+                type:paramNode.getAttribute('type'),
+                description:paramNode.getAttribute('description') || ''
+            }) ;
+        }
 
         return [{
             name:el.getAttribute('implement'),
+            description:el.getAttribute('description') || '',
+            params,
             suffix:'.fn.js'
         }] ;
     }

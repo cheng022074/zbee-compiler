@@ -54,11 +54,20 @@ module.exports = class extends Coder{
 
             let functions = methods[name] ;
 
-            result.push(`${name}(){
-                ${apply('code.generate.function.overload' , {
-                    functions:methods[name]
-                })}
-            }`) ;
+            if(functions.length === 1){
+
+                result.push(`${name}(){
+                    include('${functions[0].implement}').apply(this , arguments) ;
+                }`) ;
+
+            }else{
+
+                result.push(`${name}(){
+                    ${apply('code.generate.function.overload' , {
+                        functions:methods[name]
+                    })}
+                }`) ;
+            }
         }
 
         return result.join('') ;

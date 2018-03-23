@@ -1,3 +1,28 @@
+<%
+    let {
+        description,
+        params,
+        returnType
+    } = data ;
+
+    if(description){
+%>
+/**
+ * 
+ * <%- description %>
+ * 
+ * <%for(let {name , type , description} of params){%>
+ * @param {<%- type %>} <%- name %> <%- description %>
+ * <%}%>
+ * <%if(returnType){%>
+ * @return {<%- returnType %>} 
+ * <%}%>
+ */
+
+ // 代码实现
+<%
+    }else{
+%>
 /**
  * 
  * 函数实现说明
@@ -9,3 +34,6 @@
  */
 
  // 代码实现
+<%
+    }
+%>
