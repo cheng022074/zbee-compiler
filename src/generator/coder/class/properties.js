@@ -78,12 +78,13 @@ module.exports = class extends Coder{
         let {
             el
         } = this,
-        nodes = selectNodes(el , 'method'),
-            imports = [];
+        nodes = selectNodes(el , 'property'),
+        imports = [];
 
         for(let node of nodes){
 
-            imports.push(node.getAttribute('implement')) ;
+            imports.push(node.getAttribute('setter')),
+            imports.push(node.getAttribute('getter'));
         }
 
         return imports ;
@@ -94,30 +95,35 @@ module.exports = class extends Coder{
         let {
             el
         } = this,
-        methodEls = selectNodes(el , 'method'),
+        propertyEls = selectNodes(el , 'property'),
         result = [];
 
-        for(let methodEl of methodEls){
+        for(let propertyEl of propertyEls){
 
-            let params = [],
-                paramNodes = selectNodes(methodEl , 'param');
+            let description = propertyEl.getAttribute('description') || '' ;
 
-            for(let paramNode of paramNodes){
+            if(propertyEl.hasAttribute('setter')){
 
-                params.push({
-                    name:paramNode.getAttribute('name'),
-                    type:paramNode.getAttribute('type'),
-                    optional:paramNode.getAttribute('optional') === 'yes',
-                    description:paramNode.getAttribute('description') || ''
+                result.push({
+                    name:propertyEl.getAttribute('setter'),
+                    description,
+                    params:[{
+                        name:'value',
+                        type:propertyEl.getAttribute('type'),
+                        description:'设置值'
+                    }],
+                    suffix:'.fn.js'
                 }) ;
-            }
+            
+            }else if(propertyEl.hasAttribute('getter')){
 
-            result.push({
-                name:methodEl.getAttribute('implement'),
-                description:methodEl.getAttribute('description') || '',
-                params,
-                suffix:'.fn.js'
-            }) ;
+                result.push({
+                    name:propertyEl.getAttribute('getter'),
+                    description,
+                    params:[],
+                    suffix:'.fn.js'
+                }) ;
+            }            
         }
 
         return result ;
