@@ -27,7 +27,7 @@ module.exports = class extends Coder{
             for(let paramNode of paramNodes){
 
                 paramTypes.push(paramNode.getAttribute('type')) ;
-            }
+            }    
 
             constructors.push({
                 implement:node.getAttribute('implement'),
@@ -49,7 +49,7 @@ module.exports = class extends Coder{
             el
         } = this,
         nodes = selectNodes(el , 'constructor'),
-            imports = [];
+        imports = [];
 
         for(let node of nodes){
 
@@ -61,13 +61,30 @@ module.exports = class extends Coder{
 
     applyGenerates(){
 
-        let names = this.imports,
-            result = [];
+        let {
+            el
+        } = this,
+        constructorEls = selectNodes(el , 'constructor'),
+        result = [];
 
-        for(let name of names){
+        for(let constructorEl of constructorEls){
+
+            let params = [],
+                paramNodes = selectNodes(constructorEl , 'param');
+
+            for(let paramNode of paramNodes){
+
+                params.push({
+                    name:paramNode.getAttribute('name'),
+                    type:paramNode.getAttribute('type'),
+                    description:paramNode.getAttribute('description') || ''
+                }) ;
+            }
 
             result.push({
-                name,
+                name:constructorEl.getAttribute('implement'),
+                description:constructorEl.getAttribute('description') || '',
+                params,
                 suffix:'.fn.js'
             }) ;
         }

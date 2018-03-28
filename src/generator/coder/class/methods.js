@@ -91,13 +91,31 @@ module.exports = class extends Coder{
 
     applyGenerates(){
 
-        let names = this.imports,
-            result = [];
+        let {
+            el
+        } = this,
+        methodEls = selectNodes(el , 'method'),
+        result = [];
 
-        for(let name of names){
+        for(let methodEl of methodEls){
+
+            let params = [],
+                paramNodes = selectNodes(methodEl , 'param');
+
+            for(let paramNode of paramNodes){
+
+                params.push({
+                    name:paramNode.getAttribute('name'),
+                    type:paramNode.getAttribute('type'),
+                    optional:paramNode.getAttribute('optional') === 'yes',
+                    description:paramNode.getAttribute('description') || ''
+                }) ;
+            }
 
             result.push({
-                name,
+                name:methodEl.getAttribute('implement'),
+                description:methodEl.getAttribute('description') || '',
+                params,
                 suffix:'.fn.js'
             }) ;
         }

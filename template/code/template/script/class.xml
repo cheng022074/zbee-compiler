@@ -1,13 +1,13 @@
-<class>
-    <constructor implement="<%- data.name %>.constructors.constructor">
-        <param type="mixed"/>
+<class description="类说明">
+    <constructor description="构造方法说明" implement="<%- data.name %>.constructors.constructor">
+        <param name="param" type="mixed" description="参数说明"/>
     </constructor>
     <properties>
-        <property name="property" type="mixed" implement="<%- data.name %>.properties.property"/>
+        <property description="属性说明" name="property" type="mixed" implement="<%- data.name %>.properties.property"/>
     </properties>
     <methods>
-        <method name="method" implement="<%- data.name %>.methods.method" type="mixed">
-            <param type="mixed"/>
+        <method description="方法说明" name="method" implement="<%- data.name %>.methods.method" type="mixed">
+            <param name="param" type="mixed" description="参数说明"/>
         </method>
     </methods>
 </class>

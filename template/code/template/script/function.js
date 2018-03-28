@@ -11,8 +11,8 @@
  * 
  * <%- description %>
  * 
- * <%for(let {name , type , description} of params){%>
- * @param {<%- type %>} <%- name %> <%- description %>
+ * <%for(let {name , type , description , optional} of params){%>
+ * @param {<%- type %>} <%if(optional){%>[<%- name %>]<%}else{%><%- name %><%}%> <%- description %>
  * <%}%>
  * <%if(returnType){%>
  * @return {<%- returnType %>} 
