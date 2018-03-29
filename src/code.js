@@ -32,15 +32,18 @@ class Code{
 
         name = normalize(name , defaultFolder) ;
 
-        let codes = CODES[type] ;
+        if(name){
 
-        if(!codes.hasOwnProperty(name)){
+            let codes = CODES[type] ;
 
-            codes[name] = new classRef(name) ;
-            
+            if(!codes.hasOwnProperty(name)){
+
+                codes[name] = new classRef(name) ;
+                
+            }
+
+            return codes[name] ;
         }
-
-        return codes[name] ;
     }
 
     constructor(fullName){
@@ -248,7 +251,12 @@ class SourceCode extends Code{
 
             for(let name of names){
 
-                codes.push(SourceCode.get(name)) ;
+                let code = SourceCode.get(name) ;
+
+                if(code){
+
+                    codes.push(code) ;
+                }
             }
 
             return codes ;

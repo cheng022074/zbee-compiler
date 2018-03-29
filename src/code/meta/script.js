@@ -38,7 +38,7 @@ module.exports = class {
 
     constructor(code){
 
-        let data = readTextFile(code.path),
+        let data = readTextFile(code.path).trim(),
             me = this,
             match = data.match(textCodeMetaRe) ;
 

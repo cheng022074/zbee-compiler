@@ -17,8 +17,12 @@ module.exports = function(<%- data.params %>){
 }
 <%
     }else{
+
+    let {
+        paramNames
+    } = data ;
 %>
-function main(<%- data.paramNames %>){
+function main(<%- paramNames.join(',') %>){
 
     <%- data.body %>
 }
@@ -28,7 +32,7 @@ module.exports = function(<%- data.params %>){
 
         return this === global ? main : this ;
 
-    }).call(this) , <%- data.paramNames %>) ;
+    }).call(this) <%if(paramNames.length){%>, <%- paramNames %><%}else{%><%- paramNames %><%}%>) ;
 }
 <%
     }
