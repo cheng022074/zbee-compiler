@@ -26,47 +26,17 @@ module.exports = class extends Coder{
 
             if(node.hasAttribute('getter')){
 
-                let implement = `include('${node.getAttribute('getter')}').call(this) ;` ;
-
-                if(node.getAttribute('once') === 'yes'){
-
-                    result.push(`${prefix} get ${name}(){
-                        let me = this,
-                            name = '__${name}_value__';
-                        if(!me.hasOwnProperty(name)){
-                            me[name] = ${implement}
-                        }
-                        return me[name];
-                    }`) ;
+                result.push(`${prefix} get ${name}(){
+                    return include('${node.getAttribute('getter')}').call(this) ;
+                }`) ;
                 
-                }else{
-
-                    result.push(`${prefix} get ${name}(){
-                        return ${implement};
-                    }`) ;
-                }
 
             }else if(node.hasAttribute('setter')){
 
-                let implement = `include('${node.getAttribute('setter')}').call(this , value) ;` ;
-
-                if(node.getAttribute('once') === 'yes'){
-
-                    result.push(`${prefix} set ${name}(value){
-                        let me = this,
-                            name = '__${name}_locked__';
-                        if(!me.hasOwnProperty(name)){
-                            ${implement}
-                            me[name] = true ;
-                        }
-                    }`) ;
+                result.push(`${prefix} set ${name}(value){
+                    include('${node.getAttribute('setter')}').call(this , value) ;
+                }`) ;
                 
-                }else{
-
-                    result.push(`${prefix} set ${name}(value){
-                        ${implement}
-                    }`) ;
-                }
             }
         }
 

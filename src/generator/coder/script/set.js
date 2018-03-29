@@ -2,11 +2,8 @@ const {
     Coder
 } = require('../../coder'),
 {
-    params,
-} = require('../../../script/generator'),
-{
-    selectNodes
-} = require('../../../xml');
+    expression
+} = require('../../../script/generator');
 
 module.exports = class extends Coder{
 
@@ -16,9 +13,7 @@ module.exports = class extends Coder{
             el
         } = this ;
 
-        return `
-        var ${el.getAttribute('name')} = new (include('${el.getAttribute('class')}'))(${params(selectNodes(el , 'param'))});
-        ` ;
+        return `var ${el.getAttribute('name')} = ${expression(el.getAttribute('value'))};` ;
     }
 
     

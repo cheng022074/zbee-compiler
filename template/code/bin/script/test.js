@@ -2,7 +2,8 @@
     defaultFolder:data.defaultFolder
 }) %>
 const {
-    deepStrictEqual  
+    deepStrictEqual,
+    notDeepStrictEqual  
 } = require('assert') ;
 
 <%- data.body %>
