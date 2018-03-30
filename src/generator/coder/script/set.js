@@ -13,7 +13,23 @@ module.exports = class extends Coder{
             el
         } = this ;
 
-        return `var ${el.getAttribute('name')} = ${expression(el.getAttribute('value'))};` ;
+        if(el.hasAttribute('value')){
+
+            return `var ${el.getAttribute('name')} = ${expression(el.getAttribute('value'))};` ;
+        
+        }else if(el.hasAttribute('target')){
+
+            if(el.hasAttribute('property')){
+
+                return `var ${el.getAttribute('var')} = include('${el.getAttribute('target')}').${el.getAttribute('property')};` ;
+            
+            }else{
+
+                return `var ${el.getAttribute('var')} = include('${el.getAttribute('target')}');` ;
+            }   
+        }
+
+        return '' ;
     }
 
     
