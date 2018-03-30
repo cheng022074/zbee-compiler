@@ -21,7 +21,7 @@ module.exports = class extends Coder{
 
         for(let node of nodes){
 
-            let prefix = `${node.getAttribute('static') === 'yes' ? 'static ' : ''}`,
+            let prefix = node.getAttribute('static') === 'yes' ? 'static ' : '',
                 name = node.getAttribute('name');
 
             if(node.hasAttribute('getter')){

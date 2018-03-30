@@ -9,7 +9,7 @@
 <%- data.body %>
 module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
 
-    return <%if(data.async){%>await <%}%>main.call((() =>() =>{
+    return <%if(data.async){%>await <%}%>main.call((function(){
 
         return this === global ? main : this ;
 

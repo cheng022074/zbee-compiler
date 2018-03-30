@@ -1,6 +1,6 @@
 const {
     Coder
-} = require('../../../coder');
+} = require('../../coder');
 
 module.exports = class extends Coder{
 

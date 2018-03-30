@@ -6,6 +6,7 @@
     "assert-instance-property":"generator.coder.test.assert.instance.property",
     "set":"generator.coder.script.set",
     "call-function":"generator.coder.script.function.call",
+    "ref":"generator.coder.script.ref",
     "assert-equal":"generator.coder.test.assert.equal",
     "assert-not-equal":"generator.coder.test.assert.notEqual"
 }

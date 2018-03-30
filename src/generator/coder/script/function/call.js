@@ -14,11 +14,20 @@ module.exports = class extends Coder{
 
         let {
             el
-        } = this ;
+        } = this,
+        code = '';
 
-        return `
-        var ${el.getAttribute('var')} = include('${el.getAttribute('name')}')(${params(selectNodes(el , 'param'))});
-        ` ;
+        if(el.hasAttribute('var')){
+
+            code = `var ${el.getAttribute('var')} = ` ;
+        }
+
+        if(el.hasAttribute('target')){
+
+            return `${code}await ${el.getAttribute('target')}.${el.getAttribute('name')}(${params(selectNodes(el , 'param'))});` ;
+        }
+
+        return `${code}await include('${el.getAttribute('name')}')(${params(selectNodes(el , 'param'))});` ;
     }
 
     

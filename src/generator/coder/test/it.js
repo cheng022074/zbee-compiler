@@ -11,7 +11,7 @@ module.exports = class extends ContainerCoder{
         } = this ;
 
         return `
-        it('${el.getAttribute('name')}' , () =>{
+        it('${el.getAttribute('name')}' , async() =>{
             ${super.applyCode()}
         });
         ` ;

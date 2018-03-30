@@ -33,6 +33,7 @@ module.exports = class extends Coder{
 
             let method = {
                 implement:node.getAttribute('implement'),
+                static:node.getAttribute('static') === 'yes',
                 paramTypes
             } ;
 
@@ -48,7 +49,7 @@ module.exports = class extends Coder{
             }
         }
 
-        let names = Object.keys(methods) ;
+        let names = Object.keys(methods);
 
         for(let name of names){
 
@@ -56,17 +57,55 @@ module.exports = class extends Coder{
 
             if(functions.length === 1){
 
-                result.push(`${name}(){
-                    include('${functions[0].implement}').apply(this , arguments) ;
+                let {
+                    implement,
+                    static:isStatic
+                } = functions[0] ;
+
+                result.push(`${isStatic ? 'static ' : ''}${name}(){
+                    return include('${implement}').apply(this , arguments) ;
                 }`) ;
 
             }else{
 
-                result.push(`${name}(){
-                    ${apply('code.generate.function.overload' , {
-                        functions:methods[name]
-                    })}
-                }`) ;
+                let methods = methods[name],
+                    staticMethods = [],
+                    noStaticMethods = [];
+
+                for(let method of methods){
+
+                    let {
+                        static:isStatic
+                    } = method ;
+
+                    if(isStatic){
+
+                        staticMethods.push(method) ;
+                    
+                    }else{
+
+                        noStaticMethods.push(method) ;
+                    }
+                }
+
+                if(staticMethods.length){
+
+                    result.push(`static ${name}(){
+                        ${apply('code.generate.function.overload' , {
+                            functions:staticMethods
+                        })}
+                    }`) ;
+                
+                }
+                
+                if(noStaticMethods.length){
+
+                    result.push(`${name}(){
+                        ${apply('code.generate.function.overload' , {
+                            functions:noStaticMethods
+                        })}
+                    }`) ;
+                }
             }
         }
 
