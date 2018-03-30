@@ -116,6 +116,7 @@ module.exports = class extends Coder{
                 name:methodEl.getAttribute('implement'),
                 description:methodEl.getAttribute('description') || '',
                 params,
+                returnType:methodEl.getAttribute('type'),
                 suffix:'.fn.js'
             }) ;
         }

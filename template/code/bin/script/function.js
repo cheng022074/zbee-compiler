@@ -7,9 +7,9 @@
     if(data.scoped){
 %>
 <%- data.body %>
-module.exports = function(<%- data.params %>){
+module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
 
-    return main.call((() =>() =>{
+    return <%if(data.async){%>await <%}%>main.call((() =>() =>{
 
         return this === global ? main : this ;
 
@@ -22,13 +22,13 @@ module.exports = function(<%- data.params %>){
         paramNames
     } = data ;
 %>
-function main(<%- paramNames.join(',') %>){
+<%if(data.async){%>async <%}%>function main(<%- paramNames.join(',') %>){
 
     <%- data.body %>
 }
-module.exports = function(<%- data.params %>){
+module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
 
-    return main.call((function(){
+    return <%if(data.async){%>await <%}%>main.call((function(){
 
         return this === global ? main : this ;
 

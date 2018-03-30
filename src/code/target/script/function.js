@@ -6,13 +6,15 @@ module.exports = class extends Target{
 
         let {
             scoped,
-            params
+            params,
+            async
         } = this.meta ;
 
         return Object.assign({
             scoped,
             params:process_params(params),
             paramNames:process_param_names(params),
+            async
         } , super.applyBinCodeData()) ;
     }
 }
