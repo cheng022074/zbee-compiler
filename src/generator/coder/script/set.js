@@ -36,7 +36,7 @@ module.exports = class extends Coder{
     applyImports(){
 
         return [
-            this.el.getAttribute('class')
+            this.el.getAttribute('target')
         ] ;
     }
 }
