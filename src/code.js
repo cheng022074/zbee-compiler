@@ -19,7 +19,8 @@ const {
     defaultFolder
 } = APPLICATION,
 {
-    readTextFile
+    readTextFile,
+    readJSONFile
 } = require('./fs'),
 CODES = {
     BIN:{},
@@ -111,12 +112,7 @@ class BinCode extends Code{
   
         if(path){
 
-            if(folder === 'template'){
-
-                return readTextFile(path) ;
-            }
-
-            return require(path) ;
+            return get_target(folder , path) ;
 
         }
         
@@ -134,14 +130,7 @@ class BinCode extends Code{
   
         if(path){
 
-            if(folder === 'template'){
-
-                targets.push(readTextFile(path)) ;
-            
-            }else{
-
-                targets.push(require(path)) ;
-            }
+            targets.push(get_target(folder , path)) ;
         }
 
         let target = APPLICATION.libraries.get(fullName) ;
@@ -152,6 +141,24 @@ class BinCode extends Code{
         }
 
         return targets ;
+    }
+}
+
+function get_target(folder , path){
+
+    switch(APPLICATION.getFolderBinFileReadType(folder)){
+
+        case 'text':
+
+            return readTextFile(path) ;
+
+        case 'json':
+
+            return readJSONFile(path) ;
+
+        case 'normal':
+
+            return require(path) ;
     }
 }
 

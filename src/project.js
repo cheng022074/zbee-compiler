@@ -122,6 +122,11 @@ class Application extends Project{
         return get(this.properties , `folders.${folder}`) || folder ;
     }
 
+    getFolderBinFileReadType(folder){
+
+        return get(this.properties , `bin.${folder}`) || 'normal' ;
+    }
+
     getFolderPath(folder){
 
         let me = this ;
