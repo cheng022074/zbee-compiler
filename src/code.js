@@ -20,8 +20,10 @@ const {
 } = APPLICATION,
 {
     readTextFile,
-    readJSONFile
 } = require('./fs'),
+{
+    load
+} = require('./json'),
 CODES = {
     BIN:{},
     SOURCE:{}
@@ -154,7 +156,7 @@ function get_target(folder , path){
 
         case 'json':
 
-            return readJSONFile(path) ;
+            return load(path) ;
 
         case 'normal':
 

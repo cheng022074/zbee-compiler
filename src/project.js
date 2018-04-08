@@ -72,7 +72,7 @@ class Application extends Project{
 
         let me = this ;
 
-        me.libraries = new Libraries(me.properties = load(join(APPLICATION_PATH , 'properties'))) ;
+        me.libraries = new Libraries(me.properties = load(join(APPLICATION_PATH , 'properties.json'))) ;
     }
 
     get defaultFolder(){
