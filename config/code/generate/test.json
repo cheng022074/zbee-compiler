@@ -9,6 +9,7 @@
     "call-function":"generator.coder.script.function.call",
     "assert-equal":"generator.coder.test.assert.equal",
     "assert-not-equal":"generator.coder.test.assert.notEqual",
+    "assert-exists":"generator.coder.test.assert.exists",
     "out":"generator.coder.script.out",
     "each":"generator.coder.script.each"
 }

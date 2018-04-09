@@ -3,7 +3,8 @@
 }) %>
 const {
     deepStrictEqual,
-    notDeepStrictEqual  
+    notDeepStrictEqual,
+    notStrictEqual  
 } = require('assert') ;
 
 <%- data.body %>
