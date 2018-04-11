@@ -2,6 +2,7 @@
     defaultFolder:data.defaultFolder
 }) %>
 <%- data.imports %>
+<%- data.configItems %>
 
 <%
     if(data.scoped){

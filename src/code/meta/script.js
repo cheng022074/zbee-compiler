@@ -10,8 +10,9 @@ textCodeMetaParamNameRe = /^(\w+)(?:\.(\w+))?/,
 textCodeMetaParamRestRe = /^\.{3}(\w+)/,
 textCodeMetaParamTypeArrayRe = /\[\]$/,
 textCodeMetaParamOptionalDefaultValueRe = /^(\w+)\s*\=(.+?)$/,
-textCodeMetaAliasImportRe = /(\.?\w+)\s+from\s+((?:\w+\:{2})?(?:\w+)?(?:\.\w+)*)/,
+textCodeMetaAliasImportRe = /(\.?\w+)\s+from\s+((?:\w+\:{2})?\w+(?:\.\w+)*)/,
 textCodeMetaAliasFirstDotImportRe = /^\./,
+textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*))?/,
 {
     defineCacheProperties
 } = require('../../object'),
@@ -25,7 +26,8 @@ textCodeMetaAliasFirstDotImportRe = /^\./,
     array:is_array
 } = require('../../is'),
 {
-    toCamelCase
+    toCamelCase,
+    parse
 } = require('../../name'),
 {
     unique
@@ -64,8 +66,12 @@ module.exports = class {
             'paramSet',
             'paramInformations',
             'imports',
-            'importNames'
+            'importNames',
+            'configItemsAndImports',
+            'configItems'
         ]) ;
+
+        me.target = code ;
     }
 
     applyAsync(){
@@ -93,16 +99,78 @@ module.exports = class {
         ] ;
     }
 
+    applyConfigItems(){
+
+        return this.configItemsAndImports.items ;
+    }
+    
+    applyConfigItemsAndImports(){
+
+        let textCodeMetaConfigRe = /@config\s+([^\n\r]+)/g,
+            match,
+            imports = [],
+            items = [],
+            {
+                data
+            } = this;
+
+        while(match = textCodeMetaConfigRe.exec(data)){
+
+            let content = match[1].trim() ;
+
+            {
+                let match = content.match(textCodeMetaConfigItemRe) ;
+
+                if(match){
+
+                    let name = match[1],
+                        target = match[2],
+                        key = match[3] ;
+
+                    if(key){
+
+                        items.push({
+                            name,
+                            target,
+                            key
+                        }) ;
+
+                    }else{
+
+                        items.push({
+                            name,
+                            target
+                        }) ;
+                    }
+
+                    let implement = `config::${target}` ;
+
+                    imports.push({
+                        name:toCamelCase(implement),
+                        include:implement
+                    }) ;
+                }
+            }
+        }
+
+        return {
+            imports,
+            items
+        } ;
+    }
+
     applyImports(){
 
         let textCodeMetaImportRe = /@import\s+([^\n\r]+)/g,
             match,
             imports = [],
+            me = this,
             {
-                fullName
-            } = this;
+                fullName,
+                data
+            } = me;
 
-        while(match = textCodeMetaImportRe.exec(this.data)){
+        while(match = textCodeMetaImportRe.exec(data)){
 
             let content = match[1].trim() ;
 
@@ -140,6 +208,8 @@ module.exports = class {
             }) ;
         }
 
+        imports.push(...me.configItemsAndImports.imports) ;
+
         return imports ;
     }
 
@@ -148,7 +218,9 @@ module.exports = class {
         let {
             imports
         } = this,
-        names = [];
+        names = [
+            'object.get'
+        ];
 
         for(let config of imports){
 

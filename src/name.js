@@ -9,7 +9,12 @@ exports.toPath = (name , suffix = '') =>{
     return `${name.replace(dotRe , '/')}${suffix}` ;
 }
 
-exports.toCamelCase = name =>{
+exports.toCamelCase = fullName =>{
+
+    let {
+        name,
+        folder
+    } = parse(fullName) ;
 
     let names = split(name , dotRe),
         firstName = names[0];
@@ -21,6 +26,13 @@ exports.toCamelCase = name =>{
     for(let name of names){
 
         result.push(capitalize(name)) ;
+    }
+
+    name = `${firstName}${result.join('')}` ;
+
+    if(folder){
+
+        return `${folder}${capitalize(firstName)}${result.join('')}` ;
     }
 
     return `${firstName}${result.join('')}` ;

@@ -12,26 +12,54 @@ module.exports = class extends Target{
         let {
             code:body,
             imports,
+            configItems
         } = meta ;
 
         return {
             defaultFolder:code.project.defaultFolder,
             imports:process_imports(imports),
+            configItems:process_config_items(configItems),
             body
         }
     }
+}
+
+function process_config_items(items){
+
+    if(items){
+
+        let result = [] ;
+
+        for(let {
+            name,
+            target,
+            key
+        } of items){
+
+            if(key){
+
+                result.push(`const ${name} = config('${target}' , '${key}');`) ;
+            
+            }else{
+
+                result.push(`const ${name} = config('${target}');`) ;
+            }
+        }
+
+        return result.join('\n') ;
+    }
+
+    return '' ;
 }
 
 function process_imports(imports){
 
     let result = [] ;
 
-    for(let config of imports){
-
-        let {
-            name,
-            include
-        } = config ;
+    for(let {
+        name,
+        include
+    } of imports){
 
         result.push(`const ${name} = include('${include}');`) ;
     }

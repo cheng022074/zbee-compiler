@@ -1,6 +1,6 @@
 (() =>{
 
-    const nameRe = /^(\w+)\:(.+?)$/,
+    const nameRe = /^(\w+)\:{2}(.+?)$/,
           CODES = {};
 
     return name =>{

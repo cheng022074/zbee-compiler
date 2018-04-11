@@ -1,6 +1,6 @@
-<describe name="测试主题">
+<document name="测试主题">
     <describe name="测试目标">
         <it name="测试用例">
         </it>
     </describe>
-</describe>
+</document>

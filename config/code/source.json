@@ -1,4 +1,5 @@
 {
+
     "src":{
         ".fn.js":{
             "template":"code.template.script.function",
@@ -13,6 +14,12 @@
         ".xml":{
             "template":"code.template.script.test",
             "converter":"code.converter.script.test"
+        }
+    },
+    "config":{
+        ".json":{
+            "template":"code.template.config",
+            "converter":"code.converter.config"
         }
     }
 }
