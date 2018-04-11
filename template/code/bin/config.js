@@ -1,1 +1,1 @@
-<%-  %>
+module.exports = <%- data.meta.code %> ;

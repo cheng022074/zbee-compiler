@@ -308,9 +308,8 @@ module.exports = class {
                         }) ;
                     }
 
-                }else{
 
-                    {
+                    {   
                         let match = content.match(textCodeMetaParamRestRe) ;
 
                         if(match){
