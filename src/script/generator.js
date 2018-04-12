@@ -36,7 +36,36 @@ exports.params = paramEls =>{
 
     for(let paramEl of paramEls){
 
-        params.push(expression(paramEl.getAttribute('value'))) ;
+        if(paramEl.hasAttribute('value')){
+
+            params.push(expression(paramEl.getAttribute('value'))) ;
+        
+        }else{
+
+            let {
+                childNodes
+            } = paramEl,
+            isFinded = false;
+
+            childNodes = Array.from(childNodes) ;
+
+            for(let childNode of childNodes){
+
+                if(childNode.nodeType === 4){
+
+                    params.push(childNode.nodeValue) ;
+
+                    isFinded = true ;
+
+                    break ;
+                }
+            }
+
+            if(!isFinded){
+
+                params.push(paramEl.nodeValue) ;
+            }
+        }
     }
 
     return params.join(',') ;
