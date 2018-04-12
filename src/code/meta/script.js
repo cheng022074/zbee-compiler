@@ -6,7 +6,7 @@ textCodeMetaRunAtRe = /@runat\s+([^\n\r]+)/,
 textCodeMetaRunAtSplitRe = /\s+/,
 textCodeMetaExtendRe = /@extend\s+([^\n\r]+)/,
 textCodeMetaParamTypeSplitRe = /\|/,
-textCodeMetaParamNameRe = /^(\w+)(?:\.(\w+))?/,
+textCodeMetaParamNameRe = /^([\.\[\]\w]+)/,
 textCodeMetaParamRestRe = /^\.{3}(\w+)/,
 textCodeMetaParamTypeArrayRe = /\[\]$/,
 textCodeMetaParamOptionalDefaultValueRe = /^(\w+)\s*\=(.+?)$/,
@@ -261,7 +261,7 @@ module.exports = class {
 
             {
                 let match = content.match(textCodeMetaParamNameRe) ;
-                
+
                 if(match){
 
                     let [
@@ -300,12 +300,6 @@ module.exports = class {
                             }) ;
                         }
 
-                    }else{
-
-                        add_params(params , paramSet , targetName , {
-                            type,
-                            name:targetName
-                        }) ;
                     }
 
 
@@ -373,7 +367,15 @@ module.exports = class {
                                 }
                             }
 
+                            break ;
                         }
+                    }
+
+                    {
+                        add_params(params , paramSet , targetName , {
+                            type,
+                            name:targetName
+                        }) ;
                     }
                 }
             }

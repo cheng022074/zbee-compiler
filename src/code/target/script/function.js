@@ -46,10 +46,18 @@ function process_param_names(params){
     let names = [] ;
 
     for(let {
-        name
+        name,
+        rest
     } of params){
 
-        names.push(name) ;
+        if(rest){
+
+            names.push(`...${name}`) ;
+        
+        }else{
+
+            names.push(name) ;
+        }
     }
 
     return names ;
