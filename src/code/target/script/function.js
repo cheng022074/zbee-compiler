@@ -25,13 +25,18 @@ function process_params(params){
 
     for(let {
         name,
-        defaultValue
+        defaultValue,
+        rest
     } of params){
 
         if(defaultValue){
 
             result.push(`${name} = ${defaultValue}`) ;
         
+        }else if(rest){
+
+            result.push(`...${name}`) ;
+
         }else{
 
             result.push(name) ;
