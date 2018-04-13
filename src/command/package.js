@@ -2,6 +2,15 @@ const {
     SourceCode
 } = require('../code'),
 {
+    writeTextFile
+} = require('../fs'),
+{
+    apply
+} = require('../template'),
+{
+    format
+} = require('../script'),
+{
     get
 } = require('../config') ;
 
@@ -33,4 +42,10 @@ module.exports = (name = 'default') =>{
             codes.push(code) ;
         }
     }
+
+    format(apply('code.package' , {
+        codes
+    })) ;
+
+    writeTextFile() ;
 }          
