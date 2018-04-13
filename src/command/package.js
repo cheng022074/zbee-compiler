@@ -9,7 +9,8 @@ module.exports = (name = 'default') =>{
 
     let {
         classes:names
-    } = get('package' , name) ;
+    } = get('package' , name),
+    codes = [];
     
     for(let name of names){
 
@@ -25,9 +26,11 @@ module.exports = (name = 'default') =>{
 
                 if(code.exists){
 
-                    console.log(code.target.packageCodeText) ;
+                    codes.push(code) ;
                 }
             }
+
+            codes.push(code) ;
         }
     }
 }          
