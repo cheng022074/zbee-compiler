@@ -6,7 +6,8 @@ config = <%- apply('code.config') %>;
 
 <%
     let {
-        codes
+        codes,
+        bootstrap
     } = data ;
 
     for(let {
@@ -15,6 +16,13 @@ config = <%- apply('code.config') %>;
     } of codes){
 %>
 exports['<%- fullName %>'] = <%- target.packageCodeText %>
+<%
+    }
+%>
+<%
+    if(bootstrap){
+%>
+include('<%- bootstrap %>')(...process.argv) ;
 <%
     }
 %>

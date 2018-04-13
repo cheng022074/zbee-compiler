@@ -24,7 +24,8 @@ module.exports = (name = 'default') =>{
 
     let {
         classes:names,
-        name:fileName
+        name:fileName,
+        bootstrap
     } = get('package' , name),
     codes = [];
 
@@ -58,7 +59,9 @@ module.exports = (name = 'default') =>{
     let path = join(APPLICATION.getFolderPath('package') , `${fileName}.js`) ;
 
     writeTextFile(path , format(apply('code.package' , {
-        codes
+        codes,
+        bootstrap,
+        defaultFolder:APPLICATION.defaultFolder
     }))) ;
 
     console.log('已打包' , path) ;
