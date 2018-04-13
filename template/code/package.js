@@ -14,7 +14,7 @@ config = <%- apply('code.config') %>;
         target
     } of codes){
 %>
-exports[<%- fullName %>] = <%- target.packageCodeText %>
+exports['<%- fullName %>'] = <%- target.packageCodeText %>
 <%
     }
 %>

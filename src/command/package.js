@@ -12,14 +12,26 @@ const {
 } = require('../script'),
 {
     get
-} = require('../config') ;
+} = require('../config'),
+{
+    APPLICATION
+} = require('../project'),
+{
+    join
+} = require('path');
 
 module.exports = (name = 'default') =>{
 
     let {
-        classes:names
+        classes:names,
+        name:fileName
     } = get('package' , name),
     codes = [];
+
+    if(!fileName){
+
+        fileName = name ;
+    }
     
     for(let name of names){
 
@@ -43,9 +55,11 @@ module.exports = (name = 'default') =>{
         }
     }
 
-    format(apply('code.package' , {
-        codes
-    })) ;
+    let path = join(APPLICATION.getFolderPath('package') , `${fileName}.js`) ;
 
-    writeTextFile() ;
+    writeTextFile(path , format(apply('code.package' , {
+        codes
+    }))) ;
+
+    console.log('已打包' , path) ;
 }          
