@@ -1,6 +1,9 @@
 const {
     js
-} = require('js-beautify') ;
+} = require('js-beautify'),
+{
+    min
+} = require('jsmin');
 
 exports.format = code =>{
 
@@ -14,4 +17,16 @@ exports.format = code =>{
     }
 
     return code ;
+}
+
+exports.min = code =>{
+
+    try{
+
+        return min(code) ;
+
+    }catch(err){
+
+
+    }
 }
