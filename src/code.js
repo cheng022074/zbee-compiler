@@ -255,7 +255,7 @@ class SourceCode extends Code{
                 meta
             } = me.target ;
 
-            let names = meta.importNames,
+            let names = meta.importNames || [],
                 codes = [];
 
             for(let name of names){

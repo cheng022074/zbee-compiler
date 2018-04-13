@@ -48,6 +48,11 @@ module.exports = class {
         } ;
     }
 
+    applyPackageCodeData(){
+
+        return this.applyBinCodeData() ;
+    }
+
     applyBinCodeText(){
 
         let me = this,
@@ -56,5 +61,15 @@ module.exports = class {
         } = me;
 
         return apply(binTemplate , me.binCodeData) ;
+    }
+
+    applyPackageCodeText(){
+
+        let me = this,
+        {
+            packageTemplate
+        } = me ;
+
+        return apply(packageTemplate , me.packageCodeData) ;
     }
 }

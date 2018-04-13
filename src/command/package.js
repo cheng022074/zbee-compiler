@@ -1,4 +1,30 @@
-module.exports = () =>{
+const {
+    SourceCode
+} = require('../code'),
+{
+    get
+} = require('../config') ;
 
-    console.log('打包程序') ;
-}
+module.exports = (name = 'default') =>{
+
+    let {
+        classes:names
+    } = get('package' , name) ;
+    
+    for(let name of names){
+
+        let code = SourceCode.get(name) ;
+
+        if(code.exists){
+
+            let {
+                importAllSourceCodes
+            } = code ;
+    
+            for(let code of importAllSourceCodes){
+    
+                console.log(code.fullName) ;
+            }
+        }
+    }
+}          

@@ -10,7 +10,5 @@ module.exports = class {
         let me = this ;
 
         me.code = readTextFile(code.path) ;
-
-        me.importNames = [] ;
     }
 }

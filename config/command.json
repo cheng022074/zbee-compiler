@@ -1,5 +1,6 @@
 {
     "compile":"command.compile",
     "generate":"command.generate",
-    "test":"command.test"
+    "test":"command.test",
+    "package":"command.package"
 }
