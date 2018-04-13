@@ -22,8 +22,11 @@ module.exports = (name = 'default') =>{
             } = code ;
     
             for(let code of importAllSourceCodes){
-    
-                console.log(code.fullName) ;
+
+                if(code.exists){
+
+                    console.log(code.target.packageCodeText) ;
+                }
             }
         }
     }

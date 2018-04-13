@@ -1,5 +1,5 @@
-const include = <%- apply('code.include' , {
+const include = <%- apply('code.bin.header.include' , {
     defaultFolder:data.defaultFolder
 }) %>,
 gettype = <%- apply('code.gettype') %>,
-config = <%- apply('code.config') %>;
+config = <%- apply('code.bin.header.config') %>;
