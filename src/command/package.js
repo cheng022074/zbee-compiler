@@ -8,7 +8,8 @@ const {
     apply
 } = require('../template'),
 {
-    format
+    format,
+    min
 } = require('../script'),
 {
     get
@@ -25,7 +26,8 @@ module.exports = (name = 'default') =>{
     let {
         classes:names,
         name:fileName,
-        bootstrap
+        bootstrap,
+        compress
     } = get('package' , name),
     codes = [];
 
@@ -56,13 +58,23 @@ module.exports = (name = 'default') =>{
         }
     }
 
-    let path = join(APPLICATION.getFolderPath('package') , `${fileName}.js`) ;
+    let path = join(APPLICATION.getFolderPath('package') , `${fileName}.js`),
+        data = apply('code.package' , {
+            codes,
+            bootstrap,
+            defaultFolder:APPLICATION.defaultFolder
+        });
 
-    writeTextFile(path , format(apply('code.package' , {
-        codes,
-        bootstrap,
-        defaultFolder:APPLICATION.defaultFolder
-    }))) ;
+    if(compress){
+
+        data = min(data) ;
+    
+    }else{
+
+        data = format(data) ;
+    }    
+
+    writeTextFile(path , data) ;
 
     console.log('已打包' , path) ;
 }          

@@ -2,7 +2,7 @@ const {
     js
 } = require('js-beautify'),
 {
-    min
+    jsmin
 } = require('jsmin');
 
 exports.format = code =>{
@@ -23,10 +23,12 @@ exports.min = code =>{
 
     try{
 
-        return min(code) ;
+        return jsmin(code) ;
 
     }catch(err){
 
 
     }
+
+    return code ;
 }
