@@ -1,6 +1,6 @@
 {
   "name": "zbee",
-  "version": "0.0.12",
+  "version": "0.0.17",
   "description": "基于控制台的代码设计辅助工具",
   "repository": {
     "type": "git",
@@ -13,7 +13,10 @@
     "cli"
   ],
   "files": [
-    "src"
+    "bin",
+    "config",
+    "src",
+    "template"
   ],
   "author": "nero chen",
   "license": "ISC",
