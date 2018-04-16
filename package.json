@@ -1,6 +1,6 @@
 {
   "name": "zbee",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "基于控制台的代码设计辅助工具",
   "repository": {
     "type": "git",
