@@ -19,7 +19,10 @@ const {
 } = require('../project'),
 {
     join
-} = require('path');
+} = require('path'),
+{
+    unique
+} = require('../array');
 
 module.exports = (name = 'default') =>{
 
@@ -28,7 +31,8 @@ module.exports = (name = 'default') =>{
         name:fileName,
         bootstrap,
         compress,
-        targets
+        targets,
+        libraries
     } = get('package' , name),
     codes = [];
 
@@ -58,6 +62,8 @@ module.exports = (name = 'default') =>{
             codes.push(code) ;
         }
     }
+
+    codes = unique(codes) ;
 
     let path = join(APPLICATION.getFolderPath('package') , `${fileName}.js`),
         data = apply('code.package' , {
