@@ -27,7 +27,8 @@ module.exports = (name = 'default') =>{
         classes:names,
         name:fileName,
         bootstrap,
-        compress
+        compress,
+        targets
     } = get('package' , name),
     codes = [];
 
@@ -77,4 +78,17 @@ module.exports = (name = 'default') =>{
     writeTextFile(path , data) ;
 
     console.log('已打包' , path) ;
+
+    targets = targets || [] ;
+
+    let rootPath = join(APPLICATION.rootPath , '..') ;
+
+    for(let target of targets){
+
+        let path = join(rootPath , target) ;
+
+        writeTextFile(path , data) ;
+
+        console.log('已打包' , path) ;
+    }
 }          
