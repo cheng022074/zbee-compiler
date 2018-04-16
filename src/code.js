@@ -111,7 +111,8 @@ class BinCode extends Code{
             path,
             fullName
         } = this;
-  
+
+ 
         if(path){
 
             return get_target(folder , path) ;

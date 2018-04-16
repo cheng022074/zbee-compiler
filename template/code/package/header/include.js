@@ -28,13 +28,15 @@
             className = name ;
         }
 
-        let name = `${folder}::${className}`,
-            code = CODES[name] = exports[`${folder}::${className}`] ;
+        let fullName = `${folder}::${className}`,
+            code = CODES[name] = exports[fullName] ;
 
         if(code === undefined){
 
-            throw new Error(`${name} 没有定义`) ;
+            throw new Error(`${fullName} 没有定义`) ;
         }
+
+        return code ;
     } ;
 
 })()

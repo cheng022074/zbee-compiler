@@ -2,7 +2,7 @@
 
     const nameRe = /^(\w+)\:{2}(.+?)$/,
           CODES = {},
-          libraries = <%- data.libraries %>;
+          libraries = <%- JSON.stringify(data.libraries) %>;
 
     return name =>{
 
@@ -28,15 +28,16 @@
     
         const {
             join
-        } = require('path') ;
+        } = require('path'),
+        fullName = `${folder}::${className}`;
 
         try{
 
-            return CODES[name] = CODES[`${folder}::${className}`] = require(`../${folder}/${className}.js`) ;
+            return CODES[name] = CODES[fullName] = require(`../${folder}/${className}.js`) ;
 
         }catch(err){
 
-            if(err.message.indexOf('Cannot find module') !== 0){
+            if(err.message.indexOf('Cannot find module') !== -1){
                     
                 let len = libraries.length ;
 
@@ -48,10 +49,10 @@
 
                         library = libraries[i] = require(library) ;
                     }
-                    
-                    if(library.hasOwnProperty(name)){
 
-                        return library[name] ;
+                    if(library.hasOwnProperty(fullName)){
+
+                        return library[fullName] ;
                     }
                 }
             }
