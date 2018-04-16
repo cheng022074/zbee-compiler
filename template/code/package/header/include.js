@@ -1,7 +1,10 @@
 (() =>{
 
     const nameRe = /^(\w+)\:{2}(.+?)$/,
-          CODES = {};
+          CODES = {},
+        {
+            join
+        } = require('path');
 
     return name =>{
 
@@ -24,14 +27,14 @@
             folder = '<%- data.defaultFolder %>',
             className = name ;
         }
-    
-        const {
-            join
-        } = require('path') ;
 
+        let name = `${folder}::${className}`,
+            code = CODES[name] = exports[`${folder}::${className}`] ;
 
-        return CODES[name] = exports[`${folder}::${className}`] ;
+        if(code === undefined){
 
+            throw new Error(`${name} 没有定义`) ;
+        }
     } ;
 
 })()

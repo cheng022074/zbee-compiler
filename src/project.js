@@ -72,7 +72,7 @@ class Application extends Project{
 
         let me = this ;
 
-        me.libraries = new Libraries(me.properties = load(join(APPLICATION_PATH , 'properties.json'))) ;
+        me.libraries = new Libraries(me , me.properties = load(join(APPLICATION_PATH , 'properties.json'))) ;
     }
 
     get defaultFolder(){
@@ -142,7 +142,7 @@ class Application extends Project{
 
 class Libraries{
 
-    constructor({
+    constructor(project , {
         libraries = []
     }){
 
@@ -150,7 +150,7 @@ class Libraries{
 
         for(let i = 0 ; i < len ; i ++){
 
-            libraries[i] = require(join(APPLICATION_PATH , libraries[i])) ;
+            libraries[i] = require(join(project.getFolderPath('lib') , libraries[i])) ;
         }
 
         this.libraries = libraries ;

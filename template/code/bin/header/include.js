@@ -1,7 +1,8 @@
 (() =>{
 
     const nameRe = /^(\w+)\:{2}(.+?)$/,
-          CODES = {};
+          CODES = {},
+          libraries = <%- data.libraries %>;
 
     return name =>{
 
@@ -29,9 +30,34 @@
             join
         } = require('path') ;
 
+        try{
 
-        return CODES[name] = CODES[`${folder}::${className}`] = require(`../${folder}/${className}.js`) ;
+            return CODES[name] = CODES[`${folder}::${className}`] = require(`../${folder}/${className}.js`) ;
 
+        }catch(err){
+
+            if(err.message.indexOf('Cannot find module') !== 0){
+                    
+                let len = libraries.length ;
+
+                for(let i = 0 ; i < len ; i ++){
+
+                    library = libraries[i] ;
+
+                    if(typeof library === 'string'){
+
+                        library = libraries[i] = require(library) ;
+                    }
+                    
+                    if(library.hasOwnProperty(name)){
+
+                        return library[name] ;
+                    }
+                }
+            }
+
+            throw err ;
+        }
     } ;
 
 })()

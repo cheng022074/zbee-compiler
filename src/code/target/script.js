@@ -13,10 +13,14 @@ module.exports = class extends Target{
             code:body,
             imports,
             configItems
-        } = meta ;
+        } = meta,
+        {
+            project
+        } = code;
 
         return {
-            defaultFolder:code.project.defaultFolder,
+            defaultFolder:project.defaultFolder,
+            libraries:project.libraries.libraries,
             imports:process_imports(imports),
             configItems:process_config_items(configItems),
             body
