@@ -26,7 +26,11 @@ module.exports = class extends Coder{
             }else{
 
                 return `var ${el.getAttribute('name')} = include('${el.getAttribute('target')}');` ;
-            }   
+            }
+
+        }else if(el.hasAttribute('resource')){
+
+            return `var ${el.getAttribute('name')} = require('path').join(__dirname , '..' , '..' , '${el.getAttribute('resource')}');`
         }
 
         return '' ;
