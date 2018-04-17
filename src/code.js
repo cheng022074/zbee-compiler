@@ -88,20 +88,32 @@ class BinCode extends Code{
 
     applyPath(){
 
-        let {
+        let 
+        me = this,
+        {
             name,
             folder
-        } = this;
+        } = me;
 
         let path = APPLICATION.getBinPath(folder , name) ;
 
         if(path === false){
 
-            path = COMPILER.getPath(folder , name) ;
+            path = me.compilerPath ;
         }
 
         return path ;
 
+    }
+
+    get compilerPath(){
+
+        let {
+            name,
+            folder
+        } = this ;
+
+        return COMPILER.getPath(folder , name) ;
     }
 
     applyTarget(){
@@ -124,11 +136,13 @@ class BinCode extends Code{
 
     applyTargets(){
 
-        let {
+        let 
+        me = this,
+        {
             folder,
             path,
             fullName
-        } = this,
+        } = me,
         targets = [];
   
         if(path){
@@ -141,6 +155,15 @@ class BinCode extends Code{
         if(target){
 
             targets.push(target) ;
+        }
+
+        let {
+            compilerPath
+        } = me ;
+
+        if(compilerPath && compilerPath !== path){
+
+            targets.push(get_target(folder , compilerPath)) ;
         }
 
         return targets ;
