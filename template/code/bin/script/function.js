@@ -6,6 +6,11 @@
 <%- data.configItems %>
 
 <%
+
+    let {
+        paramNames
+    } = data ;
+
     if(data.scoped){
 %>
 <%- data.body %>
@@ -19,10 +24,6 @@ module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
 }
 <%
     }else{
-
-    let {
-        paramNames
-    } = data ;
 %>
 <%if(data.async){%>async <%}%>function main(<%- paramNames.join(',') %>){
 
