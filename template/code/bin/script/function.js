@@ -15,7 +15,7 @@ module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
 
         return this === global ? main : this ;
 
-    }).call(this),<%- data.paramNames %>) ;
+    }).call(this) <%if(paramNames.length){%>, <%- paramNames %><%}else{%><%- paramNames %><%}%>) ;
 }
 <%
     }else{

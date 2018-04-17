@@ -21,7 +21,7 @@ module.exports = class extends Coder{
 
             if(el.hasAttribute('property')){
 
-                return `var ${el.getAttribute('name')} = include('${el.getAttribute('target')}').${el.getAttribute('property')};` ;
+                return `var ${el.getAttribute('name')} = ${el.getAttribute('target')}.${el.getAttribute('property')};` ;
             
             }else{
 
