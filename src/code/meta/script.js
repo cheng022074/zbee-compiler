@@ -6,7 +6,7 @@ textCodeMetaRunAtRe = /@runat\s+([^\n\r]+)/,
 textCodeMetaRunAtSplitRe = /\s+/,
 textCodeMetaExtendRe = /@extend\s+([^\n\r]+)/,
 textCodeMetaParamTypeSplitRe = /\|/,
-textCodeMetaParamNameRe = /^([\.\[\]\w]+)/,
+textCodeMetaParamNameRe = /^(\w+)(?:\.(\w+))?/,
 textCodeMetaParamRestRe = /^\.{3}(\w+)/,
 textCodeMetaParamTypeArrayRe = /\[\]$/,
 textCodeMetaParamOptionalDefaultValueRe = /^(\w+)\s*\=(.+?)$/,
@@ -262,6 +262,7 @@ module.exports = class {
             {
                 let match = content.match(textCodeMetaParamNameRe) ;
 
+         
                 if(match){
 
                     let [
@@ -274,7 +275,7 @@ module.exports = class {
 
                         if(paramSet.hasOwnProperty(targetName)){
 
-                            let param = paramsSet[targetName] ;
+                            let param = paramSet[targetName] ;
 
                             switch(param.type){
 

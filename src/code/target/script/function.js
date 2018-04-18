@@ -27,6 +27,8 @@ function process_params(params){
     for(let {
         name,
         defaultValue,
+        items,
+        type,
         rest
     } of params){
 
@@ -37,6 +39,15 @@ function process_params(params){
         }else if(rest){
 
             result.push(`...${name}`) ;
+
+        }else if(items){
+
+            switch(type){
+
+                case 'object':
+
+                    result.push(`{${process_params(items)}}`) ;
+            }
 
         }else{
 
@@ -49,10 +60,13 @@ function process_params(params){
 
 function process_param_names(params){
 
+
     let names = [] ;
 
     for(let {
         name,
+        items,
+        type,
         rest
     } of params){
 
@@ -60,6 +74,15 @@ function process_param_names(params){
 
             names.push(`...${name}`) ;
         
+        }else if(items){
+
+            switch(type){
+
+                case 'object':
+
+                    names.push(`{${process_param_names(items).join(',')}}`) ;
+            }
+
         }else{
 
             names.push(name) ;
