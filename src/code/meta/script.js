@@ -6,10 +6,9 @@ textCodeMetaRunAtRe = /@runat\s+([^\n\r]+)/,
 textCodeMetaRunAtSplitRe = /\s+/,
 textCodeMetaExtendRe = /@extend\s+([^\n\r]+)/,
 textCodeMetaParamTypeSplitRe = /\|/,
-textCodeMetaParamNameRe = /^(\w+)(?:\.(\w+))?/,
+textCodeMetaParamNameRe = /^(\w+)(?:\.(\w+))?(?:\s*\=\s*(.+))?/,
 textCodeMetaParamRestRe = /^\.{3}(\w+)/,
 textCodeMetaParamTypeArrayRe = /\[\]$/,
-textCodeMetaParamOptionalDefaultValueRe = /^(\w+)\s*\=(.+?)$/,
 textCodeMetaAliasImportRe = /(\.?\w+)\s+from\s+((?:\w+\:{2})?\w+(?:\.\w+)*)/,
 textCodeMetaAliasFirstDotImportRe = /^\./,
 textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*))?/,
@@ -260,17 +259,30 @@ module.exports = class {
             }
 
             {
-                let match = content.match(textCodeMetaParamNameRe) ;
 
-         
+                let match = string_match(content , /\[|\]/g , {
+                    start:'[',
+                    inner:true,
+                    end:']'
+                }) ;
+
+                if(match){
+
+                    content = match[0] ;
+                }
+
+                match = content.match(textCodeMetaParamNameRe) ;
+
                 if(match){
 
                     let [
                         ,
                         targetName,
-                        propertyName
+                        propertyName,
+                        defaultValue
                     ] = match;
 
+        
                     if(targetName && propertyName){
 
                         if(paramSet.hasOwnProperty(targetName)){
@@ -297,12 +309,12 @@ module.exports = class {
 
                             add_params(param.items , paramSet , `${targetName}.${propertyName}` , {
                                 type,
+                                defaultValue,
                                 name:propertyName
                             }) ;
                         }
 
                     }
-
 
                     {   
                         let match = content.match(textCodeMetaParamRestRe) ;
@@ -332,52 +344,13 @@ module.exports = class {
                     }
 
                     {
-                        let match = string_match(content , /\[|\]/g , {
-                            start:'[',
-                            inner:true,
-                            end:']'
-                        }) ;
-
-                        if(match){
-
-                            let data = match[0];
-
-                            {
-                                let match = data.match(textCodeMetaParamOptionalDefaultValueRe) ;
-
-                                if(match){
-
-                                    let name = match[1] ;
-
-                                    add_params(params , paramSet , name , {
-                                        type,
-                                        name,
-                                        defaultValue:match[2].trim(),
-                                        optiontal:true
-                                    }) ;
-                                
-                                }else{
-
-                                    let name = data ;
-
-                                    add_params(params , paramSet , name , {
-                                        type,
-                                        name,
-                                        optiontal:true
-                                    }) ;
-                                }
-                            }
-
-                            break ;
-                        }
-                    }
-
-                    {
                         add_params(params , paramSet , targetName , {
                             type,
-                            name:targetName
+                            name:targetName,
+                            defaultValue
                         }) ;
                     }
+
                 }
             }
         }
