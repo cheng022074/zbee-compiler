@@ -9,11 +9,6 @@
 
     return name =>{
 
-        if(typeof zbee_include === 'function'){
-
-            return zbee_include(name) ;
-        }
-
         if(CODES.hasOwnProperty(name)){
 
             return CODES[name] ;

@@ -1,6 +1,12 @@
 (name , key) =>{
 
-    let target = include(`config::${name}`) ;
+    let fullName = `config::${name}`,
+        target = include(fullName) ;
+
+    if(!target && exports.hasOwnProperty('include')){
+
+        target = exports.include(fullName) ;
+    }
 
     if(key){
 

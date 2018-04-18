@@ -4,5 +4,3 @@ const include = <%- apply('code.bin.header.include' , {
 }) %>,
 gettype = <%- apply('code.gettype') %>,
 config = <%- apply('code.config') %>;
-
-global.zbee_include = include ;

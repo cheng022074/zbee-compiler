@@ -151,33 +151,10 @@ class Libraries{
 
         for(let i = 0 ; i < len ; i ++){
 
-            let path = join(project.getFolderPath('lib') , libraries[i]) ;
-
-            libPaths.push(path) ;
-
-            libraries[i] = require(path) ;
+            libPaths.push(join(project.getFolderPath('lib') , libraries[i])) ;
         }
 
-        let me = this ;
-
-        me.libraries = libraries ;
-
-        me.libraryPaths = libPaths ;
-    }
-
-    get(name){
-
-        let {
-            libraries
-        } = this ;
-
-        for(let library of libraries){
-
-            if(library.hasOwnProperty(name)){
-
-                return library[name] ;
-            }
-        }
+        this.libraryPaths = libPaths ;
     }
 }
 

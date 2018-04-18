@@ -130,8 +130,6 @@ class BinCode extends Code{
             return get_target(folder , path) ;
 
         }
-        
-        return APPLICATION.libraries.get(fullName) ;
     }
 
     applyTargets(){
@@ -148,13 +146,6 @@ class BinCode extends Code{
         if(path){
 
             targets.push(get_target(folder , path)) ;
-        }
-
-        let target = APPLICATION.libraries.get(fullName) ;
-
-        if(target){
-
-            targets.push(target) ;
         }
 
         let {
