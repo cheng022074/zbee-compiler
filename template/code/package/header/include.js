@@ -9,9 +9,9 @@
 
     return name =>{
 
-        if(exports.hasOwnProperty('include')){
+        if(typeof zbee_include === 'function'){
 
-            return exports.include(name) ;
+            return zbee_include(name) ;
         }
 
         if(CODES.hasOwnProperty(name)){
