@@ -48,6 +48,8 @@
                     if(typeof library === 'string'){
 
                         library = libraries[i] = require(library) ;
+
+                        library.include = include ;
                     }
 
                     if(library.hasOwnProperty(fullName)){

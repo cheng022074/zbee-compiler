@@ -9,6 +9,11 @@
 
     return name =>{
 
+        if(exports.hasOwnProperty('include')){
+
+            return exports.include(name) ;
+        }
+
         if(CODES.hasOwnProperty(name)){
 
             return CODES[name] ;
