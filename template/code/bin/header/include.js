@@ -2,7 +2,23 @@
 
     const nameRe = /^(\w+)\:{2}(.+?)$/,
           CODES = {},
+          configNameRe = /^config\:{2}/,
           libraries = <%- JSON.stringify(data.libraries) %>;
+
+    function process(library){
+
+        let names = Object.keys(library) ;
+
+        for(let name of names){
+
+            if(configNameRe.test(name)){
+
+                library[name] = require(`../config/${name.replace(configNameRe , '')}.js`)
+            }
+        }
+
+        return library ;
+    }
 
     return name =>{
 
@@ -47,7 +63,7 @@
 
                     if(typeof library === 'string'){
 
-                        library = libraries[i] = require(library) ;
+                        library = libraries[i] = process(require(library)) ;
 
                     }
 
