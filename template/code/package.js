@@ -1,6 +1,5 @@
 const include = <%- apply('code.package.header.include' , {
-    defaultFolder:data.defaultFolder,
-    libraries:data.libraries
+    defaultFolder:data.defaultFolder
 }) %>,
 gettype = <%- apply('code.gettype') %>,
 config = <%- apply('code.config') %>;

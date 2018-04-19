@@ -59,7 +59,7 @@
                 }
             }
 
-            throw err ;
+            throw new Error(`${fullName} 没有定义`) ;
         }
     } ;
 

@@ -31,8 +31,7 @@ module.exports = (name = 'default') =>{
         name:fileName,
         bootstrap,
         compress,
-        targets,
-        libraries
+        targets
     } = get('package' , name),
     codes = [];
 
@@ -69,8 +68,7 @@ module.exports = (name = 'default') =>{
         data = apply('code.package' , {
             codes,
             bootstrap,
-            defaultFolder:APPLICATION.defaultFolder,
-            libraries:libraries || []
+            defaultFolder:APPLICATION.defaultFolder
         });
 
     if(compress){
