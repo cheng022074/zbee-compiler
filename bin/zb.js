@@ -17,6 +17,15 @@ if(command.exists){
 
     try{
 
+        const {
+            APPLICATION
+        } = require('../src/project'),
+        {
+            env
+        } = process;
+
+        env['ZBEE-APP-BIN-PATH'] = APPLICATION.getFolderPath('bin') ;
+
         command.run() ;
 
     }catch(err){
