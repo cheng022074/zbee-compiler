@@ -26,6 +26,8 @@ if(command.exists){
 
         env['ZBEE-APP-BIN-PATH'] = APPLICATION.getFolderPath('bin') ;
 
+        env['ZBEE-APP-LIB-PATH'] = APPLICATION.libraries.paths.join(';') ;
+
         command.run() ;
 
     }catch(err){

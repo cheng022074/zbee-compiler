@@ -3,7 +3,20 @@
     const nameRe = /^(\w+)\:{2}(.+?)$/,
           CODES = {},
           configNameRe = /^config\:{2}/,
-          libraries = <%- JSON.stringify(data.libraries) %>;
+          libraries = [],
+          libraryPathRe = /[^\;]+/g,
+          libraryPath = env['ZBEE-APP-LIB-PATH'];
+
+    if(libraryPath){
+
+        let match ;
+
+        while(match = libraryPathRe.exec(libraryPath)){
+      
+            libraries.push(require(match[0])) ;
+            
+        }
+    }
 
     return name =>{
 
@@ -39,22 +52,12 @@
         }catch(err){
 
             if(err.message.indexOf('Cannot find module') !== -1){
-                    
-                let len = libraries.length ;
 
-                for(let i = 0 ; i < len ; i ++){
-
-                    library = libraries[i] ;
-
-                    if(typeof library === 'string'){
-
-                        library = libraries[i] = require(library) ;
-
-                    }
+                for(let library of libraries){
 
                     if(library.hasOwnProperty(fullName)){
 
-                        return library[fullName] ;
+                        return CODES[name] = library[fullName] ;
                     }
                 }
             }

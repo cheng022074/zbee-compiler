@@ -147,14 +147,12 @@ class Libraries{
     }){
 
         let len = libraries.length,
-            libPaths = [];
+            paths = this.paths = [];
 
         for(let i = 0 ; i < len ; i ++){
 
-            libPaths.push(join(project.getFolderPath('lib') , libraries[i])) ;
+            paths.push(join(project.getFolderPath('lib') , libraries[i])) ;
         }
-
-        this.libraryPaths = libPaths ;
     }
 }
 

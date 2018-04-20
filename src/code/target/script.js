@@ -20,7 +20,6 @@ module.exports = class extends Target{
 
         return {
             defaultFolder:project.defaultFolder,
-            libraries:project.libraries.libraryPaths,
             imports:process_imports(imports),
             configItems:process_config_items(configItems),
             body
