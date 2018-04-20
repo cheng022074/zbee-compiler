@@ -5,6 +5,9 @@
           configNameRe = /^config\:{2}/,
           libraries = [],
           libraryPathRe = /[^\;]+/g,
+          {
+              env
+          } = process,
           libraryPath = env['ZBEE-APP-LIB-PATH'];
 
     if(libraryPath){
