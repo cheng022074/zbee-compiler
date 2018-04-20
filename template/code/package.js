@@ -19,10 +19,3 @@ exports['<%- fullName %>'] = <%- target.packageCodeText %>
 <%
     }
 %>
-<%
-    if(bootstrap){
-%>
-include('<%- bootstrap %>')(...process.argv.slice(2)) ;
-<%
-    }
-%>

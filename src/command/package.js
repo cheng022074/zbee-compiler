@@ -29,7 +29,6 @@ module.exports = (name = 'default') =>{
     let {
         classes:names,
         name:fileName,
-        bootstrap,
         compress,
         targets
     } = get('package' , name),
@@ -67,7 +66,6 @@ module.exports = (name = 'default') =>{
     let path = join(APPLICATION.getFolderPath('package') , `${fileName}.js`),
         data = apply('code.package' , {
             codes,
-            bootstrap,
             defaultFolder:APPLICATION.defaultFolder
         });
 
