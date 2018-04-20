@@ -1,4 +1,5 @@
 {
+    "version":"command.version",
     "compile":"command.compile",
     "generate":"command.generate",
     "test":"command.test",
