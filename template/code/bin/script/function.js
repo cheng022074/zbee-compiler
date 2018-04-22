@@ -27,10 +27,10 @@ module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
         return <%- onceVarValue %> ;
 
     }
-    <%}%>
+    
     <%- onceVarLocked %> = true ;
-
-    return <%- onceVarValue %> = <%if(data.async){%>await <%}%>main.call((function(){
+    <%}%>
+    return <%if(once){%> <%- onceVarValue %> = <%}%><%if(data.async){%>await <%}%>main.call((function(){
 
         return this === global ? main : this ;
 
@@ -50,10 +50,10 @@ module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
         return <%- onceVarValue %> ;
 
     }
-    <%}%>
+
     <%- onceVarLocked %> = true ;
-    
-    return <%- onceVarValue %> = <%if(data.async){%>await <%}%>main.call((function(){
+    <%}%>
+    return <%if(once){%><%- onceVarValue %> = <%}%> <%if(data.async){%>await <%}%>main.call((function(){
 
         return this === global ? main : this ;
 

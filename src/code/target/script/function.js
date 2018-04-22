@@ -7,7 +7,8 @@ module.exports = class extends Target{
         let {
             scoped,
             params,
-            async
+            async,
+            once
         } = this.meta ;
 
 
@@ -15,7 +16,8 @@ module.exports = class extends Target{
             scoped,
             params:process_params(params),
             paramNames:process_param_names(params),
-            async
+            async,
+            once
         } , super.applyBinCodeData()) ;
     }
 }

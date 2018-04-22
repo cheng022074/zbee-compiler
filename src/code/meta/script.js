@@ -1,6 +1,7 @@
 const 
 textCodeMetaRe = /^\/\*(?:.|[^.])+?\*\//,
 textCodeMetaAsyncRe = /@async/,
+textCodeMetaOnceRe = /@once/,
 textCodeMetaScopedRe = /@scoped/,
 textCodeMetaRunAtRe = /@runat\s+([^\n\r]+)/,
 textCodeMetaRunAtSplitRe = /\s+/,
@@ -66,10 +67,16 @@ module.exports = class {
             'imports',
             'importNames',
             'configItemsAndImports',
-            'configItems'
+            'configItems',
+            'once'
         ]) ;
 
         me.target = code ;
+    }
+
+    applyOnce(){
+
+        return textCodeMetaOnceRe.test(this.data) ;
     }
 
     applyAsync(){
