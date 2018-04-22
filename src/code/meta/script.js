@@ -10,7 +10,6 @@ textCodeMetaParamNameRe = /^(?:\.{3})?(\w+)(?:\.(\w+))?(?:\s*\=\s*(.+))?/,
 textCodeMetaParamRestRe = /^\.{3}(\w+)/,
 textCodeMetaParamTypeArrayRe = /\[\]$/,
 textCodeMetaAliasImportRe = /(\.?\w+)\s+from\s+((?:\w+\:{2})?\w+(?:\.\w+)*)/,
-textCodeMetaAliasFirstDotImportRe = /^\./,
 textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*))?/,
 {
     defineCacheProperties
@@ -165,7 +164,6 @@ module.exports = class {
             imports = [],
             me = this,
             {
-                fullName,
                 data
             } = me;
 
@@ -178,24 +176,10 @@ module.exports = class {
 
                 if(match){
 
-                    let name = match[1],
-                        implement = match[2];
-
-                    if(textCodeMetaAliasFirstDotImportRe.test(name)){
-
-                        imports.push({
-                            name:name.replace(textCodeMetaAliasFirstDotImportRe , ''),
-                            item:true,
-                            include:process_import(fullName , implement)
-                        }) ;
-                    
-                    }else{
-
-                        imports.push({
-                            name,
-                            include:process_import(fullName , implement)
-                        }) ;
-                    }
+                    imports.push({
+                        name:match[1],
+                        include:match[2]
+                    }) ;
 
                     continue ;
                 }
@@ -203,7 +187,7 @@ module.exports = class {
 
             imports.push({
                 name:toCamelCase(content),
-                include:process_import(fullName , content)
+                include:content
             }) ;
         }
 
@@ -373,16 +357,4 @@ function add_params(params , paramSet ,  name , config){
 
         params.push(paramSet[name] = config) ;
     }
-}
-
-const prefixDotRe = /^\./ ;
-
-function process_import(rootName , name){
-
-    if(prefixDotRe.test(name)){
-
-        return `${rootName}${name}` ;
-    }
-
-    return name ;
 }

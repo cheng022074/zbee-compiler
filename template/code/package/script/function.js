@@ -4,23 +4,34 @@
     <%- data.configItems %>
     
     <%
+
+        let {
+            paramNames,
+            once
+        } = data,
+        onceVarName = `__${Date.now()}__`;
+
         if(data.scoped){
     %>
     <%- data.body %>
+    let <%- onceVarName %>;
     return <%if(data.async){%>async <%}%>function(<%- data.params %>){
+        <%if(once){%>
+        if(typeof <%- onceVarName %> !== 'undefined'){
     
-        return <%if(data.async){%>await <%}%>main.call((function(){
+            return <%- onceVarName %> ;
+    
+        }
+        <%}%>
+    
+        return <%- onceVarName %> = <%if(data.async){%>await <%}%>main.call((function(){
     
             return this === global ? main : this ;
     
-        }).call(this),<%- data.paramNames %>) ;
+        }).call(this),<%- paramNames %>) ;
     }
     <%
         }else{
-    
-        let {
-            paramNames
-        } = data ;
     %>
     <%if(data.async){%>async <%}%>function main(<%- paramNames.join(',') %>){
     

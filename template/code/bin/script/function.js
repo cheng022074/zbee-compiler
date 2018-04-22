@@ -1,6 +1,5 @@
 <%- apply('code.bin' , {
-    defaultFolder:data.defaultFolder,
-    libraries:data.libraries
+    defaultFolder:data.defaultFolder
 }) %>
 <%- data.imports %>
 <%- data.configItems %>
@@ -8,15 +7,30 @@
 <%
 
     let {
-        paramNames
-    } = data ;
-
+        paramNames,
+        once
+    } = data,
+    now = Date.now(),
+    onceVarValue = `__once_${now}_value__`,
+    onceVarLocked = `__once_${now}_locked__`;
+%>
+let <%- onceVarValue %>,
+    <%- onceVarLocked %> = false;
+<%
     if(data.scoped){
 %>
 <%- data.body %>
 module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
+    <%if(once){%>
+    if(<%- onceVarLocked %>){
 
-    return <%if(data.async){%>await <%}%>main.call((function(){
+        return <%- onceVarValue %> ;
+
+    }
+    <%}%>
+    <%- onceVarLocked %> = true ;
+
+    return <%- onceVarValue %> = <%if(data.async){%>await <%}%>main.call((function(){
 
         return this === global ? main : this ;
 
@@ -30,8 +44,16 @@ module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
     <%- data.body %>
 }
 module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
+    <%if(once){%>
+    if(<%- onceVarLocked %>){
 
-    return <%if(data.async){%>await <%}%>main.call((function(){
+        return <%- onceVarValue %> ;
+
+    }
+    <%}%>
+    <%- onceVarLocked %> = true ;
+    
+    return <%- onceVarValue %> = <%if(data.async){%>await <%}%>main.call((function(){
 
         return this === global ? main : this ;
 

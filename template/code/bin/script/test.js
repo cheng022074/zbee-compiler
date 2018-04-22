@@ -1,6 +1,5 @@
 <%- apply('code.bin' , {
-    defaultFolder:data.defaultFolder,
-    libraries:data.libraries
+    defaultFolder:data.defaultFolder
 }) %>
 const {
     deepStrictEqual,
