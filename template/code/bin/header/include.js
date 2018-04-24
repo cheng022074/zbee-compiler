@@ -3,7 +3,7 @@
     const nameRe = /^(\w+)\:{2}(.+?)$/,
           CODES = {},
           configNameRe = /^config\:{2}/,
-          libraries = <%- libraries %> ;
+          libraries = <%- data.libraries %> ;
 
     return name =>{
 
