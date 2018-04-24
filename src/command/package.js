@@ -30,7 +30,8 @@ module.exports = (name = 'default') =>{
         classes:names,
         name:fileName,
         compress,
-        targets
+        targets,
+        independent
     } = get('package' , name),
     codes = [];
 
@@ -66,6 +67,7 @@ module.exports = (name = 'default') =>{
     let path = join(APPLICATION.getFolderPath('package') , `${fileName}.js`),
         data = apply('code.package' , {
             codes,
+            independent,
             defaultFolder:APPLICATION.defaultFolder
         });
 

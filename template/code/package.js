@@ -1,5 +1,5 @@
 <%
-    if(data.node === true){
+    if(data.independent === true){
 %>
 const include = <%- apply('code.package.header.include' , {
     defaultFolder:data.defaultFolder,
@@ -7,6 +7,7 @@ const include = <%- apply('code.package.header.include' , {
 }) %>,
 gettype = <%- apply('code.gettype') %>,
 config = <%- apply('code.config') %>;
+exports.include = include ;
 <%
     }
 %>
