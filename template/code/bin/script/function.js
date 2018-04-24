@@ -1,8 +1,8 @@
 <%- apply('code.bin' , {
     defaultFolder:data.defaultFolder
 }) %>
-<%- data.imports %>
-<%- data.configItems %>
+<%- data.importNames %>
+<%- data.configItemNames %>
 
 <%
 
@@ -23,6 +23,8 @@ let <%- onceVarValue %>,
 %>
 <%- data.body %>
 module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
+    <%- data.imports %>
+    <%- data.configItems %>
     <%if(once){%>
     if(<%- onceVarLocked %>){
 
@@ -46,6 +48,8 @@ module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
     <%- data.body %>
 }
 module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
+    <%- data.imports %>
+    <%- data.configItems %>
     <%if(once){%>
     if(<%- onceVarLocked %>){
 

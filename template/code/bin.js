@@ -1,5 +1,6 @@
-const include = <%- apply('code.bin.header.include' , {
-    defaultFolder:data.defaultFolder
+const include = global.include = <%- apply('code.bin.header.include' , {
+    defaultFolder:data.defaultFolder,
+    libraries:data.libraries
 }) %>,
-gettype = <%- apply('code.gettype') %>,
-config = <%- apply('code.bin.header.config') %>;
+gettype = global.gettype = <%- apply('code.gettype') %>,
+config = global.config = <%- apply('code.bin.header.config') %>;

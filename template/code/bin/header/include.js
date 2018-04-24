@@ -3,23 +3,7 @@
     const nameRe = /^(\w+)\:{2}(.+?)$/,
           CODES = {},
           configNameRe = /^config\:{2}/,
-          libraries = [],
-          libraryPathRe = /[^\;]+/g,
-          {
-              env
-          } = process,
-          libraryPath = env['ZBEE-APP-LIB-PATH'];
-
-    if(libraryPath){
-
-        let match ;
-
-        while(match = libraryPathRe.exec(libraryPath)){
-      
-            libraries.push(require(match[0])) ;
-            
-        }
-    }
+          libraries = <%- libraries %> ;
 
     return name =>{
 

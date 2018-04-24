@@ -1,31 +1,7 @@
 (() =>{
 
     const nameRe = /^(\w+)\:{2}(.+?)$/,
-          CODES = {},
-        {
-            join
-        } = require('path'),
-        libraries = [],
-        {
-            env
-        } = process,
-        libraryPathRe = /[^\;]+/g,
-        libraryPath = env['ZBEE-APP-LIB-PATH'];
-
-    if(libraryPath){
-
-        let match ;
-
-       /* while(match = libraryPathRe.exec(libraryPath)){
-
-            let path = match[0] ;
-
-            if(path !== __filename){
-
-                libraries.push(require(path)) ;
-            }
-        }*/
-    }
+          CODES = {};
 
     return name =>{
 
@@ -53,14 +29,6 @@
             code = CODES[name] = exports[fullName] ;
 
         if(code === undefined){
-
-            for(let library of libraries){
-
-                if(library.hasOwnProperty(fullName)){
-
-                    return code = CODES[name] = library[fullName] ;
-                }
-            }
 
             throw new Error(`${fullName} 没有定义`) ;
         }

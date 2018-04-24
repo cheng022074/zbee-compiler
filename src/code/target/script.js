@@ -19,6 +19,7 @@ module.exports = class extends Target{
         } = code;
 
         return {
+            libraries:process_libraries(project.libraries.paths),
             defaultFolder:project.defaultFolder,
             imports:process_imports(imports),
             importNames:process_import_names(imports),
@@ -27,6 +28,19 @@ module.exports = class extends Target{
             body
         }
     }
+}
+
+function process_libraries(paths){
+
+    let result = [] ;
+
+    for(let path of paths){
+
+        result.push(`require('${path}')`) ;
+    }
+
+
+    return `[${result.join(',')}]` ;
 }
 
 function process_import_names(imports){
