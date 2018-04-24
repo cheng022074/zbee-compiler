@@ -14,8 +14,10 @@
     onceVarValue = `__once_${now}_value__`,
     onceVarLocked = `__once_${now}_locked__`;
 %>
+<%if(once){%>
 let <%- onceVarValue %>,
     <%- onceVarLocked %> = false;
+<%}%>
 <%
     if(data.scoped){
 %>

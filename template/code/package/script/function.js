@@ -1,8 +1,6 @@
 (() =>{
-
-    <%- data.imports %>
-    <%- data.configItems %>
-    
+    <%- data.importNames %>
+    <%- data.configItemNames %>
     <%
 
         let {
@@ -13,13 +11,17 @@
         onceVarValue = `__once_${now}_value__`,
         onceVarLocked = `__once_${now}_locked__`;
     %>
+    <%if(once){%>
     let <%- onceVarValue %>,
         <%- onceVarLocked %> = false;
+    <%}%>
     <%
         if(data.scoped){
     %>
     <%- data.body %>
     return <%if(data.async){%>async <%}%>function(<%- data.params %>){
+        <%- data.imports %>
+        <%- data.configItems %>
         <%if(once){%>
         if(<%- onceVarLocked %>){
 
@@ -43,6 +45,8 @@
         <%- data.body %>
     }
     return <%if(data.async){%>async <%}%>function(<%- data.params %>){
+        <%- data.imports %>
+        <%- data.configItems %>
         <%if(once){%>
         if(<%- onceVarLocked %>){
 

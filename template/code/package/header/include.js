@@ -16,7 +16,7 @@
 
         let match ;
 
-        while(match = libraryPathRe.exec(libraryPath)){
+       /* while(match = libraryPathRe.exec(libraryPath)){
 
             let path = match[0] ;
 
@@ -24,7 +24,7 @@
 
                 libraries.push(require(path)) ;
             }
-        }
+        }*/
     }
 
     return name =>{

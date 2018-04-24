@@ -21,10 +21,50 @@ module.exports = class extends Target{
         return {
             defaultFolder:project.defaultFolder,
             imports:process_imports(imports),
+            importNames:process_import_names(imports),
             configItems:process_config_items(configItems),
+            configItemNames:process_config_item_names(configItems),
             body
         }
     }
+}
+
+function process_import_names(imports){
+
+    if(imports.length){
+
+        let result = [] ;
+
+        for(let {
+            name
+        } of imports){
+    
+            result.push(name) ;
+        }
+    
+        return `let ${result.join(',')};` ;
+    }
+
+    return '' ;
+}
+
+function process_config_item_names(items){
+
+    if(items && items.length){
+
+        let result = [] ;
+
+        for(let {
+            name
+        } of items){
+
+            result.push(name) ;
+        }
+
+        return `let ${result.join(',')};` ;
+    }
+
+    return '' ;
 }
 
 function process_config_items(items){
@@ -41,11 +81,11 @@ function process_config_items(items){
 
             if(key){
 
-                result.push(`const ${name} = config('${target}' , '${key}');`) ;
+                result.push(`${name} = config('${target}' , '${key}');`) ;
             
             }else{
 
-                result.push(`const ${name} = config('${target}');`) ;
+                result.push(`${name} = config('${target}');`) ;
             }
         }
 
@@ -64,7 +104,7 @@ function process_imports(imports){
         include
     } of imports){
 
-        result.push(`const ${name} = include('${include}');`) ;
+        result.push(`${name} = include('${include}');`) ;
     }
 
     return result.join('\n') ;
