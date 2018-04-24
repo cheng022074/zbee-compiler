@@ -2,8 +2,7 @@ const include = <%- apply('code.package.header.include' , {
     defaultFolder:data.defaultFolder
 }) %>,
 gettype = <%- apply('code.gettype') %>,
-config = <%- apply('code.config') %>;
-
+config = <%- apply('code.package.header.config') %>;
 <%
     let {
         codes,

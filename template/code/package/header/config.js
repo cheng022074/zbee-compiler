@@ -13,7 +13,7 @@
 
         try{
 
-           // target = require(join(env['ZBEE-APP-BIN-PATH'] , 'config' , `${name}.js`)) ;
+            target = require(join(env['ZBEE-APP-BIN-PATH'] , 'config' , `${name}.js`)) ;
 
         }catch(err){
 
