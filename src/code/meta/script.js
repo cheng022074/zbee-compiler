@@ -208,9 +208,7 @@ module.exports = class {
         let {
             imports
         } = this,
-        names = [
-            'object.get'
-        ];
+        names = [];
 
         for(let config of imports){
 
