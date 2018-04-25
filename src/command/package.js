@@ -2,6 +2,7 @@ const {
     SourceCode
 } = require('../code'),
 {
+    readTextFile,
     writeTextFile
 } = require('../fs'),
 {
@@ -70,6 +71,22 @@ module.exports = (name = 'default') =>{
             independent,
             defaultFolder:APPLICATION.defaultFolder
         });
+
+    if(independent){
+
+        let paths = APPLICATION.libraries.paths,
+            result = [
+                data
+            ];
+
+        for(let path of paths){
+
+            result.push(readTextFile(path));
+
+        }
+
+        data = result.join('\n') ;
+    }
 
     if(compress){
 
