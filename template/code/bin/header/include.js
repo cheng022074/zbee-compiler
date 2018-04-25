@@ -47,9 +47,11 @@
                         return CODES[name] = library[fullName] ;
                     }
                 }
+
+                throw new Error(`${fullName} 没有定义`) ;
             }
 
-            throw new Error(`${fullName} 没有定义`) ;
+            throw err ;
         }
     } ;
 
