@@ -30,13 +30,15 @@ module.exports = class extends Target{
     }
 }
 
+const pathSplitRe = /\\/g ;
+
 function process_libraries(paths){
 
     let result = [] ;
 
     for(let path of paths){
 
-        result.push(`require('${path}')`) ;
+        result.push(`require('${path.replace(pathSplitRe , '\\\\')}')`) ;
     }
 
 
