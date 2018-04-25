@@ -65,28 +65,26 @@ module.exports = (name = 'default') =>{
 
     codes = unique(codes) ;
 
+    let libraries = [] ;
+
+    if(independent){
+
+        let paths = APPLICATION.libraries.paths;
+
+        for(let path of paths){
+
+            libraries.push(readTextFile(path));
+
+        }
+    }
+
     let path = join(APPLICATION.getFolderPath('package') , `${fileName}.js`),
         data = apply('code.package' , {
             codes,
             independent,
+            libraries,
             defaultFolder:APPLICATION.defaultFolder
         });
-
-    if(independent){
-
-        let paths = APPLICATION.libraries.paths,
-            result = [
-                data
-            ];
-
-        for(let path of paths){
-
-            result.push(readTextFile(path));
-
-        }
-
-        data = result.join('\n') ;
-    }
 
     if(compress){
 
