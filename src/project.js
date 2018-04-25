@@ -75,6 +75,11 @@ class Application extends Project{
         me.libraries = new Libraries(me , me.properties = load(join(APPLICATION_PATH , 'properties.json'))) ;
     }
 
+    get testTimeout(){
+
+        return get(this.properties , 'test.timeout') || 5000;
+    }
+
     get defaultFolder(){
 
         return this.properties.defaultFolder || 'src';

@@ -2,8 +2,7 @@ const {
     fork
 } = require('child_process'),
 {
-    resolve,
-    join
+    resolve
 } = require('path'),
 {
     APPLICATION
@@ -22,7 +21,9 @@ module.exports = name => {
     if(compile(`test::${name}`)){
 
         fork(resolve(__dirname , '../../node_modules/mocha/bin/mocha') , [
-            join(APPLICATION.generateBinPath('test' , name))
+            '-t',
+            APPLICATION.testTimeout,
+            APPLICATION.generateBinPath('test' , name)
         ]) ;
     }
 }
