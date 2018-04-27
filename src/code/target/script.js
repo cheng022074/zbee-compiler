@@ -1,4 +1,8 @@
-const Target = require('../target') ;
+const 
+Target = require('../target'),
+{
+    unique
+} = require('../../array');
 
 module.exports = class extends Target{
 
@@ -58,7 +62,7 @@ function process_import_names(imports){
             result.push(name) ;
         }
     
-        return `let ${result.join(',')};` ;
+        return `let ${unique(result).join(',')};` ;
     }
 
     return '' ;

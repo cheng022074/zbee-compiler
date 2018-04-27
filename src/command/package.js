@@ -27,13 +27,20 @@ const {
 
 module.exports = (name = 'default') =>{
 
+    let config = get('package' , name) ;
+
+    if(!config){
+
+        return ;
+    }
+
     let {
         classes:names,
         name:fileName,
         compress,
         targets,
         independent
-    } = get('package' , name),
+    } = config,
     codes = [];
 
     if(!fileName){
