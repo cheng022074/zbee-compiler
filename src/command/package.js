@@ -39,7 +39,8 @@ module.exports = (name = 'default') =>{
         name:fileName,
         compress,
         targets,
-        independent
+        independent,
+        bootstrap
     } = config,
     codes = [];
 
@@ -90,6 +91,7 @@ module.exports = (name = 'default') =>{
             codes,
             independent,
             libraries,
+            bootstrap,
             defaultFolder:APPLICATION.defaultFolder
         });
 

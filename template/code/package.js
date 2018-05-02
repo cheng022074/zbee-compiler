@@ -1,5 +1,10 @@
 <%
-    if(data.independent === true){
+    const {
+        independent,
+        bootstrap,
+        codes
+    } = data ;
+    if(independent === true){
 %>
 const include = <%- apply('code.package.header.include' , {
     defaultFolder:data.defaultFolder
@@ -12,10 +17,6 @@ exports.include = include ;
     }
 %>
 <%
-    let {
-        codes,
-        bootstrap
-    } = data ;
 
     for(let {
         fullName,
@@ -25,4 +26,11 @@ exports.include = include ;
 exports['<%- fullName %>'] = <%- target.packageCodeText %>
 <%
     }
+%>
+<%
+if(independent === true && bootstrap){
+%>
+    include('<%- bootstrap %>')(process.argv.slice(3)) ;
+<%
+}
 %>

@@ -4,7 +4,7 @@
 
         if (data && typeof data === 'object' && !Object.isFrozen(data)){
 
-            Object.freeze(obj);
+            Object.freeze(data);
 
             let names = Object.keys(data) ;
 
