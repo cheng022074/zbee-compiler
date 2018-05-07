@@ -13,19 +13,24 @@
     } = data,
     now = Date.now(),
     onceVarValue = `__once_${now}_value__`,
-    onceVarLocked = `__once_${now}_locked__`;
+    onceVarLocked = `__once_${now}_locked__`,
+    isFirstExecuted = `__first_executed_${now}__`;
 %>
 <%if(once){%>
 let <%- onceVarValue %>,
     <%- onceVarLocked %> = false;
 <%}%>
+let <%- isFirstExecuted %> = false ;
 <%
     if(data.scoped){
 %>
 <%- data.body %>
 module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
-    <%- data.imports %>
-    <%- data.configItems %>
+    if(!<%- isFirstExecuted %>){
+        <%- data.imports %>
+        <%- data.configItems %>
+        <%- isFirstExecuted %> = true ;
+    }
     <%if(once){%>
     if(<%- onceVarLocked %>){
 
@@ -49,8 +54,11 @@ module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
     <%- data.body %>
 }
 module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
-    <%- data.imports %>
-    <%- data.configItems %>
+    if(!<%- isFirstExecuted %>){
+        <%- data.imports %>
+        <%- data.configItems %>
+        <%- isFirstExecuted %> = true ;
+    }
     <%if(once){%>
     if(<%- onceVarLocked %>){
 
