@@ -17,7 +17,8 @@ const {
     toPath
 } = require('./name'),
 {
-    file:is_file
+    file:is_file,
+    array:is_array
 } = require('./is'),
 {
     from
@@ -138,26 +139,36 @@ class Application extends Project{
     getBinPath(folder , name){
 
         let path,
-            me = this;
+            me = this,
+            suffixes = me.getFolderBinFileReadSuffixes(folder);
 
-        switch(folder){
+        if(suffixes !== false){
 
-            case 'config':
+            if(is_array(suffixes)){
 
-                path = join(me.getFolderPath('config') , toPath(name , '.json')) ;
+                for(let suffix of suffixes){
 
-                break ;
+                    path = join(me.getFolderPath(folder) , toPath(name , suffix)) ;
 
-            case 'template':
+                    if(is_file(path)){
 
-                path = fileNormalize(join(me.getFolderPath('template') , toPath(name))) ;
+                        return path;
+                    }
+                }
 
-                break ;
+            }else{
 
-            default:
+                path = fileNormalize(join(me.getFolderPath(folder) , toPath(name))) ;
 
-                path = me.generateBinPath(folder , name) ;
+                if(is_file(path)){
+
+                    return path ;
+                }
+            }
         }
+
+        path = me.generateBinPath(folder , name) ;
+        
 
         if(is_file(path)){
 
@@ -177,9 +188,14 @@ class Application extends Project{
         return get(this.properties , `folders.${folder}`) || folder ;
     }
 
+    getFolderBinFileReadSuffixes(folder){
+
+        return get(this.properties , `bin.suffix.${folder}`) || false ;
+    }
+
     getFolderBinFileReadType(folder){
 
-        return get(this.properties , `bin.${folder}`) || 'normal' ;
+        return get(this.properties , `bin.type.${folder}`) || 'normal' ;
     }
 
     getFolderPath(folder){
