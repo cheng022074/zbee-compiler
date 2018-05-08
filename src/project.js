@@ -85,7 +85,8 @@ class Application extends Project{
         } = require('./template') ;
 
         let me = this,
-            path = join(me.getFolderPath('bin') , 'index.js'),
+            binPath = me.getFolderPath('bin'),
+            path = join(binPath , 'index.js'),
             time = readTextFile(path.replace(/\.js$/ , '')) ;
 
             if(time){
@@ -96,13 +97,17 @@ class Application extends Project{
 
                 time = -1 ;
             }
+
+        let updateTime = getMotifyTime(join(APPLICATION_PATH , 'properties.json'));
  
-        if(getMotifyTime(APPLICATION_PATH , 'properties.json') !== time){
+        if(updateTime !== time){
 
             writeTextFile(path , apply('code.bin' , {
                 defaultFolder:me.defaultFolder,
                 libraries:me.libraries.paths
             })) ;
+
+            writeTextFile(join(binPath , 'index') , updateTime) ;
         }
 
         require(path) ;
