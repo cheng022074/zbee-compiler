@@ -165,9 +165,11 @@ class Application extends Project{
                     return path ;
                 }
             }
-        }
+        
+        }else{
 
-        path = me.generateBinPath(folder , name) ;
+            path = me.generateBinPath(folder , name) ;
+        }
         
 
         if(is_file(path)){
