@@ -3,7 +3,13 @@
     const nameRe = /^(\w+)\:{2}(.+?)$/,
           CODES = {},
           configNameRe = /^config\:{2}/,
-          libraries = <%- JSON.stringify(data.libraries) %> ;
+          libraries = <%- JSON.stringify(data.libraries) %>,
+          len = libraries.length;
+
+    for(let i = 0 ; i < len ; i ++){
+
+        libraries[i] = require(libraries[i]) ;
+    }
 
     return name =>{
 
