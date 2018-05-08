@@ -130,6 +130,8 @@ class BinCode extends Code{
             return get_target(folder , path) ;
 
         }
+
+        return get_library_item(fullName) ;
     }
 
     applyTargets(){
@@ -142,10 +144,18 @@ class BinCode extends Code{
             fullName
         } = me,
         targets = [];
-  
+
+
         if(path){
 
             targets.push(get_target(folder , path)) ;
+        }
+
+        let item = get_library_item(fullName) ;
+
+        if(item){
+
+            targets.push(item) ;
         }
 
         let {
@@ -158,6 +168,19 @@ class BinCode extends Code{
         }
 
         return targets ;
+    }
+}
+
+function get_library_item(fullName){
+
+    let targets = APPLICATION.libraries.targets ;
+
+    for(let target of targets){
+
+        if(target.hasOwnProperty(fullName)){
+
+            return target[fullName] ;
+        }
     }
 }
 

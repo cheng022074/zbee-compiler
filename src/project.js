@@ -31,7 +31,10 @@ const {
 {
     toName,
     extname
-} = require('./path');
+} = require('./path'),
+{
+    defineCacheProperty
+} = require('./object');
 
 class Project{
 
@@ -198,13 +201,31 @@ class Libraries{
         libraries = []
     }){
 
-        let len = libraries.length,
-            paths = this.paths = [];
+        let me = this,
+            len = libraries.length,
+            paths = me.paths = [];
 
         for(let i = 0 ; i < len ; i ++){
 
             paths.push(join(project.getFolderPath('lib') , libraries[i])) ;
         }
+
+        defineCacheProperty(me , 'targets') ;
+    }
+
+    applyTargets(){
+
+        let libraries = [],
+            {
+                paths
+            } = this;
+
+        for(let path of paths){
+
+            libraries.push(require(path)) ;
+        }
+
+        return libraries ;
     }
 }
 
