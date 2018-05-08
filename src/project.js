@@ -23,7 +23,10 @@ const {
     from
 } = require('./array'),
 {
-    getAllFilePaths
+    getAllFilePaths,
+    readTextFile,
+    writeTextFile,
+    getMotifyTime
 } = require('./fs'),
 {
     toName,
@@ -73,6 +76,45 @@ class Application extends Project{
         let me = this ;
 
         me.libraries = new Libraries(me , me.properties = load(join(APPLICATION_PATH , 'properties.json'))) ;
+    }
+
+    init(){
+
+        const {
+            apply
+        } = require('./template') ;
+
+        let me = this,
+            path = join(me.getFolderPath('bin') , 'index.js'),
+            time = readTextFile(path.replace(/\.js$/ , '')) ;
+
+            if(time){
+        
+                time = Number(time) ;
+            
+            }else{
+
+                time = -1 ;
+            }
+ 
+        if(getMotifyTime(APPLICATION_PATH , 'properties.json') !== time){
+
+            writeTextFile(path , apply('code.bin' , {
+                defaultFolder:me.defaultFolder,
+                libraries:me.libraries.paths
+            })) ;
+        }
+
+        require(path) ;
+
+        me.init = () =>{
+
+        } ;
+    }
+
+    isBinPath(path){
+
+        return path.indexOf(this.getFolderPath('bin')) === 0 ;
     }
 
     get testTimeout(){

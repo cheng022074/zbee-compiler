@@ -20,6 +20,8 @@ if(command.exists){
         const {
             APPLICATION
         } = require('../src/project') ;
+
+        APPLICATION.init() ;
         
         command.run() ;
 

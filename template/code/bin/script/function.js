@@ -1,7 +1,3 @@
-<%- apply('code.bin' , {
-    defaultFolder:data.defaultFolder,
-    libraries:data.libraries
-}) %>
 <%- data.importNames %>
 <%- data.configItemNames %>
 

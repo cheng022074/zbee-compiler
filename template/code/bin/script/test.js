@@ -1,7 +1,3 @@
-<%- apply('code.bin' , {
-    defaultFolder:data.defaultFolder,
-    libraries:data.libraries
-}) %>
 const {
     deepStrictEqual,
     notDeepStrictEqual,

@@ -17,14 +17,9 @@ module.exports = class extends Target{
             code:body,
             imports,
             configItems
-        } = meta,
-        {
-            project
-        } = code;
+        } = meta ;
 
         return {
-            libraries:process_libraries(project.libraries.paths),
-            defaultFolder:project.defaultFolder,
             imports:process_imports(imports),
             importNames:process_import_names(imports),
             configItems:process_config_items(configItems),

@@ -163,6 +163,11 @@ class BinCode extends Code{
 
 function get_target(folder , path){
 
+    if(APPLICATION.isBinPath(path)){
+
+        return require(path) ;
+    }
+
     switch(APPLICATION.getFolderBinFileReadType(folder)){
 
         case 'text':

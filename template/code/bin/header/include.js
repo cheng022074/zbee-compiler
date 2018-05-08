@@ -3,7 +3,7 @@
     const nameRe = /^(\w+)\:{2}(.+?)$/,
           CODES = {},
           configNameRe = /^config\:{2}/,
-          libraries = <%- data.libraries %> ;
+          libraries = <%- JSON.stringify(data.libraries) %> ;
 
     return name =>{
 
@@ -34,7 +34,7 @@
 
         try{
 
-            return CODES[name] = CODES[fullName] = require(`../${folder}/${className}.js`) ;
+            return CODES[name] = CODES[fullName] = require(`./${folder}/${className}.js`) ;
 
         }catch(err){
 
