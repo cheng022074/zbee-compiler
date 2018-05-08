@@ -1,3 +1,5 @@
+require('../index.js') ;
+
 const {
     deepStrictEqual,
     notDeepStrictEqual,
