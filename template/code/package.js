@@ -8,13 +8,13 @@
     } = data ;
     if(independent === true){
 %>
-<%
-    if(!browser){
-%>
-process.env['ZBEE-APPLICATION-ROOT-PATH'] = __dirname ;
-<%
-    }
-%>
+try{
+
+    process.env['ZBEE-APPLICATION-ROOT-PATH'] = __dirname ;
+
+}catch(err){
+
+}
 const include = <%- apply('code.package.header.include' , {
     defaultFolder:data.defaultFolder
 }) %>,
