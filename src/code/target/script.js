@@ -2,9 +2,45 @@ const
 Target = require('../target'),
 {
     unique
-} = require('../../array');
+} = require('../../array'),
+{
+    defineCacheProperty
+} = require('../../object'),
+{
+    parse
+} = require('../../name');
 
 module.exports = class extends Target{
+
+    constructor(...args){
+
+        super(...args) ;
+
+        defineCacheProperty(this , 'aliases') ;
+    }
+
+    applyAliases(){
+
+        let {
+            meta,
+            sourceCode
+        } = this,
+        {
+            aliases
+        } = meta,
+        result = [],
+        defaultFolder = sourceCode.project.defaultFolder;
+
+        if(aliases){
+
+            for(let alias of aliases){
+
+                result.push(parse(alias , defaultFolder)) ;
+            }
+        }
+
+        return result ;
+    }
 
     applyBinCodeData(){
 

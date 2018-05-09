@@ -23,7 +23,10 @@ const {
 } = require('path'),
 {
     unique
-} = require('../array');
+} = require('../array'),
+{
+    normalize
+} = require('../name');
 
 module.exports = (name = 'default') =>{
 
@@ -86,12 +89,39 @@ module.exports = (name = 'default') =>{
         }
     }
 
+    let aliasMap = {},
+        {
+            defaultFolder
+        } = APPLICATION;
+
+    for(let {
+        target,
+        fullName
+    } of codes){
+
+        let {
+            aliases
+        } = target ;
+
+        if(aliases){
+
+            for(let {
+                folder,
+                name
+            } of aliases){
+
+                aliasMap[normalize(name , folder)] =  fullName;
+            }
+        }
+    }
+
     let path = join(APPLICATION.getFolderPath('package') , `${fileName}.js`),
         data = apply('code.package' , {
             codes,
             independent,
             libraries,
             bootstrap,
+            aliasMap,
             defaultFolder:APPLICATION.defaultFolder
         });
 

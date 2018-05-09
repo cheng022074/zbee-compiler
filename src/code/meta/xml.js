@@ -8,7 +8,10 @@ Generator = require('../../generator'),
 } = require('../../xml'),
 {
     defineCacheProperties
-} = require('../../object');
+} = require('../../object'),
+{
+    split
+} = require('../../string');
 
 module.exports = class {
 
@@ -21,10 +24,25 @@ module.exports = class {
         defineCacheProperties(me , [
             'code',
             'importNames',
-            'generates'
+            'generates',
+            'aliases'
         ]) ;
 
         me.coder = new Generator(config_get(coderConfigURI)).parse(me.data) ;
+    }
+
+    applyAliases(){
+
+        let {
+            documentElement:el
+        } = this.data ;
+
+        if(el.hasAttribute('alias')){
+
+            return split(el.getAttribute('alias') , /\s+/) ;
+        }
+
+        return [] ;
     }
 
     applyCode(){

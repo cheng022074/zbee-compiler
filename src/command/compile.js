@@ -60,6 +60,26 @@ function compile(code){
         return ;
     }
 
+    let {
+        target
+    } = code,
+    codeText = format(target.binCodeText);
+
+    if(target.hasOwnProperty('aliases')){
+
+        let {
+            aliases
+        } = target ;
+
+        for(let {
+            folder,
+            name
+        } of aliases){
+
+            writeTextFile(APPLICATION.generateBinPath(folder , name) , codeText) ;
+        }
+    }
+
     writeTextFile(path , format(code.target.binCodeText)) ;
 
     writeTextFile(getLastCompileTimePath(path) , motifyTime) ;

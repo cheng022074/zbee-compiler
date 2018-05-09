@@ -25,8 +25,7 @@ textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*
     array:is_array
 } = require('../../is'),
 {
-    toCamelCase,
-    parse
+    toCamelCase
 } = require('../../name'),
 {
     unique
@@ -68,7 +67,8 @@ module.exports = class {
             'importNames',
             'configItemsAndImports',
             'configItems',
-            'once'
+            'once',
+            'aliases'
         ]) ;
 
         me.target = code ;
@@ -102,6 +102,25 @@ module.exports = class {
             'node',
             'browser'
         ] ;
+    }
+
+    applyAliases(){
+
+        let textCodeMetaAliasRe = /@alias\s+([^\n\r]+)/g,
+        match,
+        aliases = [],
+        me = this,
+        {
+            data,
+            code
+        } = me;
+
+        while(match = textCodeMetaAliasRe.exec(data)){
+
+            aliases.push(match[1].trim()) ;
+        }
+
+        return aliases ;
     }
 
     applyConfigItems(){

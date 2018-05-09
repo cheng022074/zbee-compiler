@@ -2,7 +2,8 @@
     const {
         independent,
         bootstrap,
-        codes
+        codes,
+        aliasMap
     } = data ;
     if(independent === true){
 %>
@@ -28,9 +29,18 @@ exports['<%- fullName %>'] = <%- target.packageCodeText %>
     }
 %>
 <%
+    let aliasNames = Object.keys(aliasMap) ;
+
+    for(let aliasName of aliasNames){
+%>
+exports['<%- aliasName %>'] = include('<%- aliasMap[aliasName] %>') ;
+<%
+    }
+%>
+<%
 if(independent === true && bootstrap){
 %>
-    include('<%- bootstrap %>')(process.argv.slice(3)) ;
+    include('<%- bootstrap %>')(process.argv.slice(2)) ;
 <%
 }
 %>
