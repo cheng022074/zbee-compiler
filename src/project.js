@@ -114,6 +114,8 @@ class Application extends Project{
             writeTextFile(join(binPath , 'index') , updateTime) ;
         }
 
+        process.env['ZBEE-APPLICATION-ROOT-PATH'] = me.rootPath ;
+
         require(path) ;
 
         me.init = () =>{
@@ -124,6 +126,11 @@ class Application extends Project{
     isBinPath(path){
 
         return path.indexOf(this.getFolderPath('bin')) === 0 ;
+    }
+
+    get installNameList(){
+
+        return get(this.properties , 'installs') || [] ;
     }
 
     get testTimeout(){

@@ -1,11 +1,19 @@
 <%
     const {
         independent,
+        browser,
         bootstrap,
         codes,
         aliasMap
     } = data ;
     if(independent === true){
+%>
+<%
+    if(!browser){
+%>
+process.env['ZBEE-APPLICATION-ROOT-PATH'] = __dirname ;
+<%
+    }
 %>
 const include = <%- apply('code.package.header.include' , {
     defaultFolder:data.defaultFolder

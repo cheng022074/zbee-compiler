@@ -3,5 +3,6 @@
     "compile":"command.compile",
     "generate":"command.generate",
     "test":"command.test",
-    "package":"command.package"
+    "package":"command.package",
+    "install":"command.install"
 }
