@@ -114,7 +114,13 @@ class Application extends Project{
             writeTextFile(join(binPath , 'index') , updateTime) ;
         }
 
-        process.env['ZBEE-APPLICATION-ROOT-PATH'] = me.rootPath ;
+        let {
+            env
+        } = process ;
+
+        env['ZBEE-APPLICATION-ROOT-PATH'] = me.rootPath ;
+
+        env['ZBEE-APPLICATION-CONFIG-PATH'] = me.getFolderPath('config') ;
 
         require(path) ;
 

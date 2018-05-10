@@ -1,12 +1,13 @@
 const {
     readTextFile
-} = require('./fs') ;
+} = require('./fs'),
+strip = require('strip-comment');
 
 exports.load = path =>{
 
     try{
 
-        return JSON.parse(readTextFile(path)) ;
+        return JSON.parse(strip(readTextFile(path))) ;
     
     }catch(err){
     }
