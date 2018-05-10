@@ -49,6 +49,16 @@ function compile(code){
         return ;
     }
 
+    
+    let {
+        target
+    } = code ;
+
+    if(!target){
+
+        return ;
+    }
+
     let {
         name
     } = code,
@@ -60,10 +70,7 @@ function compile(code){
         return ;
     }
 
-    let {
-        target
-    } = code,
-    codeText = format(target.binCodeText);
+    let codeText = format(target.binCodeText);
 
     if(target.hasOwnProperty('aliases')){
 

@@ -31,6 +31,11 @@ exports.include = include ;
         fullName,
         target
     } of codes){
+
+        if(!target){
+
+            continue ;
+        }
 %>
 exports['<%- fullName %>'] = <%- target.packageCodeText %>
 <%
