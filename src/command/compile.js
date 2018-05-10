@@ -49,7 +49,6 @@ function compile(code){
         return ;
     }
 
-    
     let {
         target
     } = code ;
