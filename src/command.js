@@ -12,7 +12,13 @@
     } = require('./config'),
     {
         run
-    } = require('./runner');
+    } = require('./runner'),
+    {
+        simpleObject:is_object,
+        string:is_string,
+        defined:is_defined
+    } = require('./is'),
+    convert = require('./string/convert');
 
     class Command{
 
@@ -50,6 +56,11 @@
             let name = this.name,
                 codeName = get('command' , name) ;
 
+            if(is_object(codeName)){
+
+                codeName = codeName.implement ;
+            }
+
             if(codeName){
 
                 return BinCode.get(codeName) ;
@@ -69,17 +80,50 @@
 
         get args(){
 
-            return this.argv.slice(3) ;
+            let {
+                name,
+                argv
+            } = this,
+            args = argv.slice(3),
+            config = get('command' , name);
+
+            if(is_object(config)){
+
+                let {
+                    params
+                } = config ;
+
+                if(params){
+
+                    let len = args.length ;
+
+                    for(let i = 0 ; i < len ; i ++){
+
+                        let type = params[i] ;
+
+                        if(type){
+
+                            args[i] = convert[type](args[i]) ;
+                        }
+                    }
+                }
+            }
+
+            return args;
         }
     
-        run(){
+        async run(){
 
             let {
                 code,
                 args
-            } = this ;
+            } = this,
+            result = await run(code.target , ...args) ;
 
-            run(code.target , ...args) ;
+            if(is_defined(result)){
+
+                console.log(result) ;
+            }
         }
     }
 

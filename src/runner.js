@@ -4,14 +4,14 @@ const {
     class:is_class
 } = require('./is') ;
 
-exports.run = (target , ...args) =>{
+exports.run = async (target , ...args) =>{
 
     if(is_function(target)){
 
-        return target(...args) ;
+        return await target(...args) ;
     
     }else if((is_class(target) || is_object(target)) && 'main' in target){
 
-        return target.main(...args) ;
+        return await target.main(...args) ;
     }
 }

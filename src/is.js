@@ -65,3 +65,8 @@ exports.empty = data =>{
 
     return data === null || data === undefined || data === '' || data.length === 0;
 }
+
+exports.defined = data =>{
+
+    return data !== undefined ;
+}
