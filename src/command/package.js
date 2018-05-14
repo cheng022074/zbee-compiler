@@ -34,6 +34,8 @@ module.exports = (name = 'default') =>{
 
     if(!config){
 
+        console.log('未找到打包配置' , name) ;
+
         return ;
     }
 

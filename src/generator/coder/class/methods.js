@@ -68,11 +68,11 @@ module.exports = class extends Coder{
 
             }else{
 
-                let methods = methods[name],
+                let functions = methods[name],
                     staticMethods = [],
                     noStaticMethods = [];
 
-                for(let method of methods){
+                for(let method of functions){
 
                     let {
                         static:isStatic
