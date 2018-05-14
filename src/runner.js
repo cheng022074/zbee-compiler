@@ -15,3 +15,15 @@ exports.run = async (target , ...args) =>{
         return await target.main(...args) ;
     }
 }
+
+exports.runAsync = (target , ...args) =>{
+
+    if(is_function(target)){
+
+        return target(...args) ;
+    
+    }else if((is_class(target) || is_object(target)) && 'main' in target){
+
+        return target.main(...args) ;
+    }
+}

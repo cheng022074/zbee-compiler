@@ -217,7 +217,7 @@ const {
     extname
 } = require('./path'),
 {
-    run
+    runAsync:run
 } = require('./runner'),
 baseNameRe = /[^\.]+$/;
 
