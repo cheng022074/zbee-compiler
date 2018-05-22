@@ -63,7 +63,7 @@ exports.fileNormalize = path =>{
 
         for(let name of names){
 
-            if(fileName !== name && name.indexOf(fileName) === 0){
+            if(fileName !== name && name.indexOf(`${fileName}.`) === 0){
 
                 return join(dirPath , name) ;
             }
