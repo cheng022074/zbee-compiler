@@ -25,9 +25,10 @@
   },
   "homepage": "https://github.com/cheng022074/zbee-compiler#readme",
   "engines": {
-    "node": ">= 9.5"
+    "node": ">= 10.1.0"
   },
   "dependencies": {
+    "dateformat": "^3.0.3",
     "ejs": "^2.5.7",
     "js-beautify": "^1.7.5",
     "jsmin": "^1.0.1",

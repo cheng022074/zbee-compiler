@@ -1,8 +1,27 @@
 {
-    "version":"command.version",
-    "compile":"command.compile",
-    "generate":"command.generate",
-    "test":"command.test",
-    "package":"command.package",
-    "install":"command.install"
+    "version":{
+        "description":"View compiler version",
+        "implement":"command.version"
+    },
+    "compile":{
+        "description":"Compile code",
+        "implement":"command.compile"
+    },
+    "generate":{
+        "description":"generate a default code file",
+        "implement":"command.generate"
+    },
+    "test":{
+        "description":"Start a test case",
+        "implement":"command.test"
+    },
+    "package":{
+        "description":"package some codes",
+        "implement":"command.package"
+    },
+    "install":{
+        "description":"initialize the installation of current project",
+        "implement":"command.install"
+    },
+    "corn":"command.corn"
 }

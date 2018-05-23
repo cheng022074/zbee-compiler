@@ -131,12 +131,35 @@
 
         let names = keys('command') ;
 
-        console.log('\n' , '可用命令:') ;
+        console.log('\n' , 'commands:') ;
+
+        let result = [] ;
 
         for(let name of names){
 
-            console.log('\t' , name) ;
+            let config = get('command' , name) ;
+
+            if(is_object(config)){
+
+                let {
+                    description
+                } = config ;
+
+                result.push({
+                    name,
+                    description
+                }) ;
+
+            }else{
+
+                result.push({
+                    name,
+                    description:'none'
+                }) ;
+            }
         }
+
+        console.table(result) ;
     }
     
     exports.Command = Command ;
