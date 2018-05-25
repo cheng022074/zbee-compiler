@@ -4,7 +4,8 @@
         browser,
         bootstrap,
         codes,
-        aliasMap
+        aliasMap,
+        config
     } = data ;
     if(independent === true){
 %>
@@ -19,7 +20,9 @@ const include = <%- apply('code.package.header.include' , {
     defaultFolder:data.defaultFolder
 }) %>,
 gettype = <%- apply('code.gettype') %>,
-config = <%- apply('code.config') %>;
+config = <%- apply('code.config' , {
+    config
+}) %>;
 exports.include = include ;
 <%- data.libraries.join('\n') %>
 <%

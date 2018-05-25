@@ -45,7 +45,8 @@ module.exports = (name = 'default') =>{
         compress,
         targets,
         independent,
-        bootstrap
+        bootstrap,
+        config:baseConfig
     } = config,
     codes = [];
 
@@ -124,6 +125,7 @@ module.exports = (name = 'default') =>{
             libraries,
             bootstrap,
             aliasMap,
+            config:independent === true ? baseConfig || {} : {},
             defaultFolder:APPLICATION.defaultFolder
         });
 

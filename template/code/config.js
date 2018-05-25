@@ -23,35 +23,11 @@
     {
         join
     } = require('path'),
-    dotRe = /\./g;
+    dotRe = /\./g,
+    config = <%- JSON.stringify(data.config) %>;
 
-    return (name , key) =>{
+    function get_config(target , key){
 
-
-        let target ;
-
-        try{
-
-            let configPath = process.env['ZBEE-APPLICATION-CONFIG-PATH'] ;
-
-            if(configPath){
-
-                target = JSON.parse(readFileSync(join(configPath , `${name.replace(dotRe , '/')}.json`))) ;
-            }
-
-        }catch(err){
-        }
-
-        if(!target){
-
-            target = include(`config::${name}`) ;
-        }
-
-        if(!target){
-    
-            return ;
-        }
-    
         if(key){
     
             if(target.hasOwnProperty(key)){
@@ -83,8 +59,49 @@
                 return ;
             }
         }
+
+        if(!target){
+
+            return ;
+        }
     
         return freeze(target) ; 
+    }
+
+    return (name , key) =>{
+
+
+
+        let value = get_config(config , key) ;
+
+        if(value !== undefined){
+
+            return value ;
+        }
+
+        try{
+
+            let configPath = process.env['ZBEE-APPLICATION-CONFIG-PATH'] ;
+
+            if(configPath){
+
+                value = get_config(JSON.parse(readFileSync(join(configPath , `${name.replace(dotRe , '/')}.json`))) , key) ;
+
+                if(value !== undefined){
+
+                    return value ;
+                }
+            }
+
+        }catch(err){
+        }
+
+        value = get_config(include(`config::${name}`) , key) ;
+
+        if(value !== undefined){
+
+            return value ;
+        }
     }
 
 })()
