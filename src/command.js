@@ -116,13 +116,22 @@
 
             let {
                 code,
+                name,
                 args
             } = this,
-            result = await run(code.target , ...args) ;
+            result = await run(code.target , ...args),
+            config = get('command' , name);
 
-            if(is_defined(result)){
+            if(is_object(config)){
 
-                console.log(result) ;
+                let {
+                    result
+                } = config ;
+
+                if(result === true && is_defined(result)){
+
+                    console.log(result) ;
+                }
             }
         }
     }

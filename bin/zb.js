@@ -13,6 +13,20 @@ const {
 
 let command = new Command(process.argv) ;
 
+function on_error(err){
+
+    if(err instanceof CommandNotFoundException){
+
+        console.log('\n' , err.message) ;
+
+        Command.printCommandNameList() ;
+    
+    }else{
+
+        throw err ;
+    }
+}
+
 if(command.exists){
 
     try{
@@ -22,21 +36,12 @@ if(command.exists){
         } = require('../src/project') ;
 
         APPLICATION.init() ;
-        
-        command.run() ;
+    
+        command.run().catch(on_error) ;
 
     }catch(err){
 
-        if(err instanceof CommandNotFoundException){
-
-            console.log('\n' , err.message) ;
-
-            Command.printCommandNameList() ;
-        
-        }else{
-
-            throw err ;
-        }
+        on_error(err) ;
     }
 
 }else{
