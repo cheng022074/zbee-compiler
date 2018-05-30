@@ -1,6 +1,6 @@
 {
     "version":{
-        "description":"View compiler version",
+        "description":"view compiler version",
         "implement":"command.version"
     },
     "compile":{
