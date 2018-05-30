@@ -23,5 +23,8 @@
         "description":"initialize the installation of current project",
         "implement":"command.install"
     },
-    "corn":"command.corn"
+    "project":{
+        "description":"project manager",
+        "implement":"command.project"
+    }
 }
