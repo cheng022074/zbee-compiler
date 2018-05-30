@@ -6,7 +6,7 @@ const {
 } = require('ejs'),
 TEMPLATES = {};
 
-function apply(name , data){
+function apply(name , data = {}){
 
     if(!TEMPLATES.hasOwnProperty(name)){
 
