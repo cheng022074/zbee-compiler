@@ -103,7 +103,7 @@
 
                         if(type){
 
-                            args[i] = convert[type](args[i]) ;
+                            args[i] = convert.type(args[i] , type) ;
                         }
                     }
                 }
