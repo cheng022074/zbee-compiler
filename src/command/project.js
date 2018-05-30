@@ -10,7 +10,11 @@ const {
 {
     run
 } = require('../runner'),
-compile = require('./compile');
+compile = require('./compile'),
+package = require('./package'),
+{
+    basename
+} = require('path');
 
 module.exports = (command , ...args) =>{
 
@@ -51,8 +55,33 @@ module.exports = (command , ...args) =>{
                 break ;
     
             case 'release':
+ 
+                if(bootstrap){
+
+                    let {
+                        rootPath
+                    } = APPLICATION,
+                    {
+                        classes
+                    } = project;
+
+                    classes = classes || [] ;
     
-                console.log('发布工程') ;
+                    package({
+                        classes:[
+                            bootstrap,
+                            ...classes
+                        ],
+                        name:basename(rootPath),
+                        bootstrap,
+                        independent:true
+                    }) ;
+
+
+                }else{
+
+                    console.log('无工程引导配置') ;
+                }
         }
 
     }else{

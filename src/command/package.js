@@ -26,11 +26,23 @@ const {
 } = require('../array'),
 {
     normalize
-} = require('../name');
+} = require('../name'),
+{
+    simpleObject:isObject
+} = require('../is');
 
 module.exports = (name = 'default') =>{
 
-    let config = get('package' , name) ;
+    let config ;
+
+    if(isObject(name)){
+
+        config = name ;
+
+    }else{
+
+        config = get('package' , name) ;
+    }
 
     if(!config){
 
