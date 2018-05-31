@@ -1,7 +1,9 @@
 const {
     APPLICATION:APPLICATION_PATH,
     COMPILER:COMPILER_PATH,
-    fileNormalize
+    fileNormalize,
+    extname,
+    toName
 } = require('./path'),
 {
     join
@@ -29,10 +31,6 @@ const {
     writeTextFile,
     getMotifyTime
 } = require('./fs'),
-{
-    toName,
-    extname
-} = require('./path'),
 {
     defineCacheProperty
 } = require('./object');
@@ -223,6 +221,20 @@ class Application extends Project{
     getPath(folder , name , suffixes){
 
         return super.getPath(this.getFolderName(folder) , name , suffixes) ;
+    }
+
+    get allClassNames(){
+
+        let srcPath = this.getFolderPath('src'),
+            paths = getAllFilePaths(srcPath),
+            names = [];
+
+        for(let path of paths){
+
+            names.push(toName(path , srcPath)) ;
+        }
+
+        return names ;
     }
 }
 

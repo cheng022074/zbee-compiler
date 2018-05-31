@@ -21,7 +21,8 @@ module.exports = (command , ...args) =>{
     if(project){
 
         let {
-            bootstrap
+            bootstrap,
+            independent
         } = project ;
 
         switch(command){
@@ -55,27 +56,24 @@ module.exports = (command , ...args) =>{
                 break ;
     
             case 'release':
+
+                let classes = [] ;
  
                 if(bootstrap){
 
-                    let {
-                        rootPath
-                    } = APPLICATION ;
-    
-                    package({
-                        classes:[
-                            bootstrap
-                        ],
-                        name:basename(rootPath),
-                        bootstrap,
-                        independent:true
-                    }) ;
-
+                    classes.push(bootstrap) ;
 
                 }else{
 
-                    console.log('无工程引导配置') ;
+                    classes.push(...APPLICATION.allClassNames) ;
                 }
+
+                package({
+                    classes,
+                    name:basename(APPLICATION.rootPath),
+                    bootstrap,
+                    independent:independent === true
+                }) ;
         }
 
     }else{
