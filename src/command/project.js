@@ -60,17 +60,11 @@ module.exports = (command , ...args) =>{
 
                     let {
                         rootPath
-                    } = APPLICATION,
-                    {
-                        classes
-                    } = project;
-
-                    classes = classes || [] ;
+                    } = APPLICATION ;
     
                     package({
                         classes:[
-                            bootstrap,
-                            ...classes
+                            bootstrap
                         ],
                         name:basename(rootPath),
                         bootstrap,
