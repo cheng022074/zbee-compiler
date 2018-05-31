@@ -91,17 +91,13 @@ module.exports = (name = 'default') =>{
 
     codes = unique(codes) ;
 
-    let libraries = [] ;
+    let libraries = [],
+        paths = APPLICATION.libraries.paths;
 
-    if(independent){
+    for(let path of paths){
 
-        let paths = APPLICATION.libraries.paths;
+        libraries.push(readTextFile(path));
 
-        for(let path of paths){
-
-            libraries.push(readTextFile(path));
-
-        }
     }
 
     let aliasMap = {},

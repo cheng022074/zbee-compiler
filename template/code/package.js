@@ -24,10 +24,10 @@ config = <%- apply('code.config' , {
     config
 }) %>;
 exports.include = include ;
-<%- data.libraries.join('\n') %>
 <%
     }
 %>
+<%- data.libraries.join('\n') %>
 <%
 
     for(let {

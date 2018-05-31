@@ -72,7 +72,7 @@ module.exports = (command , ...args) =>{
                     classes,
                     name:basename(APPLICATION.rootPath),
                     bootstrap,
-                    independent:independent === true
+                    independent:independent !== false
                 }) ;
         }
 
