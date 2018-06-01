@@ -21,6 +21,7 @@ class Coder {
         me.generator = generator ;
 
         defineCacheProperties(me , [
+            'initCode',
             'code',
             'imports',
             'generates'
@@ -41,6 +42,11 @@ class Coder {
 exports.Coder = Coder ;
 
 class EmptyCoder extends Coder{
+
+    applyInitCode(){
+
+        return '' ;
+    }
 
     applyCode(){
 
@@ -83,19 +89,14 @@ class ContainerCoder extends Coder{
         return items ;
     }
 
+    applyInitCode(){
+
+        return getCode.call(this , 'initCode') ;
+    }
+
     applyCode(){
 
-        let {
-            items
-        } = this,
-        result = [];
-
-        for(let item of items){
-
-            result.push(item.code) ;
-        }
-
-        return result.join('\n') ;
+        return getCode.call(this , 'code') ;
     }
 
     getImports(){
@@ -146,3 +147,18 @@ class ContainerCoder extends Coder{
 }
 
 exports.ContainerCoder = ContainerCoder ;
+
+function getCode(name){
+
+    let {
+        items
+    } = this,
+    result = [];
+
+    for(let item of items){
+
+        result.push(item[name]) ;
+    }
+
+    return result.join('\n') ;
+}
