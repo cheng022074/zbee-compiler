@@ -71,12 +71,14 @@
     return (name , key) =>{
 
 
+        if(Object.keys(config).length){
 
-        let value = get_config(config , key) ;
+            let value = get_config(config , key) ;
 
-        if(value !== undefined){
+            if(value !== undefined){
 
-            return value ;
+                return value ;
+            }
         }
 
         try{

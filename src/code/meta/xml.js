@@ -28,7 +28,7 @@ module.exports = class {
             'aliases'
         ]) ;
 
-        me.coder = new Generator(config_get(coderConfigURI)).parse(me.data) ;
+        me.coder = new Generator(coderConfigURI).parse(me.data) ;
     }
 
     applyAliases(){

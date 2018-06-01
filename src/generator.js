@@ -7,13 +7,16 @@ const
 } = require('./code'),
 {
     Coder
-} = require('./generator/coder');
+} = require('./generator/coder'),
+{
+    get:config_get
+} = require('./config');
 
 module.exports = class {
 
-    constructor(config){
+    constructor(uri){
 
-        this.config = config ;
+        this.uri = uri ;
     }
 
     getCoder(el){
@@ -21,15 +24,16 @@ module.exports = class {
         let 
         me = this,
         {
-            config
+            uri
         } = me,
         {
             nodeName
-        } = el ;
+        } = el,
+        className = config_get(uri , nodeName);
 
-        if(config.hasOwnProperty(nodeName)){
+        if(className){
 
-            let CoderClass = BinCode.get(config[nodeName]).target ;
+            let CoderClass = BinCode.get(className).target ;
 
             if(is_class(CoderClass)){
 
