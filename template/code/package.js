@@ -11,7 +11,14 @@
 %>
 try{
 
-    process.env['ZBEE-APPLICATION-ROOT-PATH'] = __dirname ;
+    let {
+        env
+    } = process ;
+
+    if(!env['ZBEE-APPLICATION-ROOT-PATH']){
+
+        env['ZBEE-APPLICATION-ROOT-PATH'] = __dirname ;
+    }
 
 }catch(err){
 
