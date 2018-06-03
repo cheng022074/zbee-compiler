@@ -1,14 +1,14 @@
 <%
     const {
-        independent,
-        browser,
         bootstrap,
         codes,
         aliasMap,
         config
     } = data ;
-    if(independent === true){
 %>
+
+<%- data.libraries.join('\n') %>
+
 try{
 
     let {
@@ -23,18 +23,29 @@ try{
 }catch(err){
 
 }
-const include = <%- apply('code.package.header.include' , {
-    defaultFolder:data.defaultFolder
-}) %>,
-gettype = <%- apply('code.gettype') %>,
-config = <%- apply('code.config' , {
-    config
-}) %>;
-exports.include = include ;
-<%
-    }
-%>
-<%- data.libraries.join('\n') %>
+
+if(typeof include !== 'function'){
+
+    var include = <%- apply('code.package.header.include' , {
+        defaultFolder:data.defaultFolder
+    }) %> ;
+
+    exports.include = include ;
+}
+
+if(typeof gettype !== 'function'){
+
+    var gettype = <%- apply('code.gettype') %> ;
+}
+
+if(typeof config !== 'function'){
+
+    var config = <%- apply('code.config' , {
+        config
+    }) %>;
+
+}
+
 <%
 
     for(let {
@@ -61,7 +72,7 @@ exports['<%- aliasName %>'] = include('<%- aliasMap[aliasName] %>') ;
     }
 %>
 <%
-if(independent === true && bootstrap){
+if(bootstrap){
 %>
     include('<%- bootstrap %>')(process.argv.slice(2)) ;
 <%

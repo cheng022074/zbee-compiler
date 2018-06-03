@@ -55,8 +55,6 @@ module.exports = (name = 'default') =>{
         classes:names,
         name:fileName,
         compress,
-        targets,
-        independent,
         bootstrap,
         config:baseConfig
     } = config,
@@ -129,11 +127,10 @@ module.exports = (name = 'default') =>{
     let path = join(APPLICATION.getFolderPath('package') , `${fileName}.js`),
         data = apply('code.package' , {
             codes,
-            independent,
             libraries,
             bootstrap,
             aliasMap,
-            config:independent === true ? baseConfig || {} : {},
+            config:baseConfig,
             defaultFolder:APPLICATION.defaultFolder
         });
 
@@ -149,17 +146,4 @@ module.exports = (name = 'default') =>{
     writeTextFile(path , data) ;
 
     console.log('已打包' , path) ;
-
-    targets = targets || [] ;
-
-    let rootPath = join(APPLICATION.rootPath , '..') ;
-
-    for(let target of targets){
-
-        let path = join(rootPath , target) ;
-
-        writeTextFile(path , data) ;
-
-        console.log('已打包' , path) ;
-    }
 }

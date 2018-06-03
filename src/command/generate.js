@@ -31,7 +31,7 @@ const {
     SourceCode
 } = require('../code');
 
-function generate(name , suffix , options = {}){
+function generate(name , suffix = '.fn.js' , options = {}){
 
     if(name && suffix){
 
