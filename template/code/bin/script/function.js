@@ -1,4 +1,3 @@
-<%- apply('code.bin.header') %>
 <%- data.importNames %>
 <%- data.configItemNames %>
 

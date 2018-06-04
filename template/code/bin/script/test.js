@@ -1,5 +1,3 @@
-<%- apply('code.bin.header') %>
-
 const {
     deepStrictEqual,
     notDeepStrictEqual,

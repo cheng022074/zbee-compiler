@@ -98,10 +98,48 @@ module.exports = (name = 'default') =>{
 
     }
 
-    let aliasMap = {},
-        {
+    let {
             defaultFolder
         } = APPLICATION;
+
+    let path = join(APPLICATION.getFolderPath('package') , `${fileName}.js`),
+        data = apply('code.package' , {
+            codeMap:createCodeMap(codes),
+            aliasMap:createAliasMap(codes),
+            bootstrap,
+            config:baseConfig,
+            defaultFolder
+        });
+
+    if(compress){
+
+        data = min(data) ;
+    
+    }else{
+
+        data = format(data) ;
+    }    
+
+    writeTextFile(path , data) ;
+
+    console.log('已打包' , path) ;
+}
+
+function createCodeMap(codes){
+
+    let map = {} ;
+
+    for(let code of codes){
+
+        map[code.fullName] = code.packageCodeText ;
+    }
+
+    return map ;
+}
+
+function createAliasMap(codes){
+
+    let map = {} ;
 
     for(let {
         target,
@@ -119,31 +157,10 @@ module.exports = (name = 'default') =>{
                 name
             } of aliases){
 
-                aliasMap[normalize(name , folder)] =  fullName;
+                map[normalize(name , folder)] =  fullName;
             }
         }
     }
 
-    let path = join(APPLICATION.getFolderPath('package') , `${fileName}.js`),
-        data = apply('code.package' , {
-            codes,
-            libraries,
-            bootstrap,
-            aliasMap,
-            config:baseConfig,
-            defaultFolder:APPLICATION.defaultFolder
-        });
-
-    if(compress){
-
-        data = min(data) ;
-    
-    }else{
-
-        data = format(data) ;
-    }    
-
-    writeTextFile(path , data) ;
-
-    console.log('已打包' , path) ;
+    return map ;
 }

@@ -1,0 +1,33 @@
+<%
+    const {
+        codeMap,
+        aliasMap,
+    } = data，
+    {
+        keys
+    } = Object;
+%>
+<classes>
+<%
+
+    let codeNames = keys(codeMap) ; 
+
+    for(let name of codeNames){
+%>
+    <class name="<%- name %>">
+        <![CDATA[<%- codeMap[name] %>]]>
+    </class>
+<%
+    }
+%>
+<%
+    let aliasNames = keys(aliasMap) ;
+
+    for(let name of aliasNames){
+%>
+    <class name="<%- name %>" link="<%- aliasMap[name] %>"/>
+<%
+    }
+%>
+
+</classes>
