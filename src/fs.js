@@ -2,6 +2,7 @@ const {
     readFileSync,
     readdirSync,
     writeFileSync,
+    copyFileSync,
     mkdirSync,
     statSync
 } = require('fs'),
@@ -11,7 +12,8 @@ const {
 } =  require('./is'),
 {
     join,
-    dirname
+    dirname,
+    basename
 } = require('path');
 
 exports.readTextFile = path =>{
@@ -90,7 +92,7 @@ function getFilePaths(path){
     return paths ;
 }
 
-exports.getAllFilePaths = path =>{
+function getAllFilePaths(path){
 
     if(is_directory(path)){
 
@@ -100,6 +102,8 @@ exports.getAllFilePaths = path =>{
     return [] ;
 }
 
+exports.getAllFilePaths = getAllFilePaths ;
+
 exports.getMotifyTime = path =>{
 
     if(is_file(path)){
@@ -108,4 +112,68 @@ exports.getMotifyTime = path =>{
     }
 
     return -1 ;
+}
+
+exports.copyAllFiles = (src , dest) =>{
+
+    if(is_directory(src)){
+
+        return copyAllFiles(src , dest) ;
+    }
+
+    return false ;
+}
+
+function copyAllFiles(src , dest){
+
+    let paths = getAllFilePaths(src),
+        destPaths = [];
+
+    for(let path of paths){
+
+        let destPath = path.replace(dirname(src) , dest) ;
+
+        create_directory(dirname(destPath)) ;
+
+        copyFileSync(path , destPath) ;
+
+        destPaths.push(destPath) ;
+    }
+
+    return destPaths ;
+}
+
+exports.copyFile = (src , dest) =>{
+
+    if(is_file(src)){
+
+        return copyFile(src , dest) ;
+    }
+
+    return false ;
+}
+
+function copyFile(src , dest){
+
+    let destPath = join(dest , basename(src)) ;
+
+    create_directory(dirname(destPath)) ;
+
+    copyFileSync(src , destPath) ;
+
+    return destPath ;
+}
+
+exports.copy = (src , dest) =>{
+
+    if(is_file(src)){
+
+        return copyFile(src , dest) ;
+    
+    }else if(is_directory(src)){
+
+        return copyAllFiles(src , dest) ;
+    }
+
+    return false ;
 }

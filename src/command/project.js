@@ -13,8 +13,18 @@ const {
 compile = require('./compile'),
 package = require('./package'),
 {
-    basename
-} = require('path');
+    basename,
+    join
+} = require('path'),
+{
+    file:is_file
+} = require('../is'),
+{
+    copy
+} = require('../fs'),
+{
+    from
+} = require('../array');
 
 module.exports = (command , ...args) =>{
 
@@ -23,7 +33,11 @@ module.exports = (command , ...args) =>{
         let {
             bootstrap,
             independent
-        } = project ;
+        } = project,
+        {
+            rootPath,
+            allClassNames
+        } = APPLICATION;
 
         switch(command){
 
@@ -65,15 +79,45 @@ module.exports = (command , ...args) =>{
 
                 }else{
 
-                    classes.push(...APPLICATION.allClassNames) ;
+                    classes.push(...allClassNames) ;
                 }
 
                 package({
                     classes,
-                    name:basename(APPLICATION.rootPath),
+                    name:basename(rootPath),
                     bootstrap,
                     independent:independent !== false
                 }) ;
+
+            case 'sync':
+
+                let {
+                    sync
+                } = project;
+
+                if(sync){
+
+                    let {
+                        resources,
+                        targets
+                    } = sync ;
+
+                    if(resources && targets){
+
+                        for(let target of targets){
+
+                            for(let resource of resources){
+
+                                let result = from(copy(join(rootPath , resource) , join(rootPath , '..' , target))) ;
+
+                                for(let path of result){
+
+                                    console.log('已复制' , path) ;
+                                }
+                            }
+                        }
+                    }
+                }
         }
 
     }else{

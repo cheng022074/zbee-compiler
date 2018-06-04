@@ -24,7 +24,7 @@
         "implement":"command.install"
     },
     "project":{
-        "description":"project manager",
+        "description":"support project manager",
         "implement":"command.project"
     }
 }
