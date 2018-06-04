@@ -91,7 +91,8 @@ module.exports = (name = 'default') =>{
 
     let libraries = [],
         {
-            codeMap
+            codeMap,
+            aliasMap
         } = APPLICATION.libraries;
 
     const {
@@ -104,9 +105,12 @@ module.exports = (name = 'default') =>{
                 ...codeMap,
                 ...createCodeMap(codes)
             },
-            aliasMap:createAliasMap(codes),
+            aliasMap:{
+                ...aliasMap,
+                ...createAliasMap(codes)
+            },
             bootstrap,
-            config:baseConfig,
+            config:baseConfig || {},
             defaultFolder
         } ;
 
