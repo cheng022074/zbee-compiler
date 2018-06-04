@@ -4,11 +4,23 @@
           CODES = {},
           configNameRe = /^config\:{2}/,
           libraries = <%- JSON.stringify(data.libraries) %>,
-          len = libraries.length;
+          len = libraries.length,
+          {
+            join
+          } = require('path');
 
     for(let i = 0 ; i < len ; i ++){
 
-        libraries[i] = require(libraries[i]) ;
+        let path = libraries[i] ;
+
+        try{
+
+            libraries[i] = require(join(path , 'lib.js')) ;
+
+        }catch(err){
+
+            throw new Error(`无效的类库路径 ${path}`) ;
+        }
     }
 
     return name =>{

@@ -84,9 +84,8 @@ module.exports = (command , ...args) =>{
 
                 package({
                     classes,
-                    name:basename(rootPath),
-                    bootstrap,
-                    independent:independent !== false
+                    name:'default',
+                    bootstrap
                 }) ;
 
             case 'sync':

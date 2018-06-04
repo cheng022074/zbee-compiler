@@ -56,3 +56,38 @@ exports.selectNodes = (node , xpath) =>{
 
     return select(xpath , node) ; 
 }
+
+function CDATAs(node){
+
+    let {
+        childNodes
+    } = node,
+    result = [];
+
+    childNodes = Array.from(childNodes) ;
+
+    for(let childNode of childNodes){
+
+        if(childNode.nodeType === 4){
+
+            result.push(childNode) ;
+        }
+    }
+
+    return result ;
+}
+
+exports.CDATAs = CDATAs ;
+
+exports.CDATAValues = node =>{
+
+    let nodes = CDATAs(node),
+        result = [];
+
+    for(let node of nodes){
+
+        result.push(node.nodeValue) ;
+    }
+
+    return result ;
+}

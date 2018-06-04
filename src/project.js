@@ -34,7 +34,12 @@ const {
 } = require('./fs'),
 {
     defineCacheProperty
-} = require('./object');
+} = require('./object'),
+{
+    load:xml_load,
+    selectNodes,
+    CDATAValues
+} = require('./xml');
 
 class Project{
 
@@ -265,7 +270,12 @@ class Libraries{
             paths.push(join(project.getFolderPath('lib') , libraries[i])) ;
         }
 
-        defineCacheProperty(me , 'targets') ;
+        defineCacheProperties(me , [
+            'targets',
+            'metas',
+            'codeMap',
+            'aliasMap'
+        ]) ;
     }
 
     applyTargets(){
@@ -277,10 +287,79 @@ class Libraries{
 
         for(let path of paths){
 
-            libraries.push(require(path)) ;
+            try{
+
+                libraries.push(require(join(path , 'lib.js'))) ;
+
+            }catch(err){
+
+                throw new Error(`无效的类库路径 ${path}`) ;
+            }
         }
 
         return libraries ;
+    }
+
+    applyMetas(){
+
+        let metas = [],
+            {
+                paths
+            } = this;
+
+        for(let path of paths){
+
+            try{
+
+                metas.push(xml_load(join(path , 'meta.xml'))) ;
+
+            }catch(err){
+
+                throw new Error(`无法获取类库元文件 ${path}`) ;
+            }
+        }
+
+        return metas ;
+    }
+
+    applyCodeMap(){
+
+        let {
+            metas
+        } = this,
+        map = {};
+
+        for(let meta of metas){
+
+            let nodes = selectNodes(meta , '//class[not(@link)]') ;
+
+            for(let node of nodes){
+
+                map[node.getAttribute('name')] = CDATAValues(node).join('') ;
+            }
+        }
+
+        return map ;
+    }
+
+    applyAliasMap(){
+
+        let {
+            metas
+        } = this,
+        map = {};
+
+        for(let meta of metas){
+
+            let nodes = selectNodes(meta , '//class[@link]') ;
+
+            for(let node of nodes){
+
+                map[node.getAttribute('name')] = node.getAttribute('link') ;
+            }
+        }
+
+        return map ;
     }
 }
 

@@ -2,7 +2,7 @@
     const {
         codeMap,
         aliasMap,
-    } = data，
+    } = data,
     {
         keys
     } = Object;

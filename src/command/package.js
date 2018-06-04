@@ -53,16 +53,16 @@ module.exports = (name = 'default') =>{
 
     let {
         classes:names,
-        name:fileName,
+        name:baseName,
         compress,
         bootstrap,
         config:baseConfig
     } = config,
     codes = [];
 
-    if(!fileName){
+    if(baseName){
 
-        fileName = name ;
+        name = baseName ;
     }
     
     for(let name of names){
@@ -90,37 +90,59 @@ module.exports = (name = 'default') =>{
     codes = unique(codes) ;
 
     let libraries = [],
-        paths = APPLICATION.libraries.paths;
+        {
+            codeMap
+        } = APPLICATION.libraries;
 
-    for(let path of paths){
-
-        libraries.push(readTextFile(path));
-
-    }
-
-    let {
+    const {
             defaultFolder
         } = APPLICATION;
 
-    let path = join(APPLICATION.getFolderPath('package') , `${fileName}.js`),
-        data = apply('code.package' , {
-            codeMap:createCodeMap(codes),
+    let path = join(APPLICATION.getFolderPath('package') , name === 'default' ? '' : name),
+        packageConfig = {
+            codeMap:{
+                ...codeMap,
+                ...createCodeMap(codes)
+            },
             aliasMap:createAliasMap(codes),
             bootstrap,
             config:baseConfig,
             defaultFolder
-        });
+        } ;
 
-    if(compress){
+    {
+        let outPath =  join(path , 'lib.js') ;
 
-        data = min(data) ;
+        writeTextFile(outPath , apply('code.package.lib' , packageConfig)) ;
+
+        console.log('已完成' , outPath) ;
+    }
+
+    {
+        let outPath = join(path , 'meta.xml') ;
+
+        writeTextFile(outPath , apply('code.package.meta' , packageConfig)) ;
+
+        console.log('已完成' , outPath) ;
+    }
+
+    {
+        let outPath = join(path , 'index.js'),
+            data = apply('code.package.index' , packageConfig);
+
+        if(compress){
+
+            data = min(data) ;
+        
+        }else{
     
-    }else{
+            data = format(data) ;
+        }    
 
-        data = format(data) ;
-    }    
+        writeTextFile(outPath , data) ;
 
-    writeTextFile(path , data) ;
+        console.log('已完成' , outPath) ;
+    }
 
     console.log('已打包' , path) ;
 }
@@ -131,7 +153,7 @@ function createCodeMap(codes){
 
     for(let code of codes){
 
-        map[code.fullName] = code.packageCodeText ;
+        map[code.fullName] = code.target.packageCodeText ;
     }
 
     return map ;
