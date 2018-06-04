@@ -6,7 +6,8 @@ const {
     toName
 } = require('./path'),
 {
-    join
+    join,
+    relative
 } = require('path'),
 {
     load
@@ -88,7 +89,7 @@ class Application extends Project{
 
         let me = this,
             binPath = me.getFolderPath('bin'),
-            path = join(binPath , 'index.js'),
+            path = join(binPath , 'header.js'),
             time = readTextFile(path.replace(/\.js$/ , '')) ;
 
             if(time){
@@ -101,15 +102,26 @@ class Application extends Project{
             }
 
         let updateTime = getMotifyTime(join(APPLICATION_PATH , 'properties.json'));
- 
+   
         if(updateTime !== time){
+
+            let {
+                paths:libPaths
+            } = me.libraries,
+            len = libPaths.length,
+            paths = [];
+
+            for(let i = 0 ; i < len ; i ++){
+
+                paths.push(relative(binPath , libPaths[i]).replace(/\\/g , '/')) ;
+            }
 
             writeTextFile(path , apply('code.bin' , {
                 defaultFolder:me.defaultFolder,
-                libraries:me.libraries.paths
+                libraries:paths
             })) ;
 
-            writeTextFile(join(binPath , 'index') , updateTime) ;
+            writeTextFile(join(binPath , 'header') , updateTime) ;
         }
 
         let {
@@ -119,8 +131,6 @@ class Application extends Project{
         env['ZBEE-APPLICATION-ROOT-PATH'] = me.rootPath ;
 
         env['ZBEE-APPLICATION-CONFIG-PATH'] = me.getFolderPath('config') ;
-
-        require(path) ;
 
         me.init = () =>{
 

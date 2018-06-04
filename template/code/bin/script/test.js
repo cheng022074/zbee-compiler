@@ -1,4 +1,4 @@
-require('../index.js') ;
+<%- apply('code.bin.header') %>
 
 const {
     deepStrictEqual,

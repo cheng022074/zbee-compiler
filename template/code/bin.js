@@ -1,8 +1,8 @@
-global.include = <%- apply('code.bin.header.include' , {
+exports.include = <%- apply('code.bin.header.include' , {
     defaultFolder:data.defaultFolder,
     libraries:data.libraries
 }) %> ;
 
-global.gettype = <%- apply('code.gettype') %> ;
+exports.gettype = <%- apply('code.gettype') %> ;
 
-global.config = <%- apply('code.config') %> ;
+exports.config = <%- apply('code.config') %> ;
