@@ -70,32 +70,17 @@
 
     return (name , key) =>{
 
+        let value ;
 
-        if(Object.keys(config).length){
 
-            let value = get_config(config , key) ;
+        if(config.hasOwnProperty(name)){
+
+            value = get_config(config[name] , key) ;
 
             if(value !== undefined){
 
                 return value ;
             }
-        }
-
-        try{
-
-            let configPath = process.env['ZBEE-APPLICATION-CONFIG-PATH'] ;
-
-            if(configPath){
-
-                value = get_config(JSON.parse(readFileSync(join(configPath , `${name.replace(dotRe , '/')}.json`))) , key) ;
-
-                if(value !== undefined){
-
-                    return value ;
-                }
-            }
-
-        }catch(err){
         }
 
         value = get_config(include(`config::${name}`) , key) ;
