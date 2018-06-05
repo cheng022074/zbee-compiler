@@ -84,6 +84,17 @@ class Application extends Project{
         let me = this ;
 
         me.libraries = new Libraries(me , me.properties = load(join(APPLICATION_PATH , 'properties.json'))) ;
+
+        defineCacheProperty(me , 'dependentModuleNames') ;
+    }
+
+    applyDependentModuleNames(){
+
+        let {
+            dependencies
+        } = load(join(APPLICATION_PATH , 'package.json')) ;
+
+        return Object.keys(dependencies) ;
     }
 
     init(){
