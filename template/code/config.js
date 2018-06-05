@@ -18,9 +18,6 @@
     }
 
     const {
-        readFileSync
-    } = require('fs'),
-    {
         join
     } = require('path'),
     dotRe = /\./g,
