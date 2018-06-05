@@ -7,7 +7,9 @@ const {
 } = require('./path'),
 {
     join,
-    relative
+    relative,
+    dirname,
+    sep
 } = require('path'),
 {
     load
@@ -39,7 +41,10 @@ const {
     load:xml_load,
     selectNodes,
     CDATAValues
-} = require('./xml');
+} = require('./xml'),
+{
+    split
+} = require('./string');
 
 class Project{
 
@@ -266,6 +271,8 @@ class Application extends Project{
     }
 }
 
+const relativePathRe = /\.{1,2}/ ;
+
 class Libraries{
 
     constructor(project , {
@@ -273,12 +280,29 @@ class Libraries{
     }){
 
         let me = this,
-            len = libraries.length,
             paths = me.paths = [];
 
-        for(let i = 0 ; i < len ; i ++){
+        me.project = project ;
 
-            paths.push(join(project.getFolderPath('lib') , libraries[i])) ;
+        for(let path of libraries){
+
+            let dirpath = dirname(path) ;
+
+            if(dirpath && !relativePathRe.test(dirpath)){
+
+                let [
+                    folderName
+                ] = split(dirpath , sep) ;
+
+                if(dependentModuleNames.includes(folderName)){
+
+                    path.push(join(project.rootPath , 'node_modules' , path)) ;
+
+                    continue ;
+                }
+            }
+
+            paths.push(join(project.getFolderPath('lib') , path)) ;
         }
 
         defineCacheProperties(me , [
@@ -292,9 +316,13 @@ class Libraries{
     applyTargets(){
 
         let libraries = [],
+            me = this,
             {
                 paths
-            } = this;
+            } = me,
+            {
+                dependentModuleNames
+            } = me.project;
 
         for(let path of paths){
 
