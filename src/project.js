@@ -123,8 +123,8 @@ class Application extends Project{
             }
 
         let updateTime = getMotifyTime(join(APPLICATION_PATH , 'properties.json'));
-   
-        if(updateTime !== time){
+
+        if(updateTime === -1 || updateTime !== time){
 
             let {
                 paths:libPaths
@@ -284,6 +284,11 @@ class Libraries{
 
         me.project = project ;
 
+        let {
+            dependentModuleNames,
+            rootPath
+        } = this ;
+
         for(let path of libraries){
 
             let dirpath = dirname(path) ;
@@ -296,7 +301,7 @@ class Libraries{
 
                 if(dependentModuleNames.includes(folderName)){
 
-                    path.push(join(project.rootPath , 'node_modules' , path)) ;
+                    path.push(join(rootPath , 'node_modules' , path)) ;
 
                     continue ;
                 }
@@ -319,10 +324,7 @@ class Libraries{
             me = this,
             {
                 paths
-            } = me,
-            {
-                dependentModuleNames
-            } = me.project;
+            } = me;
 
         for(let path of paths){
 
