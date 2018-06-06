@@ -1,30 +1,30 @@
 {
     "version":{
-        "description":"view compiler version",
+        "description":"查看编译器的版本",
         "implement":"command.version"
     },
     "compile":{
-        "description":"Compile code",
+        "description":"编译代码",
         "implement":"command.compile"
     },
     "generate":{
-        "description":"generate a default code file",
+        "description":"生成默认代码模板",
         "implement":"command.generate"
     },
     "test":{
-        "description":"Start a test case",
+        "description":"启动测试用例",
         "implement":"command.test"
     },
     "package":{
-        "description":"package some codes",
+        "description":"打包代码",
         "implement":"command.package"
     },
     "install":{
-        "description":"initialize the installation of current project",
+        "description":"初始化当前工程",
         "implement":"command.install"
     },
     "project":{
-        "description":"support project manager",
+        "description":"项目管理器",
         "implement":"command.project"
     }
 }

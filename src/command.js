@@ -18,7 +18,8 @@
         string:is_string,
         defined:is_defined
     } = require('./is'),
-    convert = require('./string/convert');
+    convert = require('./string/convert'),
+    columnify = require('columnify');
 
     class Command{
 
@@ -140,7 +141,7 @@
 
         let names = keys('command') ;
 
-        console.log('\n' , 'commands:') ;
+        console.log('命令:') ;
 
         let result = [] ;
 
@@ -163,12 +164,15 @@
 
                 result.push({
                     name,
-                    description:'none'
+                    description:'无'
                 }) ;
+
             }
         }
 
-        console.table(result) ;
+        console.log(columnify(result , {
+            showHeaders:false
+        })) ;
     }
     
     exports.Command = Command ;
