@@ -14,7 +14,8 @@ compile = require('./compile'),
 package = require('./package'),
 {
     basename,
-    join
+    join,
+    isAbsolute
 } = require('path'),
 {
     file:is_file
@@ -105,9 +106,19 @@ module.exports = (command , ...args) =>{
 
                         for(let target of targets){
 
+                            if(!isAbsolute(target)){
+
+                                continue ;
+                            }
+
                             for(let resource of resources){
 
-                                let result = from(copy(join(rootPath , resource) , join(rootPath , '..' , target))) ;
+                                if(rootPath === target){
+
+                                    continue ;
+                                }
+
+                                let result = from(copy(join(rootPath , resource) , target)) ;
 
                                 for(let path of result){
 
