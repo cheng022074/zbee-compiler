@@ -32,8 +32,7 @@ module.exports = (command , ...args) =>{
     if(project){
 
         let {
-            bootstrap,
-            independent
+            bootstrap
         } = project,
         {
             rootPath,
@@ -59,32 +58,17 @@ module.exports = (command , ...args) =>{
     
             case 'compile':
 
-                if(bootstrap){
+                for(let name of allClassNames){
 
-                    compile(bootstrap) ;
-                
-                }else{
-
-                    console.log('无工程引导配置') ;
+                    compile(name) ;
                 }
     
                 break ;
     
             case 'release':
 
-                let classes = [] ;
- 
-                if(bootstrap){
-
-                    classes.push(bootstrap) ;
-
-                }else{
-
-                    classes.push(...allClassNames) ;
-                }
-
                 package({
-                    classes,
+                    allClassNames,
                     name:'default',
                     bootstrap
                 }) ;

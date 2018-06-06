@@ -151,8 +151,6 @@ class Application extends Project{
 
         env['ZBEE-APPLICATION-ROOT-PATH'] = me.rootPath ;
 
-        env['ZBEE-APPLICATION-CONFIG-PATH'] = me.getFolderPath('config') ;
-
         require(path) ;
 
         me.init = () =>{
