@@ -8,14 +8,14 @@ const {
 {
     join,
     relative,
-    dirname,
-    sep
+    dirname
 } = require('path'),
 {
     load
 } = require('./json'),
 {
     get,
+    defineCacheProperty,
     defineCacheProperties
 } = require('./object'),
 {
@@ -35,16 +35,14 @@ const {
     getMotifyTime
 } = require('./fs'),
 {
-    defineCacheProperty
-} = require('./object'),
-{
     load:xml_load,
     selectNodes,
     CDATAValues
 } = require('./xml'),
 {
     split
-} = require('./string');
+} = require('./string'),
+sepRe = /\\|\//;
 
 class Project{
 
@@ -88,9 +86,9 @@ class Application extends Project{
 
         let me = this ;
 
-        me.libraries = new Libraries(me , me.properties = load(join(APPLICATION_PATH , 'properties.json'))) ;
-
         defineCacheProperty(me , 'dependentModuleNames') ;
+
+        me.libraries = new Libraries(me , me.properties = load(join(APPLICATION_PATH , 'properties.json'))) ;
     }
 
     applyDependentModuleNames(){
@@ -285,7 +283,7 @@ class Libraries{
         let {
             dependentModuleNames,
             rootPath
-        } = this ;
+        } = project ;
 
         for(let path of libraries){
 
@@ -295,11 +293,12 @@ class Libraries{
 
                 let [
                     folderName
-                ] = split(dirpath , sep) ;
+                ] = split(dirpath , sepRe) ;
 
+            
                 if(dependentModuleNames.includes(folderName)){
 
-                    path.push(join(rootPath , 'node_modules' , path)) ;
+                    paths.push(join(rootPath , 'node_modules' , path)) ;
 
                     continue ;
                 }
