@@ -20,9 +20,6 @@
     const {
         join
     } = require('path'),
-    {
-        assign
-    } = Object,
     dotRe = /\./g,
     config = <%- data.hasOwnProperty('config') ? JSON.stringify(data.config) : '{}' %>;
 
@@ -68,17 +65,68 @@
         return freeze(target) ; 
     }
 
+    function init(data){
+
+        switch(gettype(data)){
+
+            case 'array':
+
+                return [
+                    ...data
+                ] ;
+
+            case 'object':
+
+                return {
+                    ...data
+                } ;
+        }
+    }
+
+    function assign(result , data){
+
+        switch(gettype(result)){
+
+            case 'array':
+
+                return result.push(...data) ;
+
+            case 'object':
+
+                return Object.assign(result , data) ;
+
+            case 'undefined':
+
+                switch(gettype(data)){
+
+                    case 'array':
+
+                        result = [] ;
+
+                        break ;
+
+                    case 'object':
+
+                        result = {} ;
+
+                        break ;
+                }
+
+                return assign(result , data) ;
+        }
+    }
+
     return (name , key) =>{
 
         let value ;
 
         if(!key){
 
-            let result = {} ;
+            let result ;
 
             try{
 
-               assign(result , include(`config::${name}`)) ;
+                result = init(include(`config::${name}`)) ;
                 
             }catch(err){
     
@@ -89,7 +137,7 @@
                 assign(result , config[name]) ;
             }
 
-            return result ;
+            return freeze(result) ;
         }
 
 
