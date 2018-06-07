@@ -27,7 +27,7 @@ package = require('./package'),
     from
 } = require('../array');
 
-module.exports = (command , ...args) =>{
+function doProject(command , ...args){
 
     if(project){
 
@@ -45,7 +45,7 @@ module.exports = (command , ...args) =>{
     
                 if(bootstrap){
 
-                    compile(bootstrap) ;
+                    doProject('compile') ;
 
                     run(BinCode.get(bootstrap).target , ...args) ;
                 
@@ -119,3 +119,5 @@ module.exports = (command , ...args) =>{
         console.log('无工程配置') ;
     }
 }
+
+module.exports = doProject ;
