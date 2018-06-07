@@ -1,0 +1,25 @@
+{
+
+    "src":{
+        ".fn.js":{
+            "template":"code.template.script.function",
+            "converter":"code.converter.script.function"
+        },
+        ".class.xml":{
+            "template":"code.template.script.class",
+            "converter":"code.converter.script.class"
+        }
+    },
+    "test":{
+        ".xml":{
+            "template":"code.template.script.test",
+            "converter":"code.converter.script.test"
+        }
+    },
+    "config":{
+        ".json":{
+            "template":"code.template.config",
+            "converter":"code.converter.config"
+        }
+    }
+}

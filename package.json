@@ -1,0 +1,41 @@
+{
+  "name": "zbee",
+  "version": "0.0.44",
+  "description": "基于控制台的代码设计辅助工具",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cheng022074/zbee-compiler.git"
+  },
+  "bin": {
+    "zb": "./bin/zb.js"
+  },
+  "keywords": [
+    "cli"
+  ],
+  "files": [
+    "bin",
+    "config",
+    "src",
+    "template"
+  ],
+  "author": "nero chen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cheng022074/zbee-compiler/issues"
+  },
+  "homepage": "https://github.com/cheng022074/zbee-compiler#readme",
+  "engines": {
+    "node": ">= 10.1.0"
+  },
+  "dependencies": {
+    "columnify": "^1.5.4",
+    "date-and-time": "^0.6.2",
+    "ejs": "^2.5.7",
+    "js-beautify": "^1.7.5",
+    "jsmin": "^1.0.1",
+    "mocha": "^5.0.1",
+    "strip-comment": "^1.1.3",
+    "xmldom": "^0.1.27",
+    "xpath": "^0.0.27"
+  }
+}

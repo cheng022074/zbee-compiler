@@ -1,0 +1,30 @@
+{
+    "version":{
+        "description":"查看编译器的版本",
+        "implement":"command.version"
+    },
+    "compile":{
+        "description":"编译代码",
+        "implement":"command.compile"
+    },
+    "generate":{
+        "description":"生成默认代码模板",
+        "implement":"command.generate"
+    },
+    "test":{
+        "description":"启动测试用例",
+        "implement":"command.test"
+    },
+    "package":{
+        "description":"打包代码",
+        "implement":"command.package"
+    },
+    "install":{
+        "description":"初始化当前工程",
+        "implement":"command.install"
+    },
+    "project":{
+        "description":"项目管理器",
+        "implement":"command.project"
+    }
+}
