@@ -20,6 +20,9 @@
     const {
         join
     } = require('path'),
+    {
+        assign
+    } = Object,
     dotRe = /\./g,
     config = <%- data.hasOwnProperty('config') ? JSON.stringify(data.config) : '{}' %>;
 
@@ -69,6 +72,26 @@
 
         let value ;
 
+        if(!key){
+
+            let result = {} ;
+
+            try{
+
+               assign(result , include(`config::${name}`)) ;
+                
+            }catch(err){
+    
+            }
+
+            if(config.hasOwnProperty(name)){
+
+                assign(result , config[name]) ;
+            }
+
+            return result ;
+        }
+
 
         if(config.hasOwnProperty(name)){
 
@@ -80,12 +103,20 @@
             }
         }
 
-        value = get_config(include(`config::${name}`) , key) ;
+        try{
 
-        if(value !== undefined){
+            value = get_config(include(`config::${name}`) , key) ;
 
-            return value ;
+            if(value !== undefined){
+
+                return value ;
+            }
+
+        }catch(err){
+
         }
+
+        
     }
 
 })()
