@@ -19,7 +19,8 @@ const {
     APPLICATION
 } = require('../project'),
 {
-    join
+    join,
+    isAbsolute
 } = require('path'),
 {
     unique
@@ -29,7 +30,10 @@ const {
 } = require('../name'),
 {
     simpleObject:isObject
-} = require('../is');
+} = require('../is'),
+{
+    copy
+} = require('../fs');
 
 module.exports = (name = 'default') =>{
 
@@ -56,7 +60,8 @@ module.exports = (name = 'default') =>{
         name:baseName,
         compress,
         bootstrap,
-        config:baseConfig
+        config:baseConfig,
+        targets
     } = config,
     codes = [];
 
@@ -146,6 +151,19 @@ module.exports = (name = 'default') =>{
         writeTextFile(outPath , data) ;
 
         console.log('已完成' , outPath) ;
+    }
+
+    if(targets){
+
+        for(let target of targets){
+
+            if(isAbsolute(target)){
+
+                copy(path , target) ;
+
+                console.log('已复制到' , target) ;
+            }
+        }
     }
 
     console.log('已打包' , path) ;

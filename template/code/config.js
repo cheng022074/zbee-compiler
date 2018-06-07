@@ -77,9 +77,7 @@
 
             case 'object':
 
-                return {
-                    ...data
-                } ;
+                return Object.assign({} , data) ;
         }
     }
 
