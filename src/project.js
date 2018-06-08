@@ -254,17 +254,34 @@ class Application extends Project{
 
     get allClassNames(){
 
-        let srcPath = this.getFolderPath('src'),
-            paths = getAllFilePaths(srcPath),
-            names = [];
+        let me = this ;
 
-        for(let path of paths){
+        return [
+            ...get_class_names.call(me , 'config'),
+            ...get_class_names.call(me , 'src')
+        ]
+    }
+}
 
-            names.push(toName(path , srcPath)) ;
+function get_class_names(folder){
+
+    let srcPath = this.getFolderPath(folder),
+        paths = getAllFilePaths(srcPath),
+        names = [];
+
+    for(let path of paths){
+
+        let name = toName(path , srcPath) ;
+
+        if(folder !== 'src'){
+
+            name = `${folder}::${name}` ;
         }
 
-        return names ;
+        names.push(name) ;
     }
+
+    return names ;
 }
 
 const relativePathRe = /\.{1,2}/ ;
@@ -331,7 +348,12 @@ class Libraries{
 
             }catch(err){
 
-                throw new Error(`无效的类库路径 ${path}`) ;
+                if(err.message.indexOf('Cannot find module') !== -1){
+
+                    throw new Error(`无效的类库路径 ${path}`) ;
+                }
+
+                throw err ;
             }
         }
 

@@ -19,7 +19,12 @@
 
         }catch(err){
 
-            throw new Error(`无效的类库路径 ${path}`) ;
+            if(err.message.indexOf('Cannot find module') !== -1){
+
+                throw new Error(`无效的类库路径 ${path}`) ;
+            }
+
+            throw err ;
         }
     }
 

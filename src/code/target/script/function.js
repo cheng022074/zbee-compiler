@@ -34,7 +34,7 @@ function process_params(params){
         rest
     } of params){
 
-        if(defaultValue){
+        if(defaultValue && !items){
 
             result.push(`${name} = ${defaultValue}`) ;
         
@@ -44,12 +44,21 @@ function process_params(params){
 
         }else if(items){
 
+            let part ;
+
             switch(type){
 
                 case 'object':
 
-                    result.push(`{${process_params(items)}}`) ;
+                    part = `{${process_params(items)}}` ;
             }
+
+            if(defaultValue){
+
+                part += `= ${defaultValue}` ;
+            }
+
+            result.push(part) ;
 
         }else{
 
