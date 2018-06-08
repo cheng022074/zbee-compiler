@@ -68,7 +68,7 @@ function doProject(command , ...args){
             case 'release':
 
                 package({
-                    allClassNames,
+                    classes:allClassNames,
                     name:'default',
                     bootstrap
                 }) ;
