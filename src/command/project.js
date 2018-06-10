@@ -18,7 +18,8 @@ package = require('./package'),
     isAbsolute
 } = require('path'),
 {
-    file:is_file
+    file:is_file,
+    directory:is_directory
 } = require('../is'),
 {
     copy
@@ -90,7 +91,7 @@ function doProject(command , ...args){
 
                         for(let target of targets){
 
-                            if(!isAbsolute(target)){
+                            if(!isAbsolute(target) || !is_directory(target)){
 
                                 continue ;
                             }
