@@ -21,5 +21,11 @@
             "template":"code.template.config",
             "converter":"code.converter.config"
         }
+    },
+    "template":{
+        ".js":{
+            "template":"code.template.template",
+            "converter":"code.converter.template"
+        }
     }
 }

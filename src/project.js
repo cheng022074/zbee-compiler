@@ -258,7 +258,8 @@ class Application extends Project{
 
         return [
             ...get_class_names.call(me , 'config'),
-            ...get_class_names.call(me , 'src')
+            ...get_class_names.call(me , 'src'),
+            ...get_class_names.call(me , 'template')
         ]
     }
 }
