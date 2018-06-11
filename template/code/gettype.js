@@ -42,11 +42,11 @@
     
         if (type === 'object'){
     
-            if (value.nodeType !== undefined){
+            if (data.nodeType !== undefined){
     
-                if (value.nodeType === 3){
+                if (data.nodeType === 3){
     
-                    return nonWhitespaceRe.test(value.nodeValue) ? 'textnode' : 'whitespace';
+                    return nonWhitespaceRe.test(data.nodeValue) ? 'textnode' : 'whitespace';
     
                 }else{
     
