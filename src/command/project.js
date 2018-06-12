@@ -23,7 +23,8 @@ package = require('./package'),
 {
     copy,
     remove,
-    writeJSONFile
+    writeJSONFile,
+    rename
 } = require('../fs'),
 {
     from
@@ -87,6 +88,8 @@ function doProject(command , ...args){
                     name:moduleName,
                     dependencies:dependentModules
                 }) ;
+
+                rename(join(packagePath , 'index.js') , `${moduleName}.js`) ;
 
                 break ;
 
