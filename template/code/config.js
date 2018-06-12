@@ -50,14 +50,14 @@
                     prefix = `${key}.` ;
                 }
             }
-        
+
             if(prefix){
         
                 return ;
             }
-
-            return freeze(target) ; 
         }
+
+        return freeze(target) ; 
     }
 
     return (name , key) =>{
