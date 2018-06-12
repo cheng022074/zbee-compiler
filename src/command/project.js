@@ -22,7 +22,8 @@ package = require('./package'),
     directory:is_directory
 } = require('../is'),
 {
-    copy
+    copy,
+    remove
 } = require('../fs'),
 {
     from
@@ -73,6 +74,16 @@ function doProject(command , ...args){
                     name:'default',
                     bootstrap
                 }) ;
+
+                let packagePath = APPLICATION.getFolderPath('package') ;
+
+                remove(join(packagePath , 'lib.js')) ;
+
+                remove(join(packagePath , 'meta.xml')) ;
+
+                copy(join(rootPath , 'package.json') , packagePath) ;
+
+                break ;
 
             case 'sync':
 

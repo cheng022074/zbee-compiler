@@ -4,7 +4,8 @@ const {
     writeFileSync,
     copyFileSync,
     mkdirSync,
-    statSync
+    statSync,
+    unlinkSync
 } = require('fs'),
 {
     directory:is_directory,
@@ -176,4 +177,12 @@ exports.copy = (src , dest) =>{
     }
 
     return false ;
+}
+
+exports.remove = path =>{
+
+    if(is_file(path)){
+
+        unlinkSync(path) ;
+    }
 }
