@@ -13,7 +13,6 @@ const {
 compile = require('./compile'),
 package = require('./package'),
 {
-    basename,
     join,
     isAbsolute
 } = require('path'),
@@ -23,7 +22,8 @@ package = require('./package'),
 } = require('../is'),
 {
     copy,
-    remove
+    remove,
+    writeJSONFile
 } = require('../fs'),
 {
     from
@@ -38,7 +38,9 @@ function doProject(command , ...args){
         } = project,
         {
             rootPath,
-            allClassNames
+            allClassNames,
+            dependentModules,
+            moduleName
         } = APPLICATION;
 
         switch(command){
@@ -81,7 +83,10 @@ function doProject(command , ...args){
 
                 remove(join(packagePath , 'meta.xml')) ;
 
-                copy(join(rootPath , 'package.json') , packagePath) ;
+                writeJSONFile(join(packagePath , 'package.json') , {
+                    name:moduleName,
+                    dependencies:dependentModules
+                }) ;
 
                 break ;
 

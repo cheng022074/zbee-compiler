@@ -5,7 +5,8 @@ const {
     copyFileSync,
     mkdirSync,
     statSync,
-    unlinkSync
+    unlinkSync,
+    renameSync
 } = require('fs'),
 {
     directory:is_directory,
@@ -184,5 +185,13 @@ exports.remove = path =>{
     if(is_file(path)){
 
         unlinkSync(path) ;
+    }
+}
+
+exports.rename = (path , newName) =>{
+
+    if(is_file(path)){
+
+        renameSync(path , join(dirname(path) , newName)) ;
     }
 }
