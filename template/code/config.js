@@ -55,114 +55,25 @@
         
                 return ;
             }
-        }
 
-        if(!target){
-
-            return ;
-        }
-    
-        return freeze(target) ; 
-    }
-
-    function init(data){
-
-        switch(gettype(data)){
-
-            case 'array':
-
-                return [
-                    ...data
-                ] ;
-
-            case 'object':
-
-                return Object.assign({} , data) ;
-        }
-    }
-
-    function assign(result , data){
-
-        switch(gettype(result)){
-
-            case 'array':
-
-                return result.push(...data) ;
-
-            case 'object':
-
-                return Object.assign(result , data) ;
-
-            case 'undefined':
-
-                switch(gettype(data)){
-
-                    case 'array':
-
-                        result = [] ;
-
-                        break ;
-
-                    case 'object':
-
-                        result = {} ;
-
-                        break ;
-                }
-
-                return assign(result , data) ;
+            return freeze(target) ; 
         }
     }
 
     return (name , key) =>{
 
-        let value ;
-
-        if(!key){
-
-            let result ;
-
-            try{
-
-                result = init(include(`config::${name}`)) ;
-                
-            }catch(err){
-    
-            }
-
-            if(config.hasOwnProperty(name)){
-
-                assign(result , config[name]) ;
-            }
-
-            return freeze(result) ;
-        }
-
-
         if(config.hasOwnProperty(name)){
 
-            value = get_config(config[name] , key) ;
-
-            if(value !== undefined){
-
-                return value ;
-            }
+            return get_config(config[name] , key) ;
         }
 
         try{
 
-            value = get_config(include(`config::${name}`) , key) ;
-
-            if(value !== undefined){
-
-                return value ;
-            }
+            return get_config(include(`config::${name}`) , key) ;
 
         }catch(err){
 
         }
-
-        
     }
 
 })()
