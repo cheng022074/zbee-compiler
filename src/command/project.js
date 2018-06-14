@@ -17,7 +17,6 @@ package = require('./package'),
     isAbsolute
 } = require('path'),
 {
-    file:is_file,
     directory:is_directory
 } = require('../is'),
 {
