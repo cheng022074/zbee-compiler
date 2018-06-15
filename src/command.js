@@ -18,7 +18,9 @@
         string:is_string,
         defined:is_defined
     } = require('./is'),
-    convert = require('./string/convert'),
+    {
+        parse
+    } = require('./string/argument'),
     columnify = require('columnify');
 
     class Command{
@@ -96,17 +98,7 @@
 
                 if(params){
 
-                    let len = args.length ;
-
-                    for(let i = 0 ; i < len ; i ++){
-
-                        let type = params[i] ;
-
-                        if(type){
-
-                            args[i] = convert.type(args[i] , type) ;
-                        }
-                    }
+                    return parse(args , params) ;
                 }
             }
 

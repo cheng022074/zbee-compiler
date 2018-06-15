@@ -167,6 +167,8 @@ class Application extends Project{
             env
         } = process ;
 
+        env['ZBEE-RUNTIME-ENVIRONMENT'] = 'yes';
+
         env['ZBEE-APPLICATION-ROOT-PATH'] = me.rootPath ;
 
         require(path) ;

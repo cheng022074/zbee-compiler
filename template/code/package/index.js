@@ -57,6 +57,7 @@ exports['<%- name %>'] = include('<%- aliasMap[name] %>') ;
 <%
     }
 %>
+<%- apply('code.process') %>
 <%
 if(bootstrap){
 %>
