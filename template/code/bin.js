@@ -7,4 +7,4 @@ global.gettype = <%- apply('code.gettype') %> ;
 
 global.config = <%- apply('code.config') %> ;
 
-<%- apply('code.process') %>>
+<%- apply('code.process') %>

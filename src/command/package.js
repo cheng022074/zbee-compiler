@@ -61,7 +61,8 @@ module.exports = (name = 'default') =>{
         compress,
         bootstrap,
         config:baseConfig,
-        targets
+        targets,
+        browser
     } = config,
     codes = [];
 
@@ -115,6 +116,7 @@ module.exports = (name = 'default') =>{
                 ...createAliasMap(codes)
             },
             bootstrap,
+            browser,
             config:baseConfig || {},
             defaultFolder
         } ;

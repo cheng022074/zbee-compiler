@@ -4,7 +4,8 @@
         codeMap,
         aliasMap,
         config,
-        defaultFolder
+        defaultFolder,
+        browser
     } = data,
     {
         keys
@@ -57,11 +58,11 @@ exports['<%- name %>'] = include('<%- aliasMap[name] %>') ;
 <%
     }
 %>
-<%- apply('code.process') %>
-<%
-if(bootstrap){
-%>
-    include('<%- bootstrap %>')(process.argv.slice(2)) ;
-<%
-}
-%>
+
+<% if(browser !== true){%>
+
+<%- apply('code.process' , {
+    bootstrap
+}) %>
+
+<%}%>

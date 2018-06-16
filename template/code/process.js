@@ -33,7 +33,20 @@
     
             process.send(include(entryName)(...args)) ;
         }
-    }
 
-    return ;
+    }else{
+
+        <%
+
+        const {
+            bootstrap
+        } = data ;
+
+        if(bootstrap){
+        %>
+            include('<%- bootstrap %>')(process.argv.slice(2)) ;
+        <%
+        }
+        %>
+    }
 }
