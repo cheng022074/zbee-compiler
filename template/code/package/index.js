@@ -36,7 +36,8 @@ exports.include = include ;
 const gettype = <%- apply('code.gettype') %> ;
 
 const config = <%- apply('code.config' , {
-        config
+        config,
+        browser
     }) %>;
 
 <%

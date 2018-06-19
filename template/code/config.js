@@ -21,6 +21,9 @@
         join
     } = require('path'),
     dotRe = /\./g,
+    {
+        env
+    } = process,
     config = <%- data.hasOwnProperty('config') ? JSON.stringify(data.config) : '{}' %>;
 
     function get_config(target , key){
@@ -73,7 +76,27 @@
 
         }catch(err){
 
+            <%
+                if(data.browser !== true){
+            %>
+
+            const {
+                readFileSync
+            } = require('fs') ;
+
+            try{
+
+                return get_config(JSON.parse(readFileSync(join(env['ZBEE-APPLICATION-ROOT-PATH'] , 'config' , `${name.replace(dotRe , '/')}.json`) , 'utf8'))) ;
+
+            }catch(err){
+
+            }
+
+            <%
+                }
+            %>
         }
+
     }
 
 })()
