@@ -70,6 +70,11 @@ module.exports = class {
             packageTemplate
         } = me ;
 
-        return apply(packageTemplate , me.packageCodeData) ;
+        if(packageTemplate){
+
+            return apply(packageTemplate , me.packageCodeData) ;
+        }
+
+        return '' ;   
     }
 }

@@ -11,6 +11,10 @@
         "description":"生成默认代码模板",
         "implement":"command.generate"
     },
+    "debug":{
+        "description":"调试代码",
+        "implement":"command.debug"
+    },
     "test":{
         "description":"启动测试用例",
         "implement":"command.test"

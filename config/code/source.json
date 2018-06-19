@@ -10,6 +10,12 @@
             "converter":"code.converter.script.class"
         }
     },
+    "debug":{
+        ".js":{
+            "template":"code.template.script.function",
+            "converter":"code.converter.script.function"
+        }
+    }, 
     "test":{
         ".xml":{
             "template":"code.template.script.test",
