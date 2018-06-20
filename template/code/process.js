@@ -12,9 +12,16 @@
     
         if(isWorker){
     
-            process.on('message' , args =>{
-    
-                process.send(include(entryName)(...args)) ;
+            process.on('message' , async ({
+                args
+            }) =>{
+
+                if(Array.isArray(args)){
+
+                    process.send({
+                        data:await include(entryName)(...args)
+                    }) ;
+                }
     
             }) ;
     
@@ -30,8 +37,12 @@
     
                 args = [] ;
             }
-    
-            process.send(include(entryName)(...args)) ;
+
+            (async () =>{
+
+                process.send(await include(entryName)(...args)) ;
+
+            })() ;
         }
 
     }else{

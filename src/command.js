@@ -118,10 +118,10 @@
             if(is_object(config)){
 
                 let {
-                    result
+                    result:isResult
                 } = config ;
 
-                if(result === true && is_defined(result)){
+                if(isResult === true && is_defined(result)){
 
                     console.log(result) ;
                 }
