@@ -13,13 +13,15 @@
         if(isWorker){
     
             process.on('message' , async ({
-                args
+                type,
+                data
             }) =>{
 
-                if(Array.isArray(args)){
+                if(type === 'call'){
 
                     process.send({
-                        data:await include(entryName)(...args)
+                        type:'call-result',
+                        data:await include(entryName)(...data)
                     }) ;
                 }
     
@@ -60,4 +62,37 @@
         }
         %>
     }
+}
+
+function send(entry , ...args){
+
+    return new Promise((resolve , reject) =>{
+
+        let onMessage = ({
+            type,
+            data
+        }) =>{
+
+            if(type === 'assist-result'){
+
+                resolve(data) ;
+            
+                worker.off('message' , onMessage) ;
+
+                worker.off('error' , reject) ;
+            }
+        };
+
+        worker.on('message' , onMessage) ;
+
+        worker.on('error' , reject) ;
+
+        process.send({
+            type:'assist',
+            data:{
+                entry,
+                args
+            }
+        }) ;
+    }) ;
 }
