@@ -65,6 +65,10 @@
 
     return (name , key) =>{
 
+        <%
+            if(data.browser !== true){
+        %>
+
         try{
 
             return get_config(require(`./config/${name.replace(dotRe , '/')}`)) ;
@@ -72,6 +76,9 @@
         }catch(err){
 
         }
+        <%
+            }
+        %>
 
         if(config.hasOwnProperty(name)){
 
