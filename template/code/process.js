@@ -8,43 +8,47 @@
     
         const {
             isWorker
-        } = require('cluster') ;
-    
-        if(isWorker){
-    
-            process.on('message' , async ({
-                type,
-                data
-            }) =>{
+        } = require('cluster'),
+        entryFn = include(entryName);
 
-                if(type === 'call'){
+        if(typeof entryFn === 'function'){
 
-                    process.send({
-                        type:'call-result',
-                        data:await include(entryName)(...data)
-                    }) ;
+            if(isWorker){
+    
+                process.on('message' , async ({
+                    type,
+                    data
+                }) =>{
+    
+                    if(type === 'master-send'){
+    
+                        process.send({
+                            type:'master-send-result',
+                            data:await entryFn(...data)
+                        }) ;
+                    }
+        
+                }) ;
+        
+            }else{
+        
+                let args = env['ZBEE-ENTRY-ARGS'] ;
+        
+                if(args){
+        
+                    args = JSON.parse(args) ;
+                
+                }else{
+        
+                    args = [] ;
                 }
     
-            }) ;
+                (async () =>{
     
-        }else{
+                    process.send(await entryFn(...args)) ;
     
-            let args = env['ZBEE-ENTRY-ARGS'] ;
-    
-            if(args){
-    
-                args = JSON.parse(args) ;
-            
-            }else{
-    
-                args = [] ;
+                })() ;
             }
-
-            (async () =>{
-
-                process.send(await include(entryName)(...args)) ;
-
-            })() ;
         }
 
     }else{
