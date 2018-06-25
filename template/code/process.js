@@ -67,36 +67,3 @@
         %>
     }
 }
-
-function send(entry , ...args){
-
-    return new Promise((resolve , reject) =>{
-
-        let onMessage = ({
-            type,
-            data
-        }) =>{
-
-            if(type === 'assist-result'){
-
-                resolve(data) ;
-            
-                worker.off('message' , onMessage) ;
-
-                worker.off('error' , reject) ;
-            }
-        };
-
-        worker.on('message' , onMessage) ;
-
-        worker.on('error' , reject) ;
-
-        process.send({
-            type:'assist',
-            data:{
-                entry,
-                args
-            }
-        }) ;
-    }) ;
-}
