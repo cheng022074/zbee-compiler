@@ -17,12 +17,14 @@
     
                 process.on('message' , async ({
                     type,
+                    id,
                     data
                 }) =>{
     
                     if(type === 'master-send'){
     
                         process.send({
+                            id,
                             type:'master-send-result',
                             data:await entryFn(...data)
                         }) ;
