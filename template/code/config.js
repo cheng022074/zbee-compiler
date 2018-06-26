@@ -71,7 +71,19 @@
 
         try{
 
-            return get_config(require(`./config/${name.replace(dotRe , '/')}`)) ;
+            let path = `./config/${name.replace(dotRe , '/')}`,
+                data;
+
+            try{
+
+                data = require(`${path}.json`) ;
+
+            }catch(err){
+
+                data = require(`${path}.js`) ;
+            }
+
+            return get_config(data) ;
         
         }catch(err){
 
