@@ -15,6 +15,15 @@ module.exports = class extends ContainerCoder{
             el
         } = this ;
 
+        if(el.getAttribute('singleton') === 'yes'){
+
+            return `
+            const Main = new class{
+                ${super.applyCode()}
+            };
+            ` ;
+        }
+
         return `
         class Main{
             ${super.applyCode()}
