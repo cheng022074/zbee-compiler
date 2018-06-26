@@ -23,7 +23,7 @@ function parse(data){
 
     }
 
-    return doc.parseFromString('<xml/>' , 'text/xml') ;
+    return parser.parseFromString('<xml/>' , 'text/xml') ;
 }
 
 exports.parse = parse ;
