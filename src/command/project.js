@@ -71,11 +71,24 @@ function doProject(command , ...args){
     
             case 'release':
 
-                package({
+                let {
+                    config
+                } = project,
+                baseConfig = {
                     classes:allClassNames,
                     name:'default',
                     bootstrap
-                }) ;
+                },
+                [
+                    name
+                ] = args ;
+
+                if(config && name){
+
+                    baseConfig.config = config[name] ;
+                }
+
+                package(baseConfig) ;
 
                 let packagePath = APPLICATION.getFolderPath('package') ;
 

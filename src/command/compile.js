@@ -22,7 +22,7 @@ module.exports = name =>{
 
     let code = SourceCode.get(name) ;
 
-    if(code.exists){
+    if(code && code.exists){
 
         compile(code) ;
 
