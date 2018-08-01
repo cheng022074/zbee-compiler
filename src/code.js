@@ -339,7 +339,7 @@ class SourceCode extends Code{
 
                 let envSuffix = `.${envName}` ;
 
-                if(suffix.indexOf(envSuffix) === 0){
+                if(suffix.indexOf(`${envSuffix}.`) === 0){
 
                     config = config_get('code.source' , `${folder}.${suffix.replace(envSuffix , '')}`) ;
                 }
