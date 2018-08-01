@@ -97,7 +97,7 @@
             return get_config(config[name] , key) ;
         }
 
-        try{
+        try{ 
 
             return get_config(include(`config::${name}`) , key) ;
 

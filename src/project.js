@@ -42,7 +42,10 @@ const {
 {
     split
 } = require('./string'),
-sepRe = /\\|\//;
+sepRe = /\\|\//,
+{
+    env
+} = process ;
 
 class Project{
 
@@ -64,9 +67,23 @@ class Project{
             return fileNormalize(join(rootPath , folder , toPath(name))) ;
         }
 
+        let envName = env['ZBEE-ENV'] ;
+
         for(let suffix of suffixes){
 
-            let path = join(rootPath , folder , toPath(name , suffix)) ;
+            let path ;
+
+            if(envName){
+
+                path = join(rootPath , folder , toPath(name , `.${envName}${suffix}`)) ;
+
+                if(is_file(path)){
+
+                    return path ;
+                }
+            }
+
+            path = join(rootPath , folder , toPath(name , suffix)) ;
 
             if(is_file(path)){
 
@@ -163,12 +180,6 @@ class Application extends Project{
             writeTextFile(join(binPath , 'header') , updateTime) ;
         }
 
-        let {
-            env
-        } = process ;
-
-        env['ZBEE-RUNTIME-ENVIRONMENT'] = 'yes';
-
         env['ZBEE-APPLICATION-ROOT-PATH'] = me.rootPath ;
 
         require(path) ;
@@ -202,15 +213,28 @@ class Application extends Project{
 
         let path,
             me = this,
-            suffixes = me.getFolderBinFileReadSuffixes(folder);
+            suffixes = me.getFolderBinFileReadSuffixes(folder),
+            envName = env['ZBEE-ENV'];
 
         if(suffixes !== false){
+
+            let folderPath = me.getFolderPath(folder) ;
 
             if(is_array(suffixes)){
 
                 for(let suffix of suffixes){
 
-                    path = join(me.getFolderPath(folder) , toPath(name , suffix)) ;
+                    if(envName){
+
+                        path = join(folderPath , toPath(name , `.${envName}${suffix}`)) ;
+
+                        if(is_file(path)){
+
+                            return path ;
+                        }
+                    }
+
+                    path = join(folderPath , toPath(name , suffix)) ;
 
                     if(is_file(path)){
 
@@ -220,7 +244,7 @@ class Application extends Project{
 
             }else{
 
-                path = fileNormalize(join(me.getFolderPath(folder) , toPath(name))) ;
+                path = fileNormalize(join(folderPath , toPath(name))) ;
 
                 if(is_file(path)){
 

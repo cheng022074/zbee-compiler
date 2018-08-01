@@ -27,7 +27,10 @@ const {
 CODES = {
     BIN:{},
     SOURCE:{}
-};
+},
+{
+    env
+} = process;
 
 class Code{
 
@@ -124,7 +127,6 @@ class BinCode extends Code{
             fullName
         } = this;
 
- 
         if(path){
 
             return get_target(folder , path) ;
@@ -325,11 +327,23 @@ class SourceCode extends Code{
         {
             folder,
             path
-        } = me;
-  
+        } = me,
+        envName = env['ZBEE-ENV'];
+
         if(path){
 
-            let config = config_get('code.source' , `${folder}.${extname(path)}`) ;
+            let suffix = extname(path),
+                config = config_get('code.source' , `${folder}.${suffix}`) ;
+
+            if(!config && envName){
+
+                let envSuffix = `.${envName}` ;
+
+                if(suffix.indexOf(envSuffix) === 0){
+
+                    config = config_get('code.source' , `${folder}.${suffix.replace(envSuffix , '')}`) ;
+                }
+            }
 
             if(config){
 

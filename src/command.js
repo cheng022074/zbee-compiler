@@ -15,7 +15,6 @@
     } = require('./runner'),
     {
         simpleObject:is_object,
-        string:is_string,
         defined:is_defined
     } = require('./is'),
     {
@@ -29,7 +28,7 @@
 
             let me = this ;
     
-            me.argv = argv ;
+            me.argv = process_argv(argv) ;
 
             defineCacheProperties(me , [
                 'name',
@@ -127,6 +126,33 @@
                 }
             }
         }
+    }
+
+    const 
+    envArgRe = /^\-{2}env=([a-z]+)/,
+    {
+        env
+    } = process;
+
+    function process_argv(argv){
+
+        let values = [] ;
+
+        for(let value of argv){
+
+            let match = value.match(envArgRe) ;
+
+            if(match){
+
+                env['ZBEE-ENV'] = match[1].toLowerCase() ;
+                
+            }else{
+
+                values.push(value) ;
+            }
+        }
+
+        return values ;
     }
 
     Command.printCommandNameList = () =>{
