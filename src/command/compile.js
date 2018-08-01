@@ -16,7 +16,10 @@ const {
 {
     getMotifyTime,
     readTextFile
-} = require('../fs');
+} = require('../fs'),
+{
+    env
+} = process;
 
 module.exports = name =>{
 
@@ -64,7 +67,7 @@ function compile(code){
     path = APPLICATION.generateBinPath(code.folder , name),
     motifyTime = getMotifyTime(code.path);
 
-    if(motifyTime === getLastCompileTime(path)){
+    if(!env['ZBEE-ENV'] && motifyTime === getLastCompileTime(path)){
 
         return ;
     }
