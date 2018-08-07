@@ -21,9 +21,6 @@
         join
     } = require('path'),
     dotRe = /\./g,
-    {
-        env
-    } = process,
     config = <%- data.hasOwnProperty('config') ? JSON.stringify(data.config) : '{}' %>;
 
     function get_config(target , key){

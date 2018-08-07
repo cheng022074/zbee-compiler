@@ -12,6 +12,10 @@
     } = Object;
 %>
 
+<%
+    if(browser !== true){
+%>
+
 try{
 
     let {
@@ -26,6 +30,10 @@ try{
 }catch(err){
 
 }
+
+<%
+    }
+%>
 
 const include = <%- apply('code.package.header.include' , {
     defaultFolder
