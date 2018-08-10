@@ -18,7 +18,7 @@
 
 try{
 
-    let {
+    const {
         env
     } = process ;
 

@@ -68,19 +68,24 @@
 
         try{
 
-            let path = `./config/${name.replace(dotRe , '/')}`,
+            const {
+                env
+            } = process ;
+
+            let path = `${env['ZBEE-APPLICATION-ROOT-PATH']}/config/${name.replace(dotRe , '/')}`,
                 data;
 
             try{
 
-                data = require(`${path}.json`) ;
+                data = require(path) ;
 
             }catch(err){
-
-                data = require(`${path}.js`) ;
             }
 
-            return get_config(data) ;
+            if(data){
+
+                return get_config(data , key) ;
+            }
         
         }catch(err){
 
