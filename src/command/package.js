@@ -29,7 +29,8 @@ const {
     normalize
 } = require('../name'),
 {
-    simpleObject:isObject
+    simpleObject:isObject,
+    directory:is_directory
 } = require('../is'),
 {
     copy
@@ -159,7 +160,7 @@ module.exports = (name = 'default') =>{
 
         for(let target of targets){
 
-            if(isAbsolute(target)){
+            if(isAbsolute(target) && is_directory(target)){
 
                 copy(path , target) ;
 
