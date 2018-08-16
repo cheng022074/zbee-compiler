@@ -5,7 +5,9 @@
 
         let {
             paramNames,
-            once
+            once,
+            imports,
+            configItems
         } = data,
         now = Date.now(),
         onceVarValue = `__once_${now}_value__`,
@@ -18,15 +20,24 @@
     <%}%>
     let <%- isFirstExecuted %> = false ;
     <%
+    let hasDefinition = imports.length || configItems.length ;
+    %>
+    <%
         if(data.scoped){
     %>
     <%- data.body %>
     return <%if(data.async){%>async <%}%>function(<%- data.params %>){
+        <%
+            if(hasDefinition){
+        %>
         if(!<%- isFirstExecuted %>){
-            <%- data.imports %>
-            <%- data.configItems %>
+            <%- imports %>
+            <%- configItems %>
             <%- isFirstExecuted %> = true ;
         }
+        <%
+            }
+        %>
         <%if(once){%>
         if(<%- onceVarLocked %>){
 
@@ -38,7 +49,19 @@
         <%}%>
         return <%if(once){%> <%- onceVarValue %> = <%}%><%if(data.async){%>await <%}%>main.call((function(){
 
-            return this === global ? main : this ;
+            let me = this,
+                target;
+
+            if(typeof global !== 'undefined'){
+
+                target = global ;
+            
+            }else{
+
+                target = window ;
+            }
+
+            return me === target ? main : me ;
 
         }).call(this) <%if(paramNames.length){%>, <%- paramNames %><%}else{%><%- paramNames %><%}%>) ;
     }
@@ -50,11 +73,17 @@
         <%- data.body %>
     }
     return <%if(data.async){%>async <%}%>function(<%- data.params %>){
+        <%
+            if(hasDefinition){
+        %>
         if(!<%- isFirstExecuted %>){
             <%- data.imports %>
             <%- data.configItems %>
             <%- isFirstExecuted %> = true ;
         }
+        <%
+            }
+        %>
         <%if(once){%>
         if(<%- onceVarLocked %>){
 
@@ -66,7 +95,19 @@
         <%}%>
         return <%if(once){%><%- onceVarValue %> = <%}%> <%if(data.async){%>await <%}%>main.call((function(){
 
-            return this === global ? main : this ;
+            let me = this,
+                target;
+
+            if(typeof global !== 'undefined'){
+
+                target = global ;
+            
+            }else{
+
+                target = window ;
+            }
+
+            return me === target ? main : me ;
 
         }).call(this) <%if(paramNames.length){%>, <%- paramNames %><%}else{%><%- paramNames %><%}%>) ;
     }

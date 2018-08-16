@@ -5,7 +5,9 @@
 
     let {
         paramNames,
-        once
+        once,
+        imports,
+        configItems
     } = data,
     now = Date.now(),
     onceVarValue = `__once_${now}_value__`,
@@ -18,15 +20,24 @@ let <%- onceVarValue %>,
 <%}%>
 let <%- isFirstExecuted %> = false ;
 <%
+    let hasDefinition = imports.length || configItems.length ;
+%>
+<%
     if(data.scoped){
 %>
 <%- data.body %>
 module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
+    <%
+        if(hasDefinition){
+    %>
     if(!<%- isFirstExecuted %>){
-        <%- data.imports %>
-        <%- data.configItems %>
+        <%- imports %>
+        <%- configItems %>
         <%- isFirstExecuted %> = true ;
     }
+    <%
+        }
+    %>
     <%if(once){%>
     if(<%- onceVarLocked %>){
 
@@ -50,11 +61,17 @@ module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
     <%- data.body %>
 }
 module.exports = <%if(data.async){%>async <%}%>function(<%- data.params %>){
+    <%
+        if(hasDefinition){
+    %>
     if(!<%- isFirstExecuted %>){
-        <%- data.imports %>
-        <%- data.configItems %>
+        <%- imports %>
+        <%- configItems %>
         <%- isFirstExecuted %> = true ;
     }
+    <%
+        }
+    %>
     <%if(once){%>
     if(<%- onceVarLocked %>){
 
