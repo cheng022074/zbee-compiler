@@ -18,10 +18,17 @@
     let <%- onceVarValue %>,
         <%- onceVarLocked %> = false;
     <%}%>
-    let <%- isFirstExecuted %> = false ;
     <%
     let hasDefinition = imports.length || configItems.length ;
     %>
+    <%
+        if(hasDefinition){
+    %>
+    let <%- isFirstExecuted %> = false ;
+    <%
+        }
+    %>
+
     <%
         if(data.scoped){
     %>

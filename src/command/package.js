@@ -36,7 +36,19 @@ const {
     copy
 } = require('../fs');
 
-module.exports = (name = 'default') =>{
+function doPackage(name){
+
+    if(!name){
+
+        const names = Object.keys(get('package')) ;
+
+        for(let name of names){
+
+            doPackage(name) ;
+        }
+
+        return ;
+    }
 
     let config ;
 
@@ -211,3 +223,5 @@ function createAliasMap(codes){
 
     return map ;
 }
+
+module.exports = doPackage ;
