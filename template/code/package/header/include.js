@@ -28,7 +28,7 @@
         let fullName = `${folder}::${className}`,
             code = CODES[name] = exports[fullName] ;
 
-        if(code === undefined){
+        if(code === undefined && folder !== 'config'){
 
             throw new Error(`${fullName} 没有定义`) ;
         }
