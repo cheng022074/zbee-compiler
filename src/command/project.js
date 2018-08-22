@@ -72,9 +72,11 @@ function doProject(command , ...args){
             case 'release':
 
                 let {
-                    config
+                    config,
+                    browser
                 } = project,
                 baseConfig = {
+                    browser,
                     classes:allClassNames,
                     name:'default',
                     bootstrap

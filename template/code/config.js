@@ -72,12 +72,11 @@
                 env
             } = process ;
 
-            let path = `${env['ZBEE-APPLICATION-ROOT-PATH']}/config/${name.replace(dotRe , '/')}`,
-                data;
+            let data;
 
             try{
 
-                data = require(path) ;
+                data = require(`${env['ZBEE-APPLICATION-ROOT-PATH']}/config/${name.replace(dotRe , '/')}.json`) ;
 
             }catch(err){
             }
