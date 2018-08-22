@@ -2,7 +2,6 @@ const {
     APPLICATION:APPLICATION_PATH,
     COMPILER:COMPILER_PATH,
     fileNormalize,
-    extname,
     toName
 } = require('./path'),
 {
@@ -15,7 +14,6 @@ const {
 } = require('./json'),
 {
     get,
-    defineCacheProperty,
     defineCacheProperties
 } = require('./object'),
 {
