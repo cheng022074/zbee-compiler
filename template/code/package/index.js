@@ -13,26 +13,20 @@
 %>
 
 <%
-    if(browser !== true){
+if(!browser){
 %>
 
-try{
+const {
+    env
+} = process ;
 
-    const {
-        env
-    } = process ;
+if(!env['ZBEE-APPLICATION-ROOT-PATH']){
 
-    if(!env['ZBEE-APPLICATION-ROOT-PATH']){
-
-        env['ZBEE-APPLICATION-ROOT-PATH'] = __dirname ;
-    }
-
-}catch(err){
-
+    env['ZBEE-APPLICATION-ROOT-PATH'] = __dirname ;
 }
 
 <%
-    }
+}
 %>
 
 const include = <%- apply('code.package.header.include' , {
@@ -68,10 +62,11 @@ exports['<%- name %>'] = include('<%- aliasMap[name] %>') ;
     }
 %>
 
-<% if(browser !== true){%>
+<%
 
-<%- apply('code.process' , {
-    bootstrap
-}) %>
-
-<%}%>
+if(!browser && bootstrap){
+%>
+    include('<%- bootstrap %>')(process.argv.slice(2)) ;
+<%
+}
+%>

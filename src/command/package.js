@@ -107,8 +107,7 @@ function doPackage(name){
 
     codes = unique(codes) ;
 
-    let libraries = [],
-        {
+    let {
             codeMap,
             aliasMap
         } = APPLICATION.libraries;

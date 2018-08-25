@@ -17,9 +17,7 @@
         return data;
     }
 
-    const {
-        join
-    } = require('path'),
+    const 
     dotRe = /\./g,
     config = <%- data.hasOwnProperty('config') ? JSON.stringify(data.config) : '{}' %>;
 
@@ -63,7 +61,7 @@
     return (name , key) =>{
 
         <%
-            if(data.browser !== true){
+            if(!data.browser){
         %>
 
         try{
