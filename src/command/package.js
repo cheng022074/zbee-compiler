@@ -2,7 +2,6 @@ const {
     SourceCode
 } = require('../code'),
 {
-    readTextFile,
     writeTextFile
 } = require('../fs'),
 {
