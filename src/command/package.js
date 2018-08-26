@@ -8,6 +8,7 @@ const {
     apply
 } = require('../template'),
 {
+    compile,
     format,
     min
 } = require('../script'),
@@ -74,7 +75,8 @@ function doPackage(name){
         bootstrap,
         config:baseConfig,
         targets,
-        browser
+        browser,
+        es5
     } = config,
     codes = [];
 
@@ -151,6 +153,20 @@ function doPackage(name){
     {
         let outPath = join(path , 'index.js'),
             data = apply('code.package.index' , packageConfig);
+
+        if(es5 === true){
+
+            data = compile(data) ;
+
+            if(browser === true){
+
+                data = apply('code.package.es5.browser' , {
+                    name:name === 'default' ? 'ZBEE' : name,
+                    body:data
+                }) ;
+
+            }
+        }
 
         if(compress){
 
