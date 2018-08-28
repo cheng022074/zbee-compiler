@@ -44,7 +44,7 @@ exports.toCamelCase = fullName =>{
             split
         } = require('./string');
 
-    function parse(name , defaultFolder){
+    function parse(name , defaultFolder = ''){
 
         let items = split(name , splitRe) ;
 
@@ -74,7 +74,17 @@ exports.toCamelCase = fullName =>{
 
         if(config){
 
-            return `${config.folder}::${config.name}` ;
+            let {
+                folder,
+                name
+            } = config ;
+
+            if(folder){
+
+                return `${folder}::${name}` ;
+            }
+
+            return name ;
         }
     }
 }

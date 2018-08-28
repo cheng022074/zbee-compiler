@@ -1,7 +1,8 @@
 const 
 Target = require('../target'),
 {
-    unique
+    unique,
+    remove
 } = require('../../array'),
 {
     defineCacheProperty
@@ -22,24 +23,22 @@ module.exports = class extends Target{
     applyAliases(){
 
         let {
-            meta,
-            sourceCode
+            meta
         } = this,
         {
             aliases
-        } = meta,
-        result = [],
-        defaultFolder = sourceCode.project.defaultFolder;
+        } = meta;
 
         if(aliases){
 
-            for(let alias of aliases){
+            aliases = unique(aliases) ;
 
-                result.push(parse(alias , defaultFolder)) ;
-            }
+            remove(aliases , 'include') ;
+
+            return aliases ;
         }
 
-        return result ;
+        return [] ;
     }
 
     applyBinCodeData(){

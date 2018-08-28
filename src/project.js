@@ -123,7 +123,7 @@ class Application extends Project{
             dependencies
         } = this.package ;
 
-        return Object.freeze(dependencies) ;
+        return Object.freeze(dependencies || {}) ;
     }
 
     applyModuleName(){
@@ -408,11 +408,23 @@ class Libraries{
     applyMetas(){
 
         let metas = [],
+            me = this,
             {
-                paths
-            } = this;
+                paths,
+                ignoreIndexes
+            } = me,
+            len = paths.length;
 
-        for(let path of paths){
+        ignoreIndexes = ignoreIndexes || [];
+
+        for(let i = 0 ; i < len ; i ++){
+
+            if(ignoreIndexes.includes(i)){
+
+                continue ;
+            }
+
+            let path = paths[i] ;
 
             try{
 

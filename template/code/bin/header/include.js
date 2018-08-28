@@ -2,7 +2,6 @@
 
     const nameRe = /^(\w+)\:{2}(.+?)$/,
           CODES = {},
-          configNameRe = /^config\:{2}/,
           libraries = <%- JSON.stringify(data.libraries) %>,
           len = libraries.length,
           {
@@ -45,6 +44,14 @@
             className = match[2] ;
     
         }else{
+
+            try{
+
+                return CODES[name] = CODES[name] = require(`./${name}.js`) ;
+
+            }catch(err){
+
+            }
     
             folder = '<%- data.defaultFolder %>',
             className = name ;

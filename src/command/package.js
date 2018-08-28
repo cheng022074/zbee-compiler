@@ -2,7 +2,8 @@ const {
     SourceCode
 } = require('../code'),
 {
-    writeTextFile
+    writeTextFile,
+    readTextFile
 } = require('../fs'),
 {
     apply
@@ -20,7 +21,8 @@ const {
 } = require('../project'),
 {
     join,
-    isAbsolute
+    isAbsolute,
+    dirname
 } = require('path'),
 {
     unique
@@ -76,7 +78,8 @@ function doPackage(name){
         config:baseConfig,
         targets,
         browser,
-        es5
+        es5,
+        ignores
     } = config,
     codes = [];
 
@@ -110,13 +113,21 @@ function doPackage(name){
     codes = unique(codes) ;
 
     let {
-            codeMap,
-            aliasMap
-        } = APPLICATION.libraries;
+        libraries
+    } = APPLICATION ;
+
+    libraries.ignoreIndexes = ignores ;
+
+    let {
+        codeMap,
+        aliasMap
+    } = libraries;
+
+    delete libraries.ignoreIndexes ;
 
     const {
-            defaultFolder
-        } = APPLICATION;
+        defaultFolder
+    } = APPLICATION;
 
     let path = join(APPLICATION.getFolderPath('package') , name === 'default' ? '' : name),
         packageConfig = {
@@ -152,34 +163,49 @@ function doPackage(name){
 
     {
         let outPath = join(path , 'index.js'),
-            data = apply('code.package.index' , packageConfig);
+            data = apply('code.package.index' , packageConfig),
+            indexData = '';
 
         if(es5 === true){
 
-            data = compile(data) ;
+            indexData = compile(data) ;
 
             if(browser === true){
 
-                data = apply('code.package.es5.browser' , {
+                indexData = apply('code.package.es5.browser' , {
+                    polyfill:readTextFile(join(__dirname , '..'  ,'..' , 'node_modules' , '@babel' , 'polyfill' , 'dist' , 'polyfill.min.js')),
                     name:name === 'default' ? 'ZBEE' : name,
-                    body:data
+                    compress,
+                    min,
+                    format,
+                    body:indexData
                 }) ;
 
             }
-        }
-
-        if(compress){
-
-            data = min(data) ;
         
         }else{
-    
-            data = format(data) ;
-        }    
 
-        writeTextFile(outPath , data) ;
+            if(compress){
+
+                indexData = min(data) ;
+            
+            }else{
+        
+                indexData = format(data) ;
+            }    
+        }
+
+       
+
+        writeTextFile(outPath , format(data)) ;
 
         console.log('已完成' , outPath) ;
+
+        let filePath = `${dirname(outPath)}.js` ;
+
+        writeTextFile(filePath , indexData) ;
+
+        console.log('已完成' , filePath) ;
     }
 
     if(targets){
@@ -225,12 +251,9 @@ function createAliasMap(codes){
 
         if(aliases){
 
-            for(let {
-                folder,
-                name
-            } of aliases){
+            for(let alias of aliases){
 
-                map[normalize(name , folder)] =  fullName;
+                map[alias] =  fullName;
             }
         }
     }

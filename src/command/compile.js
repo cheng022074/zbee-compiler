@@ -80,12 +80,9 @@ function compile(code){
             aliases
         } = target ;
 
-        for(let {
-            folder,
-            name
-        } of aliases){
+        for(let alias of aliases){
 
-            writeTextFile(APPLICATION.generateBinPath(folder , name) , codeText) ;
+            writeTextFile(APPLICATION.generateBinPath('' , alias) , codeText) ;
         }
     }
 

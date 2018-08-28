@@ -20,6 +20,11 @@
             className = match[2] ;
     
         }else{
+
+            if(exports.hasOwnProperty(name)){
+
+                return CODES[name] = exports[name] ;
+            }
     
             folder = '<%- data.defaultFolder %>',
             className = name ;
