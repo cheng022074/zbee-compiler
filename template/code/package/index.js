@@ -37,7 +37,7 @@ exports.include = include ;
 
 const gettype = <%- apply('code.gettype') %> ;
 
-const config = <%- apply('code.config' , {
+const config = <%- apply('code.package.header.config' , {
         config,
         browser
     }) %>;

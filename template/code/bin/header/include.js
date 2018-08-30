@@ -10,21 +10,7 @@
 
     for(let i = 0 ; i < len ; i ++){
 
-        let path = libraries[i] ;
-
-        try{
-
-            libraries[i] = require(join(path , 'lib.js')) ;
-
-        }catch(err){
-
-            if(err.message.indexOf('Cannot find module') !== -1){
-
-                throw new Error(`无效的类库路径 ${path}`) ;
-            }
-
-            throw err ;
-        }
+        libraries[i] = require(join(libraries[i] , 'lib.js')) ;
     }
 
     return name =>{
