@@ -5,4 +5,4 @@ global.include = <%- apply('code.bin.header.include' , {
 
 global.gettype = <%- apply('code.gettype') %> ;
 
-global.config = <%- apply('code.config') %> ;
+global.config = <%- apply('code.bin.header.config') %> ;

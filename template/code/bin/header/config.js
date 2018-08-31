@@ -18,8 +18,7 @@
     }
 
     const 
-    dotRe = /\./g,
-    config = <%- data.hasOwnProperty('config') ? JSON.stringify(data.config) : '{}' %>;
+    dotRe = /\./g;
 
     function get_config(target , key){
 
@@ -60,50 +59,7 @@
 
     return (name , key) =>{
 
-        <%
-            if(!data.browser){
-        %>
-
-        try{
-
-            const {
-                env
-            } = process ;
-
-            let data;
-
-            try{
-
-                data = require(`${env['ZBEE-APPLICATION-ROOT-PATH']}/config/${name.replace(dotRe , '/')}.json`) ;
-
-            }catch(err){
-            }
-
-            if(data){
-
-                return get_config(data , key) ;
-            }
-        
-        }catch(err){
-
-        }
-        <%
-            }
-        %>
-
-        if(config.hasOwnProperty(name)){
-
-            return get_config(config[name] , key) ;
-        }
-
-        try{ 
-
-            return get_config(include(`config::${name}`) , key) ;
-
-        }catch(err){
-
-        }
-
+        return get_config(include(`config::${name}`) , key) ;
     }
 
 })()

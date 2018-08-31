@@ -96,14 +96,7 @@
             return get_config(config[name] , key) ;
         }
 
-        try{ 
-
-            return get_config(include(`config::${name}`) , key) ;
-
-        }catch(err){
-
-        }
-
+        return get_config(include(`config::${name}`) , key) ;
     }
 
 })()
