@@ -73,12 +73,14 @@ function doProject(command , ...args){
 
                 let {
                     config,
-                    browser
+                    browser,
+                    resources
                 } = project,
                 baseConfig = {
+                    name:moduleName,
                     browser,
+                    resources,
                     classes:allClassNames,
-                    name:'default',
                     bootstrap
                 },
                 [
@@ -92,7 +94,7 @@ function doProject(command , ...args){
 
                 package(baseConfig) ;
 
-                let packagePath = APPLICATION.getFolderPath('package') ;
+                let packagePath = join(APPLICATION.getFolderPath('package') , moduleName) ;
 
                 remove(join(packagePath , 'lib.js')) ;
 
@@ -103,7 +105,7 @@ function doProject(command , ...args){
                     dependencies:dependentModules
                 }) ;
 
-                rename(join(packagePath , 'index.js') , `${moduleName}.js`) ;
+                remove(`${packagePath}.js`) ;
 
                 break ;
 

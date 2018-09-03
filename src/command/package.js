@@ -3,7 +3,8 @@ const {
 } = require('../code'),
 {
     writeTextFile,
-    readTextFile
+    readTextFile,
+    copy
 } = require('../fs'),
 {
     apply
@@ -33,10 +34,7 @@ const {
 {
     simpleObject:isObject,
     directory:is_directory
-} = require('../is'),
-{
-    copy
-} = require('../fs');
+} = require('../is');
 
 function doPackage(name){
 
@@ -79,7 +77,8 @@ function doPackage(name){
         targets,
         browser,
         es5,
-        ignores
+        ignores,
+        resources
     } = config,
     codes = [];
 
@@ -129,7 +128,7 @@ function doPackage(name){
         defaultFolder
     } = APPLICATION;
 
-    let path = join(APPLICATION.getFolderPath('package') , name === 'default' ? '' : name),
+    let path = join(APPLICATION.getFolderPath('package') , name),
         packageConfig = {
             codeMap:{
                 ...codeMap,
@@ -174,7 +173,7 @@ function doPackage(name){
 
                 indexData = apply('code.package.es5.browser' , {
                     polyfill:readTextFile(join(__dirname , '..'  ,'..' , 'node_modules' , '@babel' , 'polyfill' , 'dist' , 'polyfill.min.js')),
-                    name:name === 'default' ? 'ZBEE' : name,
+                    name,
                     compress,
                     min,
                     format,
@@ -201,9 +200,20 @@ function doPackage(name){
 
         console.log('已完成' , outPath) ;
 
-        let filePath = `${dirname(outPath)}.js` ;
+        let folderPath = dirname(outPath),
+            filePath = `${folderPath}.js` ;
 
         writeTextFile(filePath , indexData) ;
+
+        if(resources){
+
+            let rootPath = process.env['ZBEE-APPLICATION-ROOT-PATH'];
+
+            for(let resource of resources){
+
+                copy(join(rootPath , resource) , folderPath) ;
+            }
+        }
 
         console.log('已完成' , filePath) ;
     }
