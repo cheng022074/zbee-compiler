@@ -21,9 +21,7 @@ package = require('./package'),
 } = require('../is'),
 {
     copy,
-    remove,
-    writeJSONFile,
-    rename
+    remove
 } = require('../fs'),
 {
     from
@@ -99,11 +97,6 @@ function doProject(command , ...args){
                 remove(join(packagePath , 'lib.js')) ;
 
                 remove(join(packagePath , 'meta.xml')) ;
-
-                writeJSONFile(join(packagePath , 'package.json') , {
-                    name:moduleName,
-                    dependencies:dependentModules
-                }) ;
 
                 remove(`${packagePath}.js`) ;
 

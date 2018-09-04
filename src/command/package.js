@@ -4,6 +4,7 @@ const {
 {
     writeTextFile,
     readTextFile,
+    writeJSONFile,
     copy
 } = require('../fs'),
 {
@@ -112,7 +113,8 @@ function doPackage(name){
     codes = unique(codes) ;
 
     let {
-        libraries
+        libraries,
+        dependentModules
     } = APPLICATION ;
 
     libraries.ignoreIndexes = ignores ;
@@ -156,6 +158,17 @@ function doPackage(name){
         let outPath = join(path , 'meta.xml') ;
 
         writeTextFile(outPath , apply('code.package.meta' , packageConfig)) ;
+
+        console.log('已完成' , outPath) ;
+    }
+
+    {
+        let outPath = join(path , 'package.json') ;
+
+        writeJSONFile(outPath , {
+            name,
+            dependencies:dependentModules
+        }) ;
 
         console.log('已完成' , outPath) ;
     }
