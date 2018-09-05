@@ -50,6 +50,8 @@ class Code{
 
             return codes[name] ;
         }
+
+        throw new Error('应使用名称定位代码') ;
     }
 
     constructor(fullName){

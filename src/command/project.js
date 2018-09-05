@@ -21,10 +21,12 @@ package = require('./package'),
 } = require('../is'),
 {
     copy,
-    remove
+    remove,
+    rename
 } = require('../fs'),
 {
-    from
+    from,
+    unique
 } = require('../array');
 
 function doProject(command , ...args){
@@ -37,7 +39,6 @@ function doProject(command , ...args){
         {
             rootPath,
             allClassNames,
-            dependentModules,
             moduleName
         } = APPLICATION;
 
@@ -71,7 +72,9 @@ function doProject(command , ...args){
 
                 let {
                     config,
+                    targets,
                     browser,
+                    es5,
                     resources
                 } = project,
                 baseConfig = {
@@ -98,7 +101,19 @@ function doProject(command , ...args){
 
                 remove(join(packagePath , 'meta.xml')) ;
 
-                remove(`${packagePath}.js`) ;
+                remove(join(packagePath , 'index.js')) ;
+
+                rename(`${packagePath}.js` , join(moduleName , 'index.js')) ;
+
+                if(targets){
+
+                    for(let target of targets){
+
+                        copy(packagePath , target) ;
+
+                        console.log('已复制到' , target) ;
+                    }
+                }
 
                 break ;
 

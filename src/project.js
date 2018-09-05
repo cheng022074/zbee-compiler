@@ -24,7 +24,8 @@ const {
     array:is_array
 } = require('./is'),
 {
-    from
+    from,
+    unique
 } = require('./array'),
 {
     getAllFilePaths,
@@ -326,7 +327,7 @@ function get_class_names(folder){
         names.push(name) ;
     }
 
-    return names ;
+    return unique(names) ;
 }
 
 const relativePathRe = /\.{1,2}/ ;

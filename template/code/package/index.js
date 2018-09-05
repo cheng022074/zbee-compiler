@@ -26,14 +26,28 @@ if(!env['ZBEE-APPLICATION-ROOT-PATH']){
 }
 
 <%
+}else{
+%>
+const exports = {} ;
+<%
 }
 %>
 
-const include = <%- apply('code.package.header.include' , {
+<%if(browser){%>
+
+export const include = <%- apply('code.package.header.include' , {
     defaultFolder
 }) %> ;
 
+<%}else{%>
+
+const include = <%- apply('code.package.header.include' , {
+    defaultFolder
+}) %>
+
 exports.include = include ;
+
+<%}%>
 
 const gettype = <%- apply('code.gettype') %> ;
 
@@ -58,6 +72,14 @@ exports['<%- name %>'] = <%- codeMap[name] %>
     for(let name of aliasNames){
 %>
 exports['<%- name %>'] = include('<%- aliasMap[name] %>') ;
+    <%if(browser){%>
+
+        export function <%- name %>(...args){
+
+            return exports['<%- name %>'](...args) ;
+
+        };
+    <%}%>
 <%
     }
 %>

@@ -5,7 +5,6 @@ textCodeMetaOnceRe = /@once/,
 textCodeMetaScopedRe = /@scoped/,
 textCodeMetaRunAtRe = /@runat\s+([^\n\r]+)/,
 textCodeMetaRunAtSplitRe = /\s+/,
-textCodeMetaExtendRe = /@extend\s+([^\n\r]+)/,
 textCodeMetaParamTypeSplitRe = /\|/,
 textCodeMetaParamNameRe = /^(?:\.{3})?(\w+)(?:\.(\w+))?(?:\s*\=\s*(.+))?/,
 textCodeMetaParamRestRe = /^\.{3}(\w+)/,
@@ -106,7 +105,7 @@ module.exports = class {
 
     applyAliases(){
 
-        let textCodeMetaAliasRe = /@alias\s+([^\n\r]+)/g,
+        let textCodeMetaAliasRe = /@alias\s+(\w+)/g,
         match,
         aliases = [],
         me = this,

@@ -17,9 +17,7 @@
         return data;
     }
 
-    const 
-    dotRe = /\./g,
-    config = <%- data.hasOwnProperty('config') ? JSON.stringify(data.config) : '{}' %>;
+    const config = <%- data.hasOwnProperty('config') ? JSON.stringify(data.config) : '{}' %>;
 
     function get_config(target , key){
 
@@ -74,7 +72,7 @@
 
             try{
 
-                data = require(`${env['ZBEE-APPLICATION-ROOT-PATH']}/config/${name.replace(dotRe , '/')}.json`) ;
+                data = require(`${env['ZBEE-APPLICATION-ROOT-PATH']}/config/${name.replace(/\./g , '/')}.json`) ;
 
             }catch(err){
             }

@@ -192,6 +192,10 @@ exports.rename = (path , newName) =>{
 
     if(is_file(path)){
 
-        renameSync(path , join(dirname(path) , newName)) ;
+        let filePath = join(dirname(path) , newName) ;
+
+        create_directory(dirname(filePath)) ;
+
+        renameSync(path , filePath) ;
     }
 }

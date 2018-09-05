@@ -77,7 +77,6 @@ function doPackage(name){
         config:baseConfig,
         targets,
         browser,
-        es5,
         ignores,
         resources
     } = config,
@@ -178,36 +177,14 @@ function doPackage(name){
             data = apply('code.package.index' , packageConfig),
             indexData = '';
 
-        if(es5 === true){
+        if(compress){
 
-            indexData = compile(data) ;
-
-            if(browser === true){
-
-                indexData = apply('code.package.es5.browser' , {
-                    polyfill:readTextFile(join(__dirname , '..'  ,'..' , 'node_modules' , '@babel' , 'polyfill' , 'dist' , 'polyfill.min.js')),
-                    name,
-                    compress,
-                    min,
-                    format,
-                    body:indexData
-                }) ;
-
-            }
+            indexData = min(data) ;
         
         }else{
-
-            if(compress){
-
-                indexData = min(data) ;
-            
-            }else{
-        
-                indexData = format(data) ;
-            }    
-        }
-
-       
+    
+            indexData = format(data) ;
+        }    
 
         writeTextFile(outPath , format(data)) ;
 
