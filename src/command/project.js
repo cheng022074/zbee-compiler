@@ -21,12 +21,10 @@ package = require('./package'),
 } = require('../is'),
 {
     copy,
-    remove,
-    rename
+    remove
 } = require('../fs'),
 {
-    from,
-    unique
+    from
 } = require('../array');
 
 function doProject(command , ...args){
@@ -74,11 +72,12 @@ function doProject(command , ...args){
                     config,
                     targets,
                     browser,
-                    es5,
+                    es6,
                     resources
                 } = project,
                 baseConfig = {
                     name:moduleName,
+                    es6,
                     browser,
                     resources,
                     classes:allClassNames,
@@ -101,13 +100,14 @@ function doProject(command , ...args){
 
                 remove(join(packagePath , 'meta.xml')) ;
 
-                remove(join(packagePath , 'index.js')) ;
-
-                rename(`${packagePath}.js` , join(moduleName , 'index.js')) ;
-
                 if(targets){
 
                     for(let target of targets){
+
+                        if(!isAbsolute(target) || !is_directory(target)){
+
+                            continue ;
+                        }
 
                         copy(packagePath , target) ;
 

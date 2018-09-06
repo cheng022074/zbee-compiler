@@ -3,12 +3,7 @@ const {
 } = require('js-beautify'),
 {
     jsmin
-} = require('jsmin'),
-{
-    transform
-} = require('babel-core'),
-babelPresetEnv = require('babel-preset-env'),
-babelPresetStage2 = require('babel-preset-stage-2');
+} = require('jsmin');
 
 exports.format = code =>{
 
@@ -36,14 +31,4 @@ exports.min = code =>{
     }
 
     return code ;
-}
-
-exports.compile = code =>{
-
-    return transform(code , {
-        presets:[
-            babelPresetEnv,
-            babelPresetStage2
-        ]
-    }).code ;
 }

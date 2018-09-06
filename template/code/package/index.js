@@ -5,7 +5,8 @@
         aliasMap,
         config,
         defaultFolder,
-        browser
+        browser,
+        es6
     } = data,
     {
         keys
@@ -28,12 +29,22 @@ if(!env['ZBEE-APPLICATION-ROOT-PATH']){
 <%
 }else{
 %>
-const exports = {} ;
+
+<%- apply('code.package.browser') %>
+
 <%
 }
 %>
 
-<%if(browser){%>
+<%
+    if(es6){
+%>
+const exports = {} ;
+<%
+    }
+%>
+
+<%if(es6){%>
 
 export const include = <%- apply('code.package.header.include' , {
     defaultFolder
@@ -72,7 +83,7 @@ exports['<%- name %>'] = <%- codeMap[name] %>
     for(let name of aliasNames){
 %>
 exports['<%- name %>'] = include('<%- aliasMap[name] %>') ;
-    <%if(browser){%>
+    <%if(es6){%>
 
         export function <%- name %>(...args){
 

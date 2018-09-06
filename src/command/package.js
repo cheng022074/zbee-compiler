@@ -78,7 +78,8 @@ function doPackage(name){
         targets,
         browser,
         ignores,
-        resources
+        resources,
+        es6
     } = config,
     codes = [];
 
@@ -141,6 +142,7 @@ function doPackage(name){
             },
             bootstrap,
             browser,
+            es6,
             config:baseConfig || {},
             defaultFolder
         } ;
@@ -184,16 +186,13 @@ function doPackage(name){
         }else{
     
             indexData = format(data) ;
-        }    
-
-        writeTextFile(outPath , format(data)) ;
+        }
+        
+        writeTextFile(outPath , indexData) ;
 
         console.log('已完成' , outPath) ;
 
-        let folderPath = dirname(outPath),
-            filePath = `${folderPath}.js` ;
-
-        writeTextFile(filePath , indexData) ;
+        let folderPath = dirname(outPath);
 
         if(resources){
 
@@ -201,11 +200,13 @@ function doPackage(name){
 
             for(let resource of resources){
 
-                copy(join(rootPath , resource) , folderPath) ;
+                let path = join(rootPath , resource);
+
+                copy(path , folderPath) ;
+
+                console.log('已同步到' , path) ;
             }
         }
-
-        console.log('已完成' , filePath) ;
     }
 
     if(targets){
