@@ -53,8 +53,17 @@ module.exports = class extends Coder{
 
         for(let node of nodes){
 
-            imports.push(node.getAttribute('setter')),
-            imports.push(node.getAttribute('getter'));
+            if(node.hasAttribute('setter')){
+
+                imports.push(node.getAttribute('setter')) ;
+            }
+
+            if(node.hasAttribute('getter')){
+
+                imports.push(node.getAttribute('getter'));
+            }            
+
+            
         }
 
         return imports ;
