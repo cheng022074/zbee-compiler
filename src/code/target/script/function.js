@@ -51,6 +51,22 @@ function process_params(params){
                 case 'object':
 
                     part = `{${process_params(items)}}` ;
+
+                    if(!defaultValue){
+
+                        defaultValue = '{}' ;
+                    }
+
+                    break ;
+
+                case 'array':
+                    
+                    part = `[${process_params(items)}]` ;
+
+                    if(!defaultValue){
+
+                        defaultValue = '[]' ;
+                    }
             }
 
             if(defaultValue){

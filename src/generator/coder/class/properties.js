@@ -6,7 +6,10 @@ const {
 } = require('../../../xml'),
 {
     apply
-} = require('../../../template');
+} = require('../../../template'),
+{
+    expression
+} = require('../../../script/generator');
 
 module.exports = class extends Coder{
 
@@ -24,16 +27,30 @@ module.exports = class extends Coder{
             let prefix = node.getAttribute('static') === 'yes' ? 'static ' : '',
                 name = node.getAttribute('name');
 
+            if(node.hasAttribute('value')){
+
+                result.push(`${prefix}get ${name}(){
+                    let me = this ;
+                    if(!me.hasOwnProperty('$${name}')){
+                        me['$${name}'] = ${expression(node.getAttribute('value'))};
+                    }
+                    return me['$${name}'] ;
+                }`) ;
+
+                break ;
+            }
+
             if(node.hasAttribute('getter')){
 
-                result.push(`${prefix} get ${name}(){
+                result.push(`${prefix}get ${name}(){
                     return include('${node.getAttribute('getter')}').call(this) ;
                 }`) ;
-                
 
-            }else if(node.hasAttribute('setter')){
+            }
+            
+            if(node.hasAttribute('setter')){
 
-                result.push(`${prefix} set ${name}(value){
+                result.push(`${prefix}set ${name}(value){
                     include('${node.getAttribute('setter')}').call(this , value) ;
                 }`) ;
                 

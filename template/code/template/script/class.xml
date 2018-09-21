@@ -1,5 +1,5 @@
 <class description="类说明">
-    <constructor description="构造方法说明" implement="<%- data.name %>.constructors.constructor">
+    <constructor description="构造方法说明" implement="<%- data.name %>.constructor">
         <param name="param" type="mixed" description="参数说明"/>
     </constructor>
     <properties>
