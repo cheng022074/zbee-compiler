@@ -3,10 +3,10 @@
         <param name="param" type="mixed" description="参数说明"/>
     </constructor>
     <properties>
-        <property description="属性说明" name="property" type="mixed" getter="<%- data.name %>.properties.property"/>
+        <property description="属性说明" name="property" type="mixed" getter="<%- data.name %>.property"/>
     </properties>
     <methods>
-        <method description="方法说明" name="method" implement="<%- data.name %>.methods.method" type="mixed">
+        <method description="方法说明" name="method" implement="<%- data.name %>.method" type="mixed">
             <param name="param" type="mixed" description="参数说明"/>
         </method>
     </methods>
