@@ -69,6 +69,7 @@ function doProject(command , ...args){
             case 'release':
 
                 let {
+                    packages,
                     config,
                     targets,
                     browser,
@@ -87,10 +88,16 @@ function doProject(command , ...args){
                     name
                 ] = args ;
 
-                if(config && name){
+                if(packages && name){
 
-                    baseConfig.config = config[name] ;
+                    let package = packages[name] ;
+
+                    config = package.config ;
+
+                    targets = package.targets ;
                 }
+
+                baseConfig.config = config ;
 
                 package(baseConfig) ;
 
