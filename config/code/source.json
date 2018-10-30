@@ -10,6 +10,12 @@
             "converter":"code.converter.script.class"
         }
     },
+    "css":{
+        ".scss":{
+            "template":"code.template.scss",
+            "converter":"code.converter.scss"
+        }
+    },
     "debug":{
         ".js":{
             "template":"code.template.script.function",

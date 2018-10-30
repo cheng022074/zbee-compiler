@@ -67,10 +67,10 @@ function compile(code){
     path = APPLICATION.generateBinPath(code.folder , name),
     motifyTime = getMotifyTime(code.path);
 
-    if(!env['ZBEE-ENV'] && motifyTime === getLastCompileTime(path)){
+   /* if(!env['ZBEE-ENV'] && motifyTime === getLastCompileTime(path)){
 
         return ;
-    }
+    }*/
 
     let codeText = format(target.binCodeText);
 

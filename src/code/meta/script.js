@@ -52,9 +52,7 @@ module.exports = class {
 
         me.code = data.replace(textCodeMetaRe , '') ;
 
-        me.fullName = code.fullName ;
-
-        defineCacheProperties(this , [
+        defineCacheProperties(me , [
             'async',
             'scoped',
             'runAt',
@@ -69,8 +67,6 @@ module.exports = class {
             'once',
             'aliases'
         ]) ;
-
-        me.target = code ;
     }
 
     applyOnce(){

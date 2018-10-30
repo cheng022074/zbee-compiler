@@ -9,6 +9,33 @@ exports.toPath = (name , suffix = '') =>{
     return `${name.replace(dotRe , '/')}${suffix}` ;
 }
 
+exports.toStylesheetCase = fullName =>{
+
+    let {
+        name,
+        folder
+    } = parse(fullName) ;
+
+    let names = split(name , dotRe) ;
+
+    let result = [] ;
+
+    for(let name of names){
+
+        result.push(name) ;
+    }
+
+    name = names.join('-') ;
+
+    if(folder){
+
+        name = `${folder}-${name}` ;
+    }
+
+    return name.toLowerCase() ;
+
+}
+
 exports.toCamelCase = fullName =>{
 
     let {
@@ -27,8 +54,6 @@ exports.toCamelCase = fullName =>{
 
         result.push(capitalize(name)) ;
     }
-
-    name = `${firstName}${result.join('')}` ;
 
     if(folder){
 

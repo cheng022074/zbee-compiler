@@ -3,7 +3,6 @@ const {
 } = require('../code'),
 {
     writeTextFile,
-    readTextFile,
     writeJSONFile,
     copy
 } = require('../fs'),
