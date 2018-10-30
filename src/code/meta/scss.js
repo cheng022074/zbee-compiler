@@ -53,8 +53,6 @@ module.exports = class {
 
 }
 
-const dotRe = /\./g ;
-
 function getFullName(code){
 
     let {
