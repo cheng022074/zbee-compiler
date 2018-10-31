@@ -5,9 +5,6 @@ const {
     APPLICATION
 } = require('../project'),
 {
-    parse
-} = require('../name'),
-{
     writeTextFile
 } = require('../fs'),
 {
@@ -16,10 +13,7 @@ const {
 {
     getMotifyTime,
     readTextFile
-} = require('../fs'),
-{
-    env
-} = process;
+} = require('../fs');
 
 module.exports = name =>{
 

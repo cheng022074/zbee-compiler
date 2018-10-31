@@ -3,7 +3,10 @@ const {
 } = require('js-beautify'),
 {
     jsmin
-} = require('jsmin');
+} = require('jsmin'),
+{
+    js:stripComment
+} = require('strip-comment');
 
 exports.format = code =>{
 
@@ -31,4 +34,9 @@ exports.min = code =>{
     }
 
     return code ;
+}
+
+exports.stripComment = code =>{
+
+    return stripComment(code) ;
 }

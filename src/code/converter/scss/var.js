@@ -1,6 +1,6 @@
 const
-Meta = require('../meta/scss'),
-Target = require('../target');
+Meta = require('../../meta/scss/var'),
+Target = require('../../target');
 
 module.exports = code =>{
 

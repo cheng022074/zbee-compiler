@@ -2,14 +2,14 @@ const {
     readTextFile
 } = require('./fs'),
 {
-    js
-} = require('strip-comment');
+    stripComment
+} = require('./script');
 
 exports.load = path =>{
 
     try{
 
-        return JSON.parse(js(readTextFile(path))) ;
+        return JSON.parse(stripComment(readTextFile(path))) ;
     
     }catch(err){
     }

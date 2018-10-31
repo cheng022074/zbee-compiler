@@ -4,10 +4,9 @@ const {
     COMPILER
 } = require('./project'),
 {
-    resolve
-} = require('path'),
+    unique
+} = require('./array'),
 {
-    toPath,
     parse,
     normalize
 } = require('./name'),
@@ -239,7 +238,9 @@ class SourceCode extends Code{
         defineCacheProperties(this , [
             'baseName',
             'importSourceCodes',
-            'importAllSourceCodes'
+            'importAllSourceCodes',
+            'importNames',
+            'importAllNames'
         ]) ;
     }
 
@@ -292,33 +293,51 @@ class SourceCode extends Code{
 
     }
 
-    applyImportSourceCodes(){
+    applyImportNames(){
 
-        let me = this ;
+        let {
+            target
+        } = this ;
 
-        if(me.exists){
+        if(target){
 
-            let {
-                meta
-            } = me.target ;
-
-            let names = meta.importNames || [],
-                codes = [];
-
-            for(let name of names){
-
-                let code = SourceCode.get(name) ;
-
-                if(code){
-
-                    codes.push(code) ;
-                }
-            }
-
-            return codes ;
+            return target.meta.importNames || [] ;   
         }
 
         return [] ;
+    }
+
+    applyImportAllNames(){
+
+        let {
+            importAllSourceCodes
+        } = this,
+        names = [];
+
+        for(let code of importAllSourceCodes){
+
+            names.push(code.fullName , ...code.importNames) ;
+        }
+
+        return unique(names) ;
+    }
+
+    applyImportSourceCodes(){
+
+        let names = this.importNames,
+            codes = [];
+
+        for(let name of names){
+
+            let code = SourceCode.get(name) ;
+
+            if(code){
+
+                codes.push(code) ;
+            }
+        }
+
+        return codes ;
     }
 
 

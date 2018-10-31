@@ -14,6 +14,10 @@
         ".scss":{
             "template":"code.template.scss",
             "converter":"code.converter.scss"
+        },
+        ".var.scss":{
+            "template":"code.template.scss.var",
+            "converter":"code.converter.scss.var"
         }
     },
     "debug":{

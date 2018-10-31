@@ -14,7 +14,11 @@ const
 } = require('../../object'),
 {
     parse
-} = require('postcss') ;
+} = require('postcss'),
+{
+    stripComment
+} = require('../../script'),
+varRe = /^\$/;
 
 module.exports = class {
 
@@ -33,7 +37,7 @@ module.exports = class {
 
     applyData(){
 
-        return parse(readTextFile(this.target.path).trim());
+        return parse(stripComment(readTextFile(this.target.path).trim()));
     }
 
     applyImportNames(){
@@ -43,12 +47,32 @@ module.exports = class {
 
     applyCode(){
 
-        let {
+        let 
+        me = this,
+        {
             data,
             target,
-        } = this ;
+        } = me ;
 
-        return getCode(data , target) ;
+        data = data.clone() ;
+
+        data.walkAtRules('import' , rule => rule.remove()) ;
+
+        return me.getCode(data) ;
+    }
+
+    getFullName(){
+
+        return getFullName(this.target) ;
+    }
+
+    getCode(data){
+
+        fillFullName(data , this.getFullName()) ;
+
+        data.walkDecls(varRe , decl => decl.remove()) ;
+
+        return data.toResult().css ;
     }
 
 }
@@ -73,7 +97,6 @@ const
 ruleRe = /&|\.-main-/,
 ruleAndRe = /&/,
 ruleMainRe = /\.-main-/g,
-varRe = /^\$/,
 atRuleRe = /@mixin|@fucntion/;
 
 function fillFullName(root , fullName){
@@ -103,17 +126,4 @@ function getImportNames(root){
     root.walkAtRules('import' , rule => names.push(normalize(rule.params.replace(quotationMarkRe , '').trim() , 'css'))) ;
 
     return unique(names) ;
-}
-
-function getCode(root , code){
-
-    root = root.clone() ;
-
-    fillFullName(root , getFullName(code)) ;
-
-    root.walkAtRules('import' , rule => rule.remove()) ;
-
-    root.walkDecls(varRe , decl => decl.remove()) ;
-
-    return root.toResult().css ;
 }
