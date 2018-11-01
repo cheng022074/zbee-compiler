@@ -17,7 +17,7 @@
         return data;
     }
 
-    const config = <%- data.hasOwnProperty('config') ? JSON.stringify(data.config) : '{}' %>;
+    const config = <%- data ? JSON.stringify(data) : '{}' %>;
 
     function get_config(target , key){
 
@@ -57,37 +57,6 @@
     }
 
     return (name , key) =>{
-
-        <%
-            if(!data.browser){
-        %>
-
-        try{
-
-            const {
-                env
-            } = process ;
-
-            let data;
-
-            try{
-
-                data = require(`${env['ZBEE-APPLICATION-ROOT-PATH']}/config/${name.replace(/\./g , '/')}.json`) ;
-
-            }catch(err){
-            }
-
-            if(data){
-
-                return get_config(data , key) ;
-            }
-        
-        }catch(err){
-
-        }
-        <%
-            }
-        %>
 
         if(config.hasOwnProperty(name)){
 

@@ -373,8 +373,7 @@ class Libraries{
         defineCacheProperties(me , [
             'targets',
             'metas',
-            'codeMap',
-            'aliasMap'
+            'codeMap'
         ]) ;
     }
 
@@ -390,7 +389,7 @@ class Libraries{
 
             try{
 
-                libraries.push(require(join(path , 'lib.js'))) ;
+                libraries.push(require(path)) ;
 
             }catch(err){
 
@@ -429,7 +428,7 @@ class Libraries{
 
             try{
 
-                metas.push(xml_load(join(path , 'meta.xml'))) ;
+                metas.push(xml_load(join(path , 'index.xml'))) ;
 
             }catch(err){
 
@@ -445,7 +444,8 @@ class Libraries{
         let {
             metas
         } = this,
-        map = {};
+        map = {},
+        spaceRe = /\s+/;
 
         for(let meta of metas){
 
@@ -453,27 +453,10 @@ class Libraries{
 
             for(let node of nodes){
 
-                map[node.getAttribute('name')] = CDATAValues(node).join('') ;
-            }
-        }
-
-        return map ;
-    }
-
-    applyAliasMap(){
-
-        let {
-            metas
-        } = this,
-        map = {};
-
-        for(let meta of metas){
-
-            let nodes = selectNodes(meta , '//class[@link]') ;
-
-            for(let node of nodes){
-
-                map[node.getAttribute('name')] = node.getAttribute('link') ;
+                map[node.getAttribute('name')] = {
+                    code:CDATAValues(node).join(''),
+                    aliases:node.hasAttribute('aliases') ? split(node.getAttribute('aliases') , spaceRe) : []
+                } ;
             }
         }
 

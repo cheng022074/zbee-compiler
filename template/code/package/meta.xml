@@ -1,31 +1,25 @@
 <%
-    const {
-        codeMap,
-        aliasMap,
-    } = data,
+    const
     {
         keys
     } = Object;
 %>
+<?xml?>
 <classes>
 <%
 
-    let codeNames = keys(codeMap) ; 
+    let names = keys(data) ; 
 
-    for(let name of codeNames){
+    for(let name of names){
+
+        let {
+            aliases,
+            code
+        } = data[name] ;
 %>
-    <class name="<%- name %>">
-        <![CDATA[<%- codeMap[name] %>]]>
+    <class name="<%- name %>" <%if(aliases.length){%>aliases="aliases.join(' ')"<%}%>>
+        <![CDATA[<%- code %>]]>
     </class>
-<%
-    }
-%>
-<%
-    let aliasNames = keys(aliasMap) ;
-
-    for(let name of aliasNames){
-%>
-    <class name="<%- name %>" link="<%- aliasMap[name] %>"/>
 <%
     }
 %>

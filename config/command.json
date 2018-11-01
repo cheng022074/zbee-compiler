@@ -34,5 +34,9 @@
     "project":{
         "description":"项目管理器",
         "implement":"command.project"
+    },
+    "web":{
+        "description":"开发用服务器",
+        "implement":"command.web"
     }
 }

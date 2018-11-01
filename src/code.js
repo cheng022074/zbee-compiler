@@ -240,8 +240,38 @@ class SourceCode extends Code{
             'importSourceCodes',
             'importAllSourceCodes',
             'importNames',
-            'importAllNames'
+            'importAllNames',
+            'packageCodeText',
+            'aliases'
         ]) ;
+    }
+
+    applyPackageCodeText(){
+
+        let {
+            target
+        } = this ;
+
+        if(target){
+
+            return target.packageCodeText ;
+        }
+
+        return '' ;
+    }
+
+    applyAliases(){
+
+        let {
+            target
+        } = this ;
+
+        if(target){
+
+            return target.aliases ;
+        }
+
+        return [] ;
     }
 
     applyBaseName(){

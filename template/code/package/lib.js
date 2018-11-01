@@ -1,29 +1,28 @@
 <%
     const {
-        codeMap,
-        aliasMap
-    } = data,
-    {
         keys
     } = Object;
 %>
 
 <%
 
-    let codeNames = keys(codeMap) ; 
+    let names = keys(data) ; 
 
-    for(let name of codeNames){
-%>
-exports['<%- name %>'] = <%- codeMap[name] %>
-<%
-    }
-%>
-<%
-    let aliasNames = Object.keys(aliasMap) ;
+    for(let name of names){
 
-    for(let name of aliasNames){
+        let {
+            code,
+            aliases
+        } = data[name] ;
 %>
-exports['<%- name %>'] = include('<%- aliasMap[name] %>') ;
+exports['<%- name %>'] = <%- code %>
+<%
+        for(let alias of aliases){
+%>
+exports['<%- alias %>'] = include('<%- name %>') ;
+<%
+        }
+%>
 <%
     }
 %>
