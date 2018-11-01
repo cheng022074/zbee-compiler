@@ -18,7 +18,7 @@ module.exports = (codes , path , {
     } = APPLICATION ;
 
     return {
-        [`${path}.js`]:apply('code.package.server' , {
+        [`${path}.js`]:apply('code.package.bundle.server' , {
             defaultFolder,
             map,
             config,

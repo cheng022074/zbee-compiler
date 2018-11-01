@@ -17,7 +17,7 @@ module.exports = (codes , path , {
     } = APPLICATION ;
 
     return {
-        [`${path}.js`]:apply('code.package.browser' , {
+        [`${path}.js`]:apply('code.package.bundle.browser' , {
             defaultFolder,
             map,
             config

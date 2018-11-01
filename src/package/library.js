@@ -11,7 +11,7 @@ module.exports = (codes , path) =>{
     let map = getTextMap(codes) ;
 
     return {
-        [join(path , 'index.xml')]:apply('code.package.meta' , map),
-        [join(path , 'index.js')]:apply('code.package.lib' , map)
+        [join(path , 'index.xml')]:apply('code.package.bundle.meta' , map),
+        [join(path , 'index.js')]:apply('code.package.bundle.lib' , map)
      } ;
 }
