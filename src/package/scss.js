@@ -1,7 +1,4 @@
 const 
-{
-    writeTextFile
-} = require('../fs'),
 getBinMap = require('./map/bin'),
 {
     simpleObject:isObject
@@ -11,15 +8,9 @@ module.exports = (codes , path) =>{
 
     let map = getBinMap(codes) ;
 
-    path = `${path}.scss`;
-
-    writeTextFile(path , getData(map)) ;
-
-    console.log('已生成' , path) ;
-
-    return [
-        path
-    ] ;
+    return {
+        [`${path}.scss`]:getData(map)
+    } ;
 }
 
 function getData(map){

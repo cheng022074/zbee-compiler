@@ -15,7 +15,10 @@ const {
 } = require('../is'),
 {
     unique
-} = require('../array');
+} = require('../array'),
+{
+    writeTextFile
+} = require('../fs');
 
 module.exports = name =>{
 
@@ -37,7 +40,7 @@ module.exports = name =>{
             ...packageConfig
         } = name ;
 
-        doPackage(packageConfig , packageName) ;
+        doPackage(packageConfig , packageName || `package-${Date.now()}`) ;
 
     }else{
 
@@ -58,6 +61,7 @@ module.exports = name =>{
 function doPackage({
     classes,
     type = 'library',
+    memory = false,
     ...packageConfig
 } , packageName){
 
@@ -77,5 +81,19 @@ function doPackage({
         }
     }
 
-    require(`../package/${type}`)(unique(codes) , join(APPLICATION.getFolderPath('package') , packageName) , packageConfig) ;
+    let result = require(`../package/${type}`)(unique(codes) , join(APPLICATION.getFolderPath('package') , packageName) , packageConfig) ;
+
+    if(memory){
+
+        return result ;
+    }
+
+    let paths = Object.keys(result) ;
+
+    for(let path of paths){
+
+        writeTextFile(path , result[path]) ;
+
+        console.log('已生成' , path) ;
+    }
 }
