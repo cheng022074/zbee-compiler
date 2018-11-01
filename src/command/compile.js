@@ -41,16 +41,11 @@ module.exports = name =>{
 
 function compile(code){
 
-    if(!code.exists){
-
-        return ;
-    }
-
     let {
-        target
+        exists
     } = code ;
 
-    if(!target){
+    if(!exists){
 
         return ;
     }
@@ -66,21 +61,17 @@ function compile(code){
         return ;
     }*/
 
-    let codeText = format(target.binCodeText);
+    let codeText = format(code.binCodeText),
+    {
+        aliases
+    } = code ;
 
-    if(target.hasOwnProperty('aliases')){
+    for(let alias of aliases){
 
-        let {
-            aliases
-        } = target ;
-
-        for(let alias of aliases){
-
-            writeTextFile(APPLICATION.generateBinPath('' , alias) , codeText) ;
-        }
+        writeTextFile(APPLICATION.generateBinPath('' , alias) , codeText) ;
     }
 
-    writeTextFile(path , format(code.target.binCodeText)) ;
+    writeTextFile(path , codeText) ;
 
     writeTextFile(getLastCompileTimePath(path) , motifyTime) ;
 

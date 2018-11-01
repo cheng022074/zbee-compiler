@@ -242,8 +242,23 @@ class SourceCode extends Code{
             'importNames',
             'importAllNames',
             'packageCodeText',
+            'binCodeText',
             'aliases'
         ]) ;
+    }
+
+    applyBinCodeText(){
+
+        let {
+            target
+        } = this ;
+
+        if(target){
+
+            return target.binCodeText ;
+        }
+
+        return '' ;
     }
 
     applyPackageCodeText(){

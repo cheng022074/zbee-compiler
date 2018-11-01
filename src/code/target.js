@@ -21,7 +21,8 @@ module.exports = class {
             'binCodeData',
             'binCodeText',
             'packageCodeData',
-            'packageCodeText'
+            'packageCodeText',
+            'aliases'
         ]) ;
     }
 
@@ -76,5 +77,10 @@ module.exports = class {
         }
 
         return '' ;   
+    }
+
+    applyAliases(){
+
+        return this.meta.aliases || [] ;
     }
 }
