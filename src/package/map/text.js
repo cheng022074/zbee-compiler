@@ -22,6 +22,7 @@ function applyCodeMap(codeMap , dependentCodeMap , code){
 
     let {
         fullName:name,
+        importAllNames,
         exists
     } = code ;
 
@@ -29,7 +30,8 @@ function applyCodeMap(codeMap , dependentCodeMap , code){
 
         codeMap[name] = {
             code:code.packageCodeText,
-            aliases:code.aliases
+            aliases:code.aliases,
+            imports:importAllNames
         } ;
     
     }else if(dependentCodeMap.hasOwnProperty(name)){

@@ -13,13 +13,6 @@ Target = require('../target'),
 
 module.exports = class extends Target{
 
-    constructor(...args){
-
-        super(...args) ;
-
-        defineCacheProperty(this , 'aliases') ;
-    }
-
     applyAliases(){
 
         let {

@@ -24,11 +24,15 @@ textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*
     array:is_array
 } = require('../../is'),
 {
-    toCamelCase
+    toCamelCase,
+    normalize
 } = require('../../name'),
 {
     match:string_match
-} = require('../../regexp');
+} = require('../../regexp'),
+{
+    APPLICATION
+} = require('../../project');
 
 module.exports = class {
 
@@ -219,11 +223,14 @@ module.exports = class {
         let {
             imports
         } = this,
-        names = [];
+        names = [],
+        {
+            defaultFolder
+        } = APPLICATION;
 
         for(let config of imports){
 
-            names.push(config.include) ;
+            names.push(normalize(config.include , defaultFolder)) ;
         }
 
         return names ;
