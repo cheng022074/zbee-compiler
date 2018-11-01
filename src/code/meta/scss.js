@@ -37,7 +37,7 @@ module.exports = class {
 
     applyData(){
 
-        return parse(stripComment(readTextFile(this.target.path).trim()));
+        return parse(stripComment(readTextFile(this.target.path)));
     }
 
     applyImportNames(){

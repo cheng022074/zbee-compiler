@@ -1,6 +1,7 @@
 let {
     BinCode
-} = require('../../code');
+} = require('../../code'),
+compile = require('../../command/compile');
 
 module.exports = codes =>{
 
@@ -9,6 +10,8 @@ module.exports = codes =>{
     for(let {
         fullName
     } of codes){
+
+        compile(fullName) ;
 
         applyCodeMap(codeMap , fullName) ;
     }

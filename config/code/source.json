@@ -24,6 +24,10 @@
         ".js":{
             "template":"code.template.script.function",
             "converter":"code.converter.script.function"
+        },
+        ".html":{
+            "template":"code.template.html",
+            "converter":"code.converter.html"
         }
     }, 
     "test":{
