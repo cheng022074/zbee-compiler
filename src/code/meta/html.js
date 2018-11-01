@@ -26,6 +26,7 @@ module.exports = class {
             'data',
             'importScriptNames',
             'importCSSNames',
+            'importNames',
             'code'
         ]) ;
     }
@@ -35,12 +36,25 @@ module.exports = class {
         return parse(readTextFile(this.target.path));
     }
 
+    applyImportNames(){
+
+        let {
+            importScriptNames,
+            importCSSNames
+        } = this ;
+
+        return [
+            ...importScriptNames,
+            ...importCSSNames
+        ] ;
+    }
+
     applyImportScriptNames(){
 
         let {
             head
         } = this.data.window.document,
-        scriptEls = head.querySelectorAll('script[@import]'),
+        scriptEls = head.querySelectorAll('script[import]'),
         names = [];
 
         for(let scriptEl of scriptEls){
@@ -56,7 +70,7 @@ module.exports = class {
         let {
             head
         } = this.data.window.document,
-        styleEls = head.querySelectorAll('style[@import]'),
+        styleEls = head.querySelectorAll('style[import]'),
         names = [];
 
         for(let styleEl of styleEls){

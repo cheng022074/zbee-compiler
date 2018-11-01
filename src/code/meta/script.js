@@ -27,9 +27,6 @@ textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*
     toCamelCase
 } = require('../../name'),
 {
-    unique
-} = require('../../array'),
-{
     match:string_match
 } = require('../../regexp');
 
@@ -229,7 +226,7 @@ module.exports = class {
             names.push(config.include) ;
         }
 
-        return unique(names) ;
+        return names ;
     }
 
     applyParams(){

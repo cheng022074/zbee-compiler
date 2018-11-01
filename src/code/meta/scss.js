@@ -7,9 +7,6 @@ const
     normalize
 } = require('../../name'),
 {
-    unique
-} = require('../../array'),
-{
     defineCacheProperties
 } = require('../../object'),
 {
@@ -50,8 +47,7 @@ module.exports = class {
         let 
         me = this,
         {
-            data,
-            target,
+            data
         } = me ;
 
         data = data.clone() ;
@@ -125,5 +121,5 @@ function getImportNames(root){
 
     root.walkAtRules('import' , rule => names.push(normalize(rule.params.replace(quotationMarkRe , '').trim() , 'css'))) ;
 
-    return unique(names) ;
+    return names ;
 }
