@@ -16,9 +16,6 @@ const {
     toStylesheetCase
 } = require('../name'),
 {
-    string:path_string
-} = require('../path'),
-{
     writeTextFile
 } = require('../fs'),
 {
@@ -31,7 +28,8 @@ Server = require('webpack-dev-server'),
 webpack = require('webpack'),
 createLogger = require('webpack-dev-server/lib/utils/createLogger'),
 HtmlWebpackPlugin = require('html-webpack-plugin'),
-compile = require('./compile');
+compile = require('./compile'),
+package = require('./package');
 
 module.exports = name =>{
 
@@ -51,7 +49,7 @@ module.exports = name =>{
 
         if(isObject(target) && target.type === 'html' && target.hasOwnProperty('data')){
 
-            web(SourceCode.get(name) , target.data) ;
+            web(generate(SourceCode.get(name) , target.data)) ;
 
         }else{
 
@@ -61,37 +59,10 @@ module.exports = name =>{
 }
 
 function web({
-    fullName,
-    target
-} , data){
-
-    let webPath = APPLICATION.getFolderPath('web') ;
-
-    fullName = toStylesheetCase(fullName) ;
-
-    let htmlPath = join(webPath , `${fullName}.html`) ;
-
-    writeTextFile(htmlPath , data) ;
-
-    console.log('已生成' , htmlPath) ;
-
-    let scriptPackagePath = join(webPath , fullName ,  'package.js') ;
-
-    writeTextFile(scriptPackagePath , '') ;
-
-    console.log('已生成' , scriptPackagePath) ;
-
-    let scssPackagePath = join(webPath , fullName , 'package.scss') ;
-
-    writeTextFile(scssPackagePath , '') ;
-
-    console.log('已生成' , scssPackagePath) ;
-
-    let scriptPath = join(webPath , `${fullName}.js`) ;
-
-    writeTextFile(scriptPath , apply('webpack.script' , fullName)) ;
-
-    console.log('已生成' , scriptPath) ;
+    webPath,
+    scriptPath,
+    htmlPath
+}){
 
     let options = {
         contentBase:webPath,
@@ -161,4 +132,70 @@ function web({
     }) , options , createLogger(options)) ;
 
     server.listen(8080) ;
+}
+
+function generate({
+    fullName,
+    target
+} , data){
+
+    let webPath = APPLICATION.getFolderPath('web') ;
+
+    fullName = toStylesheetCase(fullName) ;
+
+    let htmlPath = join(webPath , `${fullName}.html`) ;
+
+    writeTextFile(htmlPath , data) ;
+
+    console.log('已生成' , htmlPath) ;
+
+    let scriptPackagePath = join(webPath , fullName ,  'package.js') ;
+
+    writeTextFile(scriptPackagePath , packageScriptData(target.meta)) ;
+
+    console.log('已生成' , scriptPackagePath) ;
+
+    let cssPackagePath = join(webPath , fullName , 'package.scss') ;
+
+    writeTextFile(cssPackagePath , packageCSSData(target.meta)) ;
+
+    console.log('已生成' , cssPackagePath) ;
+
+    let scriptPath = join(webPath , `${fullName}.js`) ;
+
+    writeTextFile(scriptPath , apply('webpack.script' , fullName)) ;
+
+    console.log('已生成' , scriptPath) ;
+
+    return {
+        webPath,
+        scriptPath,
+        htmlPath
+    } ;
+}
+
+const {
+    values
+} = Object ;
+
+function packageCSSData({
+    importCSSNames
+}){
+
+    return values(package({
+        classes:importCSSNames,
+        type:'css',
+        memory:true
+    }))[0] ;
+}
+
+function packageScriptData({
+    importScriptNames
+}){
+
+    return values(package({
+        classes:importScriptNames,
+        type:'browser',
+        memory:true
+    }))[0] ;
 }

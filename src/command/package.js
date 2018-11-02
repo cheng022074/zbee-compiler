@@ -30,7 +30,7 @@ module.exports = name =>{
 
         for(let name of names){
 
-            doPackage(config[name] , name) ;
+            return doPackage(config[name] , name) ;
         }
     
     }else if(isObject(name)){
@@ -40,7 +40,7 @@ module.exports = name =>{
             ...packageConfig
         } = name ;
 
-        doPackage(packageConfig , packageName || `package-${Date.now()}`) ;
+        return doPackage(packageConfig , packageName || `package-${Date.now()}`) ;
 
     }else{
 
@@ -48,7 +48,7 @@ module.exports = name =>{
 
         if(config){
 
-            doPackage(config , name) ;
+            return doPackage(config , name) ;
         
         }else{
 
