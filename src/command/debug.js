@@ -29,18 +29,24 @@ webpack = require('webpack'),
 createLogger = require('webpack-dev-server/lib/utils/createLogger'),
 HtmlWebpackPlugin = require('html-webpack-plugin'),
 compile = require('./compile'),
-package = require('./package');
+package = require('./package'),
+{
+    watch
+} = require('chokidar'),
+{
+    fork
+} = require('child_process');
 
-module.exports = name =>{
+module.exports = (testName , watchMode) =>{
 
-    if(!name){
+    if(!testName){
 
         console.info('请指定调试名称') ;
 
         return ;
     }
 
-    name = `debug::${name}` ;
+    let name = `debug::${testName}` ;
 
     if(compile(name)){
         let {
@@ -49,7 +55,30 @@ module.exports = name =>{
 
         if(isObject(target) && target.type === 'html' && target.hasOwnProperty('data')){
 
-            web(generate(SourceCode.get(name) , target.data)) ;
+            let result = generate(SourceCode.get(name) , target.data) ;
+
+            if(watchMode !== 'watch'){
+
+                web(result) ;
+            
+                const doGenerate = () =>{
+
+                    fork(join(__dirname , '..' , '..' , 'bin' , 'zb') , [
+                        'debug',
+                        testName,
+                        'watch'
+                    ]) ;
+                } ;
+    
+                watch([
+                    APPLICATION.getFolderPath('src'),
+                    APPLICATION.getFolderPath('css'),
+                    APPLICATION.getFolderPath('debug')
+                ])
+                .on('change' , doGenerate)
+                .on('unlink' , doGenerate);
+     
+            }
 
         }else{
 
