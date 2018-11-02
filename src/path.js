@@ -86,3 +86,10 @@ exports.toName = (filePath , rootPath) =>{
         return filePath.replace(rootPath , '').replace(pathSplitRe , '.') ;
     }
 }
+
+const windowsPathSplitRe = /\\/g ;
+
+exports.string = path =>{
+
+    return path.replace(windowsPathSplitRe , '\\\\') ;
+}

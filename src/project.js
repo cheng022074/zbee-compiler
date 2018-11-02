@@ -14,6 +14,7 @@ const {
 } = require('./json'),
 {
     get,
+    defineCacheProperty,
     defineCacheProperties
 } = require('./object'),
 {
@@ -50,7 +51,20 @@ class Project{
 
     constructor(path){
 
-        this.rootPath = path ;
+        let me = this ;
+
+        me.rootPath = path ;
+
+        defineCacheProperty(me , 'nodeModulesPath') ;
+    }
+
+    applyNodeModulesPath(){
+
+        let {
+            rootPath
+        } = this ;
+
+        return join(rootPath , 'node_modules') ;
     }
 
     getPath(folder , name , suffixes){
@@ -455,7 +469,8 @@ class Libraries{
 
                 map[node.getAttribute('name')] = {
                     code:CDATAValues(node).join(''),
-                    aliases:node.hasAttribute('aliases') ? split(node.getAttribute('aliases') , spaceRe) : []
+                    aliases:node.hasAttribute('aliases') ? split(node.getAttribute('aliases') , spaceRe) : [],
+                    imports:node.hasAttribute('imports') ? split(node.getAttribute('imports') , spaceRe) : []
                 } ;
             }
         }

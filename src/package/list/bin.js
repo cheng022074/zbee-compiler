@@ -11,16 +11,16 @@ module.exports = codes =>{
     const {
         codeMap:dependentCodeMap
     } = APPLICATION.libraries,
-    codes = [];
+    result = [];
 
     for(let code of codes){
 
-        compile(fullName) ;
+        compile(code.fullName) ;
 
-        pushCode(codes , dependentCodeMap , code) ;
+        pushCode(result , dependentCodeMap , code) ;
     }
 
-    return codes ;
+    return result ;
 
 }
 
