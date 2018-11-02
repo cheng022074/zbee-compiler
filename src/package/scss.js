@@ -1,26 +1,23 @@
 const 
-getBinMap = require('./map/bin'),
+getBinList = require('./list/bin'),
 {
     simpleObject:isObject
 } = require('../is');
 
 module.exports = (codes , path) =>{
 
-    let map = getBinMap(codes) ;
+    let list = getBinList(codes) ;
 
     return {
-        [`${path}.scss`]:getData(map)
+        [`${path}.scss`]:getData(list)
     } ;
 }
 
-function getData(map){
+function getData(list){
 
-    let names = Object.keys(map),
-        result = [];
+    let result = [];
 
-    for(let name of names){
-
-        let data = map[name] ;
+    for(let data of list){
 
         if(isObject(data) && data.type === 'scss' && data.hasOwnProperty('data')){
 

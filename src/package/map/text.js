@@ -1,6 +1,9 @@
 let {
     APPLICATION
-} = require('../../project') ;
+} = require('../../project'),
+{
+    SourceCode
+} = require('../../code');
 
 module.exports = codes =>{
 
@@ -36,6 +39,13 @@ function applyCodeMap(codeMap , dependentCodeMap , code){
     
     }else if(dependentCodeMap.hasOwnProperty(name)){
 
-        codeMap[name] = dependentCodeMap[name] ;
+        let {
+            imports
+        } = codeMap[name] = dependentCodeMap[name] ;
+
+        for(let name of imports){
+
+            applyCodeMap(codeMap , dependentCodeMap , SourceCode.get(name)) ;
+        }
     }
 }
