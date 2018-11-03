@@ -19,6 +19,7 @@ const {
     defaultFolder
 } = APPLICATION,
 {
+    remove,
     readTextFile,
 } = require('./fs'),
 {
@@ -124,7 +125,14 @@ class BinCode extends Code{
 
         super.destroy() ;
 
-        Code.remove('BIN' , this.name) ;
+        let {
+            name,
+            folder
+        } = this;
+
+        remove(APPLICATION.generateBinPath(folder , name)) ;
+
+        Code.remove('BIN' , me.name) ;
     }
 
     applyPath(){
@@ -275,12 +283,12 @@ class SourceCode extends Code{
         defineCacheProperties(this , [
             'baseName',
             'importSourceCodes',
-            'importAllSourceCodes',
             'importNames',
-            'importAllNames',
             'packageCodeText',
             'binCodeText',
-            'aliases'
+            'aliases',
+            'config',
+            'isScript'
         ]) ;
     }
 
@@ -291,9 +299,7 @@ class SourceCode extends Code{
         clearCacheProperties(this ,  [
             'baseName',
             'importSourceCodes',
-            'importAllSourceCodes',
             'importNames',
-            'importAllNames',
             'packageCodeText',
             'binCodeText',
             'aliases',
@@ -306,7 +312,18 @@ class SourceCode extends Code{
 
         super.destroy() ;
 
-        Code.remove('SOURCE' , this.name) ;
+        let {
+            exists,
+            path,
+            name
+        } = this ;
+
+        if(exists){
+
+            remove(path) ;
+        }
+
+        Code.remove('SOURCE' , name) ;
     }
 
     applyBinCodeText(){
@@ -385,7 +402,7 @@ class SourceCode extends Code{
         return path ;
     }
 
-    applyImportAllSourceCodes(){
+    get importAllSourceCodes(){
 
         let code = this,
             codes = [
@@ -414,7 +431,7 @@ class SourceCode extends Code{
         return [] ;
     }
 
-    applyImportAllNames(){
+    get importAllNames(){
 
         let {
             importAllSourceCodes

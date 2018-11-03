@@ -13,11 +13,13 @@
     "css":{
         ".scss":{
             "template":"code.template.scss",
-            "converter":"code.converter.scss"
+            "converter":"code.converter.scss",
+            "script":false
         },
         ".var.scss":{
             "template":"code.template.scss.var",
-            "converter":"code.converter.scss.var"
+            "converter":"code.converter.scss.var",
+            "script":false
         }
     },
     "debug":{
@@ -27,7 +29,8 @@
         },
         ".html":{
             "template":"code.template.html",
-            "converter":"code.converter.html"
+            "converter":"code.converter.html",
+            "script":false
         }
     }, 
     "test":{
