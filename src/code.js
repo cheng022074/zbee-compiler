@@ -4,7 +4,9 @@ const {
     COMPILER
 } = require('./project'),
 {
-    unique
+    unique,
+    from,
+    removeAll
 } = require('./array'),
 {
     parse,
@@ -28,6 +30,15 @@ const {
 {
     include
 } = require('./script'),
+{
+    watch
+} = require('chokidar'),
+{
+    toName
+} = require('./path'),
+{
+    empty:isEmpty
+} = require('./is'),
 CODES = {
     BIN:{},
     SOURCE:{}
@@ -40,19 +51,19 @@ class Code{
 
     static get(type , classRef , name){
 
-        name = normalize(name , defaultFolder) ;
+        if(!isEmpty(name)){
 
-        if(name){
+            name = normalize(name , defaultFolder) ;
 
             let codes = CODES[type] ;
-
+    
             if(!codes.hasOwnProperty(name)){
-
+    
                 codes[name] = new classRef(name) ;
                 
             }
-
-            return codes[name] ;
+    
+            return codes[name] ;   
         }
 
         throw new Error('应使用名称定位代码') ;
@@ -125,10 +136,12 @@ class BinCode extends Code{
 
         super.destroy() ;
 
-        let {
+        let 
+        me = this,
+        {
             name,
             folder
-        } = this;
+        } = me;
 
         remove(APPLICATION.generateBinPath(folder , name)) ;
 
@@ -270,6 +283,56 @@ const {
 baseNameRe = /[^\.]+$/;
 
 class SourceCode extends Code{
+
+    static watch(folders , callback , scope){
+
+        folders = from(folders) ;
+
+        const {
+            onWatchEvent
+        } = this ;
+        
+        for(let folder of folders){
+
+            let folderPath = APPLICATION.getFolderPath(folder) ;
+
+            watch(folderPath)
+            .on('change' , path => onWatchEvent(folder , folderPath , path , 'changed' , callback , scope))
+            .on('unlink' , path => onWatchEvent(folder , folderPath , path , 'removed' , callback , scope));
+        }
+    }
+
+    static onWatchEvent(folder , folderPath , path , state , callback , scope){
+
+        let name = `${folder}::${toName(path , folderPath)}`,
+            {
+                SOURCE,
+                BIN
+            } = CODES;
+
+        if(SOURCE.hasOwnProperty(name)){
+
+            SOURCE[name].reset() ;
+        }
+
+        if(BIN.hasOwnProperty(name)){
+
+            let code = BIN[name] ;
+
+            if(state === 'removed'){
+
+                code.destroy() 
+            
+            }else{
+
+                code.reset() ;
+            }
+
+            require('./command/compile')(name) ;
+        }
+
+        callback.call(scope , state , name) ;
+    }
 
     get project(){
 
@@ -425,7 +488,14 @@ class SourceCode extends Code{
 
         if(target){
 
-            return target.meta.importNames || [] ;   
+            let {
+                importNames
+            } = target.meta ;
+
+            if(importNames){
+
+                return importNames ;
+            }
         }
 
         return [] ;

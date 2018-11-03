@@ -18,7 +18,7 @@
     
         defineProperty(target , name , {
 
-            configurable:true,
+            enumerable:true,
     
             set(value){
     
@@ -66,16 +66,14 @@
     exports.clearCacheProperties = (target , names) =>{
 
         names = from(names) ;
-        
-        for(let name in names){
+
+        for(let name of names){
 
             let innerName = `${prefix}${name}` ;
 
-            if(target.hasOwnProperty(name) && target.hasOwnProperty(innerName)){
+            if(target.hasOwnProperty(innerName)){
 
                 delete target[innerName] ;
-
-                delete target[name] ;
             }
         }
     }

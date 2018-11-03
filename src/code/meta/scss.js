@@ -34,7 +34,15 @@ module.exports = class {
 
     applyData(){
 
-        return parse(stripComment(readTextFile(this.target.path)));
+        try{
+
+            return parse(stripComment(readTextFile(this.target.path)));
+
+        }catch(err){
+
+        }
+
+        return parse('') ;
     }
 
     applyImportNames(){
@@ -113,7 +121,10 @@ function fillFullName(root , fullName){
     root.walkAtRules(atRuleRe , rule => rule.params = `${fullName}-${rule.params}`) ;
 }
 
-const quotationMarkRe = /^['"]|['"]$/g ;
+const quotationMarkRe = /^['"]|['"]$/g,
+{
+    clearEmpty
+} = require('../../array');
 
 function getImportNames(root){
 
@@ -121,5 +132,5 @@ function getImportNames(root){
 
     root.walkAtRules('import' , rule => names.push(normalize(rule.params.replace(quotationMarkRe , '').trim() , 'css'))) ;
 
-    return names ;
+    return clearEmpty(names) ;
 }

@@ -6,7 +6,7 @@ const {
     run
 } = require('../runner'),
 {
-    simpleObject:isObject
+    simpleHTMLObject:isHTML
 } = require('../is'),
 {
     COMPILER,
@@ -29,15 +29,9 @@ webpack = require('webpack'),
 createLogger = require('webpack-dev-server/lib/utils/createLogger'),
 HtmlWebpackPlugin = require('html-webpack-plugin'),
 compile = require('./compile'),
-package = require('./package'),
-{
-    watch
-} = require('chokidar'),
-{
-    fork
-} = require('child_process');
+package = require('./package');
 
-module.exports = (testName , watchMode) =>{
+module.exports = testName =>{
 
     if(!testName){
 
@@ -53,32 +47,19 @@ module.exports = (testName , watchMode) =>{
             target
         } = BinCode.get(name) ;
 
-        if(isObject(target) && target.type === 'html' && target.hasOwnProperty('data')){
+        if(isHTML(target)){
 
-            let result = generate(SourceCode.get(name) , target.data) ;
+            web(generate(SourceCode.get(name))) ;
 
-            if(watchMode !== 'watch'){
+            SourceCode.watch([
+                'src',
+                'css',
+                'debug'
+            ] , () =>{
 
-                web(result) ;
-            
-                const doGenerate = () =>{
+                generate(SourceCode.get(name)) ;
 
-                    fork(join(__dirname , '..' , '..' , 'bin' , 'zb') , [
-                        'debug',
-                        testName,
-                        'watch'
-                    ]) ;
-                } ;
-    
-                watch([
-                    APPLICATION.getFolderPath('src'),
-                    APPLICATION.getFolderPath('css'),
-                    APPLICATION.getFolderPath('debug')
-                ])
-                .on('change' , doGenerate)
-                .on('unlink' , doGenerate);
-     
-            }
+            }) ;
 
         }else{
 
@@ -166,9 +147,10 @@ function web({
 function generate({
     fullName,
     target
-} , data){
+}){
 
-    let webPath = APPLICATION.getFolderPath('web') ;
+    let webPath = APPLICATION.getFolderPath('web'),
+        data = BinCode.get(fullName).target.data;
 
     fullName = toStylesheetCase(fullName) ;
 

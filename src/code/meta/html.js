@@ -12,7 +12,10 @@ const
     parse,
     stringify,
     format
-} = require('../../html') ;
+} = require('../../html'),
+{
+    clearEmpty
+} = require('../../array');
 
 module.exports = class {
 
@@ -62,7 +65,7 @@ module.exports = class {
             names.push(scriptEl.getAttribute('import')) ;
         }
 
-        return names ;
+        return clearEmpty(names) ;
     }
 
     applyImportCSSNames(){
@@ -78,7 +81,7 @@ module.exports = class {
             names.push(normalize(styleEl.getAttribute('import') , 'css')) ;
         }
 
-        return names ;
+        return clearEmpty(names) ;
     }
 
     applyCode(){

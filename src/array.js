@@ -26,7 +26,9 @@ exports.unique = data =>{
     return Array.from(new Set(data)) ;
 }
 
-exports.remove = (data , item) =>{
+
+
+function remove(data , item){
 
     let index = data.indexOf(item) ;
 
@@ -38,4 +40,24 @@ exports.remove = (data , item) =>{
     }
 
     return false ;
+}
+
+exports.remove = remove ;
+
+function removeAll(data , item){
+
+    while(remove(data , item)) ;
+}
+
+exports.removeAll = removeAll ;
+
+exports.clearEmpty = data =>{
+
+    removeAll(data , '') ;
+
+    removeAll(data , undefined) ;
+
+    removeAll(data , null) ;
+
+    return data ;
 }

@@ -27,10 +27,12 @@ exports.array = data =>{
     return Array.isArray(data) ;
 }
 
-exports.simpleObject = data =>{
+function isSimpleObject(data){
 
     return data instanceof Object && data.constructor === Object;
 }
+
+exports.simpleObject = isSimpleObject ;
 
 {
     const {
@@ -69,4 +71,19 @@ exports.empty = data =>{
 exports.defined = data =>{
 
     return data !== undefined ;
+}
+
+function isSimpleTypeObject(data , type){
+
+    return isSimpleObject(data) && data.type === type && typeof data.data === 'string' ;
+}
+
+exports.simpleHTMLObject = data =>{
+
+    return isSimpleTypeObject(data , 'html') ;
+}
+
+exports.simpleCSSObject = data =>{
+
+    return isSimpleTypeObject(data , 'css') ;
 }
