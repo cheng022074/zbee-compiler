@@ -297,7 +297,8 @@ class SourceCode extends Code{
             'packageCodeText',
             'binCodeText',
             'aliases',
-            'config'
+            'config',
+            'isScript'
         ]) ;
     }
     
@@ -472,6 +473,20 @@ class SourceCode extends Code{
 
             return config ;
         }
+    }
+
+    applyIsScript(){
+
+        let {
+            config
+        } = this ;
+
+        if(config){
+
+            return config.script !== false ;
+        }
+
+        return false ;
     }
 
     applyTarget(){
