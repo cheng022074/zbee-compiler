@@ -24,12 +24,15 @@ module.exports = codes =>{
 function applyCodeMap(codeMap , dependentCodeMap , code){
 
     let {
-        fullName:name,
-        importAllNames,
         exists
     } = code ;
 
     if(exists){
+
+        let {
+            fullName:name,
+            importAllNames
+        } = code ;
 
         codeMap[name] = {
             code:code.packageCodeText,

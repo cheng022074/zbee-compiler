@@ -11,13 +11,14 @@
     {
         unique,
         from
-    } = require('./array');
+    } = require('./array'),
+    prefix = `$private_${Date.now()}_`;
     
     function defineCacheProperty(target , name){
     
         defineProperty(target , name , {
 
-            enumerable:true,
+            configurable:true,
     
             set(value){
     
@@ -26,14 +27,14 @@
     
                 if(methodName in me){
     
-                    me[`$${name}`] = me[methodName](value) ;
+                    me[`${prefix}${name}`] = me[methodName](value) ;
                 }
             },
     
             get(){
     
                 let me = this,
-                    innerName = `$${name}`,
+                    innerName = `${prefix}${name}`,
                     method = me[`apply${capitalize(name)}`];
     
                 if(!me.hasOwnProperty(innerName) && method){
@@ -64,22 +65,17 @@
 
     exports.clearCacheProperties = (target , names) =>{
 
-        if(names){
-
-            names = from(names) ;
+        names = from(names) ;
         
-        }else{
-
-            names = Object.keys(target) ;
-        }
-
         for(let name in names){
 
-            let innerName = `$${name}` ;
+            let innerName = `${prefix}${name}` ;
 
             if(target.hasOwnProperty(name) && target.hasOwnProperty(innerName)){
 
                 delete target[innerName] ;
+
+                delete target[name] ;
             }
         }
     }

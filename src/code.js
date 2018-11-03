@@ -12,7 +12,8 @@ const {
 } = require('./name'),
 {
     defineCacheProperties,
-    defineCacheProperty
+    defineCacheProperty,
+    clearCacheProperties
 } = require('./object'),
 {
     defaultFolder
@@ -23,6 +24,9 @@ const {
 {
     load
 } = require('./json'),
+{
+    include
+} = require('./script'),
 CODES = {
     BIN:{},
     SOURCE:{}
@@ -53,6 +57,12 @@ class Code{
         throw new Error('应使用名称定位代码') ;
     }
 
+    static remove(type , name){
+
+        delete CODES[type][name] ;
+        
+    }
+
     constructor(fullName){
 
         let me = this,
@@ -68,6 +78,19 @@ class Code{
             'path',
             'target'
         ]) ;
+    }
+
+    reset(){
+
+        clearCacheProperties(this , [
+            'path',
+            'target'
+        ]) ;
+    }
+
+    destroy(){
+
+        this.reset() ;
     }
 
     get exists(){
@@ -88,6 +111,20 @@ class BinCode extends Code{
         super(fullName) ;
 
         defineCacheProperty(this , 'targets') ;
+    }
+
+    reset(){
+
+        super.reset() ;
+
+        clearCacheProperties(this , 'targets') ;
+    }
+    
+    destroy(){
+
+        super.destroy() ;
+
+        Code.remove('BIN' , this.name) ;
     }
 
     applyPath(){
@@ -191,7 +228,7 @@ function get_target(folder , path){
 
     if(APPLICATION.isBinPath(path)){
 
-        return require(path) ;
+        return include(path) ;
     }
 
     switch(APPLICATION.getFolderBinFileReadType(folder)){
@@ -206,7 +243,7 @@ function get_target(folder , path){
 
         case 'normal':
 
-            return require(path) ;
+            return include(path) ;
     }
 }
 
@@ -245,6 +282,30 @@ class SourceCode extends Code{
             'binCodeText',
             'aliases'
         ]) ;
+    }
+
+    reset(){
+
+        super.reset() ;
+
+        clearCacheProperties(this ,  [
+            'baseName',
+            'importSourceCodes',
+            'importAllSourceCodes',
+            'importNames',
+            'importAllNames',
+            'packageCodeText',
+            'binCodeText',
+            'aliases',
+            'config'
+        ]) ;
+    }
+    
+    destroy(){
+
+        super.destroy() ;
+
+        Code.remove('SOURCE' , this.name) ;
     }
 
     applyBinCodeText(){
@@ -385,9 +446,7 @@ class SourceCode extends Code{
         return codes ;
     }
 
-
-
-    applyTarget(){
+    applyConfig(){
 
         let me = this,
         {
@@ -411,16 +470,27 @@ class SourceCode extends Code{
                 }
             }
 
-            if(config){
+            return config ;
+        }
+    }
 
-                let {
-                    converter
-                } = config ;
+    applyTarget(){
 
-                if(converter){
+        let 
+        me = this,
+        {
+            config
+        } = me ;
 
-                    return run(BinCode.get(converter).target , me) ;
-                }
+        if(config){
+
+            let {
+                converter
+            } = config ;
+
+            if(converter){
+
+                return run(BinCode.get(converter).target , me) ;
             }
         }
     }

@@ -6,7 +6,10 @@ const {
 } = require('jsmin'),
 {
     js:stripComment
-} = require('strip-comment');
+} = require('strip-comment'),
+{
+    isAbsolute
+} = require('path');
 
 exports.format = code =>{
 
@@ -39,4 +42,16 @@ exports.min = code =>{
 exports.stripComment = code =>{
 
     return stripComment(code) ;
+}
+
+exports.include = path =>{
+
+    if(isAbsolute(path)){
+
+        let target = require(path) ;
+
+        delete require.cache[path] ;
+
+        return target ;
+    }
 }
