@@ -315,17 +315,15 @@ class SourceCode extends Code{
             SOURCE[name].reset() ;
         }
 
-        if(BIN.hasOwnProperty(name)){
+        if(state === 'removed'){
 
-            let code = BIN[name] ;
+            BinCode.get(name).destroy();
+        
+        }else{
 
-            if(state === 'removed'){
+            if(BIN.hasOwnProperty(name)){
 
-                code.destroy() 
-            
-            }else{
-
-                code.reset() ;
+                BIN[name].reset() ;
             }
 
             require('./command/compile')(name) ;
