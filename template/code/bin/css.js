@@ -1,5 +1,5 @@
 module.exports = {
-    type:'scss',
+    type:'css',
     data:`<%- data.meta.code.replace(/\`/g , '\\`') %>`,
     main(){
 
