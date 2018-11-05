@@ -4,5 +4,5 @@ Target = require('../../target');
 
 module.exports = code =>{
 
-    return new Target(code , Meta , 'code.bin.scss' , 'code.package.template') ;
+    return new Target(code , Meta , 'code.bin.css' , 'code.package.css') ;
 }

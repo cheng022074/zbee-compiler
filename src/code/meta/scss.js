@@ -15,7 +15,8 @@ const
 {
     stripComment
 } = require('../../script'),
-varRe = /^\$/;
+varRe = /^\$/,
+placholderRe = /#\{[^\{\}]+\}/g;
 
 module.exports = class {
 
@@ -30,17 +31,33 @@ module.exports = class {
             'importNames',
             'code'
         ]) ;
+
+        me.placeholderMap = {} ;
     }
 
     applyData(){
 
         try{
 
-            return parse(stripComment(readTextFile(this.target.path)));
+            let me = this,
+                {
+                    placeholderMap
+                } = me,
+                data = stripComment(readTextFile(me.target.path)) ;
+
+            return parse(data.replace(placholderRe , value =>{
+
+                let name = `__placeholder_${Date.now()}__` ;
+
+                placeholderMap[name] = value ;
+
+                return name ;
+
+            }));
 
         }catch(err){
 
-        }
+       }
 
         return parse('') ;
     }
@@ -72,11 +89,25 @@ module.exports = class {
 
     getCode(data){
 
+        let me = this,
+        {
+            placeholderMap
+        } = me ;
+
         fillFullName(data , this.getFullName()) ;
 
         data.walkDecls(varRe , decl => decl.remove()) ;
 
-        return data.toResult().css ;
+        let result = data.toResult().css ;
+
+        let names = Object.keys(placeholderMap) ;
+
+        for(let name of names){
+
+            result = result.replace(name , placeholderMap[name]) ;
+        }
+
+        return result ;
     }
 
 }

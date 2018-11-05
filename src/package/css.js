@@ -1,7 +1,7 @@
 const 
 getBinList = require('./list/bin'),
 {
-    simpleObject:isObject
+    simpleCSSObject:isObject
 } = require('../is');
 
 module.exports = (codes , path) =>{
@@ -19,7 +19,7 @@ function getData(list){
 
     for(let data of list){
 
-        if(isObject(data) && data.type === 'scss' && data.hasOwnProperty('data')){
+        if(isObject(data)){
 
             result.push(data.data) ;
         }

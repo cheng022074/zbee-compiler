@@ -31,6 +31,11 @@
             "template":"code.template.html",
             "converter":"code.converter.html",
             "script":false
+        },
+        ".scss":{
+            "template":"code.template.scss",
+            "converter":"code.converter.scss",
+            "script":false
         }
     }, 
     "test":{
