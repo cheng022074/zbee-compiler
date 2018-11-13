@@ -7,10 +7,6 @@
         "description":"编译代码",
         "implement":"command.compile"
     },
-    "compile-css":{
-        "description":"编译样式",
-        "implement":"command.compile.css"
-    },
     "generate":{
         "description":"生成默认代码模板",
         "implement":"command.generate"
