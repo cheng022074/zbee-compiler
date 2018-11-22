@@ -18,6 +18,8 @@
     
         defineProperty(target , name , {
 
+            configurable:true,
+            
             enumerable:true,
     
             set(value){
