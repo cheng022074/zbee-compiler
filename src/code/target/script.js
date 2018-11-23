@@ -44,12 +44,13 @@ module.exports = class extends Target{
         let {
             code:body,
             imports,
+            importNames,
             configItems
         } = meta ;
 
         return {
             imports:process_imports(imports),
-            importNames:process_import_names(imports),
+            importNames:process_import_names(importNames),
             configItems:process_config_items(configItems),
             configItemNames:process_config_item_names(configItems),
             body
@@ -57,30 +58,13 @@ module.exports = class extends Target{
     }
 }
 
-const pathSplitRe = /\\/g ;
+function process_import_names(names = []){
 
-function process_libraries(paths){
-
-    let result = [] ;
-
-    for(let path of paths){
-
-        result.push(`require('${path.replace(pathSplitRe , '\\\\')}')`) ;
-    }
-
-
-    return `[${result.join(',')}]` ;
-}
-
-function process_import_names(imports){
-
-    if(imports.length){
+    if(names.length){
 
         let result = [] ;
 
-        for(let {
-            name
-        } of imports){
+        for(let name of names){
     
             result.push(name) ;
         }
@@ -91,7 +75,7 @@ function process_import_names(imports){
     return '' ;
 }
 
-function process_config_item_names(items){
+function process_config_item_names(items = []){
 
     if(items && items.length){
 
@@ -110,7 +94,7 @@ function process_config_item_names(items){
     return '' ;
 }
 
-function process_config_items(items){
+function process_config_items(items = []){
 
     if(items){
 
@@ -138,7 +122,7 @@ function process_config_items(items){
     return '' ;
 }
 
-function process_imports(imports){
+function process_imports(imports = []){
 
     let result = [] ;
 
