@@ -1,12 +1,22 @@
 const {
     defineCacheProperties
-} = require('../../../object') ;
+} = require('../../../object'),
+{
+    load
+} = require('../../../json'),
+{
+    push
+} = require('../../../array');
 
 module.exports = class {
 
     constructor(code){
 
-        defineCacheProperties(this , [
+        let me = this ;
+        
+        me.data = load(cod.path) ;
+
+        defineCacheProperties(data , [
             'importNames',
             'code'
         ]) ;
@@ -14,7 +24,17 @@ module.exports = class {
 
     applyImportNames(){
 
-        return [] ;
+        let {
+            imports,
+            proxy
+        } = this.data,
+        result = [
+            'data.model'
+        ]; 
+
+        push(result , imports) ;
+
+
     }
 
     applyCode(){

@@ -1,6 +1,6 @@
 const {
     empty:is_empty,
-    string:is_string
+    string:is_string,
 } = require('./is') ;
 
 exports.from = data =>{
@@ -60,4 +60,14 @@ exports.clearEmpty = data =>{
     removeAll(data , null) ;
 
     return data ;
+}
+
+exports.push = (data , item) =>{
+
+    const {
+        from
+    } = exports ;
+
+    data.push(...from(item)) ;
+
 }
