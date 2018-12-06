@@ -5,8 +5,7 @@ const {
 } = require('./project'),
 {
     unique,
-    from,
-    removeAll
+    from
 } = require('./array'),
 {
     parse,
