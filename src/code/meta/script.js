@@ -3,22 +3,45 @@ Meta = require('../meta')(),
 textCodeMetaRe = /\/\*(?:.|[^.])+?\*\//,
 {
     readTextFile
-} = require('../../fs');
+} = require('../../fs'),
+{
+    defineProperty
+} = require('../../object');
 
 module.exports = class extends Meta{
 
-    getBody(){
+    constructor(code){
+
+        super(code) ;
+
+        let me = this ;
+
+        me.data = readTextFile(code.path) ;
+
+        defineProperty(me , 'header') ;
+    }
+
+    getHeader(){
 
         let {
-            code
+            data
         } = this,
-        result = readTextFile(code.path).match(textCodeMetaRe) ;
+        result = data.match(textCodeMetaRe);
 
         if(result){
 
             return result[0] ;
         }
 
-        return super.applyBody() ;
+        return '' ;
+    }
+
+    getBody(){
+
+        let {
+            data
+        } = this ;
+        
+        return data.replace(textCodeMetaRe , '') ;
     }
 }

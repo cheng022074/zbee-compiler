@@ -9,10 +9,10 @@ class FunctionMeta extends ScriptMeta{
     getReturnTypes(){
 
         let {
-            body
+            header
         } = this ;
 
-        let result = body.match(returnTypeRe) ;
+        let result = header.match(returnTypeRe) ;
 
         if(result){
 
@@ -26,14 +26,14 @@ class FunctionMeta extends ScriptMeta{
 
         let 
         {
-            body
+            header
         } = this,
         textCodeMetaParamRe = /@param\s+\{([^\{\}]+)\}\s+([^\n\r]+)/g,
         result = [],
         match,
         params = {};
 
-        while(match = textCodeMetaParamRe.exec(body)){
+        while(match = textCodeMetaParamRe.exec(header)){
 
             let [
                 ,

@@ -140,7 +140,7 @@ class Meta{
                     innerNames.push(get_signature_name(item)) ;
                 }
 
-                let result = innerNames.join(',') ;
+                let result = innerNames.join(' , ') ;
 
                 switch(type){
 
@@ -161,7 +161,7 @@ class Meta{
             }
         }
 
-        return names ;
+        return names.join(' , ') ;
     }
 
     get paramFullNames(){

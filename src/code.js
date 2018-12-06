@@ -363,7 +363,7 @@ class SourceCode extends Code{
         } = meta,
         result = [];
 
-        return `${signatureReturnTypes} ${fullName}(${paramSignatureNames.join(' , ')})` ;
+        return `${signatureReturnTypes} ${fullName}(${paramSignatureNames})` ;
     }
 
     getMeta(){
