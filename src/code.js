@@ -34,7 +34,8 @@ const {
     watch
 } = require('chokidar'),
 {
-    toName
+    toName,
+    extname
 } = require('./path'),
 {
     empty:isEmpty
@@ -275,13 +276,9 @@ const {
     get:config_get,
 } = require('./config'),
 {
-    extname
-} = require('./path'),
-{
     runAsync:run
 } = require('./runner'),
-baseNameRe = /[^\.]+$/,
-Meta = require('./code/meta');
+baseNameRe = /[^\.]+$/;
 
 class SourceCode extends Code{
 
@@ -362,12 +359,35 @@ class SourceCode extends Code{
             meta
         } = this ;
 
-        return `function ${fullName}(${meta.paramFullNames.join(',')});` ;
+
+
+        return `{${meta.returnTypes.join('|')}} ${fullName}(${meta.paramFullNames.join(',')});` ;
     }
 
     applyMeta(){
 
-        return new Meta(this) ;
+        let 
+        me = this,
+        {
+            config
+        } = me ;
+
+        if(config){
+
+            let {
+                meta
+            } = config,
+            target = run(BinCode.get(meta).target , me) ;
+
+            if(!target){
+
+                return run('code.meta' , me) ;
+            }
+
+            return target ;
+        }
+
+        return false ;
     }
 
     reset(){
@@ -471,14 +491,21 @@ class SourceCode extends Code{
             return false ;
         }
 
-        let path = APPLICATION.getPath(folder , name , suffixes) ;
+        return APPLICATION.getPath(folder , name , suffixes) ;
+    }
 
-        if(path === false){
+    get suffix(){
 
-            path = COMPILER.getPath(folder , name , suffixes) ;
+        let {
+            path
+        } = this ;
+
+        if(path){
+
+            return extname(path) ;
         }
 
-        return path ;
+        return false ;
     }
 
     get importAllSourceCodes(){
@@ -555,14 +582,13 @@ class SourceCode extends Code{
         let me = this,
         {
             folder,
-            path
+            suffix
         } = me,
         envName = env['ZBEE-ENV'];
 
-        if(path){
+        if(suffix){
 
-            let suffix = extname(path),
-                config = config_get('code.source' , `${folder}.${suffix}`) ;
+            let config = config_get('code.source' , `${folder}.${suffix}`) ;
 
             if(!config && envName){
 

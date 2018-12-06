@@ -1,8 +1,11 @@
 const {
     defineCacheProperties
-} = require('../object') ;
+} = require('../object'),
+{
+    get
+} = require('../config');
 
-module.exports = class {
+class Meta{
 
     constructor(code){
 
@@ -18,7 +21,15 @@ module.exports = class {
         return [
             'body',
             'imports',
-            'params'
+            'params',
+            'returnTypes'
+        ] ;
+    }
+
+    applyReturnTypes(){
+
+        return [
+            'void'
         ] ;
     }
 
@@ -175,4 +186,14 @@ function get_full_name({
     }
 
     return name ;
+}
+
+module.exports = (...args) =>{
+
+    if(args.length){
+
+        return new Meta(...args) ;
+    }
+
+    return Meta ;
 }
