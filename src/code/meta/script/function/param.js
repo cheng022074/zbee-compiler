@@ -1,9 +1,10 @@
 const {
     defineCacheProperties
 } = require('../../../../object'),
-getDataTypes = require('../datatypes'),
+getDataTypes = require('../../datatypes'),
 nameSplitRe = /\./,
 defaultValueSplitRe = /\=/,
+nameRe = /\w+/,
 {
     match:string_match
 } = require('../../../../regexp');
@@ -30,6 +31,8 @@ module.exports = class {
         
         }else{
 
+            rawData = rawData.match(nameRe)[0] ;
+
             me.optional = false ;
         }
 
@@ -40,9 +43,9 @@ module.exports = class {
                 defaultValue
             ] = rawData.split(defaultValueSplitRe) ;
 
-            me.defaultValue = defaultValue ;
+            me.defaultValue = defaultValue.trim() ;
 
-            rawData = name ;
+            rawData = name.trim() ;
         }
 
         if(nameSplitRe.test(rawData)){
@@ -52,9 +55,9 @@ module.exports = class {
                 name
             ] = rawData.split(nameSplitRe) ;
 
-            me.parentParamName = parentParamName ;
+            me.parentParamName = parentParamName.trim() ;
 
-            me.name = name ;
+            me.name = name.trim() ;
         
         }else{
 
@@ -74,7 +77,8 @@ module.exports = class {
     add(param){
 
         let {
-            type
+            type,
+            items
         } = this ;
 
         switch(type){
@@ -82,7 +86,7 @@ module.exports = class {
             case 'object':
             case 'array':
 
-                me.items.push(param) ;
+                items.push(param) ;
         }
     }
 

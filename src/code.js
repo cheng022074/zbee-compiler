@@ -355,13 +355,16 @@ class SourceCode extends Code{
     get signature(){
 
         let {
-            fullName,
-            meta
-        } = this ;
+            meta,
+            fullName
+        } = this,
+        {
+            signatureReturnTypes,
+            paramSignatureNames
+        } = meta,
+        result = [];
 
-
-
-        return `{${meta.returnTypes.join('|')}} ${fullName}(${meta.paramFullNames.join(',')});` ;
+        return `${signatureReturnTypes} ${fullName}(${paramSignatureNames.join(',')})` ;
     }
 
     applyMeta(){

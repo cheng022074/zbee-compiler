@@ -1,9 +1,7 @@
 const {
     defineCacheProperties
 } = require('../object'),
-{
-    get
-} = require('../config');
+getDataTypes = require('./meta/datatypes');
 
 class Meta{
 
@@ -31,6 +29,11 @@ class Meta{
         return [
             'void'
         ] ;
+    }
+
+    get signatureReturnTypes(){
+
+        return get_signature_datatypes(this.returnTypes) ;
     }
 
     applyBody(){
@@ -113,6 +116,54 @@ class Meta{
         return names ;
     }
 
+    get paramSignatureNames(){
+
+        let {
+            params
+        } = this,
+        names = [];
+
+        for(let param of params){
+
+            let {
+                name,
+                type,
+                items
+            } = param ;
+
+            if(items.length){
+
+                let innerNames = [] ;
+
+                for(let item of items){
+
+                    innerNames.push(get_signature_name(item)) ;
+                }
+
+                let result = innerNames.join(',') ;
+
+                switch(type){
+
+                    case 'object':
+
+                        names.push(`{${result}}`) ;
+                        
+                        break ;
+
+                    case 'array':
+
+                        names.push(`[${result}]`) ;
+                }
+
+            }else{
+
+                names.push(get_signature_name(param)) ;
+            }
+        }
+
+        return names ;
+    }
+
     get paramFullNames(){
 
         let {
@@ -124,6 +175,7 @@ class Meta{
 
             let {
                 items,
+                type,
                 defaultValue
             } = param ;
 
@@ -186,6 +238,19 @@ function get_full_name({
     }
 
     return name ;
+}
+
+function get_signature_name({
+    name,
+    types
+}){
+
+    return `${get_signature_datatypes(types)} ${name}` ;
+}
+
+function get_signature_datatypes(types){
+
+    return `<${types.join('|')}>` ;
 }
 
 module.exports = (...args) =>{

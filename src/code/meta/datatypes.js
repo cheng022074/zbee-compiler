@@ -1,4 +1,4 @@
-const datatypeRe = /|/ ;
+const datatypeRe = /\|/ ;
 
 module.exports = data =>{
 

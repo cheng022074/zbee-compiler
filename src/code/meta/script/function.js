@@ -1,9 +1,8 @@
 const 
 ScriptMeta = require('../script'),
 Param = require('./function/param'),
-spaceSplitRe = /\s+/,
 returnTypeRe = /@return\s+\{([^\{\}]+)\}/,
-getDataTypes = require('./datatypes');
+getDataTypes = require('../datatypes');
 
 class FunctionMeta extends ScriptMeta{
 
