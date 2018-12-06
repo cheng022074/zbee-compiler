@@ -280,7 +280,8 @@ const {
 {
     runAsync:run
 } = require('./runner'),
-baseNameRe = /[^\.]+$/;
+baseNameRe = /[^\.]+$/,
+Meta = require('./code/meta');
 
 class SourceCode extends Code{
 
@@ -349,8 +350,24 @@ class SourceCode extends Code{
             'binCodeText',
             'aliases',
             'config',
-            'isScript'
+            'isScript',
+            'meta'
         ]) ;
+    }
+
+    get signature(){
+
+        let {
+            fullName,
+            meta
+        } = this ;
+
+        return `function ${fullName}(${meta.paramFullNames.join(',')});` ;
+    }
+
+    applyMeta(){
+
+        return new Meta(this) ;
     }
 
     reset(){
@@ -365,7 +382,8 @@ class SourceCode extends Code{
             'binCodeText',
             'aliases',
             'config',
-            'isScript'
+            'isScript',
+            'meta'
         ]) ;
     }
     

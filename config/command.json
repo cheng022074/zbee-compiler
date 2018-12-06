@@ -34,5 +34,9 @@
     "web":{
         "description":"开发用服务器",
         "implement":"command.web"
+    },
+    "signature":{
+        "description":"查看资源的函数签名",
+        "implement":"command.signature"
     }
 }
