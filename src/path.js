@@ -1,5 +1,5 @@
 const {
-    defineCacheProperty
+    defineProperty
 } = require('./object'),
 {
     join,
@@ -16,12 +16,12 @@ exports.initApplicationPath = path =>{
     exports.initApplicationPath = () => {} ;
 }
 
-exports.applyCOMPILER = () =>{
+exports.getCOMPILER = () =>{
 
     return join(__dirname , '..') ;
 }
 
-defineCacheProperty(exports , 'COMPILER') ;
+defineProperty(exports , 'COMPILER') ;
 
 const suffixRe = /(?:\.[^\.\/\\]+)+$/;
 

@@ -14,8 +14,8 @@ const {
 } = require('./json'),
 {
     get,
-    defineCacheProperty,
-    defineCacheProperties
+    defineProperty,
+    defineProperties
 } = require('./object'),
 {
     toPath
@@ -55,10 +55,10 @@ class Project{
 
         me.rootPath = path ;
 
-        defineCacheProperty(me , 'nodeModulesPath') ;
+        defineProperty(me , 'nodeModulesPath') ;
     }
 
-    applyNodeModulesPath(){
+    getNodeModulesPath(){
 
         let {
             rootPath
@@ -118,7 +118,7 @@ class Application extends Project{
 
         me.package = load(join(APPLICATION_PATH , 'package.json')) ;
 
-        defineCacheProperties(me , [
+        defineProperties(me , [
             'dependentModules',
             'dependentModuleNames',
             'moduleName'
@@ -127,12 +127,12 @@ class Application extends Project{
         me.libraries = new Libraries(me , me.properties = load(join(APPLICATION_PATH , 'properties.json'))) ;
     }
 
-    applyDependentModuleNames(){
+    getDependentModuleNames(){
 
         return Object.keys(this.dependentModules) ;
     }
 
-    applyDependentModules(){
+    getDependentModules(){
 
         let {
             dependencies
@@ -141,7 +141,7 @@ class Application extends Project{
         return Object.freeze(dependencies || {}) ;
     }
 
-    applyModuleName(){
+    getModuleName(){
 
         let {
             name
@@ -384,14 +384,14 @@ class Libraries{
             paths.push(join(project.getFolderPath('lib') , path)) ;
         }
 
-        defineCacheProperties(me , [
+        defineProperties(me , [
             'targets',
             'metas',
             'codeMap'
         ]) ;
     }
 
-    applyTargets(){
+    getTargets(){
 
         let libraries = [],
             me = this,
@@ -419,7 +419,7 @@ class Libraries{
         return libraries ;
     }
 
-    applyMetas(){
+    getMetas(){
 
         let metas = [],
             me = this,
@@ -453,7 +453,7 @@ class Libraries{
         return metas ;
     }
 
-    applyCodeMap(){
+    getCodeMap(){
 
         let {
             metas

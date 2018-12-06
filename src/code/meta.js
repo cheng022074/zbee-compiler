@@ -1,5 +1,5 @@
 const {
-    defineCacheProperties
+    defineProperties
 } = require('../object'),
 getDataTypes = require('./meta/datatypes');
 
@@ -11,7 +11,7 @@ class Meta{
 
         me.code = code ;
 
-        defineCacheProperties(me , me.getPropertyNames()) ;
+        defineProperties(me , me.getPropertyNames()) ;
     }
 
     getPropertyNames(){
@@ -24,7 +24,7 @@ class Meta{
         ] ;
     }
 
-    applyReturnTypes(){
+    getReturnTypes(){
 
         return [
             'void'
@@ -36,17 +36,17 @@ class Meta{
         return get_signature_datatypes(this.returnTypes) ;
     }
 
-    applyBody(){
+    getBody(){
 
         return '' ;
     }
 
-    applyImports(){
+    getImports(){
 
         return [] ;
     }
 
-    applyParams(){
+    getParams(){
 
         return [] ;
     }

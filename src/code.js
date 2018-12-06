@@ -13,9 +13,9 @@ const {
     normalize
 } = require('./name'),
 {
-    defineCacheProperties,
-    defineCacheProperty,
-    clearCacheProperties
+    defineProperties,
+    defineProperty,
+    resetProperties
 } = require('./object'),
 {
     defaultFolder
@@ -87,7 +87,7 @@ class Code{
         me.folder = folder,
         me.name = name ;
 
-        defineCacheProperties(me , [
+        defineProperties(me , [
             'path',
             'target'
         ]) ;
@@ -95,7 +95,7 @@ class Code{
 
     reset(){
 
-        clearCacheProperties(this , [
+        resetProperties(this , [
             'path',
             'target'
         ]) ;
@@ -123,14 +123,14 @@ class BinCode extends Code{
 
         super(fullName) ;
 
-        defineCacheProperty(this , 'targets') ;
+        defineProperty(this , 'targets') ;
     }
 
     reset(){
 
         super.reset() ;
 
-        clearCacheProperties(this , 'targets') ;
+        resetProperties(this , 'targets') ;
     }
     
     destroy(){
@@ -149,7 +149,7 @@ class BinCode extends Code{
         Code.remove('BIN' , me.name) ;
     }
 
-    applyPath(){
+    getPath(){
 
         let 
         me = this,
@@ -179,7 +179,7 @@ class BinCode extends Code{
         return COMPILER.getPath(folder , name) ;
     }
 
-    applyTarget(){
+    getTarget(){
 
         let {
             folder,
@@ -196,7 +196,7 @@ class BinCode extends Code{
         return get_library_item(fullName) ;
     }
 
-    applyTargets(){
+    getTargets(){
 
         let 
         me = this,
@@ -339,7 +339,7 @@ class SourceCode extends Code{
 
         super(fullName) ;
         
-        defineCacheProperties(this , [
+        defineProperties(this , [
             'baseName',
             'importSourceCodes',
             'importNames',
@@ -367,7 +367,7 @@ class SourceCode extends Code{
         return `${signatureReturnTypes} ${fullName}(${paramSignatureNames.join(',')})` ;
     }
 
-    applyMeta(){
+    getMeta(){
 
         let 
         me = this,
@@ -397,7 +397,7 @@ class SourceCode extends Code{
 
         super.reset() ;
 
-        clearCacheProperties(this ,  [
+        resetProperties(this ,  [
             'baseName',
             'importSourceCodes',
             'importNames',
@@ -428,7 +428,7 @@ class SourceCode extends Code{
         Code.remove('SOURCE' , name) ;
     }
 
-    applyBinCodeText(){
+    getBinCodeText(){
 
         let {
             target
@@ -442,7 +442,7 @@ class SourceCode extends Code{
         return '' ;
     }
 
-    applyPackageCodeText(){
+    getPackageCodeText(){
 
         let {
             target
@@ -456,7 +456,7 @@ class SourceCode extends Code{
         return '' ;
     }
 
-    applyAliases(){
+    getAliases(){
 
         let {
             target
@@ -470,7 +470,7 @@ class SourceCode extends Code{
         return [] ;
     }
 
-    applyBaseName(){
+    getBaseName(){
 
         return this.name.match(baseNameRe)[0] ;
     }
@@ -480,7 +480,7 @@ class SourceCode extends Code{
         return Code.get('SOURCE' , this , name) ;
     }
 
-    applyPath(){
+    getPath(){
 
         let {
             name,
@@ -526,7 +526,7 @@ class SourceCode extends Code{
 
     }
 
-    applyImportNames(){
+    getImportNames(){
 
         let {
             target
@@ -562,7 +562,7 @@ class SourceCode extends Code{
         return unique(names) ;
     }
 
-    applyImportSourceCodes(){
+    getImportSourceCodes(){
 
         let names = this.importNames,
             codes = [];
@@ -580,7 +580,7 @@ class SourceCode extends Code{
         return codes ;
     }
 
-    applyConfig(){
+    getConfig(){
 
         let me = this,
         {
@@ -607,7 +607,7 @@ class SourceCode extends Code{
         }
     }
 
-    applyIsScript(){
+    getIsScript(){
 
         let {
             config
@@ -621,7 +621,7 @@ class SourceCode extends Code{
         return false ;
     }
 
-    applyTarget(){
+    getTarget(){
 
         let 
         me = this,

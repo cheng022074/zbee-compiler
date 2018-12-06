@@ -7,7 +7,7 @@ textCodeMetaRe = /\/\*(?:.|[^.])+?\*\//,
 
 module.exports = class extends Meta{
 
-    applyBody(){
+    getBody(){
 
         let {
             code

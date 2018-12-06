@@ -12,20 +12,17 @@
         unique,
         from
     } = require('./array'),
-    prefix = `$private_${Date.now()}_`;
+    prefix = `$private-${Date.now()}-`;
     
-    function defineCacheProperty(target , name){
+    function defineProperty2(target , name){
     
         defineProperty(target , name , {
-
             configurable:true,
-            
             enumerable:true,
-    
             set(value){
     
                 let me = this,
-                    methodName = `apply${capitalize(name)}`;
+                    methodName = `set${capitalize(name)}`;
     
                 if(methodName in me){
     
@@ -37,7 +34,7 @@
     
                 let me = this,
                     innerName = `${prefix}${name}`,
-                    method = me[`apply${capitalize(name)}`];
+                    method = me[`get${capitalize(name)}`];
     
                 if(!me.hasOwnProperty(innerName) && method){
     
@@ -53,19 +50,19 @@
         }) ;
     }
     
-    exports.defineCacheProperty = defineCacheProperty ;
+    exports.defineProperty = defineProperty2 ;
     
-    exports.defineCacheProperties = (target , names) =>{
+    exports.defineProperties = (target , names) =>{
 
         names = unique(names) ;
     
         for(let name of names){
     
-            defineCacheProperty(target , name) ;
+            defineProperty2(target , name) ;
         }
     }
 
-    exports.clearCacheProperties = (target , names) =>{
+    exports.resetProperties = (target , names) =>{
 
         names = from(names) ;
 

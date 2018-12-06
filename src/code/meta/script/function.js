@@ -6,7 +6,7 @@ getDataTypes = require('../datatypes');
 
 class FunctionMeta extends ScriptMeta{
 
-    applyReturnTypes(){
+    getReturnTypes(){
 
         let {
             body
@@ -22,7 +22,7 @@ class FunctionMeta extends ScriptMeta{
         return super.applyReturnTypes() ;
     }
 
-    applyParams(){
+    getParams(){
 
         let 
         {

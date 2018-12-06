@@ -4,7 +4,7 @@
         BinCode
     } = require('./code'),
     {
-        defineCacheProperties
+        defineProperties
     } = require('./object'),
     {
         get,
@@ -30,13 +30,13 @@
     
             me.argv = process_argv(argv) ;
 
-            defineCacheProperties(me , [
+            defineProperties(me , [
                 'name',
                 'code'
             ]) ;
         }
     
-        applyName(){
+        getName(){
     
             let me = this,
             {
@@ -53,7 +53,7 @@
             }
         }
 
-        applyCode(){
+        getCode(){
 
             let name = this.name,
                 codeName = get('command' , name) ;
