@@ -13,7 +13,7 @@ class Meta extends FunctionMeta{
         this.data = `const config = ${data};
                     function main(key){
 
-                    return get(config , key) ;
+                        return get(config , key) ;
 
                     }
                     ` ;
