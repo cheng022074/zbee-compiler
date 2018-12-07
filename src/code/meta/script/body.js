@@ -107,7 +107,7 @@ module.exports = class {
 
             enter({
                 type
-            } , node){
+            }){
 
                 let me = this ;
 
