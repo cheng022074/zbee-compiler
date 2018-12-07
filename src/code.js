@@ -430,29 +430,20 @@ class SourceCode extends Code{
     getBinCodeText(){
 
         let {
-            target
+            meta
         } = this ;
 
-        if(target){
-
-            return target.binCodeText ;
-        }
-
-        return '' ;
+        return `module.exports = ${meta.toString()};` ;
     }
 
     getPackageCodeText(){
 
         let {
-            target
+            meta,
+            fullName
         } = this ;
 
-        if(target){
-
-            return target.packageCodeText ;
-        }
-
-        return '' ;
+        return `exports['${fullName}'] = ${meta.toString()};` ;
     }
 
     getAliases(){
