@@ -23,7 +23,8 @@ class Meta{
             'imports',
             'configs',
             'params',
-            'returnTypes'
+            'returnTypes',
+            'hasMain'
         ] ;
     }
 
@@ -37,6 +38,11 @@ class Meta{
     get signatureReturnTypes(){
 
         return get_signature_datatypes(this.returnTypes) ;
+    }
+
+    getHasMain(){
+
+        return false ;
     }
 
     getIsAsync(){
@@ -106,54 +112,6 @@ class Meta{
         return names ;
     }
 
-    get paramNames(){
-
-        let {
-            params
-        } = this,
-        names = [];
-
-        for(let {
-            name,
-            type,
-            items
-        } of params){
-
-            if(items.length){
-
-                let innerNames = [] ;
-
-                for(let {
-                    name
-                } of items){
-
-                    innerNames.push(name) ;
-                }
-
-                let result = innerNames.join(',') ;
-
-                switch(type){
-
-                    case 'object':
-
-                        names.push(`{${result}}`) ;
-                        
-                        break ;
-
-                    case 'array':
-
-                        names.push(`[${result}]`) ;
-                }
-
-            }else{
-
-                names.push(name) ;
-            }
-        }
-
-        return names ;
-    }
-
     get paramSignatureNames(){
 
         let {
@@ -202,80 +160,70 @@ class Meta{
         return names.join(' , ') ;
     }
 
-    get paramFullNames(){
+    get fragmentImportAllCodeDefinition(){
 
-        let {
-            params
-        } = this,
-        names = [];
+        let result = new Set(),
+        {
+            imports,
+            configs
+        } = this;
 
-        for(let param of params){
+        for(let {
+            name
+        } of imports){
 
-            let {
-                items,
-                type,
-                defaultValue
-            } = param ;
+            result.add(name) ;
+        }
 
-            if(items.length){
+        for(let {
+            name
+        } of configs){
 
-                let innerNames = [] ;
+            result.add(name) ;
+        }
 
-                for(let item of items){
+        return `let ${Array.from(result).join(',')};` ;
+    }
 
-                    innerNames.push(get_full_name(item)) ;
-                }
+    get fragmentImportAllCodeAssignment(){
 
-                let result = innerNames.join(',') ;
+        let result = [],
+        {
+            imports,
+            configs
+        } = this;
 
-                switch(type){
+        for(let {
+            name,
+            target
+        } of imports){
 
-                    case 'object':
+            result.push(`${name} = include('${target}');`) ;
+        }
 
-                        if(defaultValue){
+        for(let {
+            name,
+            target,
+            key
+        } of configs){
 
-                            names.push(`{${result}} = ${defaultValue}`) ;
-                        
-                        }else{
+            if(key){
 
-                            names.push(`{${result}}`) ;
-                        }
-
-                        break ;
-
-                    case 'array':
-
-                    if(defaultValue){
-
-                        names.push(`[${result}] = ${defaultValue}`) ;
-                    
-                    }else{
-
-                        names.push(`[${result}]`) ;
-                    }
-                }
-
+                result.push(`${name} = config('${target}' , '${key}');`) ;
+            
             }else{
 
-                names.push(get_full_name(param)) ;
+                result.push(`${name} = config('${target}');`) ;
             }
         }
 
-        return names ;
-    }
-}
-
-function get_full_name({
-    name,
-    defaultValue
-}){
-
-    if(defaultValue){
-
-        return `${name} = ${defaultValue}` ;
+        return result.join('\n') ;
     }
 
-    return name ;
+    toString(){
+
+        return '() =>{}' ;
+    }
 }
 
 function get_signature_name({

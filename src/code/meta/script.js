@@ -45,6 +45,11 @@ module.exports = class extends Meta{
         return '' ;
     }
 
+    getHasMain(){
+
+        return this.bodyTarget.hasMain ;
+    }
+
     getIsAsync(){
 
         return this.bodyTarget.isAsync ;

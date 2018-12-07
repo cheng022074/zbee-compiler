@@ -14,18 +14,25 @@ module.exports = name =>{
                 importAllNames
             } = code ;
 
-            for(let name of importAllNames){
+            if(importAllNames.length){
 
-                console.info(name) ;
+                for(let name of importAllNames){
+
+                    console.info(name) ;
+                }
+
+            }else{
+
+                console.info('无依赖') ;
             }
-        
+
         }else{
 
-            console.log('源代码不存在' , name) ;
+            console.log('资源不存在' , name) ;
         }
 
     }else{
 
-        console.warn('请指定源代码名称') ;
+        console.warn('请指定资源名称') ;
     }
 }

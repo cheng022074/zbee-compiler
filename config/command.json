@@ -42,5 +42,9 @@
     "dependencies":{
         "description":"查看资源的依赖列表",
         "implement":"command.dependencies"
+    },
+    "code":{
+        "description":"查看资源的源代码",
+        "implement":"command.code"
     }
 }

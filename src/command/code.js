@@ -1,6 +1,9 @@
 const {
     SourceCode
-} = require('../code') ;
+} = require('../code'),
+{
+    format
+} = require('../script');
 
 module.exports = name =>{
 
@@ -10,7 +13,7 @@ module.exports = name =>{
 
         if(code.exists){
 
-            console.info(code.signature) ;
+            console.info(format(code.meta.toString())) ;
         
         }else{
 
