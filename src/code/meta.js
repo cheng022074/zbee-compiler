@@ -18,7 +18,9 @@ class Meta{
 
         return [
             'body',
+            'importNames',
             'imports',
+            'configs',
             'params',
             'returnTypes'
         ] ;
@@ -41,7 +43,37 @@ class Meta{
         return '' ;
     }
 
+    getImportNames(){
+
+        let {
+            imports,
+            configs
+        } = this,
+        names = new Set();
+
+        for(let {
+            target
+        } of imports){
+
+            names.add(target) ;
+        }
+
+        for(let {
+            target
+        } of configs){
+
+            names.add(target) ;
+        }
+
+        return Array.from(names) ;
+    }
+
     getImports(){
+
+        return [] ;
+    }
+
+    getConfigs(){
 
         return [] ;
     }

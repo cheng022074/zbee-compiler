@@ -377,7 +377,7 @@ class SourceCode extends Code{
         if(config){
 
             let {
-                meta
+                meta = 'code.meta'
             } = config,
             target = run(BinCode.get(meta).target , me) ;
 
@@ -399,7 +399,6 @@ class SourceCode extends Code{
         resetProperties(this ,  [
             'baseName',
             'importSourceCodes',
-            'importNames',
             'packageCodeText',
             'binCodeText',
             'aliases',
@@ -476,6 +475,8 @@ class SourceCode extends Code{
 
     static get(name){
 
+        console.log(name) ;
+
         return Code.get('SOURCE' , this , name) ;
     }
 
@@ -525,27 +526,6 @@ class SourceCode extends Code{
 
     }
 
-    getImportNames(){
-
-        let {
-            target
-        } = this ;
-
-        if(target){
-
-            let {
-                importNames
-            } = target.meta ;
-
-            if(importNames){
-
-                return importNames ;
-            }
-        }
-
-        return [] ;
-    }
-
     get importAllNames(){
 
         let {
@@ -553,27 +533,24 @@ class SourceCode extends Code{
         } = this,
         names = [];
 
-        for(let code of importAllSourceCodes){
+        for(let {
+            fullName
+        } of importAllSourceCodes){
 
-            names.push(code.fullName , ...code.importNames) ;
+            names.push(fullName) ;
         }
 
-        return unique(names) ;
+        return names ;
     }
 
     getImportSourceCodes(){
 
-        let names = this.importNames,
+        let names = this.meta.importNames,
             codes = [];
 
         for(let name of names){
 
-            let code = SourceCode.get(name) ;
-
-            if(code){
-
-                codes.push(code) ;
-            }
+            codes.push(SourceCode.get(name)) ;
         }
 
         return codes ;

@@ -38,5 +38,9 @@
     "signature":{
         "description":"查看资源的函数签名",
         "implement":"command.signature"
+    },
+    "dependencies":{
+        "description":"查看资源的依赖列表",
+        "implement":"command.dependencies"
     }
 }
