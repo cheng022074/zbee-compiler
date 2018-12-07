@@ -30,7 +30,7 @@ class FunctionMeta extends ScriptMeta{
             return getDataTypes(result[1]) ;
         }
 
-        return super.applyReturnTypes() ;
+        return super.getReturnTypes() ;
     }
 
     getIsOnce(){
@@ -315,7 +315,12 @@ function get_full_name({
     return name ;
 }
 
-module.exports = code =>{
+module.exports = function(code){
 
-    return new FunctionMeta(code) ;
+    if(arguments.length){
+
+        return new FunctionMeta(code) ;
+    }
+
+    return FunctionMeta ;
 }

@@ -47,6 +47,7 @@
     },
     "config":{
         ".json":{
+            "meta":"code.meta.config",
             "template":"code.template.config",
             "converter":"code.converter.config"
         }
