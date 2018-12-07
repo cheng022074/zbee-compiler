@@ -50,10 +50,16 @@ module.exports = class {
                 let {
                     name
                 } = id ;
+
+                switch(type){
+
+                    case 'ClassDeclaration':
+                    case 'FunctionDeclaration':
+
+                    if(name === 'main'){
         
-                if(name === 'main' && type === 'FunctionDeclaration'){
-        
-                    return true ;
+                        return true ;
+                    }
                 }
             }
         }
