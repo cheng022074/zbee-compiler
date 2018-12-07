@@ -9,7 +9,10 @@ const {
 } = require('strip-comment'),
 {
     isAbsolute
-} = require('path');
+} = require('path'),
+{
+    parseScript
+} = require('esprima');
 
 exports.format = code =>{
 
@@ -54,4 +57,10 @@ exports.include = path =>{
 
         return target ;
     }
+}
+
+exports.ast = code =>{
+
+    return parseScript(code) ;
+
 }

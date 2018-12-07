@@ -5,13 +5,14 @@ textCodeMetaRe = /\/\*(?:.|[^.])+?\*\//,
     readTextFile
 } = require('../../fs'),
 {
-    defineProperty
+    defineProperties
 } = require('../../object'),
 textCodeMetaAliasImportRe = /(\w+)\s+from\s+((?:\w+\:{2})?\w+(?:\.\w+)*)/,
 textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*))?/,
 {
     toCamelCase
-} = require('../../name');
+} = require('../../name'),
+Body = require('./script/body');
 
 module.exports = class extends Meta{
 
@@ -23,7 +24,10 @@ module.exports = class extends Meta{
 
         me.data = readTextFile(code.path) ;
 
-        defineProperty(me , 'header') ;
+        defineProperties(me , [
+            'header',
+            'bodyTarget'
+        ]) ;
     }
 
     getHeader(){
@@ -41,13 +45,23 @@ module.exports = class extends Meta{
         return '' ;
     }
 
-    getBody(){
+    getIsAsync(){
+
+        return this.bodyTarget.isAsync ;
+    }
+
+    getBodyTarget(){
 
         let {
             data
         } = this ;
         
-        return data.replace(textCodeMetaRe , '') ;
+        return new Body(data.replace(textCodeMetaRe , '')) ;
+    }
+
+    getBody(){
+
+        return this.bodyTarget.toString() ;
     }
 
     getConfigs(){

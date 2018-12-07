@@ -17,6 +17,7 @@ class Meta{
     getPropertyNames(){
 
         return [
+            'isAsync',
             'body',
             'importNames',
             'imports',
@@ -36,6 +37,11 @@ class Meta{
     get signatureReturnTypes(){
 
         return get_signature_datatypes(this.returnTypes) ;
+    }
+
+    getIsAsync(){
+
+        return false ;
     }
 
     getBody(){

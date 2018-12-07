@@ -359,11 +359,12 @@ class SourceCode extends Code{
         } = this,
         {
             signatureReturnTypes,
-            paramSignatureNames
+            paramSignatureNames,
+            isAsync
         } = meta,
         result = [];
 
-        return `${signatureReturnTypes} ${fullName}(${paramSignatureNames})` ;
+        return `${isAsync ? 'async ' : ''}${signatureReturnTypes} ${fullName}(${paramSignatureNames})` ;
     }
 
     getMeta(){
@@ -474,8 +475,6 @@ class SourceCode extends Code{
     }
 
     static get(name){
-
-        console.log(name) ;
 
         return Code.get('SOURCE' , this , name) ;
     }
