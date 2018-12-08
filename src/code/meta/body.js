@@ -1,12 +1,13 @@
 const {
-    ast
-} = require('../../../script'),
+    parse,
+    stringify
+} = require('../../script'),
 {
-    traverse
+    traverse,
 } = require('estraverse'),
 {
     defineProperties
-} = require('../../../object');
+} = require('../../object');
 
 module.exports = class {
 
@@ -16,7 +17,7 @@ module.exports = class {
 
         me.codStr = data ;
 
-        me.data = ast(`async() =>{${data}}`) ;
+        me.data = parse(`async() =>{${data}}`) ;
 
         defineProperties(me , [
             'hasMain',
@@ -26,7 +27,7 @@ module.exports = class {
 
     toString(){
 
-        return this.codStr ;
+        return stringify(this.innerData) ;
     }
 
     get innerData(){

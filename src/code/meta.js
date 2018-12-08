@@ -1,7 +1,7 @@
 const {
     defineProperties
 } = require('../object'),
-getDataTypes = require('./meta/datatypes');
+Body = require('./meta/body');
 
 class Meta{
 
@@ -17,6 +17,7 @@ class Meta{
     getPropertyNames(){
 
         return [
+            'rawBody',
             'isAsync',
             'body',
             'importNames',
@@ -26,6 +27,16 @@ class Meta{
             'returnTypes',
             'hasMain'
         ] ;
+    }
+
+    getRawBody(){
+
+        return '' ;
+    }
+
+    getBody(){
+
+        return new Body(this.rawBody) ;
     }
 
     getReturnTypes(){
@@ -42,17 +53,17 @@ class Meta{
 
     getHasMain(){
 
-        return false ;
+        return this.body.hasMain ;
     }
 
     getIsAsync(){
 
-        return false ;
+        return this.body.isAsync ;
     }
 
     getBody(){
 
-        return '' ;
+        return this.body.toString() ;
     }
 
     getImportNames(){
@@ -195,10 +206,19 @@ class Meta{
 
         for(let {
             name,
-            target
+            target,
+            scoped
         } of imports){
 
-            result.push(`${name} = include('${target}');`) ;
+            if(scoped){
+
+                result.push(`${name} = include('${target}').bind(this);`) ;
+
+            }else{
+
+                result.push(`${name} = include('${target}');`) ;
+            }
+
         }
 
         for(let {

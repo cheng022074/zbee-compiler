@@ -12,7 +12,13 @@ const {
 } = require('path'),
 {
     parseScript
-} = require('esprima');
+} = require('esprima'),
+{
+    generate
+} = require('escodegen'),
+{
+    from
+} = require('./array');
 
 exports.format = code =>{
 
@@ -59,8 +65,22 @@ exports.include = path =>{
     }
 }
 
-exports.ast = code =>{
+exports.parse = code =>{
 
     return parseScript(code) ;
 
+}
+
+exports.stringify = ast =>{
+
+    ast = from(ast) ;
+
+    let result = [] ;
+
+    for(let item of ast){
+
+        result.push(generate(item)) ;
+    }
+
+    return result.join('\n') ;
 }

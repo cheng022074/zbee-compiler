@@ -2,21 +2,15 @@ const FunctionMeta = require('./script/function')();
 
 class Meta extends FunctionMeta{
 
-    constructor(code){
+    getRawBody(){
 
-        super(code) ;
+        return `const config = ${super.getRawBody()};
+                function main(key){
 
-        let {
-            data
-        } = this ;
+                    return get(config , key) ;
 
-        this.data = `const config = ${data};
-                    function main(key){
-
-                        return get(config , key) ;
-
-                    }
-                    ` ;
+                }
+                ` ;
     }
 
     getImports(){

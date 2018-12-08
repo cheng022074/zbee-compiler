@@ -5,14 +5,14 @@ textCodeMetaRe = /\/\*(?:.|[^.])+?\*\//,
     readTextFile
 } = require('../../fs'),
 {
-    defineProperties
+    defineProperty
 } = require('../../object'),
 textCodeMetaAliasImportRe = /(\w+)\s+from\s+((?:\w+\:{2})?\w+(?:\.\w+)*)/,
+textCodeMetaImportScopedRe = /\s+scoped$/,
 textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*))?/,
 {
     toCamelCase
-} = require('../../name'),
-Body = require('./script/body');
+} = require('../../name') ;
 
 module.exports = class extends Meta{
 
@@ -22,20 +22,20 @@ module.exports = class extends Meta{
 
         let me = this ;
 
-        me.data = readTextFile(code.path) ;
+        defineProperty(me , 'header') ;
+    }
 
-        defineProperties(me , [
-            'header',
-            'bodyTarget'
-        ]) ;
+    getRawBody(){
+
+        return readTextFile(this.code.path) ;
     }
 
     getHeader(){
 
         let {
-            data
+            rawBody
         } = this,
-        result = data.match(textCodeMetaRe);
+        result = rawBody.match(textCodeMetaRe);
 
         if(result){
 
@@ -43,30 +43,6 @@ module.exports = class extends Meta{
         }
 
         return '' ;
-    }
-
-    getHasMain(){
-
-        return this.bodyTarget.hasMain ;
-    }
-
-    getIsAsync(){
-
-        return this.bodyTarget.isAsync ;
-    }
-
-    getBodyTarget(){
-
-        let {
-            data
-        } = this ;
-        
-        return new Body(data.replace(textCodeMetaRe , '')) ;
-    }
-
-    getBody(){
-
-        return this.bodyTarget.toString() ;
     }
 
     getConfigs(){
@@ -105,7 +81,7 @@ module.exports = class extends Meta{
 
     getImports(){
 
-        let textCodeMetaImportRe = /@import\s+([^\n\r]+)/g,
+        let textCodeMetaImportRe = /@import\s+([^\n\r]+)?/g,
             match,
             imports = [],
             me = this,
@@ -116,7 +92,13 @@ module.exports = class extends Meta{
         while(match = textCodeMetaImportRe.exec(header)){
 
             let content = match[1].trim(),
-                result = content.match(textCodeMetaAliasImportRe) ;
+                importConfig = {};
+
+            importConfig.scoped = textCodeMetaImportScopedRe.test(content) ;
+
+            content = content.replace(textCodeMetaImportScopedRe , '') ;
+
+            let result = content.match(textCodeMetaAliasImportRe);
 
             if(result){
 
@@ -126,20 +108,19 @@ module.exports = class extends Meta{
                     target
                 ] = result ;
 
-                imports.push({
-                    name,
-                    target
-                }) ;
+                importConfig.name = name,
+                importConfig.target = target ;
 
             }else{
 
-                imports.push({
-                    name:toCamelCase(content),
-                    target:content
-                }) ;
+                importConfig.name = toCamelCase(content),
+                importConfig.target = content ;
             }
+
+            imports.push(importConfig) ;
         }
 
         return imports ;
     }
 }
+
