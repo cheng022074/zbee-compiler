@@ -207,6 +207,8 @@ class FunctionMeta extends ScriptMeta{
         } = this,
         code;
 
+        body = body.toString() ;
+
         if(imports.length === 0 && configs.length === 0){
 
             if(hasMain){

@@ -61,11 +61,6 @@ class Meta{
         return this.body.isAsync ;
     }
 
-    getBody(){
-
-        return this.body.toString() ;
-    }
-
     getImportNames(){
 
         let {
