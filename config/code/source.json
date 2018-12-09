@@ -6,7 +6,8 @@
             "template":"code.template.script.function",
             "converter":"code.converter.script.function"
         },
-        ".class.xml":{
+        ".class.json":{
+            "meta":"code.meta.class",
             "template":"code.template.script.class",
             "converter":"code.converter.script.class"
         }

@@ -2,7 +2,11 @@ const
 FunctionMeta = require('./script/function')(),
 {
     load
-} = require('../../json');
+} = require('../../json'),
+{
+    simpleObject:isObject,
+    string:isString
+} = require('../../is');
 
 class Meta extends FunctionMeta{
 
@@ -89,7 +93,7 @@ class Meta extends FunctionMeta{
 
                     if(!target){
     
-                        return new main() ;
+                        return target = new main() ;
 
                     }
 
@@ -116,9 +120,20 @@ function generate_constructor(rootName , hasConstructor){
 
     if(hasConstructor){
 
+        let name ;
+
+        if(isString(hasConstructor)){
+
+            name = hasConstructor ;
+        
+        }else{
+
+            name = `${rootName}.consructor` ;
+        }
+
         return `constructor(){
 
-            include('${rootName}.consructor').apply(this , arguments) ;
+            include('${name}').apply(this , arguments) ;
 
         }` ;
     }
@@ -132,9 +147,25 @@ function generate_methods(rootName , methods , isStatic = false){
 
     for(let method of methods){
 
-        result.push(`${isStatic ? 'static ' : ''}${method}(){
+        let name,
+            impl;
 
-            return include('${rootName}.${isStatic ? 'static.' : ''}${method}').apply(this , arguments) ;
+        if(isObject(method)){
+
+            name = method.name ;
+
+            impl = method.impl ;
+        
+        }else{
+
+            name = method ;
+
+            impl = `${rootName}.${isStatic ? 'static.' : ''}${method}` ;
+        }
+
+        result.push(`${isStatic ? 'static ' : ''}${name}(){
+
+            return include('${impl}').apply(this , arguments) ;
 
         }`) ;
     }
@@ -151,34 +182,46 @@ function generate_properties(rootName , properties , isStatic = true){
     for(let name of names){
 
         let value = properties[name],
-            getter = false,
-            setter = false;
+            getter = `${rootName}.${isStatic ? 'static.' : ''}${name}.get`,
+            setter = `${rootName}.${isStatic ? 'static.' : ''}${name}.set`;
 
         switch(value){
 
             case true:
 
-                getter = true,
-                setter = true ;
-
                 break ;
 
             case 'get':
 
-                getter = true ;
+                setter = false ;
 
                 break ;
 
             case 'set':
 
-                setter = true ;
+                getter = false ;
+
+            default:
+
+                if(isObject(value)){
+
+                    if(value.hasOwnProperty('set')){
+
+                        setter = value.get ;
+                    }
+
+                    if(value.hasOwnProperty('get')){
+
+                        getter = value.set ;
+                    }
+                }
         }
 
         if(setter){
 
             result.push(`${isStatic ? 'static ' : ''}set ${name}(value){
 
-                include('${rootName}.${isStatic ? 'static.' : ''}${name}.set')(value) ;
+                include('${setter}')(value) ;
     
             }`) ;
         }
@@ -187,7 +230,7 @@ function generate_properties(rootName , properties , isStatic = true){
 
             result.push(`${isStatic ? 'static ' : ''}get ${name}(){
 
-                return include('${rootName}.${isStatic ? 'static.' : ''}${name}.get')() ;
+                return include('${getter}')() ;
     
             }`) ;
         }
