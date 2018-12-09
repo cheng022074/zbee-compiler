@@ -22,7 +22,7 @@ module.exports = name =>{
 
     let code = SourceCode.get(name) ;
 
-    if(code && code.exists){
+    if(code){
 
         compile(code) ;
 
@@ -53,6 +53,7 @@ function compile(code){
         return ;
     }
 
+
     let {
         name
     } = code,
@@ -64,15 +65,7 @@ function compile(code){
         return ;
     }
 
-    let codeText = format(code.binCodeText),
-    {
-        aliases
-    } = code ;
-
-    for(let alias of aliases){
-
-        writeTextFile(APPLICATION.generateBinPath('' , alias) , codeText) ;
-    }
+    let codeText = format(code.binCodeText) ;
 
     writeTextFile(path , codeText) ;
 

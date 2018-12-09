@@ -29,9 +29,9 @@ class Meta extends FunctionMeta{
         {
             constructor,
             staticMethods = [],
-            staticProperties = [],
+            staticProperties = {},
             methods = [],
-            properties = []
+            properties = {}
         } = data;
 
         return `
@@ -64,7 +64,34 @@ class Meta extends FunctionMeta{
 
     getImports(){
 
-        return [] ;
+        let
+        imports = [],
+        {
+            data,
+            code
+        } = this,
+        {
+            constructor,
+            staticMethods = [],
+            staticProperties = {},
+            methods = [],
+            properties = {}
+        } = data,
+        {
+            fullName
+        } = code;
+
+        import_properties(imports , fullName , staticProperties , true) ;
+
+        import_methods(imports , fullName , staticMethods , true) ;
+
+        import_constructor(imports , fullName , constructor) ;
+
+        import_properties(imports , fullName , properties) ;
+
+        import_methods(imports , fullName , methods) ;
+
+        return imports ;
     }
 
     getParams(){
@@ -116,6 +143,29 @@ class Meta extends FunctionMeta{
     }
 }
 
+function import_constructor(imports , rootName , hasConstructor){
+
+    if(hasConstructor){
+
+        let target ;
+
+        if(isString(hasConstructor)){
+
+            target = hasConstructor ;
+        
+        }else{
+
+            target = `${rootName}.constructor` ;
+        }
+
+        imports.push({
+            name:'constructor',
+            target
+        }) ;
+    }
+
+}
+
 function generate_constructor(rootName , hasConstructor){
 
     if(hasConstructor){
@@ -128,7 +178,7 @@ function generate_constructor(rootName , hasConstructor){
         
         }else{
 
-            name = `${rootName}.consructor` ;
+            name = `${rootName}.constructor` ;
         }
 
         return `constructor(){
@@ -139,6 +189,35 @@ function generate_constructor(rootName , hasConstructor){
     }
 
     return '' ;
+}
+
+function import_methods(imports , rootName , methods , isStatic = false){
+
+    let prefix = `${isStatic ? 'static_' : ''}method_` ;
+
+    for(let method of methods){
+
+        let name,
+            target;
+
+        if(isObject(method)){
+
+            name = method.name ;
+
+            target = method.impl ;
+        
+        }else{
+
+            name = method ;
+
+            target = `${rootName}.${isStatic ? 'static.' : ''}${method}` ;
+        }
+
+        imports.push({
+            name:`${prefix}${name}`,
+            target
+        }) ;
+    }
 }
 
 function generate_methods(rootName , methods , isStatic = false){
@@ -171,6 +250,72 @@ function generate_methods(rootName , methods , isStatic = false){
     }
 
     return result.join('\n') ;
+
+}
+
+function import_properties(imports , rootName , properties , isStatic = false){
+
+    let prefix = `${isStatic ? 'static_' : ''}property_`,
+        names = Object.keys(properties);
+
+    for(let name of names){
+
+        let value = properties[name],
+            getter = `${rootName}.${isStatic ? 'static.' : ''}${name}.get`,
+            setter = `${rootName}.${isStatic ? 'static.' : ''}${name}.set`;
+
+        switch(value){
+
+            case true:
+
+                break ;
+
+            case 'get':
+
+                setter = false ;
+
+                break ;
+
+            case 'set':
+
+                getter = false ;
+
+                break ;
+
+            default:
+
+                if(isObject(value)){
+
+                    setter = getter = null ;
+
+                    if(value.hasOwnProperty('set')){
+
+                        setter = value.set ;
+                    }
+
+                    if(value.hasOwnProperty('get')){
+
+                        getter = value.get ;
+                    }
+                }
+        }
+
+        if(setter){
+
+            imports.push({
+                name:`${prefix}${name}_set`,
+                target:setter
+            }) ;
+        }
+
+        if(getter){
+
+            imports.push({
+                name:`${prefix}${name}_get`,
+                target:getter
+            }) ;
+        }
+    }
 
 }
 

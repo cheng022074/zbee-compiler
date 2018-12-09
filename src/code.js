@@ -384,13 +384,13 @@ class SourceCode extends Code{
 
             if(!target){
 
-                return run('code.meta' , me) ;
+                return run(BinCode.get('code.meta').target , me) ;
             }
 
             return target ;
         }
 
-        return false ;
+        return run(BinCode.get('code.meta').target , me) ;
     }
 
     reset(){
@@ -537,6 +537,11 @@ class SourceCode extends Code{
 
         let names = this.meta.importNames,
             codes = [];
+
+        if(!names){
+
+            console.log(this.meta) ;
+        }
 
         for(let name of names){
 
