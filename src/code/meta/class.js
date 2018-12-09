@@ -174,7 +174,7 @@ function generate_methods(rootName , methods , isStatic = false){
 
 }
 
-function generate_properties(rootName , properties , isStatic = true){
+function generate_properties(rootName , properties , isStatic = false){
 
     let result = [],
         names = Object.keys(properties);
@@ -221,7 +221,7 @@ function generate_properties(rootName , properties , isStatic = true){
 
             result.push(`${isStatic ? 'static ' : ''}set ${name}(value){
 
-                include('${setter}')(value) ;
+                include('${setter}').call(this , value) ;
     
             }`) ;
         }
@@ -230,7 +230,7 @@ function generate_properties(rootName , properties , isStatic = true){
 
             result.push(`${isStatic ? 'static ' : ''}get ${name}(){
 
-                return include('${getter}')() ;
+                return include('${getter}').call(this) ;
     
             }`) ;
         }
