@@ -205,14 +205,16 @@ function generate_properties(rootName , properties , isStatic = false){
 
                 if(isObject(value)){
 
+                    setter = getter = null ;
+
                     if(value.hasOwnProperty('set')){
 
-                        setter = value.get ;
+                        setter = value.set ;
                     }
 
                     if(value.hasOwnProperty('get')){
 
-                        getter = value.set ;
+                        getter = value.get ;
                     }
                 }
         }

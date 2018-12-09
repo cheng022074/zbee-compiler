@@ -16,7 +16,7 @@ module.exports = class {
         me.binTemplate = binTemplate,
         me.packageTemplate = packageTemplate;
 
-        defineCacheProperties(me , [
+        defineProperties(me , [
             'meta',
             'binCodeData',
             'binCodeText',
