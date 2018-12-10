@@ -11,7 +11,6 @@ const {
     format
 } = require('../script'),
 {
-    getMotifyTime,
     readTextFile
 } = require('../fs'),
 {
@@ -55,10 +54,10 @@ function compile(code){
 
 
     let {
-        name
+        name,
+        motifyTime
     } = code,
-    path = APPLICATION.generateBinPath(code.folder , name),
-    motifyTime = getMotifyTime(code.path);
+    path = APPLICATION.generateBinPath(code.folder , name);
 
     if(!env['ZBEE-ENV'] && motifyTime === getLastCompileTime(path)){
 

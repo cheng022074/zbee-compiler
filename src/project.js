@@ -69,15 +69,14 @@ class Project{
 
     getPath(folder , name , suffixes){
 
-        suffixes = from(suffixes) ;
-
         let {
             rootPath
         } = this ;
 
-        if(suffixes.length === 0){
+        if(!suffixes){
 
             return fileNormalize(join(rootPath , folder , toPath(name))) ;
+
         }
 
         let envName = env['ZBEE-ENV'] ;
@@ -257,12 +256,8 @@ class Application extends Project{
 
             }else{
 
-                path = fileNormalize(join(folderPath , toPath(name))) ;
+                return fileNormalize(join(folderPath , toPath(name))) ;
 
-                if(is_file(path)){
-
-                    return path ;
-                }
             }
         
         }else{

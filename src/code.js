@@ -13,7 +13,6 @@ const {
 } = require('./name'),
 {
     defineProperties,
-    defineProperty,
     resetProperties
 } = require('./object'),
 {
@@ -22,6 +21,7 @@ const {
 {
     remove,
     readTextFile,
+    getMotifyTime
 } = require('./fs'),
 {
     load
@@ -85,24 +85,16 @@ class Code{
 
         me.folder = folder,
         me.name = name ;
-
-        defineProperties(me , [
-            'path',
-            'target'
-        ]) ;
-    }
-
-    reset(){
-
-        resetProperties(this , [
-            'path',
-            'target'
-        ]) ;
     }
 
     destroy(){
 
         this.reset() ;
+    }
+
+    get path(){
+
+        return false ;
     }
 
     get exists(){
@@ -122,22 +114,25 @@ class BinCode extends Code{
 
         super(fullName) ;
 
-        defineProperty(this , 'targets') ;
+        defineProperties(this , [
+            'target',
+            'targets'
+        ]) ;
     }
 
     reset(){
 
-        super.reset() ;
-
-        resetProperties(this , 'targets') ;
+        resetProperties(this , [
+            'target',
+            'targets'
+        ]) ;
     }
     
     destroy(){
 
         super.destroy() ;
 
-        let 
-        me = this,
+        let me = this,
         {
             name,
             folder
@@ -145,10 +140,10 @@ class BinCode extends Code{
 
         remove(APPLICATION.generateBinPath(folder , name)) ;
 
-        Code.remove('BIN' , me.name) ;
+        Code.remove('BIN' , name) ;
     }
 
-    getPath(){
+    get path(){
 
         let 
         me = this,
@@ -340,15 +335,13 @@ class SourceCode extends Code{
         
         defineProperties(this , [
             'baseName',
-            'importSourceCodes',
-            'importNames',
-            'packageCodeText',
-            'binCodeText',
-            'aliases',
-            'config',
-            'isScript',
             'meta'
         ]) ;
+    }
+
+    get motifyTime(){
+
+        return getMotifyTime(this.path) ;
     }
 
     get signature(){
@@ -397,16 +390,7 @@ class SourceCode extends Code{
 
         super.reset() ;
 
-        resetProperties(this ,  [
-            'baseName',
-            'importSourceCodes',
-            'packageCodeText',
-            'binCodeText',
-            'aliases',
-            'config',
-            'isScript',
-            'meta'
-        ]) ;
+        resetProperties(this ,  'meta') ;
     }
     
     destroy(){
@@ -427,7 +411,7 @@ class SourceCode extends Code{
         Code.remove('SOURCE' , name) ;
     }
 
-    getBinCodeText(){
+    get binCodeText(){
 
         let {
             meta
@@ -436,7 +420,7 @@ class SourceCode extends Code{
         return `module.exports = ${meta.toString()};` ;
     }
 
-    getPackageCodeText(){
+    get packageCodeText(){
 
         let {
             meta,
@@ -444,20 +428,6 @@ class SourceCode extends Code{
         } = this ;
 
         return `exports['${fullName}'] = ${meta.toString()};` ;
-    }
-
-    getAliases(){
-
-        let {
-            target
-        } = this ;
-
-        if(target){
-
-            return target.aliases ;
-        }
-
-        return [] ;
     }
 
     getBaseName(){
@@ -470,21 +440,14 @@ class SourceCode extends Code{
         return Code.get('SOURCE' , this , name) ;
     }
 
-    getPath(){
+    get path(){
 
         let {
             name,
             folder
         } = this;
 
-        let suffixes = config_keys('code.source' , folder) ;
-
-        if(suffixes.length === 0){
-
-            return false ;
-        }
-
-        return APPLICATION.getPath(folder , name , suffixes) ;
+        return APPLICATION.getPath(folder , name , config_keys('code.source' , folder)) ;
     }
 
     get suffix(){
@@ -533,7 +496,7 @@ class SourceCode extends Code{
         return names ;
     }
 
-    getImportSourceCodes(){
+    get importSourceCodes(){
 
         let names = this.meta.importNames,
             codes = [];
@@ -551,7 +514,7 @@ class SourceCode extends Code{
         return codes ;
     }
 
-    getConfig(){
+    get config(){
 
         let me = this,
         {
@@ -575,41 +538,6 @@ class SourceCode extends Code{
             }
 
             return config ;
-        }
-    }
-
-    getIsScript(){
-
-        let {
-            config
-        } = this ;
-
-        if(config){
-
-            return config.script !== false ;
-        }
-
-        return false ;
-    }
-
-    getTarget(){
-
-        let 
-        me = this,
-        {
-            config
-        } = me ;
-
-        if(config){
-
-            let {
-                converter
-            } = config ;
-
-            if(converter){
-
-                return run(BinCode.get(converter).target , me) ;
-            }
         }
     }
 }
