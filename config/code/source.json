@@ -1,15 +1,16 @@
 {
 
     "src":{
-        ".fn.js":{
-            "meta":"code.meta.script.function",
-            "template":"code.template.script.function",
-            "converter":"code.converter.script.function"
-        },
-        ".class.json":{
-            "meta":"code.meta.class",
-            "template":"code.template.script.class",
-            "converter":"code.converter.script.class"
+        "defaultSuffix":".fn.js",
+        "suffixes":{
+            ".fn.js":{
+                "meta":"code.meta.script.function",
+                "template":"code.template.script.function"
+            },
+            ".class.json":{
+                "meta":"code.meta.class",
+                "template":"code.template.script.class"
+            }
         }
     },
     "css":{
@@ -25,19 +26,12 @@
         }
     },
     "debug":{
-        ".js":{
-            "template":"code.template.script.function",
-            "converter":"code.converter.script.function"
-        },
-        ".html":{
-            "template":"code.template.html",
-            "converter":"code.converter.html",
-            "script":false
-        },
-        ".scss":{
-            "template":"code.template.scss",
-            "converter":"code.converter.scss",
-            "script":false
+        "defaultSuffix":".js",
+        "suffixes":{
+            ".js":{
+                "meta":"code.meta.script.function",
+                "template":"code.template.script.function"
+            }
         }
     }, 
     "test":{

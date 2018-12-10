@@ -469,7 +469,7 @@ class SourceCode extends Code{
             folder
         } = this;
 
-        return APPLICATION.getPath(folder , name , config_keys('code.source' , folder)) ;
+        return APPLICATION.getPath(folder , name , config_keys('code.source' , `${folder},suffixes`)) ;
     }
 
     get suffix(){
@@ -542,7 +542,7 @@ class SourceCode extends Code{
 
         if(suffix){
 
-            let config = config_get('code.source' , `${folder}.${suffix}`) ;
+            let config = config_get('code.source' , `${folder}.suffixes.${suffix}`) ;
 
             if(!config && envName){
 
@@ -550,7 +550,7 @@ class SourceCode extends Code{
 
                 if(suffix.indexOf(`${envSuffix}.`) === 0){
 
-                    config = config_get('code.source' , `${folder}.${suffix.replace(envSuffix , '')}`) ;
+                    config = config_get('code.source' , `${folder}.suffixes.${suffix.replace(envSuffix , '')}`) ;
                 }
             }
 

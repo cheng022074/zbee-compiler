@@ -3,6 +3,4 @@ global.include = <%- apply('code.bin.header.include' , {
     libraries:data.libraries
 }) %> ;
 
-global.gettype = <%- apply('code.gettype') %> ;
-
 global.config = <%- apply('code.bin.header.config') %> ;

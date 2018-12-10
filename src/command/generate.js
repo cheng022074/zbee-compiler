@@ -31,17 +31,25 @@ const {
     SourceCode
 } = require('../code');
 
-function generate(name , suffix = '.fn.js' , options = {}){
+function generate(name , suffix , options = {}){
 
-    if(name && suffix){
+    if(name){
 
         name = normalize(name , APPLICATION.defaultFolder) ;
 
         let {
             folder,
             name:baseName
-        } = parse(name),
-        config = config_get('code.source' , `${folder}.${suffix}`) ;
+        } = parse(name) ;
+        
+        suffix = suffix || config_get('code.source' , `${folder}.defaultSuffix`) ;
+
+        if(!suffix){
+
+            return ;
+        }
+
+        let config = config_get('code.source' , `${folder}.suffixes.${suffix}`) ;
 
         if(config){
 
@@ -62,48 +70,11 @@ function generate(name , suffix = '.fn.js' , options = {}){
             
             }else{
 
-                doGenerate(name) ;
+                console.log('已存在' , name) ;
             }
         }
 
-    }else if(name){
-
-        doGenerate(name) ;
     }
 }
 
 module.exports = generate ;
-
-function doGenerate(name){
-
-    let code = SourceCode.get(name) ;
-
-    if(!code.exists){
-
-        return ;
-    }
-
-    let {
-        generates
-    } = SourceCode.get(name).target.meta ;
-
-    if(generates){
-
-        for(let {
-            name,
-            suffix,
-            ...options
-        } of generates){
-    
-            let code = SourceCode.get(name) ;
-    
-            if(code.exists){
-    
-                continue ;
-            }
-    
-            generate(name , suffix , options) ;
-        }
-
-    }
-}
