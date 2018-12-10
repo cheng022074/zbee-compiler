@@ -438,7 +438,7 @@ class SourceCode extends Code{
         return this.meta.toString() ;
     }
 
-    get binDaa(){
+    get binData(){
 
         let {
             data
@@ -469,7 +469,7 @@ class SourceCode extends Code{
             folder
         } = this;
 
-        return APPLICATION.getPath(folder , name , config_keys('code.source' , `${folder},suffixes`)) ;
+        return APPLICATION.getPath(folder , name , config_keys('code.source' , `${folder}.suffixes`)) ;
     }
 
     get suffix(){
