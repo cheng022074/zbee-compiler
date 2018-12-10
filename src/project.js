@@ -419,21 +419,10 @@ class Libraries{
         let metas = [],
             me = this,
             {
-                paths,
-                ignoreIndexes
-            } = me,
-            len = paths.length;
+                paths
+            } = me;
 
-        ignoreIndexes = ignoreIndexes || [];
-
-        for(let i = 0 ; i < len ; i ++){
-
-            if(ignoreIndexes.includes(i)){
-
-                continue ;
-            }
-
-            let path = paths[i] ;
+        for(let path of paths){
 
             try{
 
@@ -458,14 +447,15 @@ class Libraries{
 
         for(let meta of metas){
 
-            let nodes = selectNodes(meta , '//class[not(@link)]') ;
+            let nodes = selectNodes(meta , '//class') ;
 
             for(let node of nodes){
 
                 map[node.getAttribute('name')] = {
-                    code:CDATAValues(node).join(''),
-                    aliases:node.hasAttribute('aliases') ? split(node.getAttribute('aliases') , spaceRe) : [],
-                    imports:node.hasAttribute('imports') ? split(node.getAttribute('imports') , spaceRe) : []
+                    motifyTime:Number(node.getAttribute('motify')),
+                    signature:node.getAttribute('signature'),
+                    data:CDATAValues(node).join(''),
+                    importNames:node.hasAttribute('imports') ? split(node.getAttribute('imports') , spaceRe) : []
                 } ;
             }
         }

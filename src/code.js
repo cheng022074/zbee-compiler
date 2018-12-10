@@ -13,7 +13,8 @@ const {
 } = require('./name'),
 {
     defineProperties,
-    resetProperties
+    resetProperties,
+    copyTo
 } = require('./object'),
 {
     defaultFolder
@@ -41,7 +42,8 @@ const {
 } = require('./is'),
 CODES = {
     BIN:{},
-    SOURCE:{}
+    SOURCE:{},
+    LIBRARY_SOURCE:{}
 },
 {
     env
@@ -276,6 +278,27 @@ baseNameRe = /[^\.]+$/;
 
 class SourceCode extends Code{
 
+    static get(name){
+
+        return Code.get('SOURCE' , this , name) ;
+
+    }
+
+    static getProperty(code , property){
+
+        if(code.exists){
+
+            return code[property] ;
+        }
+
+        let libCode = Code.get('LIBRARY_SOURCE' , LibrarySourceCode , code.fullName) ;
+
+        if(libCode.exists){
+
+            return code[property] ;
+        }
+    }
+
     static watch(folders , callback , scope){
 
         folders = from(folders) ;
@@ -354,8 +377,7 @@ class SourceCode extends Code{
             signatureReturnTypes,
             paramSignatureNames,
             isAsync
-        } = meta,
-        result = [];
+        } = meta;
 
         return `${isAsync ? 'async ' : ''}${signatureReturnTypes} ${fullName}(${paramSignatureNames})` ;
     }
@@ -411,33 +433,33 @@ class SourceCode extends Code{
         Code.remove('SOURCE' , name) ;
     }
 
-    get binCodeText(){
+    get data(){
 
-        let {
-            meta
-        } = this ;
-
-        return `module.exports = ${meta.toString()};` ;
+        return this.meta.toString() ;
     }
 
-    get packageCodeText(){
+    get binDaa(){
 
         let {
-            meta,
+            data
+        } = this ;
+
+        return `module.exports = ${data};` ;
+    }
+
+    get packageData(){
+
+        let {
+            data,
             fullName
         } = this ;
 
-        return `exports['${fullName}'] = ${meta.toString()};` ;
+        return `exports['${fullName}'] = ${data};` ;
     }
 
     getBaseName(){
 
         return this.name.match(baseNameRe)[0] ;
-    }
-
-    static get(name){
-
-        return Code.get('SOURCE' , this , name) ;
     }
 
     get path(){
@@ -501,11 +523,6 @@ class SourceCode extends Code{
         let names = this.meta.importNames,
             codes = [];
 
-        if(!names){
-
-            console.log(this.meta) ;
-        }
-
         for(let name of names){
 
             codes.push(SourceCode.get(name)) ;
@@ -543,9 +560,9 @@ class SourceCode extends Code{
 }
 
 function get_import_source_codes(code , codes){
-    
-    let importCodes = code.importSourceCodes ;
 
+    let importCodes = SourceCode.getProperty(code , 'importSourceCodes') || [] ;
+    
     for(let importCode of importCodes){
 
         if(!codes.includes(importCode)){
@@ -554,6 +571,76 @@ function get_import_source_codes(code , codes){
 
             get_import_source_codes(importCode , codes) ;
         }
+    }
+}
+
+class LibrarySourceCode extends SourceCode{
+
+    constructor(fullName){
+
+        super(fullName) ;
+
+        let me = this,
+        {
+            codeMap
+        } = me.project.libraries ;
+
+        if(codeMap.hasOwnProperty(fullName)){
+
+            me.$meta = codeMap[fullName] ;
+
+        }else{
+
+            me.$meta = {
+                importNames:[]
+            } ;
+        }
+    }
+
+    getMeta(){
+
+        let {
+            $meta
+        } = this ;
+
+        return copyTo({
+            tostring(){
+
+                return $meta.data ;
+            }
+        } , $meta , [
+            'motifyTime',
+            'signature',
+            'importNames'
+        ]) ;
+    }
+
+    get motifyTime(){
+
+        return this.$meta.motifyTime ;
+    }
+
+    get signature(){
+
+        return this.$meta.signature ;
+    }
+
+    get exists(){
+
+        !! this.$meta ;
+    }
+
+    get path(){
+
+        return false ;
+    }
+
+    reset(){
+
+    }
+
+    destroy(){
+
     }
 }
 

@@ -64,7 +64,7 @@ function compile(code){
         return ;
     }
 
-    let codeText = format(code.binCodeText) ;
+    let codeText = format(code.binData) ;
 
     writeTextFile(path , codeText) ;
 

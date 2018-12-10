@@ -13,7 +13,7 @@ module.exports = name =>{
 
         if(code.exists){
 
-            console.info(format(code.meta.toString())) ;
+            console.info(format(code.data)) ;
         
         }else{
 
