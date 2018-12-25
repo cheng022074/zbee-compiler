@@ -1,5 +1,4 @@
 {
-
     "src":{
         "defaultSuffix":".fn.js",
         "suffixes":{
@@ -13,18 +12,6 @@
             }
         }
     },
-    "css":{
-        ".scss":{
-            "template":"code.template.scss",
-            "converter":"code.converter.scss",
-            "script":false
-        },
-        ".var.scss":{
-            "template":"code.template.scss.var",
-            "converter":"code.converter.scss.var",
-            "script":false
-        }
-    },
     "debug":{
         "defaultSuffix":".js",
         "suffixes":{
@@ -32,25 +19,6 @@
                 "meta":"code.meta.script.function",
                 "template":"code.template.script.function"
             }
-        }
-    }, 
-    "test":{
-        ".xml":{
-            "template":"code.template.script.test",
-            "converter":"code.converter.script.test"
-        }
-    },
-    "config":{
-        ".json":{
-            "meta":"code.meta.config",
-            "template":"code.template.config",
-            "converter":"code.converter.config"
-        }
-    },
-    "template":{
-        ".js":{
-            "template":"code.template.template",
-            "converter":"code.converter.template"
         }
     }
 }

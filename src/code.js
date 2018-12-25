@@ -8,6 +8,7 @@ const {
 } = require('./array'),
 {
     parse,
+    toPath,
     normalize
 } = require('./name'),
 {
@@ -21,6 +22,7 @@ const {
 {
     remove,
     readTextFile,
+    getAllFilePaths,
     getMotifyTime
 } = require('./fs'),
 {
@@ -39,6 +41,9 @@ const {
 {
     empty:isEmpty
 } = require('./is'),
+{
+    join
+} = require('path'),
 CODES = {
     BIN:{},
     SOURCE:{},
@@ -76,7 +81,8 @@ class Code{
             let codes = CODES[type] ;
     
             if(!codes.hasOwnProperty(name)){
-    
+
+
                 codes[name] = new classRef(name) ;
                 
             }
@@ -290,11 +296,55 @@ const {
 {
     runAsync:run
 } = require('./runner'),
-baseNameRe = /[^\.]+$/;
+baseNameRe = /[^\.]+$/,
+nameSuffix = /\.\*$/;
 
 class SourceCode extends Code{
 
+    static getMany(name){
+
+        let me = this,
+            fullName = normalize(name , defaultFolder) ;
+
+        if(nameSuffix.test(fullName)){
+
+            let {
+                folder,
+                name
+            } = parse(fullName),
+            rootPath = APPLICATION.getFolderPath(folder);
+
+            let paths = getAllFilePaths(join(rootPath , toPath(name.replace(nameSuffix , '')))),
+                codes = [];
+
+            for(let path of paths){
+
+                codes.push(me.get(`${folder}::${toName(path , rootPath)}`)) ;
+            }
+
+            return codes ;
+        }
+
+        return [
+            me.get(name)
+        ] ;
+    }
+
+    /**
+     * 
+     * 获取一个指定名称的源代码对象
+     * 
+     * @param {string} name 源代码名称
+     * 
+     * @return {SourceCode}
+     *  
+     */
     static get(name){
+
+        if(nameSuffix.test(name)){
+
+            throw new Error(`使用 ${name} 无法定位源代码`) ;
+        }
 
         return Code.get('SOURCE' , this , name) ;
 

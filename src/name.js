@@ -9,6 +9,7 @@ exports.toPath = (name , suffix = '') =>{
     return `${name.replace(dotRe , '/')}${suffix}` ;
 }
 
+
 exports.toStylesheetCase = fullName =>{
 
     let {

@@ -73,23 +73,23 @@ function doPackage({
     ...config
 } , name = `package-${Date.now()}`){
 
-    let codes = [] ;
+    let allCodes = [] ;
 
     for(let name of classes){
 
-        let code = SourceCode.get(name) ;
+        let codes = SourceCode.getMany(name) ;
 
-        if(code){
+        for(let code of codes){
 
             let {
                 importAllSourceCodes
             } = code ;
 
-            codes.push(...importAllSourceCodes , code) ;
+            allCodes.push(...importAllSourceCodes , code) ;
         }
     }
 
-    let result = require(`../package/${type}`)(unique(codes) , join(APPLICATION.getFolderPath('package') , name) , config) ;
+    let result = require(`../package/${type}`)(unique(allCodes) , join(APPLICATION.getFolderPath('package') , name) , config) ;
 
     if(memory === true){
 
