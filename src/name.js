@@ -9,6 +9,14 @@ exports.toPath = (name , suffix = '') =>{
     return `${name.replace(dotRe , '/')}${suffix}` ;
 }
 
+{
+    const splitRe = /\:{2}|\./g ;
+
+    exports.toFunctionName = name =>{
+
+        return name.replace(splitRe , '_') ;
+    }
+}
 
 exports.toStylesheetCase = fullName =>{
 

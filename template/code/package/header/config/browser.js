@@ -1,10 +1,15 @@
 (() =>{
 
+    const {
+        freeze:freeze2,
+        isFrozen
+    } = Object ;
+
     function freeze(data){
 
-        if (data && typeof data === 'object' && !Object.isFrozen(data)){
+        if (data && typeof data === 'object' && !isFrozen(data)){
 
-            Object.freeze(data);
+            freeze2(data);
 
             let names = Object.keys(data) ;
 
@@ -25,7 +30,7 @@
     
             if(target.hasOwnProperty(key)){
         
-                return target[key] ;
+                return freeze(target[key]) ;
             }
         
             let names = key.split(/\./),

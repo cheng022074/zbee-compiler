@@ -26,7 +26,7 @@
                 return CODES[name] = exports[name] ;
             }
     
-            folder = '<%- data.defaultFolder %>',
+            folder = '<%- data %>',
             className = name ;
         }
 
