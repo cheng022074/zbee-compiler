@@ -1,7 +1,0 @@
-(() =>{
-
-    <%- data.body %>
-
-    return Main ;
-
-})() ;
