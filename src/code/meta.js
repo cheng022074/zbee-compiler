@@ -17,6 +17,7 @@ class Meta{
     getPropertyNames(){
 
         return [
+            'header',
             'rawBody',
             'isAsync',
             'body',
@@ -27,6 +28,11 @@ class Meta{
             'returnTypes',
             'hasMain'
         ] ;
+    }
+
+    getHeader(){
+
+        return '' ;
     }
 
     getRawBody(){

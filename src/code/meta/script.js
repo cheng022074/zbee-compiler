@@ -16,15 +16,6 @@ textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*
 
 module.exports = class extends Meta{
 
-    constructor(code){
-
-        super(code) ;
-
-        let me = this ;
-
-        defineProperty(me , 'header') ;
-    }
-
     getRawBody(){
 
         return readTextFile(this.code.path) ;
@@ -42,7 +33,7 @@ module.exports = class extends Meta{
             return result[0] ;
         }
 
-        return '' ;
+        return super.getHeader() ;
     }
 
     getConfigs(){
