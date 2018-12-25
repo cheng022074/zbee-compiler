@@ -30,17 +30,17 @@ module.exports = name =>{
 
         for(let name of names){
 
-            return doPackage(config[name] , name) ;
+            doPackageFromConfig(config[name] , name) ;
         }
     
     }else if(isObject(name)){
 
         let {
-            name:packageName,
-            ...packageConfig
+            name,
+            ...config
         } = name ;
 
-        return doPackage(packageConfig , packageName || `package-${Date.now()}`) ;
+        return doPackage(config , name) ;
 
     }else{
 
@@ -48,7 +48,7 @@ module.exports = name =>{
 
         if(config){
 
-            return doPackage(config , name) ;
+            doPackageFromConfig(config , name) ;
         
         }else{
 
@@ -58,12 +58,20 @@ module.exports = name =>{
 
 }
 
+function doPackageFromConfig(config , name){
+
+    doPackage({
+        ...config,
+        memory:false
+    } , name) ;
+}
+
 function doPackage({
     classes,
     type = 'library',
     memory = false,
-    ...packageConfig
-} , packageName){
+    ...config
+} , name = `package-${Date.now()}`){
 
     let codes = [] ;
 
@@ -81,9 +89,9 @@ function doPackage({
         }
     }
 
-    let result = require(`../package/${type}`)(unique(codes) , join(APPLICATION.getFolderPath('package') , packageName) , packageConfig) ;
+    let result = require(`../package/${type}`)(unique(codes) , join(APPLICATION.getFolderPath('package') , name) , config) ;
 
-    if(memory){
+    if(memory === true){
 
         return result ;
     }

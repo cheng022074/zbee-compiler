@@ -4,7 +4,6 @@ const {
     COMPILER
 } = require('./project'),
 {
-    unique,
     from
 } = require('./array'),
 {
@@ -51,6 +50,23 @@ CODES = {
 
 class Code{
 
+    /**
+     * 
+     * @private
+     * 
+     * 这是一个私有的代码对象获取方法
+     * 
+     * 通常不直接调用，而是通过子类的同名静态办法提供功能
+     * 
+     * 在 ZBEE 中，所有的代码必须使用此方法装载为对象
+     * 
+     * @param {string} type 代码类型名称
+     * @param {Code} classRef 代码类型引用
+     * @param {name} name 代码名称 
+     * 
+     * @return {Code} 代码对象
+     * 
+     */
     static get(type , classRef , name){
 
         if(!isEmpty(name)){
@@ -284,6 +300,21 @@ class SourceCode extends Code{
 
     }
 
+    /**
+     * 
+     * 源代码对象只会从当前工程进行实例
+     * 
+     * 但有时候需要从依赖的类库源代码中访问指定属性才能完成相关设计工作
+     * 
+     * 如需要得到指定源代码对象的所有依赖函数，则就需要类库源代码中的 importSourceCodes 属性参与进来
+     * 
+     * @param {SourceCode} code 源代码对象
+     *  
+     * @param {string} property 源代码对象的属性名称
+     * 
+     * @return {mixed} 基于源代码对象的指定属性值
+     * 
+     */
     static getProperty(code , property){
 
         if(code.exists){
@@ -382,6 +413,15 @@ class SourceCode extends Code{
         return `${isAsync ? 'async ' : ''}${signatureReturnTypes} ${fullName}(${paramSignatureNames})` ;
     }
 
+    /**
+     * 
+     * 根据源代码配置获取代码媒体对象
+     * 
+     * 该媒体对象包含有所有的代码信息，包括依赖列表、参数列表等
+     * 
+     * @return {code.Meta} 代码媒体对象
+     * 
+     */
     getMeta(){
 
         let 
@@ -435,26 +475,8 @@ class SourceCode extends Code{
 
     get data(){
 
+  
         return this.meta.toString() ;
-    }
-
-    get binData(){
-
-        let {
-            data
-        } = this ;
-
-        return `module.exports = ${data};` ;
-    }
-
-    get packageData(){
-
-        let {
-            data,
-            fullName
-        } = this ;
-
-        return `exports['${fullName}'] = ${data};` ;
     }
 
     getBaseName(){
@@ -501,6 +523,13 @@ class SourceCode extends Code{
 
     }
 
+    /**
+     * 
+     * 返回一组当前源代码对象依赖的源代码名称
+     * 
+     * @return {array}
+     * 
+     */
     get importAllNames(){
 
         let {
@@ -589,11 +618,6 @@ class LibrarySourceCode extends SourceCode{
 
             me.$meta = codeMap[fullName] ;
 
-        }else{
-
-            me.$meta = {
-                importNames:[]
-            } ;
         }
     }
 
@@ -603,16 +627,21 @@ class LibrarySourceCode extends SourceCode{
             $meta
         } = this ;
 
-        return copyTo({
-            tostring(){
+        if($meta){
 
-                return $meta.data ;
-            }
-        } , $meta , [
-            'motifyTime',
-            'signature',
-            'importNames'
-        ]) ;
+            return copyTo({
+                tostring(){
+    
+                    return $meta.data ;
+                }
+            } , $meta , [
+                'motifyTime',
+                'signature',
+                'importNames'
+            ]) ;
+        }
+
+        return {} ;
     }
 
     get motifyTime(){

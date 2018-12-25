@@ -147,3 +147,33 @@
         return !!prefix ;
     }
 }
+
+{
+    const {
+        isFrozen,
+        freeze,
+        keys
+    } = Object,
+    {
+        object:isObject
+    } = require('./is');
+    
+    function freeze2(data){
+
+        if (isObject(data) && !isFrozen(data)){
+
+            freeze(data);
+
+            let names = keys(data) ;
+
+            for(let name of names){
+
+                freeze2(data[name]) ;
+            }
+        }
+
+        return data;
+    }
+
+    exports.freeze = freeze2 ;
+}

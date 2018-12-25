@@ -8,6 +8,9 @@ const {
 {
     BinCode
 } = require('./code'),
+{
+    freeze
+} = require('./object'),
 CONFIGS = {};
 
 function get_config(name){
@@ -30,7 +33,7 @@ exports.get = function(name , key){
 
         if(value !== undefined){
 
-            return value ;
+            return freeze(value) ;
         }
     }
 } ;

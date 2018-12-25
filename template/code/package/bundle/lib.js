@@ -11,18 +11,10 @@
     for(let name of names){
 
         let {
-            code,
-            aliases
+            code
         } = data[name] ;
 %>
-exports['<%- name %>'] = <%- code %>
-<%
-        for(let alias of aliases){
-%>
-exports['<%- alias %>'] = include('<%- name %>') ;
-<%
-        }
-%>
+exports['<%- name %>'] = <%- code %>;
 <%
     }
 %>

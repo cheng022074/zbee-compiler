@@ -3,6 +3,7 @@
     {
         keys
     } = Object;
+
 %>
 <?xml?>
 <classes>
@@ -13,12 +14,11 @@
     for(let name of names){
 
         let {
-            aliases,
             imports,
             code
         } = data[name] ;
 %>
-    <class name="<%- name %>"<%if(aliases.length){%> aliases="<%- aliases.join(' ')%>"<%}%><%if(imports.length){%> imports="<%- imports.join(' ')%>"<%}%>>
+    <class name="<%- name %>"<%if(imports.length){%> imports="<%- imports.join(' ')%>"<%}%>>
         <![CDATA[<%- code %>]]>
     </class>
 <%
