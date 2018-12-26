@@ -22,10 +22,14 @@ const {
 } = require('path'),
 {
     assign
-} = Object;
+} = Object,
+{
+    writeTextFile
+} = require('../fs');
 
 module.exports = (codes , path , {
-    config
+    config,
+    to
 }) =>{
 
     let codeMap = {},
@@ -54,14 +58,25 @@ module.exports = (codes , path , {
         defaultFolder
     } = APPLICATION ;
 
-    let name = basename(path).toLowerCase() ;
-
-    return {
-        [join(path , 'index.js')]:format(apply('code.package.bundle.webpack' , {
+    let name = basename(path).toLowerCase(),
+        data = format(apply('code.package.bundle.webpack' , {
             defaultFolder,
             codeMap,
             config
-        })),
+        }));
+
+    if(to){
+
+        for(let path of to){
+
+            writeTextFile(path , data) ;
+
+            console.log('已导出' , path) ;
+        }
+    }
+
+    return {
+        [join(path , 'index.js')]:data,
         [join(path , 'package.json')]:apply('code.package.package' , {
             name,
             dependencies

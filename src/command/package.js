@@ -17,7 +17,8 @@ const {
     unique
 } = require('../array'),
 {
-    writeTextFile
+    writeTextFile,
+    copy
 } = require('../fs');
 
 module.exports = name =>{
