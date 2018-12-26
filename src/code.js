@@ -297,7 +297,7 @@ const {
     runAsync:run
 } = require('./runner'),
 baseNameRe = /[^\.]+$/,
-nameSuffix = /\.\*$/;
+nameSuffix = /\.?\*$/;
 
 class SourceCode extends Code{
 

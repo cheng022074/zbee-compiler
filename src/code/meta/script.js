@@ -69,7 +69,7 @@ module.exports = class extends Meta{
 
     getRequires(){
 
-        let textCodeRequireRe = /@require\s+([\w\-]+)/,
+        let textCodeRequireRe = /@require\s+([\w\-]+)/g,
             match,
             requires = [],
             {

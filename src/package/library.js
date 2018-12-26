@@ -46,7 +46,8 @@ module.exports = (codes , path) =>{
                 dependentModules:toObjectPropertyValue(dependentModules)
             } ;
 
-            assign(dependencies , dependentModules) ;
+           assign(dependencies , dependentModules) ;
+
         }
     }
 

@@ -7,17 +7,29 @@ const {
 } = require('estraverse'),
 {
     defineProperties
-} = require('../../object');
+} = require('../../object'),
+scopedRe = /@scoped/,
+asyncRe = /@async/;
 
 module.exports = class {
 
-    constructor(data){
+    constructor(meta){
 
-        let me = this ;
+        let me = this,
+            data = meta.rawBody;
 
-        me.codStr = data ;
+        me.meta = meta ;
 
-        me.data = parse(`async() =>{${data}}`) ;
+        try{
+
+            me.data = parse(`async() =>{${data}}`) ;
+        
+        }catch(err){
+
+            me.data = false ;
+        }
+
+        me.rawData = data ;
 
         defineProperties(me , [
             'hasMain',
@@ -27,7 +39,14 @@ module.exports = class {
 
     toString(){
 
-        return stringify(this.innerData) ;
+        let me = this ;
+
+        if(me.data === false){
+
+            return me.rawData ;
+        }
+
+        return stringify(me.innerData) ;
     }
 
     get innerData(){
@@ -37,9 +56,22 @@ module.exports = class {
 
     getHasMain(){
 
+        let
+        me = this;
+
+        if(me.data === false){
+
+            if(scopedRe.test(me.meta.header)){
+
+                return true ;
+            }
+
+            return false ;
+        }
+
         let {
             innerData
-        } = this ;
+        } = me ;
 
         for(let {
             type,
@@ -64,11 +96,24 @@ module.exports = class {
 
     getIsAsync(){
 
+        let
+        me = this;
+
+        if(me.data === false){
+
+            if(asyncRe.test(me.meta.header)){
+
+                return true ;
+            }
+
+            return false ;
+        }
+
         let {
             hasMain,
             data,
             innerData
-        } = this ;
+        } = me ;
 
         if(hasMain){
 

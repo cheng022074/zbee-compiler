@@ -31,7 +31,16 @@ module.exports = class {
         
         }else{
 
-            rawData = rawData.match(nameRe)[0] ;
+            try{
+
+                rawData = rawData.match(nameRe)[0] ;
+            
+            }catch(err){
+
+                throw new Error(`${rawData} 参数定义不合法`) ;
+            }
+
+            
 
             me.optional = false ;
         }

@@ -46,7 +46,7 @@ class Meta{
 
     getBody(){
 
-        return new Body(this.rawBody) ;
+        return new Body(this) ;
     }
 
     getReturnTypes(){
@@ -288,7 +288,7 @@ class Meta{
 
         for(let name of requires){
 
-            if(dependentModules.hasOwnProoperty(name)){
+            if(dependentModules.hasOwnProperty(name)){
 
                 result[name] = dependentModules[name] ;
             }
