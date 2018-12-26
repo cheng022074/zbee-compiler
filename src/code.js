@@ -716,7 +716,8 @@ class LibrarySourceCode extends SourceCode{
                 'motifyTime',
                 'signature',
                 'importNames',
-                'entryTypes'
+                'entryTypes',
+                'dependentModules'
             ]) ;
         }
 

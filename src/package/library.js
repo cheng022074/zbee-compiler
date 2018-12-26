@@ -16,7 +16,13 @@ const {
 } = require('../script'),
 {
     assign
-} = Object;
+} = Object,
+{
+    toPropertyValue:toObjectPropertyValue
+} = require('../object'),
+{
+    toPropertyValue:toArrayPropertyValue
+} = require('../array');
 
 module.exports = (codes , path) =>{
 
@@ -29,21 +35,22 @@ module.exports = (codes , path) =>{
 
         if(data){
 
+            let dependentModules = getProperty(code , 'dependentModules') ;
+
             codeMap[code.fullName] = {
                 motify:getProperty(code , 'motifyTime'),
                 signature:getProperty(code , 'signature'),
                 code:data,
-                imports:getProperty(code , 'importAllNames'),
-                entryTypes:getProperty(code , 'entryTypes')
+                imports:toArrayPropertyValue(getProperty(code , 'importAllNames')),
+                entryTypes:toArrayPropertyValue(getProperty(code , 'entryTypes')),
+                dependentModules:toObjectPropertyValue(dependentModules)
             } ;
 
-            assign(dependencies , getProperty(code , 'dependentModules')) ;
+            assign(dependencies , dependentModules) ;
         }
     }
 
     let name = basename(path).toLowerCase() ;
-
-
 
     return {
         [join(path , 'index.xml')]:apply('code.package.bundle.meta' , codeMap),

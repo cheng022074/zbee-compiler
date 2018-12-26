@@ -36,6 +36,12 @@ const {
 {
     split
 } = require('./string'),
+{
+    fromPropertyValue:toObject
+} = require('./object'),
+{
+    fromPropertyValue:toArray
+} = require('./array')
 sepRe = /\\|\//,
 {
     env
@@ -301,7 +307,8 @@ class Application extends Project{
     }
 }
 
-const relativePathRe = /\.{1,2}/ ;
+const 
+relativePathRe = /\.{1,2}/;
 
 class Libraries{
 
@@ -417,8 +424,9 @@ class Libraries{
                     motifyTime:Number(node.getAttribute('motify')),
                     signature:node.getAttribute('signature'),
                     data:CDATAValues(node).join(''),
-                    importNames:node.hasAttribute('imports') ? split(node.getAttribute('imports') , spaceRe) : [],
-                    entryTypes:node.hasAttribute('entry-types') ? split(node.getAttribute('entry-types') , spaceRe) : []
+                    importNames:node.hasAttribute('imports') ? toArray(node.getAttribute('imports')) : [],
+                    entryTypes:node.hasAttribute('entry-types') ? toArray(node.getAttribute('entry-types')) : [],
+                    dependentModules:node.hasAttribute('dependent-modules') ? toObject(node.getAttribute('dependent-modules')) : []
                 } ;
             }
         }
