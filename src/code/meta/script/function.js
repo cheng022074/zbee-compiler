@@ -92,7 +92,8 @@ class FunctionMeta extends ScriptMeta{
         for(let {
             name,
             type,
-            items
+            items,
+            rest
         } of params){
 
             if(items.length){
@@ -123,7 +124,14 @@ class FunctionMeta extends ScriptMeta{
 
             }else{
 
-                names.push(name) ;
+                if(rest){
+
+                    names.push(`...${name}`) ;
+                
+                }else{
+
+                    names.push(name) ;
+                }
             }
         }
 
@@ -307,12 +315,18 @@ function generate_body(body , hasMain , paramNames , isAsync){
 
 function get_full_name({
     name,
-    defaultValue
+    defaultValue,
+    rest
 }){
 
     if(defaultValue){
 
         return `${name} = ${defaultValue}` ;
+    }
+
+    if(rest){
+
+        return `...${name}` ;
     }
 
     return name ;

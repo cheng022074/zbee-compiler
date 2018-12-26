@@ -15,13 +15,21 @@ const {
 } = require('../name'),
 {
     APPLICATION
-} = require('../project');
+} = require('../project'),
+{
+    join,
+    basename
+} = require('path'),
+{
+    assign
+} = Object;
 
 module.exports = (codes , path , {
     config
 }) =>{
 
-    let codeMap = {} ;
+    let codeMap = {},
+        dependencies = {};
 
     for(let code of codes){
 
@@ -37,6 +45,8 @@ module.exports = (codes , path , {
                 code:data,
                 functionName:toFunctionName(fullName)
             } ;
+
+            assign(dependencies , getProperty(code , 'dependentModules')) ;
         }
     }
 
@@ -44,11 +54,17 @@ module.exports = (codes , path , {
         defaultFolder
     } = APPLICATION ;
 
+    let name = basename(path).toLowerCase() ;
+
     return {
-        [`${path}.js`]:format(apply('code.package.bundle.webpack' , {
+        [join(path , 'index.js')]:format(apply('code.package.bundle.webpack' , {
             defaultFolder,
             codeMap,
             config
-        }))
+        })),
+        [join(path , 'package.json')]:apply('code.package.package' , {
+            name,
+            dependencies
+        })
      } ;
 }

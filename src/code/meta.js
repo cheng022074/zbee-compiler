@@ -171,7 +171,8 @@ class Meta{
 
             let {
                 type,
-                items
+                items,
+                rest
             } = param ;
 
             if(items.length){
@@ -305,10 +306,11 @@ class Meta{
 
 function get_signature_name({
     name,
+    rest,
     types
 }){
 
-    return `${get_signature_datatypes(types)} ${name}` ;
+    return `${get_signature_datatypes(types)} ${rest ? '...' : ''}${name}` ;
 }
 
 function get_signature_datatypes(types){

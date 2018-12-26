@@ -1,6 +1,7 @@
 const 
 getDataTypes = require('../../datatypes'),
 nameSplitRe = /\./,
+restRe = /^\.{3}/,
 defaultValueSplitRe = /\=/,
 nameRe = /\w+/,
 {
@@ -17,6 +18,8 @@ module.exports = class {
 
         rawData = rawData.trim() ;
 
+        me.rest = false ;
+
         let match = string_match(rawData , /\[|\]/g , {
             start:'[',
             inner:true,
@@ -26,6 +29,24 @@ module.exports = class {
         if(match){
 
             rawData = match[0] ;
+
+            if(restRe.test(rawData)){
+
+                rawData = rawData.replace(restRe , '') ;
+
+                me.rest = true ;
+
+            }else if(defaultValueSplitRe.test(rawData)){
+
+                let [
+                    name,
+                    defaultValue
+                ] = rawData.split(defaultValueSplitRe) ;
+    
+                me.defaultValue = defaultValue.trim() ;
+    
+                rawData = name.trim() ;
+            }
 
             me.optional = true ;
         
@@ -43,18 +64,6 @@ module.exports = class {
             
 
             me.optional = false ;
-        }
-
-        if(defaultValueSplitRe.test(rawData)){
-
-            let [
-                name,
-                defaultValue
-            ] = rawData.split(defaultValueSplitRe) ;
-
-            me.defaultValue = defaultValue.trim() ;
-
-            rawData = name.trim() ;
         }
 
         if(nameSplitRe.test(rawData)){
