@@ -2,7 +2,8 @@ const {
     apply
 } = require('../template'),
 {
-    join
+    join,
+    basename
 } = require('path'),
 {
     SourceCode
@@ -12,11 +13,15 @@ const {
 } = SourceCode,
 {
     format
-} = require('../script');
+} = require('../script'),
+{
+    assign
+} = Object;
 
 module.exports = (codes , path) =>{
 
-    let codeMap = {} ;
+    let codeMap = {},
+        dependencies = {};
 
     for(let code of codes){
 
@@ -31,11 +36,21 @@ module.exports = (codes , path) =>{
                 imports:getProperty(code , 'importAllNames'),
                 entryTypes:getProperty(code , 'entryTypes')
             } ;
+
+            assign(dependencies , getProperty(code , 'dependentModules')) ;
         }
     }
 
+    let name = basename(path).toLowerCase() ;
+
+
+
     return {
         [join(path , 'index.xml')]:apply('code.package.bundle.meta' , codeMap),
-        [join(path , 'index.js')]:format(apply('code.package.bundle.lib' , codeMap))
+        [join(path , 'index.js')]:format(apply('code.package.bundle.lib' , codeMap)),
+        [join(path , 'package.json')]:apply('code.package.package' , {
+            name,
+            dependencies
+        })
      } ;
 }

@@ -13,6 +13,4 @@ exports.load = path =>{
     
     }catch(err){
     }
-
-    return {} ;
 }

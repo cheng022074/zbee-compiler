@@ -1,0 +1,11 @@
+<%
+    const {
+        name,
+        dependencies
+    } = data ;
+%>
+{
+    "name": "<%- name %>",
+    "private": true,
+    "dependencies": <%- JSON.stringify(dependencies , null , 2) %>
+}

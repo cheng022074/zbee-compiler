@@ -109,7 +109,7 @@ class Application extends Project{
 
         let me = this ;
 
-        me.package = load(join(APPLICATION_PATH , 'package.json')) ;
+        me.package = load(join(APPLICATION_PATH , 'package.json')) || {};
 
         defineProperties(me , [
             'dependentModules',
@@ -119,7 +119,7 @@ class Application extends Project{
 
         me.libraries = new Libraries(me , me.properties = load(join(APPLICATION_PATH , 'properties.json'))) ;
     }
-
+    
     getDependentModuleNames(){
 
         return Object.keys(this.dependentModules) ;

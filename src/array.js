@@ -1,7 +1,10 @@
 const {
     empty:is_empty,
     string:is_string,
-} = require('./is') ;
+} = require('./is'),
+{
+    split
+} = require('./string');
 
 exports.from = data =>{
 
@@ -70,4 +73,16 @@ exports.push = (data , item) =>{
 
     data.push(...from(item)) ;
 
+}
+
+exports.toPropertyValue = data =>{
+
+    return data.join(' ') ;
+}
+
+const splitRe = /\s+/ ;
+
+exports.fromPropertyValue = data =>{
+
+    return split(data , splitRe) ;
 }

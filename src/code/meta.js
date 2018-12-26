@@ -1,7 +1,10 @@
 const {
     defineProperties
 } = require('../object'),
-Body = require('./meta/body');
+Body = require('./meta/body'),
+{
+    APPLICATION
+} = require('../project');
 
 class Meta{
 
@@ -272,6 +275,27 @@ class Meta{
 
         return result.join('\n') ;
     }
+
+    get dependentModules(){
+
+        let {
+            requires
+        } = this,
+        result = {},
+        {
+            dependentModules
+        } = APPLICATION;
+
+        for(let name of requires){
+
+            if(dependentModules.hasOwnProoperty(name)){
+
+                result[name] = dependentModules[name] ;
+            }
+        }
+
+        return result ;
+    }   
 
     toString(){
 

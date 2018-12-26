@@ -480,6 +480,19 @@ class SourceCode extends Code{
 
     /**
      * 
+     * 获取当前源代码所引用的模块及其版本
+     * 
+     * @return {object}
+     * 
+     */
+
+    get dependentModules(){
+
+        return this.meta.dependentModules ;
+    }
+
+    /**
+     * 
      * 根据源代码配置获取代码媒体对象
      * 
      * 该媒体对象包含有所有的代码信息，包括依赖列表、参数列表等

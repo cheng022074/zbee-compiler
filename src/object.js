@@ -3,7 +3,8 @@
         defineProperty    
     } = Object,
     {
-        capitalize
+        capitalize,
+        split
     } = require('./string'),
     {
         function:is_function
@@ -176,4 +177,41 @@
     }
 
     exports.freeze = freeze2 ;
+}
+
+exports.toPropertyValue = data =>{
+
+    let names = Object.keys(data),
+        result = [];
+
+    for(let name of names){
+
+        result.push(`${name}:${data[name]}`) ;
+    }
+    
+    return result.join(';') ;
+}
+
+{
+    const 
+    semicolonRe = /\;/,
+    colonRe = /\:/;
+
+    exports.fromPropertyValue = data =>{
+
+        let items = split(data , semicolonRe),
+            result = {};
+
+        for(let item of items){
+
+            let [
+                name,
+                value
+            ] = split(item , colonRe) ;
+
+            result[name] = value ;
+        }
+
+        return result ;
+    }
 }
