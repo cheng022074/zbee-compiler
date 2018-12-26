@@ -411,8 +411,7 @@ class Libraries{
         let {
             metas
         } = this,
-        map = {},
-        spaceRe = /\s+/;
+        map = {};
 
         for(let meta of metas){
 

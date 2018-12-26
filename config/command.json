@@ -27,10 +27,6 @@
         "description":"初始化当前工程",
         "implement":"command.install"
     },
-    "project":{
-        "description":"项目管理器",
-        "implement":"command.project"
-    },
     "web":{
         "description":"开发用服务器",
         "implement":"command.web"
@@ -46,5 +42,9 @@
     "code":{
         "description":"查看资源的源代码",
         "implement":"command.code"
+    },
+    "refresh":{
+        "description":"刷新当前工程",
+        "implement":"command.refresh"
     }
 }
