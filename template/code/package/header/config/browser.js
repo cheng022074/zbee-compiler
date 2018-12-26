@@ -2,7 +2,8 @@
 
     const {
         freeze:freeze2,
-        isFrozen
+        isFrozen,
+        keys
     } = Object ;
 
     function freeze(data){
@@ -11,7 +12,7 @@
 
             freeze2(data);
 
-            let names = Object.keys(data) ;
+            let names = keys(data) ;
 
             for(let name of names){
 

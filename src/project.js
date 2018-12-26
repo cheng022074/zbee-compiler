@@ -1,8 +1,7 @@
 const {
     APPLICATION:APPLICATION_PATH,
     COMPILER:COMPILER_PATH,
-    fileNormalize,
-    toName
+    fileNormalize
 } = require('./path'),
 {
     join,
@@ -25,11 +24,6 @@ const {
     array:is_array
 } = require('./is'),
 {
-    from,
-    unique
-} = require('./array'),
-{
-    getAllFilePaths,
     readTextFile,
     writeTextFile,
     getMotifyTime
@@ -305,38 +299,6 @@ class Application extends Project{
 
         return super.getPath(this.getFolderName(folder) , name , suffixes) ;
     }
-
-    get allClassNames(){
-
-        let me = this ;
-
-        return [
-            ...get_class_names.call(me , 'config'),
-            ...get_class_names.call(me , 'src'),
-            ...get_class_names.call(me , 'template')
-        ]
-    }
-}
-
-function get_class_names(folder){
-
-    let srcPath = this.getFolderPath(folder),
-        paths = getAllFilePaths(srcPath),
-        names = [];
-
-    for(let path of paths){
-
-        let name = toName(path , srcPath) ;
-
-        if(folder !== 'src'){
-
-            name = `${folder}::${name}` ;
-        }
-
-        names.push(name) ;
-    }
-
-    return unique(names) ;
 }
 
 const relativePathRe = /\.{1,2}/ ;
@@ -455,7 +417,8 @@ class Libraries{
                     motifyTime:Number(node.getAttribute('motify')),
                     signature:node.getAttribute('signature'),
                     data:CDATAValues(node).join(''),
-                    importNames:node.hasAttribute('imports') ? split(node.getAttribute('imports') , spaceRe) : []
+                    importNames:node.hasAttribute('imports') ? split(node.getAttribute('imports') , spaceRe) : [],
+                    entryTypes:node.hasAttribute('entry-types') ? split(node.getAttribute('entry-types') , spaceRe) : []
                 } ;
             }
         }

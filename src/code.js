@@ -465,6 +465,21 @@ class SourceCode extends Code{
 
     /**
      * 
+     * 获取当前源代码的入口数据类型
+     * 
+     * 当源代码作为入口函数时，外部程序可以根据入口数据类型先进行数据转换后再传入参数值
+     * 
+     * @return {array}
+     * 
+     */
+
+    get entryTypes(){
+
+        return this.meta.entryTypes ;
+    }
+
+    /**
+     * 
      * 根据源代码配置获取代码媒体对象
      * 
      * 该媒体对象包含有所有的代码信息，包括依赖列表、参数列表等
@@ -687,7 +702,8 @@ class LibrarySourceCode extends SourceCode{
             } , $meta , [
                 'motifyTime',
                 'signature',
-                'importNames'
+                'importNames',
+                'entryTypes'
             ]) ;
         }
 

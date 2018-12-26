@@ -124,6 +124,33 @@ class Meta{
         return names ;
     }
 
+    get entryTypes(){
+
+        let {
+            params
+        } = this,
+        types = [];
+
+        for(let param of params){
+
+            let {
+                type,
+                items
+            } = param ;
+
+            if(items.length){
+
+                return [] ;
+
+            }else{
+
+                types.push(type) ;
+            }
+        }
+
+        return types;
+    }
+
     get paramSignatureNames(){
 
         let {
@@ -134,7 +161,6 @@ class Meta{
         for(let param of params){
 
             let {
-                name,
                 type,
                 items
             } = param ;

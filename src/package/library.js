@@ -25,8 +25,11 @@ module.exports = (codes , path) =>{
         if(data){
 
             codeMap[code.fullName] = {
+                motify:getProperty(code , 'motifyTime'),
+                signature:getProperty(code , 'signature'),
                 code:data,
-                imports:getProperty(code , 'importAllNames')
+                imports:getProperty(code , 'importAllNames'),
+                entryTypes:getProperty(code , 'entryTypes')
             } ;
         }
     }
