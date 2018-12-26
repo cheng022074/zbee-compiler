@@ -23,6 +23,7 @@ class Meta{
             'body',
             'importNames',
             'imports',
+            'requires',
             'configs',
             'params',
             'returnTypes',
@@ -93,6 +94,11 @@ class Meta{
     }
 
     getImports(){
+
+        return [] ;
+    }
+
+    getRequires(){
 
         return [] ;
     }

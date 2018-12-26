@@ -4,9 +4,6 @@ textCodeMetaRe = /\/\*(?:.|[^.])+?\*\//,
 {
     readTextFile
 } = require('../../fs'),
-{
-    defineProperty
-} = require('../../object'),
 textCodeMetaAliasImportRe = /(\w+)\s+from\s+((?:\w+\:{2})?\w+(?:\.\w+)*)/,
 textCodeMetaImportScopedRe = /\s+scoped$/,
 textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*))?/,
@@ -70,15 +67,31 @@ module.exports = class extends Meta{
         return items ;
     }
 
-    getImports(){
+    getRequires(){
 
-        let textCodeMetaImportRe = /@import\s+([^\n\r]+)?/g,
+        let textCodeRequireRe = /@require\s+([\w\-]+)/,
             match,
-            imports = [],
-            me = this,
+            requires = [],
             {
                 header
-            } = me;
+            } = this;
+
+        while(match = textCodeRequireRe.exec(header)){
+
+            requires.push(match[1].trim()) ;
+        }
+
+        return requires ;
+    }
+
+    getImports(){
+
+        let textCodeMetaImportRe = /@import\s+([^\n\r]+)/g,
+            match,
+            imports = [],
+            {
+                header
+            } = this;
 
         while(match = textCodeMetaImportRe.exec(header)){
 
