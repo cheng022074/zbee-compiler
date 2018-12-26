@@ -1,6 +1,4 @@
-const {
-    defineCacheProperties
-} = require('../../../../object'),
+const 
 getDataTypes = require('../../datatypes'),
 nameSplitRe = /\./,
 defaultValueSplitRe = /\=/,
@@ -11,9 +9,11 @@ nameRe = /\w+/,
 
 module.exports = class {
 
-    constructor(rawData , type){
+    constructor(meta , rawData , type){
 
         let me = this ;
+
+        me.meta = meta ;
 
         rawData = rawData.trim() ;
 
@@ -37,7 +37,7 @@ module.exports = class {
             
             }catch(err){
 
-                throw new Error(`${rawData} 参数定义不合法`) ;
+                throw new Error(`${meta.code.fullName}::${rawData} 参数定义不合法`) ;
             }
 
             

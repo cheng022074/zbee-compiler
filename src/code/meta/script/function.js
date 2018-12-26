@@ -45,9 +45,10 @@ class FunctionMeta extends ScriptMeta{
     getParams(){
 
         let 
+        me = this,
         {
             header
-        } = this,
+        } = me,
         textCodeMetaParamRe = /@param\s+\{([^\{\}]+)\}\s+([^\n\r]+)/g,
         result = [],
         match,
@@ -60,7 +61,7 @@ class FunctionMeta extends ScriptMeta{
                 type,
                 rawData
             ] = match,
-            param = new Param(rawData , type),
+            param = new Param(me , rawData , type),
             {
                 name,
                 parentParamName

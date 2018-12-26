@@ -26,6 +26,8 @@ module.exports = class {
         
         }catch(err){
 
+            console.log('无法解析' , meta.code.fullName) ;
+
             me.data = false ;
         }
 
@@ -39,14 +41,7 @@ module.exports = class {
 
     toString(){
 
-        let me = this ;
-
-        if(me.data === false){
-
-            return me.rawData ;
-        }
-
-        return stringify(me.innerData) ;
+        return this.rawData ;
     }
 
     get innerData(){
