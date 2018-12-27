@@ -24,7 +24,6 @@ class Meta{
             'rawBody',
             'isAsync',
             'body',
-            'importNames',
             'imports',
             'requires',
             'configs',
@@ -71,7 +70,7 @@ class Meta{
         return this.body.isAsync ;
     }
 
-    getImportNames(){
+    get importNames(){
 
         let {
             imports,
@@ -90,7 +89,7 @@ class Meta{
             target
         } of configs){
 
-            names.add(target) ;
+            names.add(`config::${target}`) ;
         }
 
         return Array.from(names) ;
@@ -114,23 +113,6 @@ class Meta{
     getParams(){
 
         return [] ;
-    }
-
-    get importNames(){
-
-        let {
-            imports
-        } = this,
-        names = [];
-
-        for(let {
-            name
-        } of imports){
-
-            names.push(name) ;
-        }
-
-        return names ;
     }
 
     get entryTypes(){
@@ -171,8 +153,7 @@ class Meta{
 
             let {
                 type,
-                items,
-                rest
+                items
             } = param ;
 
             if(items.length){
