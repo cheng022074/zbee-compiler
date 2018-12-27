@@ -8,9 +8,11 @@ const exports = {} ;
     } = data ;
 %>
 
-const include = <%- apply('code.package.header.include' , defaultFolder) ;%>;
+export const include = <%- apply('code.package.header.include' , defaultFolder) ;%>;
 
 const config = <%- apply('code.package.header.config.browser' , config) ;%>;
+
+export const override = <%- apply('code.package.header.override') ;%>;
 
 <%
     const {
@@ -24,13 +26,8 @@ const config = <%- apply('code.package.header.config.browser' , config) ;%>;
 
     for(let name of names){
 
-        let {
-            functionName,
-            code
-        } = codeMap[name] ;
-
 %>
-export const  <%- functionName %> = exports['<%- name %>'] = <%- code %>;
+exports['<%- name %>'] = <%- codeMap[name] %>;
 <%
     }
 %>

@@ -11,9 +11,6 @@ const {
     format
 } = require('../script'),
 {
-    toFunctionName
-} = require('../name'),
-{
     APPLICATION
 } = require('../project'),
 {
@@ -46,37 +43,10 @@ module.exports = (codes , path , {
         if(data){
 
             let {
-                fullName,
-                name,
-                folder
-            } = code,
-            innerName;
+                fullName
+            } = code;
 
-            switch(name){
-
-                case 'include':
-                case 'config':
-
-                    innerName = fullName ;
-
-                    break ;
-
-                default:
-
-                    if(defaultFolder === folder){
-
-                        innerName = name ;
-                    
-                    }else{
-
-                        innerName = fullName ;
-                    }
-            }
-
-            codeMap[fullName] = {
-                code:data,
-                functionName:toFunctionName(innerName)
-            } ;
+            codeMap[fullName] = data ;
 
             assign(dependencies , getProperty(code , 'dependentModules')) ;
         }
