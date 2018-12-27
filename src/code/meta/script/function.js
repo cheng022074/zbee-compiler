@@ -276,7 +276,8 @@ class FunctionMeta extends ScriptMeta{
 
                 const main = ${code} ;
 
-                let ${onceLockedVariableName} = false ;
+                let ${onceLockedVariableName} = false,
+                    ${onceValueVariableName};
 
                 return ${isAsync ? 'async ' : ''}function(){
 

@@ -1,13 +1,8 @@
 (() =>{
 
-    return (name , fn , scope) =>{
+    return (name , fn) =>{
 
         if(typeof name === 'string' && typeof fn === 'function'){
-
-            if(scope){
-
-                fn = scope.bind(scope) ;
-            }
     
             exports[name] = fn ;
         }
