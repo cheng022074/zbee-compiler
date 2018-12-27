@@ -32,6 +32,10 @@ module.exports = (codes , path , {
     to
 }) =>{
 
+    const {
+        defaultFolder
+    } = APPLICATION ;
+
     let codeMap = {},
         dependencies = {};
 
@@ -42,21 +46,41 @@ module.exports = (codes , path , {
         if(data){
 
             let {
-                fullName
-            } = code ;
+                fullName,
+                name,
+                folder
+            } = code,
+            innerName;
+
+            switch(name){
+
+                case 'include':
+                case 'config':
+
+                    innerName = fullName ;
+
+                    break ;
+
+                default:
+
+                    if(defaultFolder === folder){
+
+                        innerName = name ;
+                    
+                    }else{
+
+                        innerName = fullName ;
+                    }
+            }
 
             codeMap[fullName] = {
                 code:data,
-                functionName:toFunctionName(fullName)
+                functionName:toFunctionName(innerName)
             } ;
 
             assign(dependencies , getProperty(code , 'dependentModules')) ;
         }
     }
-
-    const {
-        defaultFolder
-    } = APPLICATION ;
 
     let name = basename(path).toLowerCase(),
         data = format(apply('code.package.bundle.webpack' , {
