@@ -93,7 +93,7 @@
             return get_config(config[name] , key) ;
         }
 
-        return get_config(include(`config::${name}`) , key) ;
+        return get_config(include(`config::${name}`)() , key) ;
     }
 
 })()

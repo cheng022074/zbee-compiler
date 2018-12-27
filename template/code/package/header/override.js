@@ -2,7 +2,7 @@
 
     return (name , fn , scope) =>{
 
-        if(typeof name === 'string' && typeof fn === 'fucntion'){
+        if(typeof name === 'string' && typeof fn === 'function'){
 
             if(scope){
 
@@ -13,4 +13,4 @@
         }
     } ;
 
-})() ;
+})()
