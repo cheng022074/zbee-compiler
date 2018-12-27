@@ -18,7 +18,7 @@
     }
 }
 
-const include = <%- apply('code.package.header.include' , defaultFolder) ;%>;
+exports.include = <%- apply('code.package.header.include' , defaultFolder) ;%>;
 
 const config = <%- apply('code.package.header.config.node' , config) ;%>;
 

@@ -4,7 +4,7 @@ textCodeMetaRe = /\/\*(?:.|[^.])+?\*\//,
 {
     readTextFile
 } = require('../../fs'),
-textCodeMetaAliasImportRe = /(\w+)\s+from\s+((?:\w+\:{2})?\w+(?:\.\w+)*)/,
+textCodeMetaAliasImportRe = /(\w+)\s+from\s+((?:(?:\w+\:{2})?\w+(?:\.\w+)*)|((?:\.\w+)+))/,
 textCodeMetaImportScopedRe = /\s+scoped$/,
 textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*))?/,
 {
@@ -90,7 +90,8 @@ module.exports = class extends Meta{
             match,
             imports = [],
             {
-                header
+                header,
+                code
             } = this;
 
         while(match = textCodeMetaImportRe.exec(header)){
@@ -113,12 +114,12 @@ module.exports = class extends Meta{
                 ] = result ;
 
                 importConfig.name = name,
-                importConfig.target = target ;
+                importConfig.target = get_target(target , code) ;
 
             }else{
 
                 importConfig.name = toCamelCase(content),
-                importConfig.target = content ;
+                importConfig.target = get_target(content , code) ;
             }
 
             imports.push(importConfig) ;
@@ -126,5 +127,21 @@ module.exports = class extends Meta{
 
         return imports ;
     }
+}
+
+const
+dotPrefixRe = /^\./,
+baseNameRe = /\.?[^\.\:]+$/;
+
+function get_target(name , {
+    fullName
+}){
+
+    if(dotPrefixRe.test(name)){
+
+        return `${fullName.replace(baseNameRe , '')}${name}` ;
+    }
+
+    return name ;
 }
 

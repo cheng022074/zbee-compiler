@@ -3,7 +3,7 @@
         "defaultSuffix":".json",
         "suffixes":{
             ".json":{
-                "meta":"code.meta.script.config",
+                "meta":"code.meta.config",
                 "template":"code.template.config"
             }
         }
