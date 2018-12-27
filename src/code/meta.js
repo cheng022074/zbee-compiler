@@ -315,17 +315,17 @@ class Meta{
             } = me;
 
         for(let {
-            name
-        } of config){
+            target
+        } of configs){
 
-            result[name] = '.json' ;
+            result[target] = '.json' ;
         }
 
         for(let {
-            name
+            target
         } of imports){
 
-            result[name] = me.getDependentClassSuffix(name) ;
+            result[target] = me.getDependentClassSuffix(target) ;
         }
 
         return result ;

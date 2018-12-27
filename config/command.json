@@ -11,6 +11,10 @@
         "description":"生成默认代码模板",
         "implement":"command.generate"
     },
+    "plan":{
+        "description":"规划依赖代码",
+        "implement":"command.plan"
+    },
     "debug":{
         "description":"调试代码",
         "implement":"command.debug"

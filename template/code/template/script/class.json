@@ -1,14 +1,14 @@
 {
     "constructor":true,
-    "staticProperties":[
-        "method"
-    ],
+    "staticProperties":{
+        "property":true
+    },
     "staticMethods":[
         "method"
     ],
-    "properties":[
-        "property"
-    ],
+    "properties":{
+        "property":true
+    },
     "methods":[
         "method"
     ]
