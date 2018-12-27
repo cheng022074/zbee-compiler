@@ -129,7 +129,7 @@
     }
 
     const 
-    envArgRe = /^\-{2}env=([a-z]+)/,
+    execArgRe = /^\-{2}([a-z]+)(?:=([a-z0-9\-]+))?$/,
     {
         env
     } = process;
@@ -140,12 +140,30 @@
 
         for(let value of argv){
 
-            let match = value.match(envArgRe) ;
+            let match = value.match(execArgRe) ;
 
             if(match){
 
-                env['ZBEE-ENV'] = match[1].toLowerCase() ;
-                
+                let [
+                    ,
+                    name,
+                    value
+                ] = match ;
+
+                switch(name){
+
+                    case 'env':
+
+                        env['ZBEE-ENV'] = value.toLowerCase() ;
+
+                        break ;
+
+                    default:
+
+                        env[`ZBEE-PARAM-${name}`] = value || name;
+
+                }
+
             }else{
 
                 values.push(value) ;

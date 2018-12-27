@@ -493,6 +493,18 @@ class SourceCode extends Code{
 
     /**
      * 
+     * 获取当前源代码所引的函数资源
+     * 
+     * @return {object}
+     * 
+     */
+    get dependentClasses(){
+
+        return this.meta.dependentClasses ;
+    }
+
+    /**
+     * 
      * 根据源代码配置获取代码媒体对象
      * 
      * 该媒体对象包含有所有的代码信息，包括依赖列表、参数列表等

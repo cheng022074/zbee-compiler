@@ -13,25 +13,20 @@ const {
     apply
 } = require('../template'),
 {
-    writeTextFile
+    writeTextFile,
+    remove
 } = require('../fs'),
 {
     join
 } = require('path'),
 {
-    file:is_file
-} = require('../is'),
-{
     fileNormalize
 } = require('../path'),
 {
-    extname
-} = require('path'),
-{
-    SourceCode
-} = require('../code');
+    env
+} = process;
 
-function generate(name , suffix , options = {}){
+function generate(name , suffix){
 
     if(name){
 
@@ -62,12 +57,17 @@ function generate(name , suffix , options = {}){
             if(!filePath){
 
                 writeTextFile(`${path}${suffix}` , apply(template , {
-                    name:baseName,
-                    ...options
+                    name:baseName
                 })) ;
 
                 console.log('已生成' , name) ;
             
+            }else if(env['ZBEE-PARAM-FORCE'] === 'force'){
+
+                remove(filePath) ;
+
+                generate(name , suffix) ;
+                
             }else{
 
                 console.log('已存在' , name) ;

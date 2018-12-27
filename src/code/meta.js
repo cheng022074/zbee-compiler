@@ -296,7 +296,45 @@ class Meta{
         }
 
         return result ;
-    }   
+    }
+    
+    /**
+     * 
+     * 返回当前依赖的函数名称及其类型
+     * 
+     * @return {object}
+     * 
+     */
+    get dependentClasses(){
+
+        let result = {},
+            me = this,
+            {
+                configs,
+                imports
+            } = me;
+
+        for(let {
+            name
+        } of config){
+
+            result[name] = '.json' ;
+        }
+
+        for(let {
+            name
+        } of imports){
+
+            result[name] = me.getDependentClassSuffix(name) ;
+        }
+
+        return result ;
+    }
+
+    getDependentClassSuffix(name){
+
+        return '.fn.js' ;
+    }
 
     toString(){
 

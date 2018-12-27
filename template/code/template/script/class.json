@@ -1,0 +1,15 @@
+{
+    "constructor":true,
+    "staticProperties":[
+        "method"
+    ],
+    "staticMethods":[
+        "method"
+    ],
+    "properties":[
+        "property"
+    ],
+    "methods":[
+        "method"
+    ]
+}
