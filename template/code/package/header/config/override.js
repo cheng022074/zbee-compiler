@@ -1,7 +1,16 @@
-(name , fn) =>{
+(() =>{
 
-    if(typeof name === 'string' && typeof fn === 'fucntion'){
+    return (name , fn , scope) =>{
 
-        exports[name] = fn ;
-    }
-}
+        if(typeof name === 'string' && typeof fn === 'fucntion'){
+
+            if(scope){
+
+                fn = scope.bind(scope) ;
+            }
+    
+            exports[name] = fn ;
+        }
+    } ;
+
+})() ;
