@@ -215,3 +215,18 @@ exports.toPropertyValue = data =>{
         return result ;
     }
 }
+
+exports.clone = data =>{
+
+    return Object.assign({} , data) ;
+}
+
+exports.clear = data =>{
+
+    let keys = Object.keys(data) ;
+
+    for(let key of keys){
+
+        delete data[key] ;
+    }
+}

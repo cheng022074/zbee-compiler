@@ -6,6 +6,30 @@ const {
     split
 } = require('./string');
 
+exports.replace = (data , replaceItem , item) =>{
+
+    let index = data.indexOf(item) ;
+
+    if(index !== -1){
+
+        data[index] = replaceItem ;
+
+        return true ;
+    }
+
+    return false ;
+}
+
+exports.clone = data =>{
+
+    return data.slice() ;
+} 
+
+exports.clear = data =>{
+
+    data.length = 0 ;
+}
+
 exports.from = data =>{
 
     if(is_empty(data)){
