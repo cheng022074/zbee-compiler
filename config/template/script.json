@@ -1,0 +1,6 @@
+{
+    "function":"template.element.script.function",
+    "call-function":"template.element.script.function.call",
+    "with-param":"template.element.script.function.param.with",
+    "param":"template.element.script.function.param"
+}
