@@ -42,10 +42,9 @@ class ParamElement extends Element{
 
             return name ;
         
-        }else{
-
-            throw new Error('参数定义缺少名称') ;
         }
+
+        throw new Error('参数定义缺少名称') ;
     }
 
 }

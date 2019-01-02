@@ -18,10 +18,10 @@ class WithParamElement extends ParamElement{
 
             return value ;
         
-        }else{
-
-            throw new Error('传参定义缺少值') ;
         }
+
+        throw new Error('传参定义缺少值') ;
+        
     }
 
 }
