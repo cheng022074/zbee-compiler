@@ -24,6 +24,23 @@ class ParamElement extends Element{
         }
     }
 
+    get optional(){
+
+        return !!this.value ;
+    }
+
+    get datatype(){
+
+        let me = this ;
+
+        return me.hasAttribute('type') ? me.getAttribute('type') : 'mixed' ;
+    }
+
+    get name(){
+
+        return this.getAttribute('name') ;
+    }
+
     render(){
 
         let me = this,
@@ -33,7 +50,9 @@ class ParamElement extends Element{
 
         if(me.hasAttribute('name')){
 
-            let name = me.getAttribute('name') ;
+            let {
+                name
+            } = me ;
 
             if(value){
 

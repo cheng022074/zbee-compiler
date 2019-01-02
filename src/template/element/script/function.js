@@ -7,6 +7,7 @@ class FunctionElement extends require('../script'){
         super(tag) ;
 
         this.params = new ParamSet(this.queryAll('param')) ;
+
     }
 
     get body(){

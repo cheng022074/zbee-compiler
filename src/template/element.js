@@ -37,9 +37,9 @@ class Element {
 
     static createElement(tag , attributes , children){
 
-        const Element = this ;
+        const CurrentElement = this ;
 
-        let name = get(Element.resource , tag) ;
+        let name = get(CurrentElement.resource , tag) ;
 
         if(name){
 
@@ -49,7 +49,7 @@ class Element {
 
             if(target){
 
-                const Tag = target() 
+                const Tag = target() ;
 
                 if(Tag.prototype instanceof Element){
 
@@ -58,7 +58,7 @@ class Element {
             }
         }
 
-        return new Element(tag , attributes , children) ;
+        return new CurrentElement(tag , attributes , children) ;
 
     }
 

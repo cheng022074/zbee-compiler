@@ -18,6 +18,10 @@
             ".class.json":{
                 "meta":"code.meta.class",
                 "template":"code.template.script.class"
+            },
+            ".flow.xml":{
+                "meta":"code.meta.script.flow",
+                "template":"code.template.script.flow"
             }
         }
     },

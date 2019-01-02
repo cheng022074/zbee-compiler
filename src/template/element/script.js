@@ -4,11 +4,6 @@ const templatePlaceholderRe = /$\{\}/ ;
 
 class ScriptElement extends require('../element'){
 
-    static expression(data){
-
-
-    }
-
     static get resource(){
 
         return 'template.script' ;

@@ -17,7 +17,7 @@ module.exports = class {
     doBeforeRender(){
     }
 
-    render(){
+    toString(){
 
         let me = this ;
 
