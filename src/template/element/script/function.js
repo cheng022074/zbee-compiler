@@ -1,15 +1,22 @@
+const ParamSet = require('./function/param/set') ;
+
 class FunctionElement extends require('../script'){
+
+    constructor(tag){
+
+        super(tag) ;
+
+        this.params = new ParamSet(this.queryAll('param')) ;
+    }
 
     get body(){
 
-        let {
-            children
-        } = this,
-        result = [];
+        let result = [],
+            elements = this.excludeQueryAll('param') ;
 
-        for(let childEl of children){
+        for(let el of elements){
 
-            result.push(childEl.toString()) ;
+            result.push(el.toString()) ;
         }
 
         return result.join('') ;
@@ -17,7 +24,12 @@ class FunctionElement extends require('../script'){
 
     render(){
 
-        return `function(){${this.body}}` ;
+        let {
+            params,
+            body
+        } = this ;
+
+        return `async function(${params.toString()}){${body}}` ;
     }
 
 }

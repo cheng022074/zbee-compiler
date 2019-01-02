@@ -148,6 +148,42 @@ class Element {
         me.$children = []  ;
     }
 
+    queryAll(tag){
+
+        let {
+            $children
+        } = this,
+        result = [];
+
+        for(let el of $children){
+
+            if(el.tag === tag){
+
+                result.push(el) ;
+            }
+        }
+
+        return result ;
+    }
+
+    excludeQueryAll(tag){
+
+        let {
+            $children
+        } = this,
+        result = [];
+
+        for(let el of $children){
+
+            if(el.tag !== tag){
+
+                result.push(el) ;
+            }
+        }
+
+        return result ;
+    }
+
     get fullTag(){
 
         let {
@@ -191,6 +227,18 @@ class Element {
 
         me.$attributes[name] = value ;
 
+    }
+
+    /**
+     * 
+     * 移除属性
+     * 
+     * @param {string} name 属性名称
+     *  
+     */
+    removeAttribute(name){
+
+        delete this.$attributes[name] ;
     }
 
     /**
@@ -399,7 +447,7 @@ class Element {
      */
     render(){
 
-        return this ;
+        return '' ;
     }
 
 }

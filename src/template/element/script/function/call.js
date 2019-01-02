@@ -1,13 +1,26 @@
-class CallFunctionElement extends require('../script'){
+const 
+ScriptElement = require('../../script'),
+ParamSet = require('./param/with/set') ;
 
-    withParamElements(){
+class CallFunctionElement extends ScriptElement{
 
-        return [] ;
+    constructor(tag){
+
+        super(tag) ;
+
+        this.params = new ParamSet(this.queryAll('with-param')) ;
     }
 
     render(){
 
-        return `function(){${this.body}}` ;
+        let me = this ;
+
+        if(me.hasAttribute('name')){
+
+            return `await include('${me.getAttribute('name')}')(${me.params.toString()});` ;
+        }
+
+        throw new Error('缺少执行函数名称') ;
     }
 
 }
