@@ -57,7 +57,7 @@ function build_xml(data , name){
 
     if(text){
 
-        result['@text'] = text ;
+        result.attributes['@text'] = text ;
     }
 
     return build(result , name) ;

@@ -1,4 +1,4 @@
-const ParamElement = require('../param') ;
+const ParamElement = require('../param')() ;
 
 class WithParamElement extends ParamElement{
 
@@ -11,7 +11,7 @@ class WithParamElement extends ParamElement{
 
         if(value){
 
-            if(me.hasAttriute('name')){
+            if(me.hasAttribute('name')){
 
                 return `${me.getAttribute('name')}:${value}` ;
             }

@@ -1,6 +1,9 @@
 const 
 ScriptElement = require('../../script'),
-ParamSet = require('./param/with/set') ;
+ParamSet = require('./param/with/set'),
+{
+    defineProperty
+} = require('../../../../object');
 
 class CallFunctionElement extends ScriptElement{
 
@@ -8,7 +11,12 @@ class CallFunctionElement extends ScriptElement{
 
         super(tag) ;
 
-        this.params = new ParamSet(this.queryAll('with-param')) ;
+        defineProperty(this , 'params') ;
+    }
+
+    getParams(){
+
+        return new ParamSet(this.queryAll('with-param')) ;
     }
 
     valid(){

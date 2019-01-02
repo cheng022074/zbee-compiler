@@ -260,7 +260,7 @@ class FunctionMeta extends ScriptMeta{
                         ${initLockedVariableName} = true ;
                     }
 
-                    return ${isAsync ? 'await ' : ''}main.call(this , ${paramNames}) ;
+                    return ${isAsync ? 'await ' : ''}main.call(this ${paramNames ? `, ${paramNames}` : ''}) ;
                 } ;
 
             })()` ;

@@ -1,5 +1,5 @@
 const
-Element = require('../../../element'),
+Element = require('../../script'),
 process_expression = require('../expression');
 
 class ParamElement extends Element{
@@ -17,6 +17,8 @@ class ParamElement extends Element{
 
             value = me.getAttribute('@text') ;
         }
+
+        console.log('xxxxx' , value) ;
 
         if(value){
 

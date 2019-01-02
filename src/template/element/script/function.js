@@ -4,7 +4,10 @@ const ParamSet = require('./function/param/set'),
 } = require('../../../array'),
 {
     toCamelCase
-} = require('../../../name');
+} = require('../../../name'),
+{
+    defineProperty
+} = require('../../../object');
 
 class FunctionElement extends require('../script'){
 
@@ -12,8 +15,13 @@ class FunctionElement extends require('../script'){
 
         super(tag) ;
 
-        this.params = new ParamSet(this.queryAll('param')) ;
+        defineProperty(this , 'params') ;
 
+    }
+
+    getParams(){
+
+        return new ParamSet(this.queryAll('param')) ;
     }
 
     get body(){
