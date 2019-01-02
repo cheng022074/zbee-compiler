@@ -94,7 +94,8 @@ class Element {
 
         const Element = this ;
 
-        let fullTag = Element.getFullTag(tag) ;
+        let fullTag = Element.getFullTag(tag),
+            el;
 
         if(unusedElements.hasOwnProperty(fullTag)){
 
@@ -102,11 +103,23 @@ class Element {
 
             if(elements.length){
 
-                return elements.shift() ;
+                el = elements.shift() ;
             }
+
         }
 
-        return new Element(tag) ;
+        if(!el){
+
+            el = new Element(tag) ;
+        }
+
+        
+        el.attributes = attributes ;
+
+        el.children = children ;
+
+        return el ;
+
     }
 
     /**
@@ -290,14 +303,14 @@ class Element {
         {
             $children:currentChildren
         } = me,
-        len = currentChildren.length;
+        len = Math.max(currentChildren.length , children.length);
 
         for(let i = 0 ; i < len ; i ++){
 
             let currentChildEl = currentChildren[i],
                 childEl = children[i] ;
 
-            if(childEl){
+            if(childEl && currentChildEl){
 
                 if(currentChildEl.tag === childEl.tag){
 
@@ -310,7 +323,11 @@ class Element {
                     me.replaceChild(childEl , currentChildEl) ;
                 }
 
-            }else{
+            }else if(childEl && !currentChildEl){
+
+                me.appendChild(childEl) ;
+
+            }else if(!childEl && !currentChildEl){
 
                 me.removeChild(currentChildEl) ;
             }

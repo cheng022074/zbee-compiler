@@ -40,7 +40,7 @@ function build_xml(data , name){
 
             case 1:
 
-                children.push(build_xml(node)) ;
+                children.push(build_xml(node , name)) ;
 
                 break ;
 

@@ -35,6 +35,11 @@ module.exports = class {
             result.push(el.toString()) ;
         }
 
+        if(result.length === 0){
+
+            return '' ;
+        }
+
         result = result.join(',') ;
 
         if(!isNormal){

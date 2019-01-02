@@ -8,7 +8,7 @@ function createElementFromData({
     children
 } , name = 'template.element'){
 
-    return BinCode.get(name).target.createElement(tag , attributes , children.map(itemData => createElementFromData(itemData , config)) , config) ;
+    return BinCode.get(name).target.createElement(tag , attributes , children.map(itemData => createElementFromData(itemData , name))) ;
 }
 
 
