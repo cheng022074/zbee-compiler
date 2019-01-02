@@ -17,6 +17,49 @@ class FlowMeta extends FunctionMeta{
         }
     }
 
+    getParams(){
+
+        let {
+            params
+        } = this.template,
+        result = [],
+        {
+            elements
+        } = params;
+
+        for(let {
+            name,
+            value:defaultValue,
+            optional,
+            datatype:type
+        } of elements){
+
+            result.push({
+                name,
+                type,
+                optional,
+                defaultValue,
+                items:[]
+            }) ;
+        }
+
+        if(!params.isNormal){
+
+            return [{
+                name:'config',
+                type:'object',
+                items:result
+            }] ;
+        }
+
+        return result ;
+    }
+
+    getImports(){
+
+        return this.template.imports ;
+    }
+
     getHeader(){
 
         let {

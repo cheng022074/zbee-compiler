@@ -13,6 +13,27 @@ class ScriptElement extends require('../element'){
 
         return 'script' ;
     }
+
+    getImportNames(){
+
+        return [] ;
+    }
+
+    get importNames(){
+
+        let me = this,
+            result = me.getImportNames(),
+            {
+                children
+            } = me;
+
+        for(let el of children){
+
+            result.push(...el.importNames) ;
+        }
+
+        return result ;
+    }
 }
 
 module.exports = ScriptElement ;

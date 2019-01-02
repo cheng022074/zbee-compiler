@@ -11,16 +11,33 @@ class CallFunctionElement extends ScriptElement{
         this.params = new ParamSet(this.queryAll('with-param')) ;
     }
 
+    valid(){
+
+        if(!this.hasAttribute('name')){
+
+            throw new Error('缺少执行函数名称') ;
+        }
+    }
+
+    getImportNames(){
+
+        let me = this ;
+
+        me.valid() ;
+
+        return [
+            me.getAttribute('name')
+        ] ;
+    }
+
     render(){
 
         let me = this ;
 
-        if(me.hasAttribute('name')){
+        me.valid() ;
 
-            return `await include('${me.getAttribute('name')}')(${me.params.toString()});` ;
-        }
-
-        throw new Error('缺少执行函数名称') ;
+        return `await include('${me.getAttribute('name')}')(${me.params.toString()});` ;
+       
     }
 
 }

@@ -1,4 +1,10 @@
-const ParamSet = require('./function/param/set') ;
+const ParamSet = require('./function/param/set'),
+{
+    unique
+} = require('../../../array'),
+{
+    toCamelCase
+} = require('../../../name');
 
 class FunctionElement extends require('../script'){
 
@@ -33,6 +39,23 @@ class FunctionElement extends require('../script'){
         return `async function main(${params.toString()}){${body}}` ;
     }
 
+    get imports(){
+
+        let {
+            importNames
+        } = this ;
+
+        return unique(importNames).map(process_import_name) ;
+    }
+
+}
+
+function process_import_name(name){
+
+    return {
+        name:toCamelCase(name),
+        target:name
+    } ;
 }
 
 module.exports = () =>{
