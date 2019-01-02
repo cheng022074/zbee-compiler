@@ -7,6 +7,8 @@ module.exports = class {
         me.elements = paramElements ;
 
         me.$isNormal = isNormal ;
+
+        me.initialize() ;
     }
 
     get isNormal(){
@@ -14,14 +16,12 @@ module.exports = class {
        return this.$isNormal ;
     }
 
-    doBeforeRender(){
+    initialize(){
     }
 
     toString(){
 
         let me = this ;
-
-        me.doBeforeRender() ;
 
         let {
             elements,

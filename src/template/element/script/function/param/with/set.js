@@ -19,7 +19,7 @@ module.exports = class extends ParamSet{
         return false ;
     }
 
-    doBeforeRender(){
+    initialize(){
 
         let {
             isNormal,

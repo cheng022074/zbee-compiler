@@ -44,7 +44,12 @@ class CallFunctionElement extends ScriptElement{
 
         me.valid() ;
 
-        return `await include('${me.getAttribute('name')}')(${me.params.toString()});` ;
+        let {
+            isAwait = true,
+            params
+        } = me ;
+
+        return `${isAwait ? 'await' : ''} include('${me.getAttribute('name')}')(${params.toString()});` ;
        
     }
 

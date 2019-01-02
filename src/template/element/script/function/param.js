@@ -18,8 +18,6 @@ class ParamElement extends Element{
             value = me.getAttribute('@text') ;
         }
 
-        console.log('xxxxx' , value) ;
-
         if(value){
 
             return process_expression(value) ;
