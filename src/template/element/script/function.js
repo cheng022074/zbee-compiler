@@ -29,7 +29,7 @@ class FunctionElement extends require('../script'){
             body
         } = this ;
 
-        return `async function(${params.toString()}){${body}}` ;
+        return `async function main(${params.toString()}){${body}}` ;
     }
 
 }
