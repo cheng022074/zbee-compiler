@@ -67,10 +67,13 @@ class FunctionMeta extends ScriptMeta{
                 parentParamName
             } = param;
 
-            if(parentParamName && params.hasOwnProperty(parentParamName)){
+            if(parentParamName){
 
-                params[parentParamName].add(param) ;
-            
+                if(params.hasOwnProperty(parentParamName)){
+
+                    params[parentParamName].add(param) ;
+                }
+
             }else{
 
                 params[name] = param ;

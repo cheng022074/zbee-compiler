@@ -64,7 +64,7 @@ function compile(code){
         return ;
     }
 
-    let codeText = format(code.data) ;
+    let codeText = `module.exports = ${format(code.data)}` ;
 
     writeTextFile(path , codeText) ;
 
