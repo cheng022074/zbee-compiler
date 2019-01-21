@@ -12,7 +12,7 @@ export const include = <%- apply('code.package.header.include' , defaultFolder) 
 
 const config = <%- apply('code.package.header.config.browser' , config) ;%>;
 
-export const override = <%- apply('code.package.header.override') ;%>;
+export const override = <%- apply('code.package.header.override' , defaultFolder) ;%>;
 
 <%
     const {

@@ -6,7 +6,10 @@ FunctionMeta = require('./script/function')(),
 {
     simpleObject:isObject,
     string:isString
-} = require('../../is');
+} = require('../../is'),
+{
+    defineProperties
+} = require('../../object');
 
 class Meta extends FunctionMeta{
 
@@ -14,7 +17,14 @@ class Meta extends FunctionMeta{
 
         super(code) ;
 
-        this.data = load(code.path) ;
+        let me = this ;
+
+        me.data = load(code.path) ;
+
+        defineProperties(me , [
+            'singleton',
+            'isClass'
+        ]) ;
     }
 
     getRawBody(){
@@ -52,6 +62,11 @@ class Meta extends FunctionMeta{
 
     getIsOnce(){
 
+       return this.singleton ;
+    }
+
+    getSingleton(){
+
         let {
             data
         } = this,
@@ -60,6 +75,11 @@ class Meta extends FunctionMeta{
         } = data ;
 
         return !!singleton ;
+    }
+
+    getIsClass(){
+
+        return this.data.class === true ;
     }
 
     getImports(){
@@ -103,7 +123,8 @@ class Meta extends FunctionMeta{
 
         let {
             body,
-            isOnce
+            isOnce,
+            isClass
         } = this;
 
         body = body.toString() ;
@@ -125,6 +146,19 @@ class Meta extends FunctionMeta{
                     }
 
                     return target ;
+                }
+    
+            })()` ;
+
+        }else if(isClass){
+
+            return `(() =>{
+
+                ${body}
+    
+                return () =>{
+    
+                    return main ;
                 }
     
             })()` ;
