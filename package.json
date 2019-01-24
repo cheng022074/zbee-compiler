@@ -28,6 +28,7 @@
     "node": ">= 10.1.0"
   },
   "dependencies": {
+    "@babel/parser": "^7.3.1",
     "autoprefixer": "^9.3.1",
     "chokidar": "^2.0.4",
     "columnify": "^1.5.4",
