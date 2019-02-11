@@ -748,7 +748,7 @@ class LibrarySourceCode extends SourceCode{
 
     get exists(){
 
-        !! this.$meta ;
+        return !! this.$meta ;
     }
 
     get path(){
