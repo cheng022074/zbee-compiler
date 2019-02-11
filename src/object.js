@@ -3,8 +3,7 @@
         defineProperty    
     } = Object,
     {
-        capitalize,
-        split
+        capitalize
     } = require('./string'),
     {
         function:is_function
@@ -195,7 +194,10 @@ exports.toPropertyValue = data =>{
 {
     const 
     semicolonRe = /\;/,
-    colonRe = /\:/;
+    colonRe = /\:/,
+    {
+        split
+    } = require('./string');
 
     exports.fromPropertyValue = data =>{
 
