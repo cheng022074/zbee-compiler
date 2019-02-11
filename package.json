@@ -28,6 +28,7 @@
     "node": ">= 10.1.0"
   },
   "dependencies": {
+    "@babel/traverse": "^7.2.3",
     "@babel/parser": "^7.3.1",
     "autoprefixer": "^9.3.1",
     "chokidar": "^2.0.4",
@@ -35,9 +36,6 @@
     "css-loader": "^1.0.1",
     "date-and-time": "^0.6.2",
     "ejs": "^2.6.1",
-    "escodegen": "^1.11.0",
-    "esprima": "^4.0.1",
-    "estraverse": "^4.2.0",
     "html-webpack-plugin": "^3.2.0",
     "js-beautify": "^1.7.5",
     "jsdom": "^13.0.0",

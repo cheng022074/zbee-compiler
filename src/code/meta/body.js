@@ -1,15 +1,10 @@
 const {
     parse,
-    stringify
+    traverse
 } = require('../../script'),
 {
-    traverse,
-} = require('estraverse'),
-{
     defineProperties
-} = require('../../object'),
-scopedRe = /@scoped/,
-asyncRe = /@async/;
+} = require('../../object');
 
 module.exports = class {
 
@@ -20,16 +15,7 @@ module.exports = class {
 
         me.meta = meta ;
 
-        try{
-
-            me.data = parse(`async() =>{${data}}`) ;
-        
-        }catch(err){
-
-            console.log('无法解析' , meta.code.fullName) ;
-
-            me.data = false ;
-        }
+        me.data = parse(data) ;
 
         me.rawData = data ;
 
@@ -44,34 +30,21 @@ module.exports = class {
         return this.rawData ;
     }
 
-    get innerData(){
-
-        return this.data.body[0].expression.body.body ;
-    }
 
     getHasMain(){
 
         let
-        me = this;
+        me = this,
+        {
+            data
+        } = me;
 
-        if(me.data === false){
-
-            if(scopedRe.test(me.meta.header)){
-
-                return true ;
-            }
-
-            return false ;
-        }
-
-        let {
-            innerData
-        } = me ;
+        data = data.program.body ;
 
         for(let {
             type,
             id
-        } of innerData){
+        } of data){
 
             if(id){
 
@@ -92,31 +65,21 @@ module.exports = class {
     getIsAsync(){
 
         let
-        me = this;
-
-        if(me.data === false){
-
-            if(asyncRe.test(me.meta.header)){
-
-                return true ;
-            }
-
-            return false ;
-        }
-
-        let {
+        me = this,
+        {
             hasMain,
-            data,
-            innerData
+            data
         } = me ;
 
         if(hasMain){
+
+            data = data.program.body ;
 
             for(let {
                 type,
                 async:isAsync,
                 id
-            } of innerData){
+            } of data){
 
                 if(id){
 
@@ -135,8 +98,7 @@ module.exports = class {
 
         }
 
-        let result = false,
-            locked = true;
+        let result = false;
 
         traverse(data , {
 
@@ -149,14 +111,6 @@ module.exports = class {
                 switch(type){
 
                     case 'ArrowFunctionExpression':
-
-                        if(locked){
-
-                            locked = false ;
-
-                            break ;
-                        }
-
                     case 'FunctionDeclaration':
                     case 'FunctionExpression':
                     case 'ClassDeclaration':

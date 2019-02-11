@@ -11,11 +11,14 @@ const {
     isAbsolute
 } = require('path'),
 {
-    parseScript
-} = require('esprima'),
+    parse
+} = require('@babel/parser'),
 {
-    generate
-} = require('escodegen'),
+    default:traverse
+} = require('@babel/traverse'),
+{
+    default:generate
+} = require('@babel/generator'),
 {
     from
 } = require('./array');
@@ -67,20 +70,19 @@ exports.include = path =>{
 
 exports.parse = code =>{
 
-    return parseScript(code) ;
+    return parse(code , {
+        allowReturnOutsideFunction:true,
+        allowAwaitOutsideFunction:true
+    }) ;
 
+}
+
+exports.traverse = (ast , config) =>{
+
+    return traverse(ast , config) ;
 }
 
 exports.stringify = ast =>{
 
-    ast = from(ast) ;
-
-    let result = [] ;
-
-    for(let item of ast){
-
-        result.push(generate(item)) ;
-    }
-
-    return result.join('\n') ;
+    return generate(ast) ;
 }
