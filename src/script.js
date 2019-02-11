@@ -70,10 +70,19 @@ exports.include = path =>{
 
 exports.parse = code =>{
 
-    return parse(code , {
-        allowReturnOutsideFunction:true,
-        allowAwaitOutsideFunction:true
-    }) ;
+    try{
+
+        return parse(code , {
+            allowReturnOutsideFunction:true,
+            allowAwaitOutsideFunction:true
+        }) ;
+
+    }catch(err){
+
+        throw `代码存在问题: \n ${code}` ;
+    }
+
+   
 
 }
 
