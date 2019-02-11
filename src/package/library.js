@@ -22,9 +22,14 @@ const {
 } = require('../object'),
 {
     toPropertyValue:toArrayPropertyValue
-} = require('../array');
+} = require('../array'),
+{
+    writeTextFile
+} = require('../fs');
 
-module.exports = (codes , path) =>{
+module.exports = (codes , path , {
+    to
+}) =>{
 
     let codeMap = {},
         dependencies = {};
@@ -51,11 +56,25 @@ module.exports = (codes , path) =>{
         }
     }
 
-    let name = basename(path).toLowerCase() ;
+    let name = basename(path).toLowerCase(),
+        xmlData = apply('code.package.bundle.meta' , codeMap),
+        jsData = format(apply('code.package.bundle.lib' , codeMap));
+
+    if(to){
+
+        for(let path of to){
+
+            writeTextFile(join(path , 'index.xml') , xmlData) ;
+
+            writeTextFile(join(path , 'index.js') , jsData) ;
+
+            console.log('已导出' , path) ;
+        }
+    }
 
     return {
-        [join(path , 'index.xml')]:apply('code.package.bundle.meta' , codeMap),
-        [join(path , 'index.js')]:format(apply('code.package.bundle.lib' , codeMap)),
+        [join(path , 'index.xml')]:xmlData,
+        [join(path , 'index.js')]:jsData,
         [join(path , 'package.json')]:apply('code.package.package' , {
             name,
             dependencies
