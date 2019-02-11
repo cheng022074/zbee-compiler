@@ -3,14 +3,11 @@
     const nameRe = /^(\w+)\:{2}(.+?)$/,
           CODES = {},
           libraries = <%- JSON.stringify(data.libraries) %>,
-          len = libraries.length,
-          {
-            join
-          } = require('path');
+          len = libraries.length;
 
     for(let i = 0 ; i < len ; i ++){
 
-        libraries[i] = require(join(libraries[i] , 'lib.js')) ;
+        libraries[i] = require(libraries[i]) ;
     }
 
     return name =>{
