@@ -3,7 +3,7 @@ getDataTypes = require('../../datatypes'),
 nameSplitRe = /\./,
 restRe = /^\.{3}/,
 defaultValueSplitRe = /\=/,
-nameRe = /\w+/,
+nameRe = /\w+(?:\.\w+)*/,
 {
     match:string_match
 } = require('../../../../regexp');
