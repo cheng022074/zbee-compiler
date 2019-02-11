@@ -102,11 +102,11 @@ module.exports = class {
 
         traverse(data , {
 
-            enter({
-                type
-            }){
+            enter(path){
 
-                let me = this ;
+                let {
+                    type
+                } = path ;
 
                 switch(type){
 
@@ -116,13 +116,13 @@ module.exports = class {
                     case 'ClassDeclaration':
                     case 'ClassExpression':
 
-                        me.skip() ;
+                        path.skip() ;
 
                         break ;
 
                     case 'AwaitExpression':
 
-                        me.break() ;
+                        path.stop() ;
 
                         result = true ;
                 }
