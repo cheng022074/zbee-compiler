@@ -6,11 +6,11 @@ module.exports = name =>{
 
     if(name){
 
-        let code = SourceCode.get(name) ;
+        let signature = SourceCode.getProperty(SourceCode.get(name) , 'signature') ;
 
-        if(code.exists){
+        if(signature){
 
-            console.info(code.signature) ;
+            console.info(signature) ;
         
         }else{
 
