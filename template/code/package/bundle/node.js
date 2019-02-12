@@ -3,7 +3,8 @@
         defaultFolder,
         codeMap,
         config,
-        bootstrap
+        bootstrap,
+        main
     } = data ;
 %>
 
@@ -18,7 +19,15 @@
     }
 }
 
-exports.include = <%- apply('code.package.header.include' , defaultFolder) ;%>;
+const include = <%- apply('code.package.header.include' , defaultFolder) ;%>;
+
+<%
+    if(!main && !bootstrap){
+%>
+exports.include = include ;
+<%
+    }
+%>
 
 const config = <%- apply('code.package.header.config.node' , config) ;%>;
 
@@ -40,4 +49,14 @@ exports['<%- name %>'] = <%- codeMap[name] %>;
     }
 %>
 
-<%- apply('code.package.header.boostrap' , bootstrap)%>
+<%
+if(main){
+%>
+
+<%- apply('code.package.header.main' , main)%>
+
+<%}else{%>
+
+<%- apply('code.package.header.bootstrap' , bootstrap)%>
+
+<%}%>

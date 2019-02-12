@@ -12,7 +12,8 @@
     {
         let {
             argv
-        } = process ;
+        } = process,
+        types = <%- JSON.stringify(types) %>;
 
         argv = argv.slice(2) ;
 

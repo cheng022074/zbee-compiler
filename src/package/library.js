@@ -33,18 +33,18 @@ module.exports = (codes , path , {
 
     for(let code of codes){
 
-        let data = getProperty(code , 'data') ;
+        let data = SourceCode.getProperty(code , 'data') ;
 
         if(data){
 
             let dependentModules = SourceCode.getProperty(code , 'dependentModules') ;
 
             codeMap[code.fullName] = {
-                motify:getProperty(code , 'motifyTime'),
-                signature:getProperty(code , 'signature'),
+                motify:SourceCode.getProperty(code , 'motifyTime'),
+                signature:SourceCode.getProperty(code , 'signature'),
                 code:data,
-                imports:toArrayPropertyValue(getProperty(code , 'importAllNames')),
-                entryTypes:toArrayPropertyValue(getProperty(code , 'entryTypes')),
+                imports:toArrayPropertyValue(SourceCode.getProperty(code , 'importAllNames')),
+                entryTypes:toArrayPropertyValue(SourceCode.getProperty(code , 'entryTypes')),
                 dependentModules:toObjectPropertyValue(dependentModules)
             } ;
 

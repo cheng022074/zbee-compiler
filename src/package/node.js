@@ -23,7 +23,8 @@ const {
 
 module.exports = (codes , path , {
     config,
-    bootstrap
+    bootstrap,
+    main
 }) =>{
 
     let codeMap = {},
@@ -66,7 +67,9 @@ module.exports = (codes , path , {
         [join(path , 'index.js')]:format(apply('code.package.bundle.node' , {
             defaultFolder,
             codeMap,
-            config
+            config,
+            bootstrap,
+            main
         })),
         [join(path , 'package.json')]:apply('code.package.package' , {
             name,
