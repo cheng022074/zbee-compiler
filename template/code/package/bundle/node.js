@@ -40,4 +40,4 @@ exports['<%- name %>'] = <%- codeMap[name] %>;
     }
 %>
 
-<%- apply('code.package.header.boostrap' , bootstrap) ;%>;
+<%- apply('code.package.header.boostrap' , bootstrap)%>
