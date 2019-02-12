@@ -9,9 +9,6 @@ const {
     SourceCode
 } = require('../code'),
 {
-    getProperty
-} = SourceCode,
-{
     format
 } = require('../script'),
 {
@@ -40,7 +37,7 @@ module.exports = (codes , path , {
 
         if(data){
 
-            let dependentModules = getProperty(code , 'dependentModules') ;
+            let dependentModules = SourceCode.getProperty(code , 'dependentModules') ;
 
             codeMap[code.fullName] = {
                 motify:getProperty(code , 'motifyTime'),

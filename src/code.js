@@ -326,7 +326,7 @@ class SourceCode extends Code{
         }
 
         return [
-            me.get(name)
+            me.getCode(me.get(name))
         ] ;
     }
 
@@ -352,6 +352,32 @@ class SourceCode extends Code{
 
     /**
      * 
+     * 根据代码名称，获得当前工程以及所引用的类库里的代码对象
+     * 
+     * @param {string} name 代码名称
+     * 
+     * @return {SourceCode | LibrarySourceCode} 代码对象
+     * 
+     */
+    static getCode(code){
+
+        if(code.exists){
+
+            return code ;
+        }
+
+        let libCode = Code.get('LIBRARY_SOURCE' , LibrarySourceCode , code.fullName) ;
+
+        if(libCode.exists){
+
+            return libCode ;
+        }
+
+        return code ;
+    }
+
+    /**
+     * 
      * 源代码对象只会从当前工程进行实例
      * 
      * 但有时候需要从依赖的类库源代码中访问指定属性才能完成相关设计工作
@@ -367,14 +393,9 @@ class SourceCode extends Code{
      */
     static getProperty(code , property){
 
+        code = this.getCode(code) ;
+
         if(code.exists){
-
-            return code[property] ;
-        }
-
-        let libCode = Code.get('LIBRARY_SOURCE' , LibrarySourceCode , code.fullName) ;
-
-        if(libCode.exists){
 
             return code[property] ;
         }
@@ -720,7 +741,7 @@ class LibrarySourceCode extends SourceCode{
         if($meta){
 
             return copyTo({
-                tostring(){
+                toString(){
     
                     return $meta.data ;
                 }

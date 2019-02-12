@@ -232,3 +232,16 @@ exports.clear = data =>{
         delete data[key] ;
     }
 }
+
+exports.copyTo = (dest , source , names) => {
+
+    for(let name of names){
+
+        if(name in source){
+
+            dest[name] = source[name] ;
+        }
+    }
+
+    return dest ;
+}
