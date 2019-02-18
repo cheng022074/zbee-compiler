@@ -134,10 +134,14 @@ class Application extends Project{
     getDependentModules(){
 
         let {
-            dependencies
+            dependencies = {},
+            devDependencies = {}
         } = this.package ;
 
-        return Object.freeze(dependencies || {}) ;
+        return Object.freeze({
+            ...dependencies,
+            ...devDependencies
+        }) ;
     }
 
     getModuleName(){
@@ -336,7 +340,6 @@ class Libraries{
                     folderName
                 ] = split(dirpath , sepRe) ;
 
-            
                 if(dependentModuleNames.includes(folderName)){
 
                     paths.push(join(rootPath , 'node_modules' , path)) ;
