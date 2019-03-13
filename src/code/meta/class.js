@@ -38,14 +38,37 @@ class Meta extends FunctionMeta{
         } = code,
         {
             constructor,
+            extend,
+            extendSource,
             staticMethods = [],
             staticProperties = {},
             methods = [],
             properties = {}
-        } = data;
+        } = data,
+        extendCode = '';
+
+        switch(extendSource){
+
+            case 'node':
+
+                extendCode = `const extendTarget = require('${extend}');` ;
+
+                break;
+
+            case 'es6':
+
+                extendCode = `import extendTarget from '${extend}';` ;
+
+                break ;
+
+            case 'zbee':
+
+                extendCode = `const extendTarget = include('${extend}')();` ;
+        }
 
         return `
-            class main{
+            ${extendSource}
+            class main ${extendCode ? 'extends extendTarget' : ''}{
 
                 ${generate_methods(fullName , staticMethods , true)}
 

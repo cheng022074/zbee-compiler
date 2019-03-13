@@ -215,11 +215,6 @@ class Application extends Project{
         return get(this.properties , 'installs') || [] ;
     }
 
-    get testTimeout(){
-
-        return get(this.properties , 'test.timeout') || 5000;
-    }
-
     get defaultFolder(){
 
         return this.properties.defaultFolder || 'src';
