@@ -1,11 +1,16 @@
 <%
     const {
         name,
-        dependencies
+        dependencies,
+        version
     } = data ;
 %>
 {
     "name": "<%- name %>",
+    "version":"<%- version %>",
     "private": true,
+    "files":[
+        "index.js"
+    ],
     "dependencies": <%- JSON.stringify(dependencies , null , 2) %>
 }

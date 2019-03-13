@@ -125,6 +125,11 @@ class Application extends Project{
 
         me.libraries = new Libraries(me , me.properties = load(join(APPLICATION_PATH , 'properties.json'))) ;
     }
+
+    get version(){
+
+        return this.package.version ;
+    }
     
     getDependentModuleNames(){
 

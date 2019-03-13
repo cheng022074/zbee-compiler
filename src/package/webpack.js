@@ -5,9 +5,6 @@ const {
     SourceCode
 } = require('../code'),
 {
-    getProperty
-} = SourceCode,
-{
     format
 } = require('../script'),
 {
@@ -38,7 +35,7 @@ module.exports = (codes , path , {
 
     for(let code of codes){
 
-        let data = getProperty(code , 'data') ;
+        let data = SourceCode.getProperty(code , 'data') ;
 
         if(data){
 
@@ -48,7 +45,7 @@ module.exports = (codes , path , {
 
             codeMap[fullName] = data ;
 
-            assign(dependencies , getProperty(code , 'dependentModules')) ;
+            assign(dependencies , SourceCode.getProperty(code , 'dependentModules')) ;
         }
     }
 
@@ -73,6 +70,7 @@ module.exports = (codes , path , {
         [join(path , 'index.js')]:data,
         [join(path , 'package.json')]:apply('code.package.package' , {
             name,
+            version:APPLICATION.version,
             dependencies
         })
      } ;
