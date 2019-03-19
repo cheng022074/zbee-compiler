@@ -17,9 +17,15 @@ const {
     unique
 } = require('../array'),
 {
-    writeTextFile,
-    copy
-} = require('../fs');
+    writeFileSync
+} = require('fs'),
+{
+    assign
+} = Object,
+JSZip = require('jszip'),
+{
+    apply
+} = require('../template');
 
 module.exports = name =>{
 
@@ -90,19 +96,47 @@ function doPackage({
         }
     }
 
-    let result = require(`../package/${type}`)(unique(allCodes) , join(APPLICATION.getFolderPath('package') , name) , config) ;
+    let codes = unique(allCodes),
+        result = require(`../package/${type}`)(codes , config) ;
 
     if(memory === true){
 
         return result ;
     }
 
+    let dependencies = {};
+
+    for(let code of codes){
+
+        let data = SourceCode.getProperty(code , 'data') ;
+
+        if(data){
+
+            assign(dependencies , SourceCode.getProperty(code , 'dependentModules')) ;
+        }
+    }
+
+    result['package.json'] = apply('code.package.package' , {
+        name,
+        type,
+        version:APPLICATION.version,
+        dependencies
+    }) ;
+
     let paths = Object.keys(result) ;
+
+    let zip = new JSZip() ;
 
     for(let path of paths){
 
-        writeTextFile(path , result[path]) ;
-
-        console.log('已生成' , path) ;
+        zip.file(path , result[path]) ;
     }
+
+    let path = join(APPLICATION.getFolderPath('package') , `${name}.zip`) ;
+
+    zip.generateAsync({
+        type:'nodebuffer'
+    }).then(data => writeFileSync(path , data)) ;
+
+    console.log('已生成' , path) ;
 }

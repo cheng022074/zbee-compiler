@@ -4,5 +4,5 @@ const {
 
 module.exports = () =>{
 
-   console.log('安装工程') ;
+   console.log('初始化工程') ;
 }

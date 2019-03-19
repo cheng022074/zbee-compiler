@@ -28,8 +28,8 @@
     "node": ">= 10.1.0"
   },
   "dependencies": {
-    "@babel/traverse": "^7.2.3",
     "@babel/parser": "^7.3.1",
+    "@babel/traverse": "^7.2.3",
     "autoprefixer": "^9.3.1",
     "chokidar": "^2.0.4",
     "columnify": "^1.5.4",
@@ -40,6 +40,7 @@
     "js-beautify": "^1.7.5",
     "jsdom": "^13.0.0",
     "jsmin": "^1.0.1",
+    "jszip": "^3.2.0",
     "mocha": "^5.2.0",
     "node-sass": "^4.9.4",
     "portfinder": "^1.0.19",

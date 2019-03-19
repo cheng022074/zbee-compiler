@@ -27,8 +27,12 @@
         "description":"打包代码",
         "implement":"command.package"
     },
-    "install":{
+    "init":{
         "description":"初始化当前工程",
+        "implement":"command.install"
+    },
+    "install":{
+        "description":"安装当前工程",
         "implement":"command.install"
     },
     "web":{

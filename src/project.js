@@ -215,11 +215,6 @@ class Application extends Project{
         return path.indexOf(this.getFolderPath('bin')) === 0 ;
     }
 
-    get installNameList(){
-
-        return get(this.properties , 'installs') || [] ;
-    }
-
     get defaultFolder(){
 
         return this.properties.defaultFolder || 'src';

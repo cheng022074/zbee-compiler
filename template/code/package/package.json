@@ -2,12 +2,14 @@
     const {
         name,
         dependencies,
-        version
+        version,
+        type
     } = data ;
 %>
 {
     "name": "<%- name %>",
     "version":"<%- version %>",
+    "zbee-package":"<%- type %>",
     "private": true,
     "files":[
         "index.js"
