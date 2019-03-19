@@ -1,0 +1,14 @@
+{
+    "bin":{
+        "suffix":{
+            "config":[
+                ".json"
+            ],
+            "template":true
+        },
+        "type":{
+            "template":"text",
+            "config":"json"
+        }
+    }
+}
