@@ -9,7 +9,7 @@
 {
     "name": "<%- name %>",
     "version":"<%- version %>",
-    "zbee-package":"<%- type %>",
+    "zbee-module":"<%- type %>",
     "private": true,
     "files":[
         "index.js"

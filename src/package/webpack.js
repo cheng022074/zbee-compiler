@@ -5,7 +5,7 @@ const {
     SourceCode
 } = require('../code'),
 {
-    format
+    compile
 } = require('../script'),
 {
     APPLICATION
@@ -36,7 +36,7 @@ module.exports = (codes , {
     }
 
     return {
-        ['index.js']:format(apply('code.package.bundle.webpack' , {
+        ['index.js']:compile(apply('code.package.bundle.webpack' , {
             defaultFolder,
             codeMap,
             config

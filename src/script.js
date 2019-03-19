@@ -20,8 +20,8 @@ const {
     default:generate
 } = require('@babel/generator'),
 {
-    from
-} = require('./array');
+    transformSync
+} = require('@babel/core');
 
 exports.format = code =>{
 
@@ -89,6 +89,15 @@ exports.parse = code =>{
 exports.traverse = (ast , config) =>{
 
     return traverse(ast , config) ;
+}
+
+exports.compile = code =>{
+
+    return transformSync(code , {
+        presets:[
+            require('@babel/preset-env')
+        ]
+    }).code ;
 }
 
 exports.stringify = ast =>{
