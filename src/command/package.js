@@ -77,6 +77,7 @@ function doPackage({
     classes,
     type = 'library',
     memory = false,
+    to,
     ...config
 } , name = `package-${Date.now()}`){
 
@@ -139,4 +140,16 @@ function doPackage({
     }).then(data => writeFileSync(path , data)) ;
 
     console.log('已生成' , path) ;
+
+    if(to){
+
+        for(let toPath of to){
+
+            let path = join(APPLICATION.rootPath , '..' , toPath , 'modules') ;
+
+            writeFileSync(path) ;
+
+            console.log('已复制到' , path) ;
+        }
+    }
 }
