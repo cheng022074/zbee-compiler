@@ -50,6 +50,11 @@
         packageData.private = true ;
     }
 
+    if(!packageData.hasOwnProperty('version')){
+
+        packageData.version = '0.0.0' ;
+    }
+
     let paths = getFilePaths(join(rootPath , 'zbee_modules') , /\.zip$/) ;
 
     for(let path of paths){
