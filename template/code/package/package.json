@@ -3,13 +3,15 @@
         name,
         dependencies,
         version,
-        type
+        type,
+        module
     } = data ;
 %>
 {
     "name": "<%- name %>",
     "version":"<%- version %>",
     "private": true,
+    "zbeeModule":<%- module %>,
     "files":[
         "index.js"
     ],

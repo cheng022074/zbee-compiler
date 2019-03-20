@@ -19,7 +19,7 @@ const {
     basename
 } = require('path');
 
-exports.readTextFile = path =>{
+function readTextFile(path){
 
     try{
 
@@ -30,6 +30,8 @@ exports.readTextFile = path =>{
 
     return '' ;
 } ;
+
+exports.readTextFile = readTextFile ;
 
 exports.readFile = path =>{
 
@@ -89,38 +91,43 @@ exports.writeJSONFile = (path , data , isFormat = true) =>{
 
 exports.readJSONFile = path =>{
 
-    try{
+   // try{
 
         return JSON.parse(readTextFile(path)) ;
 
-    }catch(err){
+    //}catch(err){
 
 
-    }
+   // }
 
     return {} ;
 }
 
 function getFilePaths(path , regexp = /^.+$/){
 
-    let names = readdirSync(path),
-        paths = [];
+    if(is_directory(path)){
 
-    for(let name of names){
+        let names = readdirSync(path),
+            paths = [];
 
-        let childPath = join(path , name) ;
+        for(let name of names){
 
-        if(is_directory(childPath)){
+            let childPath = join(path , name) ;
 
-            paths.push(...getFilePaths(childPath)) ;
-        
-        }else if(regexp.test(childPath)){
+            if(is_directory(childPath)){
 
-            paths.push(childPath) ;
+                paths.push(...getFilePaths(childPath)) ;
+            
+            }else if(regexp.test(childPath)){
+
+                paths.push(childPath) ;
+            }
         }
+
+        return paths ;
     }
 
-    return paths ;
+    return [] ;
 }
 
 function getAllFilePaths(path , regexp){

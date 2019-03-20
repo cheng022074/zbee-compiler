@@ -121,6 +121,7 @@ function doPackage({
 
     result['package.json'] = apply('code.package.package' , {
         name,
+        module:type === 'library',
         version:APPLICATION.version,
         dependencies
     }) ;

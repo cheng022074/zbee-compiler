@@ -5,8 +5,7 @@ const {
 } = require('./path'),
 {
     join,
-    relative,
-    dirname
+    relative
 } = require('path'),
 {
     load
@@ -35,15 +34,11 @@ const {
     CDATAValues
 } = require('./xml'),
 {
-    split
-} = require('./string'),
-{
     fromPropertyValue:toObject
 } = require('./object'),
 {
     fromPropertyValue:toArray
 } = require('./array'),
-sepRe = /\\|\//,
 {
     env
 } = process,
@@ -129,12 +124,17 @@ class Application extends Project{
             'moduleName'
         ]) ;
 
-        me.libraries = new Libraries(me , me.properties = load(join(APPLICATION_PATH , 'properties.json'))) ;
+        me.libraries = new Libraries(me , me.properties = load(me.propertiesPath)) ;
     }
 
     get packagePath(){
 
         return join(APPLICATION_PATH , 'package.json') ;
+    }
+
+    get propertiesPath(){
+
+        return join(APPLICATION_PATH , 'properties.json') ;
     }
 
     savePackage(){
@@ -164,6 +164,30 @@ class Application extends Project{
         } = this ;
 
         data.devDependencies = assignIf(data.devDependencies , dependencies) ;
+    }
+
+    addLibrary(path){
+
+        let {
+            properties
+        } = this,
+        {
+            libraries = []
+        } = properties ;
+
+        libraries.push(path) ;
+
+        properties.libraries = libraries ;
+    }
+
+    saveProperties(){
+
+        let {
+            propertiesPath,
+            properties:data
+        } = this ;
+
+        writeJSONFile(propertiesPath , data) ;
     }
 
     get version(){
@@ -346,8 +370,6 @@ class Application extends Project{
     }
 }
 
-const relativePathRe = /\.{1,2}/;
-
 class Libraries{
 
     constructor(project , {
@@ -360,29 +382,12 @@ class Libraries{
         me.project = project ;
 
         let {
-            dependentModuleNames,
             rootPath
         } = project ;
 
         for(let path of libraries){
 
-            let dirpath = dirname(path) ;
-
-            if(dirpath && !relativePathRe.test(dirpath)){
-
-                let [
-                    folderName
-                ] = split(dirpath , sepRe) ;
-
-                if(dependentModuleNames.includes(folderName)){
-
-                    paths.push(join(rootPath , 'node_modules' , path)) ;
-
-                    continue ;
-                }
-            }
-
-            paths.push(join(project.getFolderPath('lib') , path)) ;
+            paths.push(join(rootPath , 'node_modules' , path)) ;
         }
 
         defineProperties(me , [
