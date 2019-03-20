@@ -31,6 +31,18 @@ exports.readTextFile = path =>{
     return '' ;
 } ;
 
+exports.readFile = path =>{
+
+    try{
+
+        return readFileSync(path) ;
+
+    }catch(err){
+
+
+    }
+}
+
 
 const folderRe = /(?:^\/)|(?:[^\/\\]+(?:[\/\\]|$))/g;
 
@@ -59,6 +71,8 @@ function writeTextFile(path , data){
 
 exports.writeTextFile = writeTextFile ;
 
+exports.writeFile = writeTextFile ;
+
 exports.writeJSONFile = (path , data , isFormat = true) =>{
 
     if(isFormat){
@@ -73,7 +87,21 @@ exports.writeJSONFile = (path , data , isFormat = true) =>{
     writeTextFile(path , data) ;
 }
 
-function getFilePaths(path){
+exports.readJSONFile = path =>{
+
+    try{
+
+        return JSON.parse(readTextFile(path)) ;
+
+    }catch(err){
+
+
+    }
+
+    return {} ;
+}
+
+function getFilePaths(path , regexp = /^.+$/){
 
     let names = readdirSync(path),
         paths = [];
@@ -86,7 +114,7 @@ function getFilePaths(path){
 
             paths.push(...getFilePaths(childPath)) ;
         
-        }else{
+        }else if(regexp.test(childPath)){
 
             paths.push(childPath) ;
         }
@@ -95,17 +123,19 @@ function getFilePaths(path){
     return paths ;
 }
 
-function getAllFilePaths(path){
+function getAllFilePaths(path , regexp){
 
     if(is_directory(path)){
 
-        return getFilePaths(path) ;
+        return getFilePaths(path , regexp) ;
     }
 
     return [] ;
 }
 
 exports.getAllFilePaths = getAllFilePaths ;
+
+exports.getFilePaths = getFilePaths ;
 
 exports.getMotifyTime = path =>{
 

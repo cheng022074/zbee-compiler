@@ -26,6 +26,7 @@ const {
 {
     readTextFile,
     writeTextFile,
+    writeJSONFile,
     getMotifyTime
 } = require('./fs'),
 {
@@ -41,11 +42,14 @@ const {
 } = require('./object'),
 {
     fromPropertyValue:toArray
-} = require('./array')
+} = require('./array'),
 sepRe = /\\|\//,
 {
     env
-} = process ;
+} = process,
+{
+    assignIf
+} = require('./object');
 
 class Project{
 
@@ -115,7 +119,9 @@ class Application extends Project{
 
         let me = this ;
 
-        me.package = load(join(APPLICATION_PATH , 'package.json')) || {};
+        me.package = load(me.packagePath) || {
+            private:true
+        };
 
         defineProperties(me , [
             'dependentModules',
@@ -124,6 +130,40 @@ class Application extends Project{
         ]) ;
 
         me.libraries = new Libraries(me , me.properties = load(join(APPLICATION_PATH , 'properties.json'))) ;
+    }
+
+    get packagePath(){
+
+        return join(APPLICATION_PATH , 'package.json') ;
+    }
+
+    savePackage(){
+
+        let {
+            packagePath,
+            package:data
+        } = this ;
+
+        writeJSONFile(packagePath , data) ;
+    }
+
+    addDependencies(dependencies){
+
+        let {
+            package:data
+        } = this ;
+
+        data.dependencies = assignIf(data.dependencies , dependencies) ;
+
+    }
+
+    addDevDependencies(dependencies){
+
+        let {
+            package:data
+        } = this ;
+
+        data.devDependencies = assignIf(data.devDependencies , dependencies) ;
     }
 
     get version(){
@@ -306,8 +346,7 @@ class Application extends Project{
     }
 }
 
-const 
-relativePathRe = /\.{1,2}/;
+const relativePathRe = /\.{1,2}/;
 
 class Libraries{
 

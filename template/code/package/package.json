@@ -9,7 +9,6 @@
 {
     "name": "<%- name %>",
     "version":"<%- version %>",
-    "zbee-module":"<%- type %>",
     "private": true,
     "files":[
         "index.js"

@@ -8,17 +8,19 @@ const {
     APPLICATION
 } = require('../project'),
 {
-    join
+    join,
+    isAbsolute
 } = require('path'),
 {
-    simpleObject:isObject
+    simpleObject:isObject,
+    directory:isDirectory
 } = require('../is'),
 {
     unique
 } = require('../array'),
 {
-    writeFileSync
-} = require('fs'),
+    writeFile
+} = require('../fs'),
 {
     assign
 } = Object,
@@ -119,7 +121,6 @@ function doPackage({
 
     result['package.json'] = apply('code.package.package' , {
         name,
-        type,
         version:APPLICATION.version,
         dependencies
     }) ;
@@ -137,19 +138,28 @@ function doPackage({
 
     zip.generateAsync({
         type:'nodebuffer'
-    }).then(data => writeFileSync(path , data)) ;
+    }).then(data => {
 
-    console.log('已生成' , path) ;
+        writeFile(path , data) ;
 
-    if(to){
+        console.log('已生成' , path) ;
 
-        for(let toPath of to){
+        if(to){
 
-            let path = join(APPLICATION.rootPath , '..' , toPath , 'modules') ;
-
-            writeFileSync(path) ;
-
-            console.log('已复制到' , path) ;
+            for(let toPath of to){
+    
+                if(isAbsolute(toPath) && isDirectory(toPath)){
+    
+                    toPath = join(toPath , 'zbee_modules' , `${name}.zip`) ;
+    
+                    writeFile(toPath , data) ;
+    
+                    console.log('已复制' , toPath) ;
+                }
+    
+               
+            }
         }
-    }
+
+    }) ;
 }

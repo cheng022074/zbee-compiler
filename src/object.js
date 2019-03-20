@@ -245,3 +245,18 @@ exports.copyTo = (dest , source , names) => {
 
     return dest ;
 }
+
+exports.assignIf = (dest = {} , source) =>{
+
+    let keys = Object.keys(source) ;
+
+    for(let key of keys){
+
+        if(!dest.hasOwnProperty(key)){
+
+            dest[key] = source[key] ;
+        }
+    }
+
+    return dest ;
+}
