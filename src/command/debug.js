@@ -5,8 +5,6 @@ const {
 {
     run
 } = require('../runner'),
-web = require('./debug/web'),
-generate = require('./debug/generate'),
 compile = require('./compile');
 
 module.exports = name =>{

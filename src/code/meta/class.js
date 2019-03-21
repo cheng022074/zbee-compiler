@@ -71,7 +71,7 @@ class Meta extends FunctionMeta{
 
                 ${generate_properties(fullName , staticProperties , true)}
 
-                ${generate_constructor(fullName , constructor)}
+                ${generate_constructor(fullName , constructor , !!extend)}
 
                 ${generate_methods(fullName , methods)}
 
@@ -220,7 +220,7 @@ function import_constructor(imports , rootName , hasConstructor){
 
 }
 
-function generate_constructor(rootName , hasConstructor){
+function generate_constructor(rootName , hasConstructor ,hasExtend){
 
     if(hasConstructor){
 
@@ -235,9 +235,11 @@ function generate_constructor(rootName , hasConstructor){
             name = `${rootName}.constructor` ;
         }
 
-        return `constructor(){
+        return `constructor(...args){
 
-            include('${name}').apply(this , arguments) ;
+            ${hasExtend ? 'super(...args)' : ''}
+
+            include('${name}').apply(this , args) ;
 
         }` ;
     }
