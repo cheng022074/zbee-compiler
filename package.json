@@ -36,7 +36,6 @@
     "autoprefixer": "^9.3.1",
     "chokidar": "^2.0.4",
     "columnify": "^1.5.4",
-    "css-loader": "^1.0.1",
     "date-and-time": "^0.6.2",
     "ejs": "^2.6.1",
     "js-beautify": "^1.7.5",

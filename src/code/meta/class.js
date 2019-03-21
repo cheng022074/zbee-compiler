@@ -39,7 +39,7 @@ class Meta extends FunctionMeta{
         {
             constructor,
             extend,
-            extendSource,
+            extendSource = 'zbee',
             staticMethods = [],
             staticProperties = {},
             methods = [],
@@ -47,28 +47,25 @@ class Meta extends FunctionMeta{
         } = data,
         extendCode = '';
 
-        switch(extendSource){
+        if(extend){
 
-            case 'node':
+            switch(extendSource){
 
-                extendCode = `const extendTarget = require('${extend}');` ;
-
-                break;
-
-            case 'es6':
-
-                extendCode = `import extendTarget from '${extend}';` ;
-
-                break ;
-
-            case 'zbee':
-
-                extendCode = `const extendTarget = include('${extend}')();` ;
+                case 'node':
+    
+                    extendCode = `const extendTarget = require('${extend}');` ;
+    
+                    break;
+    
+                case 'zbee':
+    
+                    extendCode = `const extendTarget = include('${extend}')();` ;
+            }
         }
 
         return `
-            ${extendSource}
-            class main ${extendCode ? 'extends extendTarget' : ''}{
+            ${extendCode}
+            class main ${extend ? 'extends extendTarget' : ''}{
 
                 ${generate_methods(fullName , staticMethods , true)}
 
