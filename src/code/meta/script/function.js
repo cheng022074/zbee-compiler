@@ -6,7 +6,10 @@ textCodeMetaOnceRe = /@once/,
 getDataTypes = require('../datatypes'),
 {
     defineProperty
-} = require('../../../object');
+} = require('../../../object'),
+{
+    match:string_match
+} = require('../../../regexp');
 
 class FunctionMeta extends ScriptMeta{
 
@@ -49,7 +52,7 @@ class FunctionMeta extends ScriptMeta{
         {
             header
         } = me,
-        textCodeMetaParamRe = /@param\s+\{([^\{\}]+)\}\s+([^\n\r]+)/g,
+        textCodeMetaParamRe = /@param\s+\{([\w\.]+)\}\s+([^\n\r]+)/g,
         result = [],
         match,
         params = {};
