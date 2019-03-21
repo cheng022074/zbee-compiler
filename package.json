@@ -1,13 +1,14 @@
 {
   "name": "zbee",
-  "version": "0.0.59",
+  "version": "0.0.60",
   "description": "基于控制台的代码设计辅助工具",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cheng022074/zbee-compiler.git"
   },
   "bin": {
-    "zb": "./bin/zb.js"
+    "zb": "./bin/zb.js",
+    "zb-init": "./bin/zb-init.js"
   },
   "keywords": [
     "cli"
