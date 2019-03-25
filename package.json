@@ -1,6 +1,6 @@
 {
   "name": "zbee",
-  "version": "0.0.62",
+  "version": "0.0.63",
   "description": "基于控制台的代码设计辅助工具",
   "repository": {
     "type": "git",
@@ -15,6 +15,7 @@
   ],
   "files": [
     "bin",
+    "lib",
     "config",
     "src",
     "template"
