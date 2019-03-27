@@ -2,7 +2,7 @@ const
 getDataTypes = require('../../datatypes'),
 nameSplitRe = /\./,
 restRe = /^\.{3}/,
-defaultValueSplitRe = /([\w\.]+)\=(.+)/,
+defaultValueSplitRe = /([\w\.]+)\s*\=\s*(.+)/,
 nameRe = /\w+(?:\.\w+)*/,
 {
     match:string_match
