@@ -52,7 +52,7 @@ class FunctionMeta extends ScriptMeta{
         {
             header
         } = me,
-        textCodeMetaParamRe = /@param\s+\{([\w\.]+)\}\s+([^\n\r]+)/g,
+        textCodeMetaParamRe = /@param\s+\{([^\{\}]+)\}\s+([^\n\r]+)/g,
         result = [],
         match,
         params = {};
