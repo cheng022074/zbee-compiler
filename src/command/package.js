@@ -119,6 +119,17 @@ function doPackage({
         }
     }
 
+    let currentDependencies = APPLICATION.getDependentModules(),
+        keys = Object.keys(dependencies);
+
+    for(let key of keys){
+
+        if(currentDependencies.hasOwnProperty(key)){
+
+            dependencies[key] = currentDependencies[key] ;
+        }
+    }
+
     result['package.json'] = apply('code.package.package' , {
         name,
         module:type === 'library',
