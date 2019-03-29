@@ -30,7 +30,7 @@
         "suffixes":{
             ".js":{
                 "meta":"code.meta.script.function",
-                "template":"code.template.script.function"
+                "template":"code.template.script.debug"
             }
         }
     }
