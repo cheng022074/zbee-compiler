@@ -27,7 +27,10 @@ const {
 JSZip = require('jszip'),
 {
     apply
-} = require('../template');
+} = require('../template'),
+{
+    env
+} = process;
 
 module.exports = name =>{
 
@@ -157,6 +160,11 @@ function doPackage({
 
         console.log('已生成' , path) ;
 
+        if(env['ZBEE-PARAM-IGNORE-OUTPUT']){
+
+            return ;
+        }
+        
         if(to){
 
             for(let toPath of to){

@@ -129,7 +129,7 @@
     }
 
     const 
-    execArgRe = /^\-{2}([a-z]+)(?:=([a-z0-9\-]+))?$/,
+    execArgRe = /^\-{2}([a-z\-]+)(?:=([a-z0-9\-]+))?$/,
     {
         env
     } = process;
