@@ -12,7 +12,8 @@ const {
 } = require('../project');
 
 module.exports = (codes , {
-    config
+    config,
+    corejs = true
 }) =>{
 
     const {
@@ -35,11 +36,23 @@ module.exports = (codes , {
         }
     }
 
+    let dependencies = {} ;
+
+    if(corejs){
+
+        dependencies['@babel/runtime-corejs3'] = '^7.4.2' ;
+
+    }else{
+
+        dependencies['@babel/runtime'] = '^7.4.2' ;
+    }
+
     return {
+        dependencies,
         ['index.js']:compile(apply('code.package.bundle.webpack' , {
             defaultFolder,
             codeMap,
             config
-        }))
+        }) , corejs)
      } ;
 }

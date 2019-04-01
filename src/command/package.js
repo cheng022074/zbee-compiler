@@ -100,14 +100,15 @@ function doPackage({
     }
 
     let codes = unique(allCodes),
-        result = require(`../package/${type}`)(codes , config) ;
+        {
+            dependencies = {},
+            ...result
+        } = require(`../package/${type}`)(codes , config) ;
 
     if(memory === true){
 
         return result ;
     }
-
-    let dependencies = {};
 
     for(let code of codes){
 

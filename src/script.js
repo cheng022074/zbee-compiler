@@ -91,7 +91,7 @@ exports.traverse = (ast , config) =>{
     return traverse(ast , config) ;
 }
 
-exports.compile = code =>{
+exports.compile = (code , corejs = false) =>{
 
     return transformSync(code , {
         presets:[
@@ -100,7 +100,7 @@ exports.compile = code =>{
         plugins:[
             [
                 require('@babel/plugin-transform-runtime'),{
-                    corejs:3 
+                    corejs:corejs === false ? false : 3 
                 }
             ]
         ]
