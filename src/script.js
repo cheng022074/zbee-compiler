@@ -98,7 +98,11 @@ exports.compile = code =>{
             require('@babel/preset-env')
         ],
         plugins:[
-            require('@babel/plugin-transform-runtime')
+            [
+                require('@babel/plugin-transform-runtime'),{
+                    corejs:3 
+                }
+            ]
         ]
     }).code ;
 }

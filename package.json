@@ -1,6 +1,6 @@
 {
   "name": "zbee",
-  "version": "0.0.66",
+  "version": "0.0.68",
   "description": "基于控制台的代码设计辅助工具",
   "repository": {
     "type": "git",
@@ -8,7 +8,7 @@
   },
   "bin": {
     "zb": "./bin/zb.js",
-    "zb-init": "./bin/zb-init.js"
+    "zb-yarn": "./bin/zb-yarn.js"
   },
   "keywords": [
     "cli"
@@ -46,6 +46,7 @@
     "jszip": "^3.2.0",
     "strip-comment": "^1.1.3",
     "xmldom": "^0.1.27",
-    "xpath": "^0.0.27"
+    "xpath": "^0.0.27",
+    "yarn": "^1.15.2"
   }
 }
