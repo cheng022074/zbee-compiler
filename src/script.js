@@ -87,8 +87,15 @@ exports.parse = code =>{
 }
 
 exports.traverse = (ast , config) =>{
+    
+    try{
 
-    return traverse(ast , config) ;
+        traverse(ast , config) ;
+
+    }catch(err){
+
+
+    }
 }
 
 exports.compile = (code , corejs = false) =>{
