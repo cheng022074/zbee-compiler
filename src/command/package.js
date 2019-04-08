@@ -171,14 +171,28 @@ function doPackage({
     
                 if(isAbsolute(toPath) && isDirectory(toPath)){
     
-                    toPath = join(toPath , 'zbee_modules' , `${name}.zip`) ;
-    
-                    writeFile(toPath , data) ;
-    
-                    console.log('已复制' , toPath) ;
+                   {
+                        let toZipPath = join(toPath , 'zbee_modules' , `${name}.zip`) ;
+        
+                        writeFile(toZipPath , data) ;
+        
+                        console.log('已复制' , toZipPath) ;
+                   }
+
+                   {
+                        let keys = Object.keys(result) ;
+
+                        for(let key of keys){
+
+                            let toFilePath = join(toPath , 'node_modules' , name , key) ;
+
+                            writeFile(toFilePath , result[key]) ;
+
+                            console.log('已复制' , toFilePath) ;
+                        } 
+                   }
+
                 }
-    
-               
             }
         }
 
