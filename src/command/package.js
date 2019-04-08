@@ -9,11 +9,13 @@ const {
 } = require('../project'),
 {
     join,
-    isAbsolute
+    isAbsolute,
+    extname
 } = require('path'),
 {
     simpleObject:isObject,
-    directory:isDirectory
+    directory:isDirectory,
+    file:isFile
 } = require('../is'),
 {
     unique
@@ -169,29 +171,42 @@ function doPackage({
 
             for(let toPath of to){
     
-                if(isAbsolute(toPath) && isDirectory(toPath)){
+                if(isAbsolute(toPath)){
+
+                    if(isDirectory(toPath)){
+
+                        {
+                            let toZipPath = join(toPath , 'zbee_modules' , `${name}.zip`) ;
+            
+                            writeFile(toZipPath , data) ;
+            
+                            console.log('已复制' , toZipPath) ;
+                        }
     
-                   {
-                        let toZipPath = join(toPath , 'zbee_modules' , `${name}.zip`) ;
-        
-                        writeFile(toZipPath , data) ;
-        
-                        console.log('已复制' , toZipPath) ;
-                   }
+                        {
+                            let keys = Object.keys(result) ;
+    
+                            for(let key of keys){
+    
+                                let toFilePath = join(toPath , 'node_modules' , name , key) ;
+    
+                                writeFile(toFilePath , result[key]) ;
+    
+                                console.log('已复制' , toFilePath) ;
+                            } 
+                        }
 
-                   {
-                        let keys = Object.keys(result) ;
+                    }else if(isFile(toPath)){
 
-                        for(let key of keys){
+                        let data = result[`index${extname(toPath)}`] ;
 
-                            let toFilePath = join(toPath , 'node_modules' , name , key) ;
+                        if(data){
 
-                            writeFile(toFilePath , result[key]) ;
+                            writeFile(toPath , data) ;
 
-                            console.log('已复制' , toFilePath) ;
-                        } 
-                   }
-
+                            console.log('已重写' , toPath) ;
+                        }
+                    }
                 }
             }
         }
