@@ -214,6 +214,30 @@ class Meta{
         return `let ${Array.from(result).join(',')};` ;
     }
 
+    get fragmentImportAllCodeScopedAssignment(){
+
+        let result = [],
+        {
+            imports
+        } = this;
+
+        for(let {
+            name,
+            target,
+            scoped
+        } of imports){
+
+            if(scoped){
+
+                result.push(`${name} = include('${target}').bind(this);`) ;
+
+            }
+
+        }
+
+        return result.join('\n') ;
+    }
+
     get fragmentImportAllCodeAssignment(){
 
         let result = [],
@@ -228,11 +252,7 @@ class Meta{
             scoped
         } of imports){
 
-            if(scoped){
-
-                result.push(`${name} = include('${target}').bind(this);`) ;
-
-            }else{
+            if(!scoped){
 
                 result.push(`${name} = include('${target}');`) ;
             }

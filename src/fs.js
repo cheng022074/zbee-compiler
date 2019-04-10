@@ -91,14 +91,14 @@ exports.writeJSONFile = (path , data , isFormat = true) =>{
 
 exports.readJSONFile = path =>{
 
-   // try{
+    try{
 
         return JSON.parse(readTextFile(path)) ;
 
-    //}catch(err){
+    }catch(err){
 
 
-   // }
+    }
 
     return {} ;
 }

@@ -217,6 +217,7 @@ class FunctionMeta extends ScriptMeta{
             paramFullNames,
             fragmentImportAllCodeDefinition,
             fragmentImportAllCodeAssignment,
+            fragmentImportAllCodeScopedAssignment,
             isAsync,
             isOnce
         } = this,
@@ -247,13 +248,15 @@ class FunctionMeta extends ScriptMeta{
         
         }else{
 
-            let initLockedVariableName = `var_init_locked_${Date.now()}` ;
+            let initLockedVariableName = `var_init_locked_${Date.now()}`,
+                currentScopeVariableName = `var_current_scope_${Date.now()}`;
 
             code = `(() =>{
 
                 ${fragmentImportAllCodeDefinition}
 
-                let ${initLockedVariableName} = false ;
+                let ${initLockedVariableName} = false,
+                    ${currentScopeVariableName};
 
                 ${generate_body(body , hasMain , paramNames , isAsync)}
 
@@ -264,6 +267,13 @@ class FunctionMeta extends ScriptMeta{
                         ${fragmentImportAllCodeAssignment}
 
                         ${initLockedVariableName} = true ;
+                    }
+
+                    if(${currentScopeVariableName} !== this){
+
+                        ${fragmentImportAllCodeScopedAssignment}
+
+                        ${currentScopeVariableName} = this ;
                     }
 
                     return ${isAsync ? 'await ' : ''}main.call(this ${paramNames ? `, ${paramNames}` : ''}) ;
