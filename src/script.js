@@ -98,19 +98,26 @@ exports.traverse = (ast , config) =>{
     }
 }
 
-exports.compile = (code , corejs = false) =>{
+exports.compile = (code , transform = true) =>{
+
+    let plugins = [],
+        transformRuntimePlugin = require('@babel/plugin-transform-runtime');
+
+    if(transform){
+
+        plugins.push([
+            transformRuntimePlugin,
+            {
+                corejs:3
+            }
+        ]) ;
+    }
 
     return transformSync(code , {
         presets:[
             require('@babel/preset-env')
         ],
-        plugins:[
-            [
-                require('@babel/plugin-transform-runtime'),{
-                    corejs:corejs === false ? false : 3 
-                }
-            ]
-        ]
+        plugins
     }).code ;
 }
 

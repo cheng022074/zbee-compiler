@@ -13,7 +13,7 @@ const {
 
 module.exports = (codes , {
     config,
-    corejs = true
+    transform = true
 }) =>{
 
     const {
@@ -38,13 +38,10 @@ module.exports = (codes , {
 
     let dependencies = {} ;
 
-    if(corejs){
+    if(transform){
 
         dependencies['@babel/runtime-corejs3'] = '^7.4.2' ;
 
-    }else{
-
-        dependencies['@babel/runtime'] = '^7.4.2' ;
     }
 
     return {
@@ -53,6 +50,6 @@ module.exports = (codes , {
             defaultFolder,
             codeMap,
             config
-        }) , corejs)
+        }) , transform)
      } ;
 }
