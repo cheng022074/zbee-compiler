@@ -658,6 +658,23 @@ class SourceCode extends Code{
         return names ;
     }
 
+    get importNames(){
+
+        let {
+            importSourceCodes
+        } = this,
+        names = [];
+
+        for(let {
+            fullName
+        } of importSourceCodes){
+
+            names.push(fullName) ;
+        }
+
+        return names ;
+    }
+
     get importSourceCodes(){
 
         let names = this.meta.importNames,

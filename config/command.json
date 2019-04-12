@@ -19,21 +19,9 @@
         "description":"调试代码",
         "implement":"command.debug"
     },
-    "test":{
-        "description":"启动测试用例",
-        "implement":"command.test"
-    },
     "package":{
         "description":"打包代码",
         "implement":"command.package"
-    },
-    "install":{
-        "description":"安装当前工程",
-        "implement":"command.install"
-    },
-    "web":{
-        "description":"开发用服务器",
-        "implement":"command.web"
     },
     "signature":{
         "description":"查看资源的函数签名",
@@ -42,6 +30,10 @@
     "dependencies":{
         "description":"查看资源的依赖列表",
         "implement":"command.dependencies"
+    },
+    "dependents":{
+        "description":"查看资源的被依赖列表",
+        "implement":"command.dependents"
     },
     "code":{
         "description":"查看资源的源代码",
