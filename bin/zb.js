@@ -2,16 +2,17 @@
 
 const {
     initApplicationPath
-} = require('../src/path') ;
+} = require('../src/path'),
+argv = require('../lib/argv')();
 
-initApplicationPath(process.cwd()) ;
+initApplicationPath(process.env['ZBEE-APP-PATH']) ;
 
 const {
     Command,
     CommandNotFoundException
 } = require('../src/command');
 
-let command = new Command(process.argv) ;
+let command = new Command(argv) ;
 
 function on_error(err){
 

@@ -28,7 +28,7 @@
 
             let me = this ;
     
-            me.argv = process_argv(argv) ;
+            me.argv = argv;
 
             defineProperties(me , [
                 'name',
@@ -126,51 +126,6 @@
                 }
             }
         }
-    }
-
-    const 
-    execArgRe = /^\-{2}([a-z\-]+)(?:=([a-z0-9\-]+))?$/,
-    {
-        env
-    } = process;
-
-    function process_argv(argv){
-
-        let values = [] ;
-
-        for(let value of argv){
-
-            let match = value.match(execArgRe) ;
-
-            if(match){
-
-                let [
-                    ,
-                    name,
-                    value
-                ] = match ;
-
-                switch(name){
-
-                    case 'env':
-
-                        env['ZBEE-ENV'] = value.toLowerCase() ;
-
-                        break ;
-
-                    default:
-
-                        env[`ZBEE-PARAM-${name}`] = value || name;
-
-                }
-
-            }else{
-
-                values.push(value) ;
-            }
-        }
-
-        return values ;
     }
 
     Command.printCommandNameList = () =>{
