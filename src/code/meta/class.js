@@ -9,7 +9,10 @@ FunctionMeta = require('./script/function')(),
 } = require('../../is'),
 {
     defineProperties
-} = require('../../object');
+} = require('../../object'),
+{
+    toCamelCase
+} = require('../../name');
 
 class Meta extends FunctionMeta{
 
@@ -37,6 +40,7 @@ class Meta extends FunctionMeta{
             fullName
         } = code,
         {
+            processConstructorParams = false,
             constructor,
             extend,
             extendSource = 'zbee',
@@ -63,19 +67,33 @@ class Meta extends FunctionMeta{
             }
         }
 
+        let mainClassVariableName = `main_class_${Date.now()}` ;
+
         return `
-            ${extendCode}
-            class main ${extend ? 'extends extendTarget' : ''}{
 
-                ${generate_methods(fullName , staticMethods , true)}
+            let ${mainClassVariableName} ;
 
-                ${generate_properties(fullName , staticProperties , true)}
+            function getMainClass(){
 
-                ${generate_constructor(fullName , constructor , !!extend)}
+                if(${mainClassVariableName}){
 
-                ${generate_methods(fullName , methods)}
+                    return ${mainClassVariableName} ;
+                }
 
-                ${generate_properties(fullName , properties)}
+                ${extendCode}
+                return ${mainClassVariableName} = class ${extend ? 'extends extendTarget' : ''}{
+
+                    ${generate_methods(fullName , staticMethods , true)}
+
+                    ${generate_properties(fullName , staticProperties , true)}
+
+                    ${generate_constructor(fullName , constructor , processConstructorParams , !!extend)}
+
+                    ${generate_methods(fullName , methods)}
+
+                    ${generate_properties(fullName , properties)}
+                }
+
             }
         ` ;
     }
@@ -111,6 +129,9 @@ class Meta extends FunctionMeta{
             code
         } = this,
         {
+            extend,
+            extendSource,
+            processConstructorParams = false,
             constructor,
             staticMethods = [],
             staticProperties = {},
@@ -121,11 +142,13 @@ class Meta extends FunctionMeta{
             fullName
         } = code;
 
+        import_extend(imports , extend , extendSource) ;
+
         import_properties(imports , fullName , staticProperties , true) ;
 
         import_methods(imports , fullName , staticMethods , true) ;
 
-        import_constructor(imports , fullName , constructor) ;
+        import_constructor(imports , fullName , constructor , processConstructorParams) ;
 
         import_properties(imports , fullName , properties) ;
 
@@ -161,7 +184,7 @@ class Meta extends FunctionMeta{
 
                     if(!target){
     
-                        return target = new main() ;
+                        return target = new (getMainClass())() ;
 
                     }
 
@@ -178,7 +201,7 @@ class Meta extends FunctionMeta{
     
                 return () =>{
     
-                    return main ;
+                    return getMainClass() ;
                 }
     
             })()` ;
@@ -190,14 +213,14 @@ class Meta extends FunctionMeta{
 
             return (...args) =>{
 
-                return new main(...args) ;
+                return new (getMainClass())(...args) ;
             }
 
         })()` ;
     }
 }
 
-function import_constructor(imports , rootName , hasConstructor){
+function import_constructor(imports , rootName , hasConstructor , processConstructorParams){
 
     if(hasConstructor){
 
@@ -216,11 +239,18 @@ function import_constructor(imports , rootName , hasConstructor){
             name:'constructor',
             target
         }) ;
-    }
 
+        if(processConstructorParams){
+
+            imports.push({
+                name:'constructor_params',
+                target:`${target}.params`
+            }) ;
+        }
+    }
 }
 
-function generate_constructor(rootName , hasConstructor ,hasExtend){
+function generate_constructor(rootName , hasConstructor , processConstructorParams , hasExtend){
 
     if(hasConstructor){
 
@@ -236,6 +266,8 @@ function generate_constructor(rootName , hasConstructor ,hasExtend){
         }
 
         return `constructor(...args){
+
+            ${processConstructorParams ? `args = include('${name}.params')(args)` : ''}
 
             ${hasExtend ? 'super(...args)' : ''}
 
@@ -307,6 +339,17 @@ function generate_methods(rootName , methods , isStatic = false){
 
     return result.join('\n') ;
 
+}
+
+function import_extend(imports , extend , extendSource = 'zbee'){
+
+    if(extend && extendSource === 'zbee'){
+
+        imports.push({
+            name:toCamelCase(extend),
+            target:extend
+        }) ;
+    }
 }
 
 function import_properties(imports , rootName , properties , isStatic = false){
