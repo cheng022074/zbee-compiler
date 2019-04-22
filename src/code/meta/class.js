@@ -40,7 +40,6 @@ class Meta extends FunctionMeta{
             fullName
         } = code,
         {
-            processConstructorParams = false,
             constructor,
             extend,
             extendSource = 'zbee',
@@ -87,7 +86,7 @@ class Meta extends FunctionMeta{
 
                     ${generate_properties(fullName , staticProperties , true)}
 
-                    ${generate_constructor(fullName , constructor , processConstructorParams , !!extend)}
+                    ${generate_constructor(fullName , constructor , !!extend)}
 
                     ${generate_methods(fullName , methods)}
 
@@ -131,7 +130,6 @@ class Meta extends FunctionMeta{
         {
             extend,
             extendSource,
-            processConstructorParams = false,
             constructor,
             staticMethods = [],
             staticProperties = {},
@@ -148,7 +146,7 @@ class Meta extends FunctionMeta{
 
         import_methods(imports , fullName , staticMethods , true) ;
 
-        import_constructor(imports , fullName , constructor , processConstructorParams) ;
+        import_constructor(imports , fullName , constructor) ;
 
         import_properties(imports , fullName , properties) ;
 
@@ -220,7 +218,7 @@ class Meta extends FunctionMeta{
     }
 }
 
-function import_constructor(imports , rootName , hasConstructor , processConstructorParams){
+function import_constructor(imports , rootName , hasConstructor){
 
     if(hasConstructor){
 
@@ -240,18 +238,10 @@ function import_constructor(imports , rootName , hasConstructor , processConstru
             scoped:true,
             target
         }) ;
-
-        if(processConstructorParams){
-
-            imports.push({
-                name:toCamelCase(`${target}.params`),
-                target:`${target}.params`
-            }) ;
-        }
     }
 }
 
-function generate_constructor(rootName , hasConstructor , processConstructorParams , hasExtend){
+function generate_constructor(rootName , hasConstructor , hasExtend){
 
     if(hasConstructor){
 
@@ -268,7 +258,12 @@ function generate_constructor(rootName , hasConstructor , processConstructorPara
 
         return `constructor(...args){
 
-            ${processConstructorParams ? `args = ${toCamelCase(`${name}.params`)}(args)` : ''}
+            const process_params = new.target.PROCESS_CONSTRUCTOR_PARAMS ;
+
+            if(process_params){
+
+                args = process_params(args) ;
+            }
 
             ${hasExtend ? 'super(...args)' : ''}
 
@@ -281,8 +276,6 @@ function generate_constructor(rootName , hasConstructor , processConstructorPara
 }
 
 function import_methods(imports , rootName , methods , isStatic = false){
-
-    let prefix = `${isStatic ? 'static_' : ''}method_` ;
 
     for(let method of methods){
 
