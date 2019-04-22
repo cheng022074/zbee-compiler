@@ -236,14 +236,15 @@ function import_constructor(imports , rootName , hasConstructor , processConstru
         }
 
         imports.push({
-            name:'constructor',
+            name:toCamelCase(target),
+            scoped:true,
             target
         }) ;
 
         if(processConstructorParams){
 
             imports.push({
-                name:'constructor_params',
+                name:toCamelCase(`${target}.params`),
                 target:`${target}.params`
             }) ;
         }
@@ -267,11 +268,11 @@ function generate_constructor(rootName , hasConstructor , processConstructorPara
 
         return `constructor(...args){
 
-            ${processConstructorParams ? `args = include('${name}.params')(args)` : ''}
+            ${processConstructorParams ? `args = ${toCamelCase(`${name}.params`)}(args)` : ''}
 
             ${hasExtend ? 'super(...args)' : ''}
 
-            include('${name}').apply(this , args) ;
+            ${toCamelCase(name)}(...args) ;
 
         }` ;
     }
@@ -302,7 +303,8 @@ function import_methods(imports , rootName , methods , isStatic = false){
         }
 
         imports.push({
-            name:`${prefix}${name}`,
+            name:toCamelCase(target),
+            scoped:true,
             target
         }) ;
     }
@@ -330,9 +332,9 @@ function generate_methods(rootName , methods , isStatic = false){
             impl = `${rootName}.${isStatic ? 'static.' : ''}${method}` ;
         }
 
-        result.push(`${isStatic ? 'static ' : ''}${name}(){
+        result.push(`${isStatic ? 'static ' : ''}${name}(...args){
 
-            return include('${impl}').apply(this , arguments) ;
+            return ${toCamelCase(impl)}(...args) ;
 
         }`) ;
     }
@@ -354,8 +356,7 @@ function import_extend(imports , extend , extendSource = 'zbee'){
 
 function import_properties(imports , rootName , properties , isStatic = false){
 
-    let prefix = `${isStatic ? 'static_' : ''}property_`,
-        names = Object.keys(properties);
+    let names = Object.keys(properties);
 
     for(let name of names){
 
@@ -402,7 +403,8 @@ function import_properties(imports , rootName , properties , isStatic = false){
         if(setter){
 
             imports.push({
-                name:`${prefix}${name}_set`,
+                name:toCamelCase(setter),
+                scoped:true,
                 target:setter
             }) ;
         }
@@ -410,7 +412,8 @@ function import_properties(imports , rootName , properties , isStatic = false){
         if(getter){
 
             imports.push({
-                name:`${prefix}${name}_get`,
+                name:toCamelCase(getter),
+                scoped:true,
                 target:getter
             }) ;
         }
@@ -467,7 +470,7 @@ function generate_properties(rootName , properties , isStatic = false){
 
             result.push(`${isStatic ? 'static ' : ''}set ${name}(value){
 
-                include('${setter}').call(this , value) ;
+                ${toCamelCase(setter)}(value) ;
     
             }`) ;
         }
@@ -476,7 +479,7 @@ function generate_properties(rootName , properties , isStatic = false){
 
             result.push(`${isStatic ? 'static ' : ''}get ${name}(){
 
-                return include('${getter}').call(this) ;
+                return ${toCamelCase(getter)}() ;
     
             }`) ;
         }
