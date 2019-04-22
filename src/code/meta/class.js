@@ -9,10 +9,7 @@ FunctionMeta = require('./script/function')(),
 } = require('../../is'),
 {
     defineProperties
-} = require('../../object'),
-{
-    toCamelCase
-} = require('../../name');
+} = require('../../object');
 
 class Meta extends FunctionMeta{
 
@@ -32,10 +29,11 @@ class Meta extends FunctionMeta{
 
     getRawBody(){
 
-        let {
+        let me = this,
+        {
             data,
             code
-        } = this,
+        } = me,
         {
             fullName
         } = code,
@@ -82,15 +80,15 @@ class Meta extends FunctionMeta{
                 ${extendCode}
                 return ${mainClassVariableName} = class ${extend ? 'extends extendTarget' : ''}{
 
-                    ${generate_methods(fullName , staticMethods , true)}
+                    ${generate_methods.call(me , fullName , staticMethods , true)}
 
-                    ${generate_properties(fullName , staticProperties , true)}
+                    ${generate_properties.call(me , fullName , staticProperties , true)}
 
-                    ${generate_constructor(fullName , constructor , !!extend)}
+                    ${generate_constructor.call(me , fullName , constructor , !!extend)}
 
-                    ${generate_methods(fullName , methods)}
+                    ${generate_methods.call(me , fullName , methods)}
 
-                    ${generate_properties(fullName , properties)}
+                    ${generate_properties.call(me , fullName , properties)}
                 }
 
             }
@@ -123,10 +121,11 @@ class Meta extends FunctionMeta{
 
         let
         imports = [],
+        me = this,
         {
             data,
             code
-        } = this,
+        } = me,
         {
             extend,
             extendSource,
@@ -140,17 +139,17 @@ class Meta extends FunctionMeta{
             fullName
         } = code;
 
-        import_extend(imports , extend , extendSource) ;
+        import_extend.call(me , imports , extend , extendSource) ;
 
-        import_properties(imports , fullName , staticProperties , true) ;
+        import_properties.call(me , imports , fullName , staticProperties , true) ;
 
-        import_methods(imports , fullName , staticMethods , true) ;
+        import_methods.call(me , imports , fullName , staticMethods , true) ;
 
-        import_constructor(imports , fullName , constructor) ;
+        import_constructor.call(me , imports , fullName , constructor) ;
 
-        import_properties(imports , fullName , properties) ;
+        import_properties.call(me , imports , fullName , properties) ;
 
-        import_methods(imports , fullName , methods) ;
+        import_methods.call(me , imports , fullName , methods) ;
 
         return imports ;
     }
@@ -226,7 +225,7 @@ function import_constructor(imports , rootName , hasConstructor){
 
         if(isString(hasConstructor)){
 
-            target = hasConstructor ;
+            target = this.getFullName(hasConstructor) ;
         
         }else{
 
@@ -234,8 +233,7 @@ function import_constructor(imports , rootName , hasConstructor){
         }
 
         imports.push({
-            name:toCamelCase(target),
-            scoped:true,
+            name:'constructor',
             target
         }) ;
     }
@@ -249,7 +247,7 @@ function generate_constructor(rootName , hasConstructor , hasExtend){
 
         if(isString(hasConstructor)){
 
-            name = hasConstructor ;
+            name = this.getFullName(hasConstructor) ;
         
         }else{
 
@@ -267,7 +265,7 @@ function generate_constructor(rootName , hasConstructor , hasExtend){
 
             ${hasExtend ? 'super(...args)' : ''}
 
-            ${toCamelCase(name)}(...args) ;
+            include('${name}').apply(this , args) ;
 
         }` ;
     }
@@ -286,7 +284,7 @@ function import_methods(imports , rootName , methods , isStatic = false){
 
             name = method.name ;
 
-            target = method.impl ;
+            target = this.getFullName(method.impl) ;
         
         }else{
 
@@ -296,8 +294,7 @@ function import_methods(imports , rootName , methods , isStatic = false){
         }
 
         imports.push({
-            name:toCamelCase(target),
-            scoped:true,
+            name:isStatic ? `static_method_${name}` : `method_${name}`,
             target
         }) ;
     }
@@ -316,7 +313,7 @@ function generate_methods(rootName , methods , isStatic = false){
 
             name = method.name ;
 
-            impl = method.impl ;
+            impl = this.getFullName(method.impl) ;
         
         }else{
 
@@ -327,7 +324,7 @@ function generate_methods(rootName , methods , isStatic = false){
 
         result.push(`${isStatic ? 'static ' : ''}${name}(...args){
 
-            return ${toCamelCase(impl)}(...args) ;
+            return include('${impl}').apply(this , args) ;
 
         }`) ;
     }
@@ -341,15 +338,16 @@ function import_extend(imports , extend , extendSource = 'zbee'){
     if(extend && extendSource === 'zbee'){
 
         imports.push({
-            name:toCamelCase(extend),
-            target:extend
+            name:'extend',
+            target:this.getFullName(extend)
         }) ;
     }
 }
 
 function import_properties(imports , rootName , properties , isStatic = false){
 
-    let names = Object.keys(properties);
+    let names = Object.keys(properties),
+        me = this;
 
     for(let name of names){
 
@@ -383,12 +381,12 @@ function import_properties(imports , rootName , properties , isStatic = false){
 
                     if(value.hasOwnProperty('set')){
 
-                        setter = value.set ;
+                        setter = me.getFullName(value.set) ;
                     }
 
                     if(value.hasOwnProperty('get')){
 
-                        getter = value.get ;
+                        getter = me.getFullName(value.get) ;
                     }
                 }
         }
@@ -396,8 +394,7 @@ function import_properties(imports , rootName , properties , isStatic = false){
         if(setter){
 
             imports.push({
-                name:toCamelCase(setter),
-                scoped:true,
+                name:isStatic ? `static_set_${name}` : `set_${name}`,
                 target:setter
             }) ;
         }
@@ -405,8 +402,7 @@ function import_properties(imports , rootName , properties , isStatic = false){
         if(getter){
 
             imports.push({
-                name:toCamelCase(getter),
-                scoped:true,
+                name:isStatic ? `static_get_${name}` : `get_${name}`,
                 target:getter
             }) ;
         }
@@ -417,7 +413,8 @@ function import_properties(imports , rootName , properties , isStatic = false){
 function generate_properties(rootName , properties , isStatic = false){
 
     let result = [],
-        names = Object.keys(properties);
+        names = Object.keys(properties),
+        me = this;
 
     for(let name of names){
 
@@ -449,12 +446,12 @@ function generate_properties(rootName , properties , isStatic = false){
 
                     if(value.hasOwnProperty('set')){
 
-                        setter = value.set ;
+                        setter = me.getFullName(value.set) ;
                     }
 
                     if(value.hasOwnProperty('get')){
 
-                        getter = value.get ;
+                        getter = me.getFullName(value.get) ;
                     }
                 }
         }
@@ -463,7 +460,7 @@ function generate_properties(rootName , properties , isStatic = false){
 
             result.push(`${isStatic ? 'static ' : ''}set ${name}(value){
 
-                ${toCamelCase(setter)}(value) ;
+                include('${setter}').call(this , value) ;
     
             }`) ;
         }
@@ -472,7 +469,7 @@ function generate_properties(rootName , properties , isStatic = false){
 
             result.push(`${isStatic ? 'static ' : ''}get ${name}(){
 
-                return ${toCamelCase(getter)}() ;
+                return include('${getter}').call(this) ;
     
             }`) ;
         }

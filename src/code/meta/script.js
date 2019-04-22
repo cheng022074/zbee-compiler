@@ -9,7 +9,10 @@ textCodeMetaImportScopedRe = /\s+scoped$/,
 textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*))?/,
 {
     toCamelCase
-} = require('../../name') ;
+} = require('../../name'),
+dotPrefixRe = /^\./,
+dobuleDotPrefixRe = /^(?:\.{2})+/,
+dotRe = /\./;
 
 module.exports = class extends Meta{
 
@@ -89,10 +92,10 @@ module.exports = class extends Meta{
         let textCodeMetaImportRe = /@import\s+([^\n\r]+)/g,
             match,
             imports = [],
+            me = this,
             {
-                header,
-                code
-            } = this;
+                header
+            } = me;
 
         while(match = textCodeMetaImportRe.exec(header)){
 
@@ -114,12 +117,14 @@ module.exports = class extends Meta{
                 ] = result ;
 
                 importConfig.name = name,
-                importConfig.target = get_target(target , code) ;
+                importConfig.target = me.getFullName(target) ;
 
             }else{
 
-                importConfig.name = toCamelCase(content),
-                importConfig.target = get_target(content , code) ;
+                let target = me.getFullName(content) ;
+
+                importConfig.name = toCamelCase(target),
+                importConfig.target = target ;
             }
 
             imports.push(importConfig) ;
@@ -127,41 +132,37 @@ module.exports = class extends Meta{
 
         return imports ;
     }
-}
 
-const
-dotPrefixRe = /^\./,
-dobuleDotPrefixRe = /^(?:\.{2})+/,
-dotRe = /\./;
-
-function get_target(name , {
-    fullName
-}){
-
-    let names = fullName.split(dotRe) ;
-
-    if(dobuleDotPrefixRe.test(name)){
-
-        let [
-            result
-        ] = name.match(dobuleDotPrefixRe),
-        count = result.length / 2;
-
-        for(let i = 0 ; i < count ; i ++){
-
+    getFullName(name){
+    
+        let {
+            fullName
+        } = this.code,
+        names = fullName.split(dotRe) ;
+    
+        if(dobuleDotPrefixRe.test(name)){
+    
+            let [
+                result
+            ] = name.match(dobuleDotPrefixRe),
+            count = result.length / 2;
+    
+            for(let i = 0 ; i < count ; i ++){
+    
+                names.pop() ;
+            }
+    
+            return `${names.join('.')}${name.replace(dobuleDotPrefixRe , '.')}` ;
+        
+        }else if(dotPrefixRe.test(name)){
+    
             names.pop() ;
+    
+            return `${names.join('.')}${name}` ;
+        
         }
-
-        return `${names.join('.')}${name.replace(dobuleDotPrefixRe , '.')}` ;
     
-    }else if(dotPrefixRe.test(name)){
-
-        names.pop() ;
-
-        return `${names.join('.')}${name}` ;
-    
+        return name ;
     }
-
-    return name ;
 }
 
