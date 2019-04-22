@@ -40,7 +40,6 @@ class Meta extends FunctionMeta{
         {
             constructor,
             extend,
-            extendSource = 'zbee',
             staticMethods = [],
             staticProperties = {},
             methods = [],
@@ -49,19 +48,12 @@ class Meta extends FunctionMeta{
         extendCode = '';
 
         if(extend){
+    
+            extendCode = `const extendTarget = include('${me.getFullName(extend)}');` ;
+            
+        }else{
 
-            switch(extendSource){
-
-                case 'node':
-    
-                    extendCode = `const extendTarget = require('${extend}');` ;
-    
-                    break;
-    
-                case 'zbee':
-    
-                    extendCode = `const extendTarget = include('${extend}')();` ;
-            }
+            extendCode = "const extendTarget = include('class.empty') ;" ;
         }
 
         let mainClassVariableName = `main_class_${Date.now()}` ;
@@ -78,13 +70,13 @@ class Meta extends FunctionMeta{
                 }
 
                 ${extendCode}
-                return ${mainClassVariableName} = class ${extend ? 'extends extendTarget' : ''}{
+                return ${mainClassVariableName} = class extends extendTarget{
 
                     ${generate_methods.call(me , fullName , staticMethods , true)}
 
                     ${generate_properties.call(me , fullName , staticProperties , true)}
 
-                    ${generate_constructor.call(me , fullName , constructor , !!extend)}
+                    ${generate_constructor.call(me , fullName , constructor)}
 
                     ${generate_methods.call(me , fullName , methods)}
 
@@ -120,7 +112,10 @@ class Meta extends FunctionMeta{
     getImports(){
 
         let
-        imports = [],
+        imports = [{
+            name:'class_empty',
+            target:'class.empty'
+        }],
         me = this,
         {
             data,
@@ -128,7 +123,6 @@ class Meta extends FunctionMeta{
         } = me,
         {
             extend,
-            extendSource,
             constructor,
             staticMethods = [],
             staticProperties = {},
@@ -139,7 +133,7 @@ class Meta extends FunctionMeta{
             fullName
         } = code;
 
-        import_extend.call(me , imports , extend , extendSource) ;
+        import_extend.call(me , imports , extend) ;
 
         import_properties.call(me , imports , fullName , staticProperties , true) ;
 
@@ -239,7 +233,7 @@ function import_constructor(imports , rootName , hasConstructor){
     }
 }
 
-function generate_constructor(rootName , hasConstructor , hasExtend){
+function generate_constructor(rootName , hasConstructor){
 
     if(hasConstructor){
 
@@ -256,14 +250,7 @@ function generate_constructor(rootName , hasConstructor , hasExtend){
 
         return `constructor(...args){
 
-            const process_params = new.target.PROCESS_CONSTRUCTOR_PARAMS ;
-
-            if(process_params){
-
-                args = process_params(args) ;
-            }
-
-            ${hasExtend ? 'super(...args)' : ''}
+            super(...args) ;
 
             include('${name}').apply(this , args) ;
 
@@ -333,9 +320,9 @@ function generate_methods(rootName , methods , isStatic = false){
 
 }
 
-function import_extend(imports , extend , extendSource = 'zbee'){
+function import_extend(imports , extend){
 
-    if(extend && extendSource === 'zbee'){
+    if(extend){
 
         imports.push({
             name:'extend',

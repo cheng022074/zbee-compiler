@@ -52,7 +52,7 @@ module.exports = class {
                     name
                 } = id ;
 
-                if(name === 'main' && type === 'FunctionDeclaration'){
+                if(name === 'main'){
             
                     return true ;
                 }

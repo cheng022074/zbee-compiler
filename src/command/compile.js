@@ -24,7 +24,7 @@ module.exports = name =>{
     if(code){
 
         compile(code) ;
-
+        
         let {
             importAllSourceCodes
         } = code ;

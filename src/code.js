@@ -605,6 +605,16 @@ class SourceCode extends Code{
         return APPLICATION.getPath(folder , name , config_keys('code.source' , `${folder}.suffixes`)) ;
     }
 
+    getFilePath(suffix){
+
+        let {
+            name,
+            folder
+        } = this ;
+
+        return join(APPLICATION.getFolderPath(folder) , toPath(name , suffix)) ;
+    }
+
     get suffix(){
 
         let {
