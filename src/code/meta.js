@@ -29,7 +29,8 @@ class Meta{
             'configs',
             'params',
             'returnTypes',
-            'hasMain'
+            'hasMain',
+            'isMainClass'
         ] ;
     }
 
@@ -63,6 +64,11 @@ class Meta{
     getHasMain(){
 
         return this.body.hasMain ;
+    }
+
+    getIsMainClass(){
+
+        return this.body.isMainClass ;
     }
 
     getIsAsync(){
@@ -211,7 +217,14 @@ class Meta{
             result.add(name) ;
         }
 
-        return `let ${Array.from(result).join(',')};` ;
+        result = Array.from(result) ;
+
+        if(result.length){
+
+            return `let ${result.join(',')};` ;
+        }
+
+        return '' ;
     }
 
     get fragmentImportAllCodeScopedAssignment(){

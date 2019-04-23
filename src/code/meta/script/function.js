@@ -220,8 +220,6 @@ class FunctionMeta extends ScriptMeta{
 
         let {
             body,
-            imports,
-            configs,
             hasMain,
             isClass,
             isMainClass,
@@ -237,116 +235,132 @@ class FunctionMeta extends ScriptMeta{
 
         body = body.toString() ;
 
-        if(imports.length === 0 && configs.length === 0){
+        let time = Date.now(),
+            initLockedVariableName = `var_init_locked_${time}`,
+            onceVariableName = `var_once_value_${time}`;
 
-            if(hasMain){
+        if(!hasMain || hasMain && !isMainClass){
 
-                code = `(() =>{
+            let currentScopeVariableName = `var_current_scope_${time}`;
 
-                    ${body}
-    
-                    return main ;
-    
-                })()` ;
-            
-            }else{
+            code = `(() =>{
 
-                code = `${isAsync ? 'async ' : ''}function(${paramFullNames}){
+                ${fragmentImportAllCodeDefinition}
 
-                    ${body}
-    
-                }` ;
-            }
+                ${generate_var(initLockedVariableName , fragmentImportAllCodeDefinition)}
+
+                ${generate_var(currentScopeVariableName , fragmentImportAllCodeScopedAssignment)}
+
+                ${generate_var(onceVariableName , isOnce)}
+
+                ${generate_body(body , hasMain , paramNames , isAsync)}
+
+                return ${isAsync ? 'async ' : ''}function(${paramFullNames}){
+
+                    ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
+
+                    ${generate_scoped_code(currentScopeVariableName , fragmentImportAllCodeScopedAssignment)}
+
+                    ${generate_once_code(isOnce , onceVariableName , `${isAsync ? 'await ' : ''}main.call(this ${paramNames ? `, ${paramNames}` : ''})`)}
+                } ;
+
+            })()` ;
         
         }else{
 
-            let time = Date.now(),
-                initLockedVariableName = `var_init_locked_${time}`,
-                onceVariableName = `var_once_value_${time}`;
+            code = `(() =>{
 
-            if(!hasMain || hasMain && !isMainClass){
+                ${fragmentImportAllCodeDefinition}
 
-                let currentScopeVariableName = `var_current_scope_${time}`;
+                ${generate_var(initLockedVariableName , fragmentImportAllCodeDefinition)}
 
-                code = `(() =>{
+                return function(${!isClass ? paramFullNames : ''}){
 
-                    ${fragmentImportAllCodeDefinition}
+                    ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
 
-                    let ${initLockedVariableName} = false,
-                        ${currentScopeVariableName};
+                    ${generate_return_main_class(isOnce , onceVariableName , isClass , paramNames)}
+                } ;
 
-                    ${isOnce ? `let ${onceVariableName};` : ''}
-
-                    ${generate_body(body , hasMain , paramNames , isAsync)}
-
-                    return ${isAsync ? 'async ' : ''}function(${paramFullNames}){
-
-                        if(!${initLockedVariableName}){
-
-                            ${fragmentImportAllCodeAssignment}
-
-                            ${initLockedVariableName} = true ;
-                        }
-
-                        if(${currentScopeVariableName} !== this){
-
-                            ${fragmentImportAllCodeScopedAssignment}
-
-                            ${currentScopeVariableName} = this ;
-                        }
-
-                        ${isOnce ? `if(${onceVariableName}){
-
-                            return ${onceVariableName} ;
-
-                        }` : ''}
-
-                        return ${isOnce ? `${onceVariableName} = ` : ''}${isAsync ? 'await ' : ''}main.call(this ${paramNames ? `, ${paramNames}` : ''}) ;
-                    } ;
-
-                })()` ;
-            
-            }else{
-
-                code = `(() =>{
-
-                    ${fragmentImportAllCodeDefinition}
-
-                    let ${initLockedVariableName} = false;
-
-                    return function(${paramFullNames}){
-
-                        if(!${initLockedVariableName}){
-
-                            ${fragmentImportAllCodeAssignment}
-
-                            ${initLockedVariableName} = true ;
-                        }
-
-                        ${generate_return_main_class(onceVariableName , isOnce , isClass , paramNames)}
-                    } ;
-
-                })()` ;
-            }
+            })()` ;
         }
 
         return code ;
     }
 }
 
-function generate_return_main_class(onceVariableName , isOnce , isClass , paramNames){
+function generate_var(varName , code){
+
+    if(code){
+
+        return `let ${varName};` ;
+    }
+
+    return '' ;
+}
+
+function generate_once_code(isOnce , varName , code){
 
     if(isOnce){
 
         return `
-        if(${onceVariableName}){
+        if(${varName}){
 
-            return ${onceVariableName} ;
+            return ${varName} ;
+
+        }
+        return ${varName} = ${code} ;
+        ` ;
+    }
+
+    return `return ${code} ;` ;
+}
+
+function generate_scoped_code(varName , code){
+
+    if(code){
+
+        return  `
+        if(!${varName} !== this){
+
+            ${code}
+
+            ${varName} = this ;
+        }
+        `;
+    }
+
+    return '' ;
+}
+
+function generate_init_code(varName , code){
+
+    if(code){
+
+        return  `
+        if(!${varName}){
+
+            ${code}
+
+            ${varName} = true ;
+        }
+        `;
+    }
+
+    return '' ;
+}
+
+function generate_return_main_class(isOnce , varName , isClass , paramNames){
+
+    if(isOnce){
+
+        return `
+        if(${varName}){
+
+            return ${varName} ;
 
         }
 
-        return ${onceVariableName} = new main(${paramNames ? paramNames : ''}) ;
-
+        return ${varName} = new main(${paramNames ? paramNames : ''}) ;
         ` ;
     }
 
