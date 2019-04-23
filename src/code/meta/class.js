@@ -31,12 +31,8 @@ class Meta extends FunctionMeta{
 
         let me = this,
         {
-            data,
-            code
+            data
         } = me,
-        {
-            fullName
-        } = code,
         {
             constructor,
             extend,
