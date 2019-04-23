@@ -268,19 +268,23 @@ class FunctionMeta extends ScriptMeta{
         
         }else{
 
+            let classVariableNames = `var_class_${time}`;
+
             code = `(() =>{
 
                 ${fragmentImportAllCodeDefinition}
 
                 ${generate_var(initLockedVariableName , fragmentImportAllCodeDefinition)}
 
-                return function(${!isClass ? paramFullNames : ''}){
+                ${generate_var(classVariableNames , true)}
+
+                return function(){
 
                     ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
 
-                    ${body}
+                    ${generate_class_code(classVariableNames , body)}
 
-                    ${generate_return_main_class(isOnce , onceVariableName , isClass , paramNames)}
+                    ${generate_return_main_class(isOnce , isClass , onceVariableName , classVariableNames)}
                 } ;
 
             })()` ;
@@ -351,27 +355,44 @@ function generate_init_code(varName , code){
     return '' ;
 }
 
-function generate_return_main_class(isOnce , varName , isClass , paramNames){
+function generate_class_code(varName , code){
+
+    if(code){
+
+        return  `
+        if(!${varName}){
+
+            ${code}
+
+            ${varName} = main ;
+        }
+        `;
+    }
+
+    return '' ;
+}
+
+function generate_return_main_class(isOnce , isClass , onceVarName , classVarName){
 
     if(isOnce){
 
         return `
-        if(${varName}){
+        if(${onceVarName}){
 
-            return ${varName} ;
+            return ${onceVarName} ;
 
         }
 
-        return ${varName} = new main(${paramNames ? paramNames : ''}) ;
+        return ${onceVarName} = new ${classVarName}(...arguments) ;
         ` ;
     }
 
     if(isClass){
 
-        return 'return main;' ;
+        return `return ${classVarName};` ;
     }
 
-    return `return new main(${paramNames ? paramNames : ''});`
+    return `return new ${classVarName}(...arguments);`
 }
 
 function generate_body(body , hasMain , paramNames , isAsync){

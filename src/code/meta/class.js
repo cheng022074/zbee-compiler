@@ -50,13 +50,13 @@ class Meta extends FunctionMeta{
 
             ${generate_methods(staticMethods , true)}
 
-            ${generate_properties.call(me , fullName , staticProperties , true)}
+            ${generate_properties(staticProperties , true)}
 
             ${generate_constructor(constructor , extend)}
 
             ${generate_methods(methods)}
 
-            ${generate_properties.call(me , fullName , properties)}
+            ${generate_properties(properties)}
 
         }` ;
     }
@@ -81,6 +81,11 @@ class Meta extends FunctionMeta{
     getIsClass(){
 
         return this.data.class === true ;
+    }
+
+    getParams(){
+
+        return [] ;
     }
 
     getImports(){
@@ -179,7 +184,7 @@ function import_methods(imports , rootName , methods , isStatic = false){
         }
 
         imports.push({
-            name: `${isStatic ? 'static' : ''}_method_${name}`,
+            name: `${isStatic ? 'static_' : ''}method_${name}`,
             target
         }) ;
     }
@@ -204,7 +209,7 @@ function generate_methods(methods , isStatic = false){
 
         result.push(`${isStatic ? 'static ' : ''}${name}(...args){
 
-            return ${`${isStatic ? 'static' : ''}_method_${name}`}.apply(this , args) ;
+            return ${`${isStatic ? 'static_' : ''}method_${name}`}.apply(this , args) ;
 
         }`) ;
     }
@@ -218,7 +223,7 @@ function import_extend(imports , extend){
     if(extend){
 
         imports.push({
-            name:'Extend',
+            name:'extend',
             value:true,
             target:this.getFullName(extend)
         }) ;
@@ -275,7 +280,7 @@ function import_properties(imports , rootName , properties , isStatic = false){
         if(setter){
 
             imports.push({
-                name:`${isStatic ? 'static' : ''}_set_${name}`,
+                name:`${isStatic ? 'static_' : ''}set_${name}`,
                 target:setter
             }) ;
         }
@@ -283,7 +288,7 @@ function import_properties(imports , rootName , properties , isStatic = false){
         if(getter){
 
             imports.push({
-                name:`${isStatic ? 'static' : ''}_get_${name}`,
+                name:`${isStatic ? 'static_' : ''}get_${name}`,
                 target:getter
             }) ;
         }
@@ -345,7 +350,7 @@ function generate_properties(properties , isStatic = false){
 
             result.push(`${isStatic ? 'static ' : ''}set ${name}(value){
 
-                ${`${isStatic ? 'static' : ''}_set_${name}`}.call(this , value) ;
+                ${`${isStatic ? 'static_' : ''}set_${name}`}.call(this , value) ;
     
             }`) ;
         }
@@ -354,7 +359,7 @@ function generate_properties(properties , isStatic = false){
 
             result.push(`${isStatic ? 'static ' : ''}get ${name}(){
 
-                return ${`${isStatic ? 'static' : ''}_get_${name}`}.call(this) ;
+                return ${`${isStatic ? 'static_' : ''}get_${name}`}.call(this) ;
     
             }`) ;
         }
