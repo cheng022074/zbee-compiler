@@ -278,6 +278,8 @@ class FunctionMeta extends ScriptMeta{
 
                     ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
 
+                    ${body}
+
                     ${generate_return_main_class(isOnce , onceVariableName , isClass , paramNames)}
                 } ;
 

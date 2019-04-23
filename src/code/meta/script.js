@@ -6,6 +6,7 @@ textCodeMetaRe = /\/\*(?:.|[^.])+?\*\//,
 } = require('../../fs'),
 textCodeMetaAliasImportRe = /(\w+)\s+from\s+((?:(?:\w+\:{2})?\w+(?:\.\w+)*)|(\.*(?:\.\w+)+))/,
 textCodeMetaImportScopedRe = /\s+scoped$/,
+textCodeMetaImportValueRe = /\s+value$/,
 textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*))?/,
 {
     toCamelCase
@@ -100,11 +101,21 @@ module.exports = class extends Meta{
         while(match = textCodeMetaImportRe.exec(header)){
 
             let content = match[1].trim(),
-                importConfig = {};
+                importConfig = {},
+                scoped = importConfig.scoped = textCodeMetaImportScopedRe.test(content);
 
-            importConfig.scoped = textCodeMetaImportScopedRe.test(content) ;
+            if(scoped){
 
-            content = content.replace(textCodeMetaImportScopedRe , '') ;
+                content = content.replace(textCodeMetaImportScopedRe , '') ;
+
+                importConfig.value = false ;
+
+            }else{
+
+                importConfig.value = textCodeMetaImportValueRe.test(content) ;
+
+                content = content.replace(textCodeMetaImportValueRe , '') ;
+            }
 
             let result = content.match(textCodeMetaAliasImportRe);
 

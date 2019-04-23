@@ -251,6 +251,7 @@ class Meta{
         return result.join('\n') ;
     }
 
+
     get fragmentImportAllCodeAssignment(){
 
         let result = [],
@@ -262,12 +263,20 @@ class Meta{
         for(let {
             name,
             target,
-            scoped
+            scoped,
+            value
         } of imports){
 
             if(!scoped){
 
-                result.push(`${name} = include('${target}');`) ;
+                if(value){
+
+                    result.push(`${name} = include('${target}')();`) ;
+                
+                }else{
+
+                    result.push(`${name} = include('${target}');`) ;
+                }
             }
 
         }
