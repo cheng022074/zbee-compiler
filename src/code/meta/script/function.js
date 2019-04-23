@@ -3,13 +3,11 @@ ScriptMeta = require('../script'),
 Param = require('./function/param'),
 returnTypeRe = /@return\s+\{([^\{\}]+)\}/,
 textCodeMetaOnceRe = /@once/,
+textCodeMetaClassRe = /@class/,
 getDataTypes = require('../datatypes'),
 {
-    defineProperty
-} = require('../../../object'),
-{
-    match:string_match
-} = require('../../../regexp');
+    defineProperties
+} = require('../../../object');
 
 class FunctionMeta extends ScriptMeta{
 
@@ -17,7 +15,10 @@ class FunctionMeta extends ScriptMeta{
 
         super(code) ;
 
-        defineProperty(this , 'isOnce') ;
+        defineProperties(this , [
+            'isOnce',
+            'isClass'
+        ]) ;
     }
 
     getReturnTypes(){
@@ -43,6 +44,15 @@ class FunctionMeta extends ScriptMeta{
         } = this ;
 
         return textCodeMetaOnceRe.test(header) ;
+    }
+
+    getIsClass(){
+
+        let {
+            header
+        } = this ;
+
+        return textCodeMetaClassRe.test(header) ;
     }
 
     getParams(){
@@ -213,6 +223,8 @@ class FunctionMeta extends ScriptMeta{
             imports,
             configs,
             hasMain,
+            isClass,
+            isMainClass,
             paramNames,
             paramFullNames,
             fragmentImportAllCodeDefinition,
@@ -248,71 +260,102 @@ class FunctionMeta extends ScriptMeta{
         
         }else{
 
-            let initLockedVariableName = `var_init_locked_${Date.now()}`,
-                currentScopeVariableName = `var_current_scope_${Date.now()}`;
-
-            code = `(() =>{
-
-                ${fragmentImportAllCodeDefinition}
-
-                let ${initLockedVariableName} = false,
-                    ${currentScopeVariableName};
-
-                ${generate_body(body , hasMain , paramNames , isAsync)}
-
-                return ${isAsync ? 'async ' : ''}function(${paramFullNames}){
-
-                    if(!${initLockedVariableName}){
-
-                        ${fragmentImportAllCodeAssignment}
-
-                        ${initLockedVariableName} = true ;
-                    }
-
-                    if(${currentScopeVariableName} !== this){
-
-                        ${fragmentImportAllCodeScopedAssignment}
-
-                        ${currentScopeVariableName} = this ;
-                    }
-
-                    return ${isAsync ? 'await ' : ''}main.call(this ${paramNames ? `, ${paramNames}` : ''}) ;
-                } ;
-
-            })()` ;
-        }
-
-        if(isOnce){
-
             let time = Date.now(),
-                onceLockedVariableName = `var_once_locked_${time}`,
-                onceValueVariableName = `var_once_value_${time}`;
+                initLockedVariableName = `var_init_locked_${time}`,
+                onceVariableName = `var_once_value_${time}`;
 
-            return `(() =>{
+            if(!hasMain || hasMain && !isMainClass){
 
-                const main = ${code} ;
+                let currentScopeVariableName = `var_current_scope_${time}`;
 
-                let ${onceLockedVariableName} = false,
-                    ${onceValueVariableName};
+                code = `(() =>{
 
-                return ${isAsync ? 'async ' : ''}function(){
+                    ${fragmentImportAllCodeDefinition}
 
-                    if(!${onceLockedVariableName}){
+                    let ${initLockedVariableName} = false,
+                        ${currentScopeVariableName};
 
-                        ${onceValueVariableName} = ${isAsync ? 'await ' : ''}main.apply(this , arguments) ;
+                    ${isOnce ? `let ${onceVariableName};` : ''}
 
-                        ${onceLockedVariableName} = true ;
-                    }
+                    ${generate_body(body , hasMain , paramNames , isAsync)}
 
-                    return ${onceValueVariableName} ;
-                } ;
+                    return ${isAsync ? 'async ' : ''}function(${paramFullNames}){
 
-            })()` ;
+                        if(!${initLockedVariableName}){
 
+                            ${fragmentImportAllCodeAssignment}
+
+                            ${initLockedVariableName} = true ;
+                        }
+
+                        if(${currentScopeVariableName} !== this){
+
+                            ${fragmentImportAllCodeScopedAssignment}
+
+                            ${currentScopeVariableName} = this ;
+                        }
+
+                        ${isOnce ? `if(${onceVariableName}){
+
+                            return ${onceVariableName} ;
+
+                        }` : ''}
+
+                        return ${isOnce ? `${onceVariableName} = ` : ''}${isAsync ? 'await ' : ''}main.call(this ${paramNames ? `, ${paramNames}` : ''}) ;
+                    } ;
+
+                })()` ;
+            
+            }else{
+
+                code = `(() =>{
+
+                    ${fragmentImportAllCodeDefinition}
+
+                    let ${initLockedVariableName} = false;
+
+                    return function(${paramFullNames}){
+
+                        if(!${initLockedVariableName}){
+
+                            ${fragmentImportAllCodeAssignment}
+
+                            ${initLockedVariableName} = true ;
+                        }
+
+                        ${generate_return_main_class(onceVariableName , isOnce , isClass , paramNames)}
+                    } ;
+
+                })()` ;
+            }
         }
 
         return code ;
     }
+}
+
+function generate_return_main_class(onceVariableName , isOnce , isClass , paramNames){
+
+    if(isOnce){
+
+        return `
+        if(${onceVariableName}){
+
+            return ${onceVariableName} ;
+
+        }
+
+        return ${onceVariableName} = new main(${paramNames ? paramNames : ''}) ;
+
+        ` ;
+    }
+
+    if(isClass){
+
+        return 'return main;' ;
+    }
+
+    return `return new main(${paramNames ? paramNames : ''});`
 }
 
 function generate_body(body , hasMain , paramNames , isAsync){

@@ -6,6 +6,35 @@ const {
     defineProperties
 } = require('../../object');
 
+function getMain(){
+
+    let
+    me = this,
+    {
+        body:items
+    } = me.data.program;
+
+    for(let item of items){
+
+        let {
+            id,
+            type
+        } = item ;
+
+        if(id){
+
+            let {
+                name
+            } = id ;
+
+            if(name === 'main' && (type === 'FunctionDeclaration' || type === 'ClassDeclaration')){
+        
+                return item ;
+            }
+        }
+    }
+}
+
 module.exports = class {
 
     constructor(meta){
@@ -21,8 +50,11 @@ module.exports = class {
 
         defineProperties(me , [
             'hasMain',
+            'isMainClass',
             'isAsync'
         ]) ;
+
+        me.$main = getMain.call(me) ;
     }
 
     toString(){
@@ -30,36 +62,27 @@ module.exports = class {
         return this.rawData ;
     }
 
+    getIsMainClass(){
+
+        let {
+            $main:main
+        } = this ;
+
+        if(main){
+
+            let {
+                type
+            } = main ;
+
+            return type === 'ClassDeclaration' ;
+        }
+
+        return false ;
+    }
 
     getHasMain(){
 
-        let
-        me = this,
-        {
-            data
-        } = me;
-
-        data = data.program.body ;
-
-        for(let {
-            type,
-            id
-        } of data){
-
-            if(id){
-
-                let {
-                    name
-                } = id ;
-
-                if(name === 'main'){
-            
-                    return true ;
-                }
-            }
-        }
-    
-        return false ;
+        return !!this.$main ;
     }
 
     getIsAsync(){
@@ -67,31 +90,20 @@ module.exports = class {
         let
         me = this,
         {
-            hasMain,
+            $main:main,
             data
         } = me ;
 
-        if(hasMain){
+        if(main){
 
-            data = data.program.body ;
+            let {
+                async,
+                type
+            } = main ;
 
-            for(let {
-                type,
-                async:isAsync,
-                id
-            } of data){
+            if(type === 'FunctionDeclaration'){
 
-                if(id){
-
-                    let {
-                        name
-                    } = id ;
-            
-                    if(name === 'main' && type === 'FunctionDeclaration'){
-            
-                        return isAsync ;
-                    }
-                }
+                return async ;
             }
 
             return false ;
