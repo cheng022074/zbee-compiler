@@ -44,47 +44,21 @@ class Meta extends FunctionMeta{
             staticProperties = {},
             methods = [],
             properties = {}
-        } = data,
-        extendCode = '';
+        } = data;
 
-        if(extend){
-    
-            extendCode = `const extendTarget = include('${me.getFullName(extend)}');` ;
-            
-        }else{
+        return `class main ${extend ? 'extends extend' : ''}{
 
-            extendCode = "const extendTarget = include('class.empty') ;" ;
-        }
+            ${generate_methods(staticMethods , true)}
 
-        let mainClassVariableName = `main_class_${Date.now()}` ;
+            ${generate_properties.call(me , fullName , staticProperties , true)}
 
-        return `
+            ${generate_constructor(constructor , extend)}
 
-            let ${mainClassVariableName} ;
+            ${generate_methods(methods)}
 
-            function getMainClass(){
+            ${generate_properties.call(me , fullName , properties)}
 
-                if(${mainClassVariableName}){
-
-                    return ${mainClassVariableName} ;
-                }
-
-                ${extendCode}
-                return ${mainClassVariableName} = class extends extendTarget{
-
-                    ${generate_methods.call(me , fullName , staticMethods , true)}
-
-                    ${generate_properties.call(me , fullName , staticProperties , true)}
-
-                    ${generate_constructor.call(me , fullName , constructor)}
-
-                    ${generate_methods.call(me , fullName , methods)}
-
-                    ${generate_properties.call(me , fullName , properties)}
-                }
-
-            }
-        ` ;
+        }` ;
     }
 
     getIsOnce(){
@@ -112,10 +86,7 @@ class Meta extends FunctionMeta{
     getImports(){
 
         let
-        imports = [{
-            name:'class_empty',
-            target:'class.empty'
-        }],
+        imports = [],
         me = this,
         {
             data,
@@ -147,68 +118,6 @@ class Meta extends FunctionMeta{
 
         return imports ;
     }
-
-    getParams(){
-
-        return [] ;
-    }
-
-    toString(){
-
-        let {
-            body,
-            isOnce,
-            isClass
-        } = this;
-
-        body = body.toString() ;
-
-        if(isOnce){
-
-            return `(() =>{
-
-                ${body}
-
-                let target ;
-    
-                return () =>{
-
-                    if(!target){
-    
-                        return target = new (getMainClass())() ;
-
-                    }
-
-                    return target ;
-                }
-    
-            })()` ;
-
-        }else if(isClass){
-
-            return `(() =>{
-
-                ${body}
-    
-                return () =>{
-    
-                    return getMainClass() ;
-                }
-    
-            })()` ;
-        }
-
-        return `(() =>{
-
-            ${body}
-
-            return (...args) =>{
-
-                return new (getMainClass())(...args) ;
-            }
-
-        })()` ;
-    }
 }
 
 function import_constructor(imports , rootName , hasConstructor){
@@ -233,26 +142,15 @@ function import_constructor(imports , rootName , hasConstructor){
     }
 }
 
-function generate_constructor(rootName , hasConstructor){
+function generate_constructor(hasConstructor , isExtend){
 
     if(hasConstructor){
 
-        let name ;
-
-        if(isString(hasConstructor)){
-
-            name = this.getFullName(hasConstructor) ;
-        
-        }else{
-
-            name = `${rootName}.constructor` ;
-        }
-
         return `constructor(...args){
 
-            super(...args) ;
+            ${isExtend ? 'super(...args) ;' : ''}
 
-            include('${name}').apply(this , args) ;
+            constructor.apply(this , args) ;
 
         }` ;
     }
@@ -281,37 +179,32 @@ function import_methods(imports , rootName , methods , isStatic = false){
         }
 
         imports.push({
-            name:isStatic ? `static_method_${name}` : `method_${name}`,
+            name: `${isStatic ? 'static' : ''}_method_${name}`,
             target
         }) ;
     }
 }
 
-function generate_methods(rootName , methods , isStatic = false){
+function generate_methods(methods , isStatic = false){
 
     let result = [] ;
 
     for(let method of methods){
 
-        let name,
-            impl;
+        let name;
 
         if(isObject(method)){
 
             name = method.name ;
-
-            impl = this.getFullName(method.impl) ;
         
         }else{
 
             name = method ;
-
-            impl = `${rootName}.${isStatic ? 'static.' : ''}${method}` ;
         }
 
         result.push(`${isStatic ? 'static ' : ''}${name}(...args){
 
-            return include('${impl}').apply(this , args) ;
+            return ${`${isStatic ? 'static' : ''}_method_${name}`}.apply(this , args) ;
 
         }`) ;
     }
@@ -325,7 +218,8 @@ function import_extend(imports , extend){
     if(extend){
 
         imports.push({
-            name:'extend',
+            name:'Extend',
+            value:true,
             target:this.getFullName(extend)
         }) ;
     }
@@ -381,7 +275,7 @@ function import_properties(imports , rootName , properties , isStatic = false){
         if(setter){
 
             imports.push({
-                name:isStatic ? `static_set_${name}` : `set_${name}`,
+                name:`${isStatic ? 'static' : ''}_set_${name}`,
                 target:setter
             }) ;
         }
@@ -389,7 +283,7 @@ function import_properties(imports , rootName , properties , isStatic = false){
         if(getter){
 
             imports.push({
-                name:isStatic ? `static_get_${name}` : `get_${name}`,
+                name:`${isStatic ? 'static' : ''}_get_${name}`,
                 target:getter
             }) ;
         }
@@ -397,7 +291,7 @@ function import_properties(imports , rootName , properties , isStatic = false){
 
 }
 
-function generate_properties(rootName , properties , isStatic = false){
+function generate_properties(properties , isStatic = false){
 
     let result = [],
         names = Object.keys(properties),
@@ -406,39 +300,43 @@ function generate_properties(rootName , properties , isStatic = false){
     for(let name of names){
 
         let value = properties[name],
-            getter = `${rootName}.${isStatic ? 'static.' : ''}${name}.get`,
-            setter = `${rootName}.${isStatic ? 'static.' : ''}${name}.set`;
+            getter = false,
+            setter = false;
 
         switch(value){
 
             case true:
 
+                getter = true ;
+
+                setter = true ;
+
                 break ;
 
             case 'get':
 
-                setter = false ;
+                getter = true ;
 
                 break ;
 
             case 'set':
 
-                getter = false ;
+                setter = true ;
+
+                break ;
 
             default:
 
                 if(isObject(value)){
 
-                    setter = getter = null ;
-
                     if(value.hasOwnProperty('set')){
 
-                        setter = me.getFullName(value.set) ;
+                        setter = true ;
                     }
 
                     if(value.hasOwnProperty('get')){
 
-                        getter = me.getFullName(value.get) ;
+                        getter = true ;
                     }
                 }
         }
@@ -447,7 +345,7 @@ function generate_properties(rootName , properties , isStatic = false){
 
             result.push(`${isStatic ? 'static ' : ''}set ${name}(value){
 
-                include('${setter}').call(this , value) ;
+                ${`${isStatic ? 'static' : ''}_set_${name}`}.call(this , value) ;
     
             }`) ;
         }
@@ -456,7 +354,7 @@ function generate_properties(rootName , properties , isStatic = false){
 
             result.push(`${isStatic ? 'static ' : ''}get ${name}(){
 
-                return include('${getter}').call(this) ;
+                return ${`${isStatic ? 'static' : ''}_get_${name}`}.call(this) ;
     
             }`) ;
         }
