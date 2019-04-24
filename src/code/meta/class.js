@@ -9,7 +9,8 @@ FunctionMeta = require('./script/function')(),
 } = require('../../is'),
 {
     defineProperties
-} = require('../../object');
+} = require('../../object'),
+getParams = require('./script/function/params');
 
 class Meta extends FunctionMeta{
 
@@ -81,7 +82,18 @@ class Meta extends FunctionMeta{
 
     getParams(){
 
-        return [] ;
+        let me = this,
+        {
+            isClass,
+            data
+        } = me ;
+
+        if(isClass){
+
+            return [] ;
+        }
+
+        return getParams(data.params) ;
     }
 
     getImports(){

@@ -288,13 +288,13 @@ class FunctionMeta extends ScriptMeta{
 
                 ${generate_var(classVariableNames , true)}
 
-                return function(){
+                return function(${isClass ? '' : paramFullNames}){
 
                     ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
 
                     ${generate_class_code(classVariableNames , body)}
 
-                    ${generate_return_main_class(isOnce , isClass , onceVariableName , classVariableNames)}
+                    ${generate_return_main_class(isOnce , isClass , onceVariableName , classVariableNames , paramNames)}
                 } ;
 
             })()` ;
@@ -382,7 +382,7 @@ function generate_class_code(varName , code){
     return '' ;
 }
 
-function generate_return_main_class(isOnce , isClass , onceVarName , classVarName){
+function generate_return_main_class(isOnce , isClass , onceVarName , classVarName , paramNames){
 
     if(isOnce){
 
@@ -393,7 +393,7 @@ function generate_return_main_class(isOnce , isClass , onceVarName , classVarNam
 
         }
 
-        return ${onceVarName} = new ${classVarName}(...arguments) ;
+        return ${onceVarName} = new ${classVarName}(${paramNames ? paramNames : ''}) ;
         ` ;
     }
 
@@ -402,7 +402,7 @@ function generate_return_main_class(isOnce , isClass , onceVarName , classVarNam
         return `return ${classVarName};` ;
     }
 
-    return `return new ${classVarName}(...arguments);`
+    return `return new ${classVarName}(${paramNames ? paramNames : ''});`
 }
 
 function generate_body(body , hasMain , paramNames , isAsync){
