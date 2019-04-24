@@ -117,10 +117,20 @@ class FunctionMeta extends ScriptMeta{
                 let innerNames = [] ;
 
                 for(let {
-                    name
+                    name,
+                    rest
                 } of items){
 
-                    innerNames.push(name) ;
+                    if(rest){
+
+                        innerNames.push(`...${name}`) ;
+                        
+                    }else{
+
+                        innerNames.push(name) ;
+                    }
+
+                    
                 }
 
                 let result = innerNames.join(' , ') ;

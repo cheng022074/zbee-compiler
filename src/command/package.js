@@ -181,7 +181,7 @@ function doPackage({
 
             writeFile(zipPath , data) ;
 
-            writeJSONFile(join(rootPath , `xy.package.json`) , {
+            writeJSONFile(join(rootPath , `${name}.package.json`) , {
                 classes,
                 type,
                 memory,

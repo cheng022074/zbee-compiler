@@ -4,6 +4,7 @@ nameSplitRe = /\./,
 restRe = /^\.{3}/,
 defaultValueSplitRe = /([\w\.]+)\s*\=\s*(.+)/,
 nameRe = /\w+(?:\.\w+)*/,
+singleNameRe = /\w+/,
 {
     match:string_match
 } = require('../../../../regexp');
@@ -76,12 +77,14 @@ module.exports = class {
 
             me.parentParamName = parentParamName.trim() ;
 
-            me.name = name.trim() ;
+            me.name = name ;
         
         }else{
 
             me.name = rawData ;
         }
+
+        me.name = me.name.match(singleNameRe)[0] ;
 
         me.types = getDataTypes(type);
 
