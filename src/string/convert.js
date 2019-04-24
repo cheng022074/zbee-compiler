@@ -1,15 +1,11 @@
 const {
     simpleObject:isObject,
-    string:isString
+    string:isString,
+    date:isDate
 } = require('../is'),
 {
-    parse
+    format:doFormat
 } = require('date-and-time');
-
-exports.string = data =>{
-
-    return data ;
-}
 
 exports.boolean = data =>{
 
@@ -25,7 +21,7 @@ exports.date = (data , {
     format = 'YYYY-MM-DD HH:mm:ss'
 } = {}) =>{
 
-    return parse(data , format) ;
+    return doFormat(data , format) ;
 }
 
 exports.type = (data , type) =>{

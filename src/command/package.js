@@ -21,7 +21,8 @@ const {
     unique
 } = require('../array'),
 {
-    writeFile
+    writeFile,
+    writeJSONFile
 } = require('../fs'),
 {
     assign
@@ -30,6 +31,9 @@ JSZip = require('jszip'),
 {
     apply
 } = require('../template'),
+{
+    date:convertDate
+} = require('../string/convert'),
 {
     env
 } = process;
@@ -85,8 +89,14 @@ function doPackage({
     type = 'library',
     memory = false,
     to,
+    archive = true,
     ...config
 } , name = `package-${Date.now()}`){
+
+    if(memory === true){
+
+        archive = false ;
+    }
 
     let allCodes = [] ;
 
@@ -161,6 +171,27 @@ function doPackage({
         writeFile(path , data) ;
 
         console.log('已生成' , path) ;
+
+        if(archive){
+
+            let rootPath = join(APPLICATION.getFolderPath('archive') , convertDate(new Date() , {
+                format:'YYYYMMDD'
+            })),
+            zipPath = join(rootPath , `${name}.zip`);
+
+            writeFile(zipPath , data) ;
+
+            writeJSONFile(join(rootPath , `xy.package.json`) , {
+                classes,
+                type,
+                memory,
+                ...config
+            }) ;
+
+            console.log('已存档' , zipPath) ;
+
+            
+        }
 
         if(env['ZBEE-PARAM-IGNORE-OUTPUT']){
 
