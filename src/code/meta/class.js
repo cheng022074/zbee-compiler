@@ -37,13 +37,23 @@ class Meta extends FunctionMeta{
         {
             constructor,
             extend,
+            mixins = [],
             staticMethods = [],
             staticProperties = {},
             methods = [],
             properties = {}
-        } = data;
+        } = data,
+        {
+            length
+        } = mixins;
 
-        return `class main ${extend ? 'extends extend' : ''}{
+        for(let i = 0 ; i < len ; i ++){
+
+            mixins[i] = `include('${mixins[i]}')` ;
+        }
+
+
+        return `class main ${extend || length !== 0 ? `extends mixins({extend , mixins:[${mixins.join(',')}]})` : ''}{
 
             ${generate_methods(staticMethods , true)}
 
@@ -107,6 +117,7 @@ class Meta extends FunctionMeta{
         } = me,
         {
             extend,
+            mixins,
             constructor,
             staticMethods = [],
             staticProperties = {},
@@ -116,6 +127,8 @@ class Meta extends FunctionMeta{
         {
             fullName
         } = code;
+
+        import_mixins.call(me , imports , mixins) ;
 
         import_extend.call(me , imports , extend) ;
 
@@ -130,6 +143,25 @@ class Meta extends FunctionMeta{
         import_methods.call(me , imports , fullName , methods) ;
 
         return imports ;
+    }
+}
+
+function import_mixins(imports , mixins){
+
+    if(mixins){
+
+        let prefix = `mixin_${Date.now()}_`,
+        {
+            length
+        } = mixins;
+
+        for(let i = 0 ; i < length ; i ++){
+
+            imports.push({
+                name:`${prefix}_${i + 1}`,
+                target:mixin
+            }) ;
+        }
     }
 }
 

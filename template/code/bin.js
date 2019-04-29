@@ -4,3 +4,5 @@ global.include = <%- apply('code.bin.header.include' , {
 }) %> ;
 
 global.config = <%- apply('code.bin.header.config') %> ;
+
+global.mixins = <%- apply('code.mixins') %>
