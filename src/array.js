@@ -1,6 +1,7 @@
 const {
     empty:is_empty,
     string:is_string,
+    array:is_array
 } = require('./is'),
 {
     split
@@ -37,15 +38,14 @@ exports.from = data =>{
         return [];
     }
 
-    if (data && data.length !== undefined && !is_string(data)) {
+    if(data && data.length !== undefined && !is_string(data)){
 
-        return Array.from(data);
-
+        return Array.from(data) ;
     }
 
     return [
         data
-    ];
+    ] ;
 }
 
 exports.unique = data =>{

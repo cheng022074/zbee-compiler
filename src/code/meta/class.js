@@ -36,30 +36,51 @@ class Meta extends FunctionMeta{
         } = me,
         {
             constructor,
+            mixin,
             extend,
             mixins = [],
             staticMethods = [],
             staticProperties = {},
             methods = [],
             properties = {}
-        } = data,
-        {
-            length
-        } = mixins;
+        } = data ;
 
-        for(let i = 0 ; i < len ; i ++){
+        if(mixin === true){
 
-            mixins[i] = `include('${mixins[i]}')` ;
+            return `function main(extend){
+
+                        return class extends extend{
+
+                            ${generate_methods(staticMethods , true)}
+                
+                            ${generate_properties(staticProperties , true)}
+                
+                            ${generate_constructor(constructor , true)}
+                
+                            ${generate_methods(methods)}
+                
+                            ${generate_properties(properties)}
+                
+                        }
+
+                }` ;
         }
 
 
-        return `class main ${extend || length !== 0 ? `extends mixins({extend , mixins:[${mixins.join(',')}]})` : ''}{
+        let mixinCodes = [];
+
+        for(let mixin of mixins){
+
+            mixinCodes.push(`include('${mixin}')`) ;
+        }
+  
+        return `class main ${extend || mixins.length !== 0 ? `extends mixins({extend , mixins:[${mixinCodes.join(',')}]})` : ''}{
 
             ${generate_methods(staticMethods , true)}
 
             ${generate_properties(staticProperties , true)}
 
-            ${generate_constructor(constructor , extend)}
+            ${generate_constructor(constructor , extend || mixins.length !== 0)}
 
             ${generate_methods(methods)}
 
@@ -96,14 +117,23 @@ class Meta extends FunctionMeta{
         {
             isClass,
             data
-        } = me ;
+        } = me,
+        {
+            params,
+            mixin
+        } = data;
+
+        if(mixin === true){
+
+            return getParams('extend') ;
+        }
 
         if(isClass){
 
             return [] ;
         }
 
-        return getParams(data.params) ;
+        return getParams(params) ;
     }
 
     getImports(){
@@ -159,7 +189,7 @@ function import_mixins(imports , mixins){
 
             imports.push({
                 name:`${prefix}_${i + 1}`,
-                target:mixin
+                target:mixins[i]
             }) ;
         }
     }
@@ -236,11 +266,14 @@ function generate_methods(methods , isStatic = false){
 
     for(let method of methods){
 
-        let name;
+        let name,
+            alias;
 
         if(isObject(method)){
 
             name = method.name ;
+
+            alias = method.alias ;
         
         }else{
 
@@ -252,6 +285,15 @@ function generate_methods(methods , isStatic = false){
             return ${`${isStatic ? 'static_' : ''}method_${name}`}.apply(this , args) ;
 
         }`) ;
+
+        if(alias){
+
+            result.push(`${isStatic ? 'static ' : ''}${alias}(...args){
+
+                return this.${name}(...args) ;
+    
+            }`) ;
+        }
     }
 
     return result.join('\n') ;
@@ -266,6 +308,14 @@ function import_extend(imports , extend){
             name:'extend',
             value:true,
             target:this.getFullName(extend)
+        }) ;
+    
+    }else{
+
+        imports.push({
+            name:'extend',
+            value:true,
+            target:'class.empty'
         }) ;
     }
 }

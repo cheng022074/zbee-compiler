@@ -14,6 +14,8 @@ const config = <%- apply('code.package.header.config.browser' , config) ;%>;
 
 export const override = <%- apply('code.package.header.override' , defaultFolder) ;%>;
 
+const mixins = <%- apply('code.mixins' , config) ;%>;
+
 <%
     const {
         keys
