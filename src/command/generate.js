@@ -23,6 +23,9 @@ const {
     fileNormalize
 } = require('../path'),
 {
+    SourceCode
+} = require('../code'),
+{
     env
 } = process;
 
@@ -54,7 +57,7 @@ function generate(name , suffix){
             path = join(APPLICATION.rootPath , folder , toPath(baseName)),
             filePath = fileNormalize(path);
 
-            if(!filePath){
+            if(!filePath && !SourceCode.getCode(SourceCode.get(name)).exists){
 
                 writeTextFile(`${path}${suffix}` , apply(template , {
                     name:baseName
