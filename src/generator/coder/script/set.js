@@ -30,7 +30,7 @@ module.exports = class extends Coder{
 
         }else if(el.hasAttribute('resource')){
 
-            return `var ${el.getAttribute('name')} = require('path').join(process.env['ZBEE-APPLICATION-ROOT-PATH'] , '${el.getAttribute('resource')}');`
+            return `var ${el.getAttribute('name')} = require('path').join(process.env['ZBEE-APP-PATH'] , '${el.getAttribute('resource')}');`
         }
 
         return '' ;

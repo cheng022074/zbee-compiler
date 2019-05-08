@@ -265,8 +265,6 @@ class Application extends Project{
             writeTextFile(join(binPath , 'header') , updateTime) ;
         }
 
-        env['ZBEE-APPLICATION-ROOT-PATH'] = me.rootPath ;
-
         require(path) ;
 
         me.init = () =>{

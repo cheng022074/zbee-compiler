@@ -13,9 +13,9 @@
         env
     } = process ;
     
-    if(!env['ZBEE-APPLICATION-ROOT-PATH']){
+    if(!env['ZBEE-APP-PATH']){
     
-        env['ZBEE-APPLICATION-ROOT-PATH'] = __dirname ;
+        env['ZBEE-APP-PATH'] = __dirname ;
     }
 }
 
