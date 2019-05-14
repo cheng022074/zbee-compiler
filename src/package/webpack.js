@@ -13,6 +13,7 @@ const {
 
 module.exports = (codes , {
     config,
+    compile:isCompile = true,
     transform = true
 }) =>{
 
@@ -44,12 +45,19 @@ module.exports = (codes , {
 
     }
 
+    let data = apply('code.package.bundle.webpack' , {
+        defaultFolder,
+        codeMap,
+        config
+    });
+
+    if(isCompile){
+
+        data = compile(data , transform) ;
+    }
+
     return {
         dependencies,
-        ['index.js']:compile(apply('code.package.bundle.webpack' , {
-            defaultFolder,
-            codeMap,
-            config
-        }) , transform)
+        ['index.js']:data
      } ;
 }
