@@ -376,7 +376,14 @@ function generate_class_code(varName , code){
 
             ${code}
 
-            ${varName} = main ;
+            ${varName} = class extends main{
+
+                static get ZBEE_CLASS(){
+
+                    return true ;
+                }
+
+            } ;
         }
         `;
     }
