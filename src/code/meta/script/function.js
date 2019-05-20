@@ -383,6 +383,11 @@ function generate_class_code(varName , code){
                     return true ;
                 }
 
+                get ZBEE_CURRENT_CLASS(){
+
+                    return ${varName} ;
+                }
+
             } ;
         }
         `;
