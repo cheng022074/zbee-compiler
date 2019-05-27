@@ -146,6 +146,7 @@ class Meta extends FunctionMeta{
             code
         } = me,
         {
+            mixin,
             extend,
             mixins,
             constructor,
@@ -160,7 +161,10 @@ class Meta extends FunctionMeta{
 
         import_mixins.call(me , imports , mixins) ;
 
-        import_extend.call(me , imports , extend) ;
+        if(mixin !== true){
+
+            import_extend.call(me , imports , extend) ;
+        }
 
         import_properties.call(me , imports , fullName , staticProperties , true) ;
 
