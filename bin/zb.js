@@ -37,7 +37,7 @@ if(command.exists){
         } = require('../src/project') ;
 
         APPLICATION.init() ;
-    
+
         command.run().catch(on_error) ;
 
     }catch(err){

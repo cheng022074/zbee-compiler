@@ -110,8 +110,10 @@
                 code,
                 name,
                 args
-            } = this,
-            result = await run(code.target , ...args),
+            } = this ;
+
+
+            let result = await run(code.target , ...args),
             config = get('command' , name);
 
             if(is_object(config)){

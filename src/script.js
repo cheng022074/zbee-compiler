@@ -110,7 +110,7 @@ exports.compile = (code , transform = true) =>{
             {
                 corejs:3
             }
-        ],require('@babel/plugin-syntax-jsx')) ;
+        ]) ;
     }
 
     return transformSync(code , {

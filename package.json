@@ -8,7 +8,8 @@
   },
   "bin": {
     "zb": "./bin/zb.js",
-    "zb-yarn": "./bin/zb-yarn.js"
+    "zb-install":"./bin/zb/install.js",
+    "zb-preinstall":"./bin/zb/preinstall.js"
   },
   "keywords": [
     "cli"
@@ -49,8 +50,5 @@
     "xmldom": "^0.1.27",
     "xpath": "^0.0.27",
     "yarn": "^1.15.2"
-  },
-  "devDependencies": {
-    "@babel/plugin-syntax-jsx": "^7.2.0"
   }
 }
