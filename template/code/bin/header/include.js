@@ -7,7 +7,13 @@
 
     for(let i = 0 ; i < len ; i ++){
 
-        libraries[i] = require(libraries[i]) ;
+        try{
+
+            libraries[i] = require(libraries[i]) ;
+
+        }catch(err){
+        }
+
     }
 
     return name =>{

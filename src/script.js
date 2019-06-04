@@ -74,16 +74,16 @@ exports.parse = code =>{
 
         return parse(code , {
             allowReturnOutsideFunction:true,
-            allowAwaitOutsideFunction:true
+            allowAwaitOutsideFunction:true,
+            plugins:[
+                'jsx'
+            ]
         }) ;
 
     }catch(err){
 
         throw `代码存在问题: \n ${code}` ;
     }
-
-   
-
 }
 
 exports.traverse = (ast , config) =>{
@@ -100,17 +100,17 @@ exports.traverse = (ast , config) =>{
 
 exports.compile = (code , transform = true) =>{
 
-    let plugins = [],
-        transformRuntimePlugin = require('@babel/plugin-transform-runtime');
+    let plugins = [];
+        
 
     if(transform){
 
         plugins.push([
-            transformRuntimePlugin,
+            require('@babel/plugin-transform-runtime'),
             {
                 corejs:3
             }
-        ]) ;
+        ],require('@babel/plugin-syntax-jsx')) ;
     }
 
     return transformSync(code , {

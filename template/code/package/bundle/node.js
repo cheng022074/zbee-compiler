@@ -6,6 +6,15 @@
         bootstrap,
         main
     } = data ;
+
+%>
+
+<%
+    if(main || bootstrap){
+%>
+const exports = {} ;
+<%
+    }
 %>
 
 {
@@ -49,14 +58,6 @@ exports['<%- name %>'] = <%- codeMap[name] %>;
     }
 %>
 
-<%
-if(main){
-%>
-
 <%- apply('code.package.header.main' , main)%>
 
-<%}else{%>
-
-<%- apply('code.package.header.bootstrap' , bootstrap)%>
-
-<%}%>
+<%- apply('code.package.header.bootstrap')%>

@@ -2,33 +2,23 @@ const {
     apply
 } = require('../template'),
 {
-    join,
-    basename
-} = require('path'),
-{
     SourceCode
 } = require('../code'),
 {
-    format
-} = require('../script'),
-{
-    string:isString
-} = require('../is'),
-{
     APPLICATION
-} = require('../project'),
-{
-    assign
-} = Object;
+} = require('../project') ;
 
-module.exports = (codes , path , {
+module.exports = (codes , {
     config,
     bootstrap,
     main
 }) =>{
 
-    let codeMap = {},
-        dependencies = {};
+    const {
+        defaultFolder
+    } = APPLICATION ;
+
+    let codeMap = {};
 
     for(let code of codes){
 
@@ -36,44 +26,21 @@ module.exports = (codes , path , {
 
         if(data){
 
-            codeMap[code.fullName] = data ;
+            let {
+                fullName
+            } = code;
+
+            codeMap[fullName] = data ;
         }
-
-        assign(dependencies , SourceCode.getProperty(code , 'dependentModules')) ;
-
     }
-
-    const {
-        defaultFolder
-    } = APPLICATION ;
-
-    if(isString(bootstrap)){
-
-        let code = SourceCode.get(bootstrap) ;
-
-        bootstrap = {
-            types:SourceCode.getProperty(code , 'entryTypes'),
-            name:bootstrap
-        } ;
-
-    }else{
-
-        bootstrap = null ;
-    }
-
-    let name = basename(path).toLowerCase() ;
 
     return {
-        [join(path , 'index.js')]:format(apply('code.package.bundle.node' , {
+        ['index.js']:apply('code.package.bundle.node' , {
             defaultFolder,
             codeMap,
             config,
             bootstrap,
             main
-        })),
-        [join(path , 'package.json')]:apply('code.package.package' , {
-            name,
-            dependencies
         })
      } ;
 }
