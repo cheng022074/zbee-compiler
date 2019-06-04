@@ -14,7 +14,9 @@ const {
     toPropertyValue:toArrayPropertyValue
 } = require('../array');
 
-module.exports = codes =>{
+module.exports = (codes , {
+    script = true
+}) =>{
 
     let codeMap = {};
 
@@ -37,8 +39,14 @@ module.exports = codes =>{
         }
     }
 
-    return {
-        ['index.xml']:apply('code.package.bundle.meta' , codeMap),
-        ['index.js']:format(apply('code.package.bundle.lib' , codeMap))
-     } ;
+    let result = {
+        ['index.xml']:apply('code.package.bundle.meta' , codeMap)
+    } ;
+
+    if(script === true){
+
+        result['index.js'] =  format(apply('code.package.bundle.lib' , codeMap));
+    }
+
+    return result ;
 }

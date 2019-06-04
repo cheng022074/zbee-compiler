@@ -405,16 +405,10 @@ class Libraries{
 
         for(let path of paths){
 
-            try{
+            if(is_file(join(path , 'index.js'))){
 
                 libraries.push(require(path)) ;
 
-            }catch(err){
-
-                if(err.message.indexOf('Cannot find module') !== -1){
-
-                    throw new Error(`无效的类库路径 ${path}`) ;
-                }
             }
         }
 
