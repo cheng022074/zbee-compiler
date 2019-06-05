@@ -9,7 +9,6 @@ const {
 } = require('path'),{
     getFilePaths,
     readFile,
-    writeTextFile,
     readJSONFile,
     writeJSONFile,
     copyFile
@@ -30,7 +29,6 @@ const JSZip = require('jszip'),
 {
     keys
 } = Object,
-nodeModuleRootPath = join(rootPath , 'node_modules'),
 packagePath = join(rootPath , 'package.json'),
 packageData = readJSONFile(packagePath),
 propertiesPath = join(rootPath , 'properties.json'),
@@ -58,8 +56,6 @@ getFilePaths(join(rootPath , 'zbee_modules') , /\.zip$/).forEach(async (path) =>
     for(let fileName of names){
 
         let data = await zip.file(fileName).async('string');
-
-        //writeTextFile(join(nodeModuleRootPath , name , fileName) , data) ;
 
         if(fileName === 'package.json'){
 
