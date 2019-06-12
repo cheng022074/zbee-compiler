@@ -7,9 +7,7 @@
     "url": "git+https://github.com/cheng022074/zbee-compiler.git"
   },
   "bin": {
-    "zb": "./bin/zb.js",
-    "zb-install": "./bin/zb/install.js",
-    "zb-preinstall": "./bin/zb/preinstall.js"
+    "zb": "./bin/zb.js"
   },
   "keywords": [
     "cli"
