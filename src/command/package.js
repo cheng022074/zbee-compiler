@@ -158,9 +158,11 @@ function doPackage({
 
     for(let path of paths){
 
+        let data = result[path] ;
+
         path = join(rootPath , path) ;
 
-        writeFile(path , result[path]) ;
+        writeFile(path , data) ;
 
         console.log('已生成' , path) ;
     }
@@ -173,11 +175,11 @@ function doPackage({
 
         for(let path of paths){
 
-            path = join(rootPath , path) ;
+            let toFilePath = join(rootPath , path) ;
 
-            writeFile(path , result[path]) ;
+            writeFile(toFilePath , result[path]) ;
 
-            console.log('已存档' , path) ;
+            console.log('已存档' , toFilePath) ;
         }
 
         writeJSONFile(join(rootPath , `${name}.package.json`) , {
