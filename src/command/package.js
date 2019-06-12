@@ -153,94 +153,78 @@ function doPackage({
         dependencies
     }) ;
 
-    let paths = Object.keys(result) ;
-
-    let zip = new JSZip() ;
+    let paths = Object.keys(result),
+        rootPath = join(APPLICATION.getFolderPath('package') , name);
 
     for(let path of paths){
 
-        zip.file(path , result[path]) ;
-    }
+        path = join(rootPath , path) ;
 
-    let path = join(APPLICATION.getFolderPath('package') , `${name}.zip`) ;
-
-    zip.generateAsync({
-        type:'nodebuffer'
-    }).then(data => {
-
-        writeFile(path , data) ;
+        writeFile(path , result[path]) ;
 
         console.log('已生成' , path) ;
+    }
 
-        if(archive){
+    if(archive){
 
-            let rootPath = join(APPLICATION.getFolderPath('archive') , convertDate(new Date() , {
-                format:'YYYYMMDD'
-            })),
-            zipPath = join(rootPath , `${name}.zip`);
+        let rootPath = join(APPLICATION.getFolderPath('archive') , convertDate(new Date() , {
+            format:'YYYYMMDD'
+        }));
 
-            writeFile(zipPath , data) ;
+        for(let path of paths){
 
-            writeJSONFile(join(rootPath , `${name}.package.json`) , {
-                classes,
-                type,
-                memory,
-                ...config
-            }) ;
+            path = join(rootPath , path) ;
 
-            console.log('已存档' , zipPath) ;
+            writeFile(path , result[path]) ;
 
-            
+            console.log('已存档' , path) ;
         }
 
-        if(env['ZBEE-PARAM-IGNORE-OUTPUT']){
+        writeJSONFile(join(rootPath , `${name}.package.json`) , {
+            classes,
+            type,
+            memory,
+            ...config
+        }) ;
 
-            return ;
-        }
+    }
+
+    if(env['ZBEE-PARAM-IGNORE-OUTPUT']){
+
+        return ;
+    }
         
-        if(to){
+    if(to){
 
-            for(let toPath of to){
-    
-                if(isAbsolute(toPath)){
+        for(let toPath of to){
 
-                    if(isDirectory(toPath)){
+            if(isAbsolute(toPath)){
 
-                        {
-                            let toZipPath = join(toPath , 'zbee_modules' , `${name}.zip`) ;
-            
-                            writeFile(toZipPath , data) ;
-            
-                            console.log('已复制' , toZipPath) ;
-                        }
-    
-                        {
-                            let keys = Object.keys(result) ;
-    
-                            for(let key of keys){
-    
-                                let toFilePath = join(toPath , 'node_modules' , name , key) ;
-    
-                                writeFile(toFilePath , result[key]) ;
-    
-                                console.log('已复制' , toFilePath) ;
-                            } 
-                        }
+                if(isDirectory(toPath)){
 
-                    }else if(isFile(toPath)){
+                    {
+                        for(let path of paths){
 
-                        let data = result[`index${extname(toPath)}`] ;
+                            let toFilePath = join(toPath , 'zbee_modules' , name , path) ;
 
-                        if(data){
+                            writeFile(toFilePath , result[path]) ;
 
-                            writeFile(toPath , data) ;
+                            console.log('已复制' , toFilePath) ;
+                        } 
+                    }
 
-                            console.log('已重写' , toPath) ;
-                        }
+                }else if(isFile(toPath)){
+
+                    let data = result[`index${extname(toPath)}`] ;
+
+                    if(data){
+
+                        writeFile(toPath , data) ;
+
+                        console.log('已重写' , toPath) ;
                     }
                 }
             }
         }
-
-    }) ;
+    }
 }
