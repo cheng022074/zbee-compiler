@@ -169,7 +169,7 @@ function doPackage({
 
         let rootPath = join(APPLICATION.getFolderPath('archive') , convertDate(new Date() , {
             format:'YYYYMMDD'
-        }));
+        }) , name);
 
         for(let path of paths){
 
@@ -203,9 +203,12 @@ function doPackage({
                 if(isDirectory(toPath)){
 
                     {
+
+                        let rootPath = join(toPath , 'zbee_modules' , name) ;
+
                         for(let path of paths){
 
-                            let toFilePath = join(toPath , 'zbee_modules' , name , path) ;
+                            let toFilePath = join(rootPath , path) ;
 
                             writeFile(toFilePath , result[path]) ;
 
