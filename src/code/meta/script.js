@@ -8,6 +8,7 @@ textCodeMetaAliasImportRe = /(\w+)\s+from\s+((?:(?:\w+\:{2})?\w+(?:\.\w+)*)|(\.*
 textCodeMetaImportScopedRe = /\s+scoped$/,
 textCodeMetaImportValueRe = /\s+value$/,
 textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*))?/,
+nonStandardRe = /@non\-standard/,
 {
     toCamelCase
 } = require('../../name'),
@@ -16,6 +17,15 @@ dobuleDotPrefixRe = /^(?:\.{2})+/,
 dotRe = /\./;
 
 module.exports = class extends Meta{
+
+    getIsStandard(){
+
+        let {
+            header
+        } = this ;
+
+        return !header.test(rawBody) ;
+    }
 
     getRawBody(){
 

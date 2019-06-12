@@ -30,8 +30,14 @@ class Meta{
             'params',
             'returnTypes',
             'hasMain',
-            'isMainClass'
+            'isMainClass',
+            'isStandard'
         ] ;
+    }
+
+    getIsStandard(){
+
+        return true ;
     }
 
     getHeader(){
