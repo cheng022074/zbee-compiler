@@ -27,7 +27,6 @@ const {
 {
     assign
 } = Object,
-JSZip = require('jszip'),
 {
     apply
 } = require('../template'),
@@ -207,6 +206,20 @@ function doPackage({
                     {
 
                         let rootPath = join(toPath , 'zbee_modules' , name) ;
+
+                        for(let path of paths){
+
+                            let toFilePath = join(rootPath , path) ;
+
+                            writeFile(toFilePath , result[path]) ;
+
+                            console.log('已复制' , toFilePath) ;
+                        } 
+                    }
+
+                    {
+
+                        let rootPath = join(toPath , 'node_modules' , name) ;
 
                         for(let path of paths){
 

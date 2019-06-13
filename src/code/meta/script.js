@@ -24,7 +24,7 @@ module.exports = class extends Meta{
             header
         } = this ;
 
-        return !header.test(rawBody) ;
+        return !nonStandardRe.test(header) ;
     }
 
     getRawBody(){

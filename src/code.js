@@ -499,6 +499,11 @@ class SourceCode extends Code{
         return this.meta.entryTypes ;
     }
 
+    get isStandard(){
+
+        return this.meta.isStandard ;
+    }
+
     /**
      * 
      * 获取当前源代码所引用的模块及其版本
