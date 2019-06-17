@@ -19,10 +19,11 @@
             signature,
             code,
             entryTypes,
-            dependentModules
+            dependentModules,
+            standard
         } = data[name] ;
 %>
-    <class motify="<%- motify %>" signature="<%- signature %>"<%if(entryTypes){%> entry-type="<%- entryTypes%>"<%}%>  name="<%- name %>"<%if(imports){%> imports="<%- imports%>"<%}%><%if(dependentModules){%> dependent-modules="<%- dependentModules%>"<%}%>>
+    <class standard="<%- standard %>" motify="<%- motify %>" signature="<%- signature %>"<%if(entryTypes){%> entry-type="<%- entryTypes%>"<%}%>  name="<%- name %>"<%if(imports){%> imports="<%- imports%>"<%}%><%if(dependentModules){%> dependent-modules="<%- dependentModules%>"<%}%>>
         <![CDATA[<%- code %>]]>
     </class>
 <%

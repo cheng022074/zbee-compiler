@@ -457,7 +457,8 @@ class Libraries{
                     data:CDATAValues(node).join(''),
                     importNames:node.hasAttribute('imports') ? toArray(node.getAttribute('imports')) : [],
                     entryTypes:node.hasAttribute('entry-types') ? toArray(node.getAttribute('entry-types')) : [],
-                    dependentModules:node.hasAttribute('dependent-modules') ? toObject(node.getAttribute('dependent-modules')) : []
+                    dependentModules:node.hasAttribute('dependent-modules') ? toObject(node.getAttribute('dependent-modules')) : [],
+                    isStandard:node.getAttribute('standard') === 'yes'
                 } ;
             }
         }

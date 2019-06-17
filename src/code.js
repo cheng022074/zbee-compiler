@@ -782,7 +782,8 @@ class LibrarySourceCode extends SourceCode{
                 'signature',
                 'importNames',
                 'entryTypes',
-                'dependentModules'
+                'dependentModules',
+                'isStandard'
             ]) ;
         }
 

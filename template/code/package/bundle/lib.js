@@ -10,11 +10,8 @@
 
     for(let name of names){
 
-        let {
-            code
-        } = data[name] ;
 %>
-exports['<%- name %>'] = <%- code %>;
+exports['<%- name %>'] = <%- data[name] %>;
 <%
     }
 %>

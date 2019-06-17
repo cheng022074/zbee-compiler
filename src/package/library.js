@@ -18,7 +18,8 @@ module.exports = (codes , {
     script = true
 }) =>{
 
-    let codeMap = {};
+    let docs = {},
+        classes = {};
 
     for(let code of codes){
 
@@ -26,27 +27,34 @@ module.exports = (codes , {
 
         if(data){
 
-            let dependentModules = SourceCode.getProperty(code , 'dependentModules') ;
+            let isStandard = SourceCode.getProperty(code , 'isStandard'),
+            {
+                fullName
+            } = code;
 
-            codeMap[code.fullName] = {
+            docs[fullName] = {
                 motify:SourceCode.getProperty(code , 'motifyTime'),
                 signature:SourceCode.getProperty(code , 'signature'),
                 code:data,
                 imports:toArrayPropertyValue(SourceCode.getProperty(code , 'importAllNames')),
                 entryTypes:toArrayPropertyValue(SourceCode.getProperty(code , 'entryTypes')),
-                dependentModules:toObjectPropertyValue(dependentModules)
+                dependentModules:toObjectPropertyValue(SourceCode.getProperty(code , 'dependentModules')),
+                standard:SourceCode.getProperty(code , 'isStandard') ? 'yes' : 'no'
             } ;
+
+            if(isStandard){
+
+                classes[fullName] = data ;
+            
+            }
         }
     }
 
     let result = {
-        ['index.xml']:apply('code.package.bundle.meta' , codeMap)
+        ['index.xml']:apply('code.package.bundle.meta' , docs)
     } ;
 
-    if(script === true){
-
-        result['index.js'] =  format(apply('code.package.bundle.lib' , codeMap));
-    }
+    result['index.js'] =  format(apply('code.package.bundle.lib' , classes));
 
     return result ;
 }
