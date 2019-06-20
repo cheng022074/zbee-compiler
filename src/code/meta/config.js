@@ -17,7 +17,7 @@ class Meta extends FunctionMeta{
 
         return [{
             name:'get',
-            target:'object.get'
+            target:'object.value.get'
         }] ;
     }
 
