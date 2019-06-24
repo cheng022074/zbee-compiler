@@ -1,9 +1,7 @@
 const {
     js
 } = require('js-beautify'),
-{
-    jsmin
-} = require('jsmin'),
+UglifyJS = require("uglify-es"),
 {
     js:stripComment
 } = require('strip-comment'),
@@ -39,16 +37,7 @@ exports.format = code =>{
 
 exports.min = code =>{
 
-    try{
-
-        return jsmin(code) ;
-
-    }catch(err){
-
-
-    }
-
-    return code ;
+    return UglifyJS.minify(code).code ;
 }
 
 exports.stripComment = code =>{

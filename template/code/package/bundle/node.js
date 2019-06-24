@@ -17,7 +17,7 @@ const exports = {} ;
     }
 %>
 
-{
+try{
     const {
         env
     } = process ;
@@ -26,6 +26,9 @@ const exports = {} ;
     
         env['ZBEE-APP-PATH'] = __dirname ;
     }
+    
+}catch(err){
+
 }
 
 const include = <%- apply('code.package.header.include' , defaultFolder) ;%>;

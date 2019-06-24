@@ -6,12 +6,16 @@ const {
 } = require('../code'),
 {
     APPLICATION
-} = require('../project') ;
+} = require('../project'),
+{
+    min
+} = require('../script') ;
 
 module.exports = (codes , {
     config,
     bootstrap,
-    main
+    main,
+    minify = false
 }) =>{
 
     const {
@@ -34,13 +38,20 @@ module.exports = (codes , {
         }
     }
 
+    let code = apply('code.package.bundle.node' , {
+        defaultFolder,
+        codeMap,
+        config,
+        bootstrap,
+        main
+    }) ;
+
+    if(minify === true){
+
+        code = min(code) ;
+    }
+
     return {
-        ['index.js']:apply('code.package.bundle.node' , {
-            defaultFolder,
-            codeMap,
-            config,
-            bootstrap,
-            main
-        })
+        ['index.js']:code
      } ;
 }
