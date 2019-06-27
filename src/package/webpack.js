@@ -37,23 +37,23 @@ module.exports = (codes , {
         }
     }
 
-    let dependencies = {} ;
-
-    if(transform){
-
-        dependencies['@babel/runtime-corejs3'] = '^7.4.2' ;
-
-    }
-
-    let data = apply('code.package.bundle.webpack' , {
-        defaultFolder,
-        codeMap,
-        config
-    });
+    let dependencies = {},
+        data = apply('code.package.bundle.webpack' , {
+            defaultFolder,
+            codeMap,
+            config
+        });
 
     if(isCompile){
 
         data = compile(data , transform) ;
+
+        if(transform){
+
+            dependencies['@babel/runtime-corejs3'] = '^7.4.2' ;
+    
+        }
+    
     }
 
     return {
