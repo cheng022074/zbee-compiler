@@ -71,7 +71,7 @@ exports.parse = code =>{
 
     }catch(err){
 
-        throw `代码存在问题: \n ${code}` ;
+        throw `代码存在问题:(${err.message}) \n ${code}` ;
     }
 }
 
