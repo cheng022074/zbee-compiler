@@ -55,7 +55,7 @@ class Meta extends FunctionMeta{
                 
                             ${generate_properties(staticProperties , true)}
                 
-                            ${generate_constructor(constructor , true)}
+                            ${generate_mixin_constrcutor(constructor)}
                 
                             ${generate_methods(methods)}
                 
@@ -176,6 +176,11 @@ class Meta extends FunctionMeta{
 
         import_methods.call(me , imports , fullName , methods) ;
 
+        imports.push({
+            name:'isObject',
+            target:'is.object.simple'
+        }) ;
+
         return imports ;
     }
 }
@@ -219,6 +224,29 @@ function import_constructor(imports , rootName , hasConstructor){
             target
         }) ;
     }
+}
+
+function generate_mixin_constrcutor(hasConstructor){
+
+    if(hasConstructor){
+
+        return `constructor(options){
+
+            super(options) ;
+
+            if(isObject(options)){
+
+                constructor.call(this , options) ;
+            
+            }else{
+
+                constructor.call(this , {}) ;
+            }
+
+        }` ;
+    }
+
+    return '' ;
 }
 
 function generate_constructor(hasConstructor , isExtend){
