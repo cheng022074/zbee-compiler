@@ -172,12 +172,22 @@ module.exports = class extends Meta{
     
                 names.pop() ;
             }
+
+            if(names.length === 0){
+
+                return name.replace(dobuleDotPrefixRe , '') ;
+            }
     
             return `${names.join('.')}${name.replace(dobuleDotPrefixRe , '.')}` ;
         
         }else if(dotPrefixRe.test(name)){
     
             names.pop() ;
+
+            if(names.length === 0){
+
+                return name.replace(dotPrefixRe , '') ;
+            }
     
             return `${names.join('.')}${name}` ;
         
