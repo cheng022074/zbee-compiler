@@ -33,6 +33,8 @@ try{
 
 const include = <%- apply('code.package.header.include' , defaultFolder) ;%>;
 
+const mixins = <%- apply('code.mixins' , config) ;%>;
+
 <%
     if(!main && !bootstrap){
 %>
