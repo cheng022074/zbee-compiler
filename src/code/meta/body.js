@@ -40,11 +40,25 @@ module.exports = class {
     constructor(meta){
 
         let me = this,
-            data = meta.rawBody;
+            {
+                isAnalysis,
+                rawBody:data
+            } = meta;
 
         me.meta = meta ;
 
-        me.data = parse(data) ;
+        if(isAnalysis){
+
+            me.data = parse(data) ;
+        
+        }else{
+
+            me.data = {
+                program:{
+                    body:[]
+                }
+            } ;
+        }
 
         me.rawData = data ;
 

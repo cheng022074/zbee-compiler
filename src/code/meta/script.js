@@ -9,6 +9,10 @@ textCodeMetaImportScopedRe = /\s+scoped$/,
 textCodeMetaImportValueRe = /\s+value$/,
 textCodeMetaConfigItemRe = /(\w+)\s+from\s+(\w+(?:\.\w+)*)(?:\.{3}(\w+(?:\.\w+)*))?/,
 nonStandardRe = /@non\-standard/,
+nonAnalysisRe = /@non\-analysis/,
+mainRe = /@main/,
+mainClassRe = /@main-class/,
+asyncRe = /@async/,
 {
     toCamelCase
 } = require('../../name'),
@@ -17,6 +21,43 @@ dobuleDotPrefixRe = /^(?:\.{2})+/,
 dotRe = /\./;
 
 module.exports = class extends Meta{
+
+    get isAnalysis(){
+
+        let {
+            header
+        } = this ;
+
+        return !nonAnalysisRe.test(header) ;
+    }
+
+    getHasMain(){
+
+         let {
+            header
+        } = this ;
+
+        return this.body.hasMain || mainRe.test(header) || mainClassRe.test(header);
+    }
+
+    getIsMainClass(){
+
+        let {
+            header
+        } = this ;
+
+        return this.body.isMainClass || mainClassRe.test(header) ;
+
+    }
+
+    getIsAsync(){
+
+        let {
+            header
+        } = this ;
+
+        return this.body.isAsync || asyncRe.test(header);
+    }
 
     getIsStandard(){
 
