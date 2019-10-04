@@ -367,7 +367,7 @@ function generate_init_code(varName , code){
     return '' ;
 }
 
-function generate_class_code(varName , code){
+function generate_class_code(name , varName , code){
 
     if(code){
 
@@ -378,9 +378,20 @@ function generate_class_code(varName , code){
 
             ${varName} = class extends main{
 
-                static get ZBEE_CLASS(){
+                static get __ZBEE_IS_CLASS__(){
+
+                    return true ;
+                }
+
+
+                get __ZBEE_CLASS__(){
 
                     return ${varName} ;
+                }
+
+                get __ZBEE_CLASS_NAME__(){
+
+                    return ${name} ;
                 }
 
             } ;
