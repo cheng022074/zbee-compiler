@@ -296,7 +296,7 @@ class FunctionMeta extends ScriptMeta{
 
                     ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
 
-                    ${generate_class_code(classVariableNames , classVariableNames , body)}
+                    ${generate_class_code(this.code.fullName , classVariableNames , body)}
 
                     ${generate_return_main_class(isOnce , isClass , onceVariableName , classVariableNames , paramNames)}
                 } ;
@@ -393,7 +393,7 @@ function generate_class_code(name , varName , code){
 
                 get __ZBEE_CLASS_NAME__(){
 
-                    return ${name} ;
+                    return '${name}' ;
                 }
 
             } ;
