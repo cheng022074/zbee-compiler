@@ -249,6 +249,8 @@ class FunctionMeta extends ScriptMeta{
             initLockedVariableName = `var_init_locked_${time}`,
             onceVariableName = `var_once_value_${time}`;
 
+        
+
         if(!hasMain || hasMain && !isMainClass){
 
             let currentScopeVariableName = `var_current_scope_${time}`;
@@ -294,7 +296,7 @@ class FunctionMeta extends ScriptMeta{
 
                     ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
 
-                    ${generate_class_code(classVariableNames , body)}
+                    ${generate_class_code(classVariableNames , classVariableNames , body)}
 
                     ${generate_return_main_class(isOnce , isClass , onceVariableName , classVariableNames , paramNames)}
                 } ;
