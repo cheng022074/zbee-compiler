@@ -9,13 +9,7 @@
 
 %>
 
-<%
-    if(main || bootstrap){
-%>
-const exports = {} ;
-<%
-    }
-%>
+const innerExports = {} ;
 
 try{
     const {
@@ -58,11 +52,11 @@ const config = <%- apply('code.package.header.config.node' , config) ;%>;
     for(let name of names){
 
 %>
-exports['<%- name %>'] = <%- codeMap[name] %>;
+innerExports['<%- name %>'] = <%- codeMap[name] %>;
 <%
     }
 %>
 
 <%- apply('code.package.header.main' , main)%>
 
-<%- apply('code.package.header.bootstrap')%>
+<%- apply('code.package.header.bootstrap' , bootstrap)%>

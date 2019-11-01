@@ -1,4 +1,4 @@
-const exports = {} ;
+const innerExports = {} ;
 
 <%
     const {
@@ -29,7 +29,7 @@ const mixins = <%- apply('code.mixins' , config) ;%>;
     for(let name of names){
 
 %>
-exports['<%- name %>'] = <%- codeMap[name] %>;
+innerExports['<%- name %>'] = <%- codeMap[name] %>;
 <%
     }
 %>

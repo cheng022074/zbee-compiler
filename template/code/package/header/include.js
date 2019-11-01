@@ -21,9 +21,9 @@
     
         }else{
 
-            if(exports.hasOwnProperty(name)){
+            if(innerExports.hasOwnProperty(name)){
 
-                return CODES[name] = exports[name] ;
+                return CODES[name] = innerExports[name] ;
             }
     
             folder = '<%- data %>',
@@ -31,7 +31,7 @@
         }
 
         let fullName = `${folder}::${className}`,
-            code = CODES[name] = exports[fullName] ;
+            code = CODES[name] = innerExports[fullName] ;
 
         if(code === undefined && folder !== 'config'){
 
