@@ -53,11 +53,11 @@ module.exports = name =>{
     }else if(isObject(name)){
 
         let {
-            name,
+            name:baseName,
             ...config
         } = name ;
 
-        return doPackage(config , name) ;
+        return doPackage(config , baseName) ;
 
     }else{
 
@@ -90,7 +90,7 @@ function doPackage({
     to,
     archive = true,
     ...config
-} , name = `package-${Date.now()}`){
+} , name){
 
     if(memory === true){
 
@@ -116,8 +116,9 @@ function doPackage({
     let codes = unique(allCodes),
         {
             dependencies = {},
+            rootPath:packageRootPath = APPLICATION.getFolderPath('package'),
             ...result
-        } = require(`../package/${type}`)(codes , config) ;
+        } = require(`../package/${type}`)(codes , config , name) ;
 
     if(memory === true){
 
@@ -153,7 +154,7 @@ function doPackage({
     }) ;
 
     let paths = Object.keys(result),
-        rootPath = join(APPLICATION.getFolderPath('package') , name);
+        rootPath = join(packageRootPath , name);
 
     for(let path of paths){
 

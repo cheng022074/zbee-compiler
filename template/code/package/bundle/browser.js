@@ -1,47 +1,44 @@
 <%
     const {
-        map,
+        defaultFolder,
+        codeMap,
         config,
-        defaultFolder
-    } = data,
-    {
-        keys
-    } = Object;
+        name
+    } = data ;
 %>
 
+window['<%- name %>'] = (() =>{
 
-export const exports = {} ;
+    const exports = {} ;
 
-export const include = <%- apply('code.package.header.include' , {
-    defaultFolder
-}) %> ;
+    const include = exports.include = <%- apply('code.package.header.include' , defaultFolder) ;%>;
 
+    const config = <%- apply('code.package.header.config.browser' , config) ;%>;
 
-const gettype = <%- apply('code.gettype') %> ;
+    const override = exports.override = <%- apply('code.package.header.override' , defaultFolder) ;%>;
 
-const config = <%- apply('code.package.header.config.browser' , config) %>;
+    const mixins = <%- apply('code.mixins') ;%>;
 
-<%
+    const innerExports = {} ;
 
-    let names = keys(map) ; 
+    <%
+        const {
+            keys
+        } = Object;
+    %>
 
-    for(let name of names){
+    <%
 
-        let {
-            code,
-            aliases
-        } = map[name] ;
-%>
-exports['<%- name %>'] = <%- code %>
-<%
-        for(let alias of aliases){
-%>
+        let names = keys(codeMap) ; 
 
-export const <%- alias %> = exports['<%- alias %>'] = include('<%- name %>') ;
+        for(let name of names){
 
-<%
+    %>
+    innerExports['<%- name %>'] = <%- codeMap[name] %>;
+    <%
         }
-%>
-<%
-    }
-%>
+    %>
+
+    return exports ;
+
+})() ;

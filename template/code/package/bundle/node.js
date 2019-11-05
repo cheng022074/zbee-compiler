@@ -27,7 +27,7 @@ try{
 
 const include = <%- apply('code.package.header.include' , defaultFolder) ;%>;
 
-const mixins = <%- apply('code.mixins' , config) ;%>;
+const mixins = <%- apply('code.mixins') ;%>;
 
 <%
     if(!main && !bootstrap){
