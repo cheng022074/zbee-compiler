@@ -322,6 +322,8 @@ class SourceCode extends Code{
                 codes.push(me.get(`${folder}::${toName(path , rootPath)}`)) ;
             }
 
+            codes.push(...LibrarySourceCode.getMany(fullName)) ;
+
             return codes ;
         }
 
@@ -762,6 +764,26 @@ class LibrarySourceCode extends SourceCode{
             me.$meta = codeMap[fullName] ;
 
         }
+    }
+
+    static getMany(fullName){
+
+        let {
+            codeNames
+        } = this.project.libraries,
+        codes = [];
+
+        fullName = fullName.replace(nameSuffix , '') ;
+
+        for(let codeName of codeNames){
+
+            if(codeName.indexOf(fullName) === 0){
+
+                codes.push(Code.get('LIBRARY_SOURCE' , LibrarySourceCode , codeName)) ;
+            }
+        }
+
+        return codes ;
     }
 
     getMeta(){
