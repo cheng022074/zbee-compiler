@@ -770,7 +770,7 @@ class LibrarySourceCode extends SourceCode{
 
         let {
             codeNames
-        } = this.project.libraries,
+        } = APPLICATION.libraries,
         codes = [];
 
         fullName = fullName.replace(nameSuffix , '') ;
