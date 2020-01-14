@@ -208,6 +208,8 @@ module.exports = class extends Meta{
                 result
             ] = name.match(dobuleDotPrefixRe),
             count = result.length / 2;
+
+            names.pop() ;
     
             for(let i = 0 ; i < count ; i ++){
     
