@@ -74,6 +74,8 @@ function generate(name , suffix){
             }else{
 
                 console.log('已存在' , name) ;
+
+                require('./plan')(name) ;
             }
         }
 
