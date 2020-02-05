@@ -29,7 +29,7 @@ const {
     env
 } = process;
 
-function generate(name , suffix){
+function generate(name , suffix , planedNames){
 
     if(name){
 
@@ -75,7 +75,7 @@ function generate(name , suffix){
 
                 console.log('已存在' , name) ;
 
-                require('./plan')(name) ;
+                require('./plan')(name , planedNames) ;
             }
         }
 
