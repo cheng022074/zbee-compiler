@@ -5,9 +5,6 @@ const {
     SourceCode
 } = require('../code'),
 {
-    compile
-} = require('../script'),
-{
     APPLICATION
 } = require('../project');
 
