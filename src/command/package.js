@@ -21,8 +21,7 @@ const {
     unique
 } = require('../array'),
 {
-    writeFile,
-    writeJSONFile
+    writeFile
 } = require('../fs'),
 {
     assign
@@ -88,14 +87,8 @@ function doPackage({
     type = 'library',
     memory = false,
     to,
-    archive = true,
     ...config
 } , name){
-
-    if(memory === true){
-
-        archive = false ;
-    }
 
     let allCodes = [] ;
 
@@ -165,30 +158,6 @@ function doPackage({
         writeFile(path , data) ;
 
         console.log('已生成' , path) ;
-    }
-
-    if(archive){
-
-        let rootPath = join(APPLICATION.getFolderPath('archive') , convertDate(new Date() , {
-            format:'YYYYMMDD'
-        }) , name);
-
-        for(let path of paths){
-
-            let toFilePath = join(rootPath , path) ;
-
-            writeFile(toFilePath , result[path]) ;
-
-            console.log('已存档' , toFilePath) ;
-        }
-
-        writeJSONFile(join(rootPath , `${name}.package.json`) , {
-            classes,
-            type,
-            memory,
-            ...config
-        }) ;
-
     }
 
     if(env['ZBEE-PARAM-IGNORE-OUTPUT']){
