@@ -30,9 +30,6 @@ const {
     apply
 } = require('../template'),
 {
-    date:convertDate
-} = require('../string/convert'),
-{
     env
 } = process;
 
