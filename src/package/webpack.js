@@ -12,9 +12,7 @@ const {
 } = require('../project');
 
 module.exports = (codes , {
-    config,
-    compile:isCompile = true,
-    transform = true
+    config
 }) =>{
 
     const {
@@ -37,27 +35,13 @@ module.exports = (codes , {
         }
     }
 
-    let dependencies = {},
-        data = apply('code.package.bundle.webpack' , {
+    let data = apply('code.package.bundle.webpack' , {
             defaultFolder,
             codeMap,
             config
         });
 
-    if(isCompile){
-
-        data = compile(data , transform) ;
-
-        if(transform){
-
-            dependencies['@babel/runtime-corejs3'] = '^7.4.2' ;
-    
-        }
-    
-    }
-
     return {
-        dependencies,
         ['index.js']:data
      } ;
 }
