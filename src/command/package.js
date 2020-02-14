@@ -33,7 +33,7 @@ const {
     env
 } = process;
 
-module.exports = name =>{
+module.exports = async name =>{
 
     if(!name){
 
@@ -43,7 +43,7 @@ module.exports = name =>{
 
         for(let name of names){
 
-            doPackageFromConfig(config[name] , name) ;
+            await doPackageFromConfig(config[name] , name) ;
         }
     
     }else if(isObject(name)){
@@ -53,7 +53,7 @@ module.exports = name =>{
             ...config
         } = name ;
 
-        return doPackage(config , baseName) ;
+        return await doPackage(config , baseName) ;
 
     }else{
 
@@ -61,7 +61,7 @@ module.exports = name =>{
 
         if(config){
 
-            doPackageFromConfig(config , name) ;
+            await doPackageFromConfig(config , name) ;
         
         }else{
 
@@ -71,15 +71,15 @@ module.exports = name =>{
 
 }
 
-function doPackageFromConfig(config , name){
+async function doPackageFromConfig(config , name){
 
-    doPackage({
+    await doPackage({
         ...config,
         memory:false
     } , name) ;
 }
 
-function doPackage({
+async function doPackage({
     classes,
     type = 'library',
     memory = false,
@@ -108,7 +108,7 @@ function doPackage({
             dependencies = {},
             rootPath:packageRootPath = APPLICATION.getFolderPath('package'),
             ...result
-        } = require(`../package/${type}`)(codes , config , name) ;
+        } = await require(`../package/${type}`)(codes , config , name) ;
 
     if(memory === true){
 
