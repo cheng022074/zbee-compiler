@@ -84,7 +84,8 @@ module.exports = (codes , {
                 },
                 resolve: {
                     modules: [
-                        join(COMPILER.rootPath , 'node_modules')
+                        join(COMPILER.rootPath , 'node_modules'),
+                        join(APPLICATION.rootPath , 'node_modules')
                     ]
                 },
                 module: {
