@@ -1,8 +1,8 @@
 const webpack = require('./webpack') ;
 
 module.exports = (codes , {
-    ...config,
-    electron = 'renderer'
+    electron = 'renderer',
+    ...config
 } , name) => webpack(codes , {
     ...config,
     webpack:{
