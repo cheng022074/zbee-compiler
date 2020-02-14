@@ -12,15 +12,22 @@ const {
     join
 } = require('path'),
 {
-    writeTextFile
+    writeTextFile,
+    readTextFile
 } = require('../fs'),
 webpack = require('webpack'),
-webpackMerge = require('webpack-merge');
+webpackMerge = require('webpack-merge'),
+{
+    Console
+} = require('console'),
+{
+    createWriteStream
+} = require('fs');
 
 module.exports = (codes , {
     config,
     webpack:webpackConfig
-}) =>{
+} , name) =>{
 
     const {
         defaultFolder
@@ -48,13 +55,6 @@ module.exports = (codes , {
             config
         });
 
-    
-
-    let rootPath = join(APPLICATION.getFolderPath('bin') , Date.now().toString()),
-        entry = join(rootPath , 'src.js') ;
-
-    writeTextFile(entry , data) ;
-
     if(webpackConfig){
 
         if(webpackConfig === true){
@@ -62,56 +62,95 @@ module.exports = (codes , {
             webpackConfig = {} ;
         }
 
-        webpack(webpackMerge({
-            mode:'production',
-            optimization: {
-                minimize: false
-            },
-            context:COMPILER.rootPath,
-            entry,
-            output:{
-                filename:'dist.js',
-                path:rootPath
-            },
-            resolve: {
-                modules: [
-                    join(COMPILER.rootPath , 'node_modules')
-                ]
-            },
-            target:'electron-renderer',
-            module: {
-                rules:[{
-                    test: /\.js$/,
-                    exclude: /node_modules/,
-                    use: {
-                        loader: 'babel-loader',
-                        options: {
-                            cacheDirectory:true,
-                            presets: [
-                                '@babel/preset-env'
-                            ],
-                            plugins: [
-                                [
-                                    '@babel/plugin-transform-runtime',
-                                    {
-                                        corejs:{
-                                            version:3,
-                                            proposals:true
+        let rootPath = join(APPLICATION.getFolderPath('bin') , '.package'),
+            entry = join(rootPath , `${name}-index.js`) ;
+
+        writeTextFile(entry , data) ;
+
+        return new Promise(resolve =>{
+
+            webpack(webpackMerge({
+                mode:'production',
+                optimization: {
+                    minimize: false
+                },
+                context:COMPILER.rootPath,
+                entry,
+                output:{
+                    filename:`${name}-dist.js`,
+                    path:rootPath,
+                    library:name,
+                    libraryTarget:'umd'
+                },
+                resolve: {
+                    modules: [
+                        join(COMPILER.rootPath , 'node_modules')
+                    ]
+                },
+                module: {
+                    rules:[{
+                        test: /\.js$/,
+                        exclude: /node_modules/,
+                        use: {
+                            loader: 'babel-loader',
+                            options: {
+                                cacheDirectory:true,
+                                presets: [
+                                    '@babel/preset-env'
+                                ],
+                                plugins: [
+                                    [
+                                        '@babel/plugin-transform-runtime',
+                                        {
+                                            corejs:{
+                                                version:3,
+                                                proposals:true
+                                            }
                                         }
-                                    }
+                                    ]
                                 ]
-                            ]
+                            }
                         }
+                    }]
+                }
+            } , webpackConfig), (err, stats) => {
+    
+                let console = new Console(createWriteStream(join(rootPath , `${name}.log`))) ;
+        
+                if(err){
+    
+                    console.error(err.stack || err);
+                    
+                    if (err.details) {
+                      
+                        console.error(err.details);
                     }
-                }]
-            }
-        } , webpackConfig), (err, stats) => {
     
-            if (err || stats.hasErrors()){
+                    return;
+                }
+                
+                const info = stats.toJson();
+            
+                if(stats.hasErrors()){
     
-                console.log(err , stats.toJson().errors) ;
-            }
-        });
+                    console.error(info.errors);
+                
+                }else if(stats.hasWarnings()){
+                
+                    console.warn(info.warnings);
+    
+                }else{
+
+                    let distPath = join(rootPath , `${name}-dist.js`),
+                        data = readTextFile(distPath) ;
+
+                    resolve({
+                        ['index.js']:data
+                    }) ;
+                }
+            });
+
+        }) ;
     
     }
 
