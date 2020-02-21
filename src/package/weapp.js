@@ -8,10 +8,7 @@ TerserPlugin  = require('terser-webpack-plugin'),
     join
 } = require('path');
 
-module.exports = (codes , {
-    electron = 'renderer',
-    ...config
-} , name) => webpack(codes , {
+module.exports = (codes , config , name) => webpack(codes , {
     ...config,
     webpack:{
         optimization: {
