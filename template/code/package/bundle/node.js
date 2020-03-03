@@ -57,6 +57,6 @@ innerExports['<%- name %>'] = <%- codeMap[name] %>;
     }
 %>
 
-<%- apply('code.package.header.main' , main)%>
+<%- apply('code.package.header.main.node' , main)%>
 
 <%- apply('code.package.header.bootstrap' , bootstrap)%>
