@@ -3,7 +3,14 @@ const {
 } = require('../code'),
 generate = require('./generate');
 
-module.exports = name =>{
+module.exports = (name , planedNames = []) =>{
+
+    if(planedNames.includes(name)){
+
+        return ;
+    }
+
+    planedNames.push(name) ;
 
     let code = SourceCode.get(name),
         classes = code.dependentClasses,
@@ -11,6 +18,6 @@ module.exports = name =>{
 
     for(let name of names){
 
-        generate(name , classes[name]) ;
+        generate(name , classes[name] , planedNames) ;
     }
 }

@@ -14,9 +14,7 @@ const {
     toPropertyValue:toArrayPropertyValue
 } = require('../array');
 
-module.exports = (codes , {
-    script = true
-}) =>{
+module.exports = (codes) =>{
 
     let docs = {},
         classes = {};

@@ -7,11 +7,14 @@ const {
 {
     APPLICATION
 } = require('../project'),
-webpack = require('./webpack/native');
+{
+    join
+} = require('path');
 
 module.exports = (codes , {
     config,
-    webpack:webpackConfig
+    name:packageName,
+    path
 } , name) =>{
 
     const {
@@ -34,19 +37,25 @@ module.exports = (codes , {
         }
     }
 
-    let data = apply('code.package.bundle.webpack' , {
+    let dependencies = {},
+        data = apply('code.package.bundle.browser' , {
+            name:packageName || name,
             defaultFolder,
             codeMap,
             config
         });
 
-    if(webpackConfig){
+    if(path){
 
-        return webpack(data , webpackConfig , name) ;
-    
+        return {
+            dependencies,
+            rootPath:join(APPLICATION.rootPath , path),
+            ['index.js']:data
+         } ;
     }
 
     return {
+        dependencies,
         ['index.js']:data
-    } ;
+     } ;
 }

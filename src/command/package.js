@@ -21,8 +21,7 @@ const {
     unique
 } = require('../array'),
 {
-    writeFile,
-    writeJSONFile
+    writeFile
 } = require('../fs'),
 {
     assign
@@ -31,13 +30,10 @@ const {
     apply
 } = require('../template'),
 {
-    date:convertDate
-} = require('../string/convert'),
-{
     env
 } = process;
 
-module.exports = name =>{
+module.exports = async name =>{
 
     if(!name){
 
@@ -47,17 +43,17 @@ module.exports = name =>{
 
         for(let name of names){
 
-            doPackageFromConfig(config[name] , name) ;
+            await doPackageFromConfig(config[name] , name) ;
         }
     
     }else if(isObject(name)){
 
         let {
-            name,
+            name:baseName,
             ...config
         } = name ;
 
-        return doPackage(config , name) ;
+        return await doPackage(config , baseName) ;
 
     }else{
 
@@ -65,7 +61,7 @@ module.exports = name =>{
 
         if(config){
 
-            doPackageFromConfig(config , name) ;
+            await doPackageFromConfig(config , name) ;
         
         }else{
 
@@ -75,27 +71,21 @@ module.exports = name =>{
 
 }
 
-function doPackageFromConfig(config , name){
+async function doPackageFromConfig(config , name){
 
-    doPackage({
+    await doPackage({
         ...config,
         memory:false
     } , name) ;
 }
 
-function doPackage({
+async function doPackage({
     classes,
     type = 'library',
     memory = false,
     to,
-    archive = true,
     ...config
-} , name = `package-${Date.now()}`){
-
-    if(memory === true){
-
-        archive = false ;
-    }
+} , name){
 
     let allCodes = [] ;
 
@@ -116,8 +106,9 @@ function doPackage({
     let codes = unique(allCodes),
         {
             dependencies = {},
+            rootPath:packageRootPath = APPLICATION.getFolderPath('package'),
             ...result
-        } = require(`../package/${type}`)(codes , config) ;
+        } = await require(`../package/${type}`)(codes , config , name) ;
 
     if(memory === true){
 
@@ -153,7 +144,7 @@ function doPackage({
     }) ;
 
     let paths = Object.keys(result),
-        rootPath = join(APPLICATION.getFolderPath('package') , name);
+        rootPath = join(packageRootPath , name);
 
     for(let path of paths){
 
@@ -164,30 +155,6 @@ function doPackage({
         writeFile(path , data) ;
 
         console.log('已生成' , path) ;
-    }
-
-    if(archive){
-
-        let rootPath = join(APPLICATION.getFolderPath('archive') , convertDate(new Date() , {
-            format:'YYYYMMDD'
-        }) , name);
-
-        for(let path of paths){
-
-            let toFilePath = join(rootPath , path) ;
-
-            writeFile(toFilePath , result[path]) ;
-
-            console.log('已存档' , toFilePath) ;
-        }
-
-        writeJSONFile(join(rootPath , `${name}.package.json`) , {
-            classes,
-            type,
-            memory,
-            ...config
-        }) ;
-
     }
 
     if(env['ZBEE-PARAM-IGNORE-OUTPUT']){

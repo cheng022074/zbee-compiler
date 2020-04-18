@@ -9,13 +9,7 @@
 
 %>
 
-<%
-    if(main || bootstrap){
-%>
-const exports = {} ;
-<%
-    }
-%>
+const innerExports = {} ;
 
 try{
     const {
@@ -33,7 +27,7 @@ try{
 
 const include = <%- apply('code.package.header.include' , defaultFolder) ;%>;
 
-const mixins = <%- apply('code.mixins' , config) ;%>;
+const mixins = <%- apply('code.mixins') ;%>;
 
 <%
     if(!main && !bootstrap){
@@ -58,11 +52,11 @@ const config = <%- apply('code.package.header.config.node' , config) ;%>;
     for(let name of names){
 
 %>
-exports['<%- name %>'] = <%- codeMap[name] %>;
+innerExports['<%- name %>'] = <%- codeMap[name] %>;
 <%
     }
 %>
 
-<%- apply('code.package.header.main' , main)%>
+<%- apply('code.package.header.main.node' , main)%>
 
-<%- apply('code.package.header.bootstrap')%>
+<%- apply('code.package.header.bootstrap' , bootstrap)%>

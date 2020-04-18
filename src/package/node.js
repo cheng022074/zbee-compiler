@@ -7,16 +7,14 @@ const {
 {
     APPLICATION
 } = require('../project'),
-{
-    min
-} = require('../script') ;
+webpack = require('./webpack/native');
 
 module.exports = (codes , {
     config,
     bootstrap,
     main,
-    minify = false
-}) =>{
+    compatible = false
+} , name) =>{
 
     const {
         defaultFolder
@@ -38,20 +36,26 @@ module.exports = (codes , {
         }
     }
 
-    let code = apply('code.package.bundle.node' , {
-        defaultFolder,
-        codeMap,
-        config,
-        bootstrap,
-        main
-    }) ;
+    if(compatible){
 
-    if(minify === true){
-
-        code = min(code) ;
+        return webpack(apply('code.package.bundle.node.webpack' , {
+            defaultFolder,
+            codeMap,
+            config,
+            bootstrap,
+            main
+        }) , {
+            target:'node'
+        } , name) ;
     }
 
     return {
-        ['index.js']:code
+        ['index.js']:apply('code.package.bundle.node' , {
+            defaultFolder,
+            codeMap,
+            config,
+            bootstrap,
+            main
+        })
      } ;
-}
+    }

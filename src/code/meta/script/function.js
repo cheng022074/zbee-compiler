@@ -249,6 +249,8 @@ class FunctionMeta extends ScriptMeta{
             initLockedVariableName = `var_init_locked_${time}`,
             onceVariableName = `var_once_value_${time}`;
 
+        
+
         if(!hasMain || hasMain && !isMainClass){
 
             let currentScopeVariableName = `var_current_scope_${time}`;
@@ -294,7 +296,7 @@ class FunctionMeta extends ScriptMeta{
 
                     ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
 
-                    ${generate_class_code(classVariableNames , body)}
+                    ${generate_class_code(this.code.fullName , classVariableNames , body)}
 
                     ${generate_return_main_class(isOnce , isClass , onceVariableName , classVariableNames , paramNames)}
                 } ;
@@ -367,7 +369,7 @@ function generate_init_code(varName , code){
     return '' ;
 }
 
-function generate_class_code(varName , code){
+function generate_class_code(name , varName , code){
 
     if(code){
 
@@ -378,7 +380,13 @@ function generate_class_code(varName , code){
 
             ${varName} = class extends main{
 
-                static get ZBEE_CLASS(){
+                static get __ZBEE_IS_CLASS__(){
+
+                    return true ;
+                }
+
+
+                get __ZBEE_CLASS__(){
 
                     return true ;
                 }
@@ -386,6 +394,11 @@ function generate_class_code(varName , code){
                 get ZBEE_CURRENT_CLASS(){
 
                     return ${varName} ;
+                }
+
+                get __ZBEE_CLASS_NAME__(){
+
+                    return '${name}' ;
                 }
 
             } ;

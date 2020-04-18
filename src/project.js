@@ -391,7 +391,8 @@ class Libraries{
         defineProperties(me , [
             'targets',
             'metas',
-            'codeMap'
+            'codeMap',
+            'codeNames'
         ]) ;
     }
 
@@ -436,6 +437,11 @@ class Libraries{
         }
 
         return metas ;
+    }
+
+    getCodeNames(){
+
+        return Object.keys(this.codeMap) ;
     }
 
     getCodeMap(){

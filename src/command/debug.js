@@ -1,5 +1,4 @@
 const {
-    SourceCode,
     BinCode
 } = require('../code'),
 {
@@ -7,9 +6,8 @@ const {
 } = require('../runner'),
 compile = require('./compile'),
 {
-    green,
-    red
-} = require('colors');
+    fork
+} = require('child_process');
 
 module.exports = async (name) =>{
 
@@ -24,38 +22,17 @@ module.exports = async (name) =>{
 
     if(compile(name)){
 
+        global.fork = doFork ;
+
         run(BinCode.get(name).target) ;
     
-    }else{
-
-        const log = console.log.bind(console) ;
-
-        console.log = () =>{} ;
-
-        let codes = SourceCode.getMany(`${name}.*`) ;
-
-        for(let {
-            meta,
-            fullName
-        } of codes){
-
-            if(meta.params.length === 0){
-
-                compile(fullName) ;
-
-                try{
-
-                    await run(BinCode.get(fullName).target) ;
-
-                    log(green('成功') , fullName) ;
-
-                }catch(err){
-
-                    log(red('失败') , fullName) ;
-                }
-
-                
-            }
-        }
     }
+}
+
+function doFork(name){
+
+    return fork(process.argv[1] , [
+        'debug',
+        name
+    ]) ;
 }
