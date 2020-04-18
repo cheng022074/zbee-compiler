@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/cheng022074/zbee-compiler#readme",
   "engines": {
-    "node": ">= 10.1.0"
+    "node": ">= 13.9.0"
   },
   "dependencies": {
     "@babel/core": "^7.3.4",
