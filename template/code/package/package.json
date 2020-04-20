@@ -11,9 +11,5 @@
     "name": "<%- name %>",
     "version":"<%- version %>",
     "private": true,
-    "zbeeModule":<%- module %>,
-    "files":[
-        "index.js"
-    ],
     "dependencies": <%- JSON.stringify(dependencies , null , 2) %>
 }
