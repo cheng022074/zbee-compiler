@@ -171,21 +171,7 @@ async function doPackage({
 
                     {
 
-                        let rootPath = join(toPath , 'zbee_modules' , name) ;
-
-                        for(let path of paths){
-
-                            let toFilePath = join(rootPath , path) ;
-
-                            writeFile(toFilePath , result[path]) ;
-
-                            console.log('已复制' , toFilePath) ;
-                        } 
-                    }
-
-                    {
-
-                        let rootPath = join(toPath , 'node_modules' , name) ;
+                        let rootPath = join(toPath , 'node_modules' , 'zbee-sdk/package' , name) ;
 
                         for(let path of paths){
 
