@@ -74,7 +74,7 @@
 
             try{
 
-                data = require(`${env['ZBEE-APPLICATION-ROOT-PATH']}/config/${name.replace(/\./g , '/')}.json`) ;
+                data = require(`${env['ZBEE-APP-PATH'] || __dirname}/config/${name.replace(/\./g , '/')}.json`) ;
 
             }catch(err){
             }
