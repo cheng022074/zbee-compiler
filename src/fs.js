@@ -68,7 +68,7 @@ function writeTextFile(path , data){
 
     create_directory(dirname(path)) ;
 
-    writeFileSync(path , data) ;
+    writeFileSync(path , String(data)) ;
 }
 
 exports.writeTextFile = writeTextFile ;
