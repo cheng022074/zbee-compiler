@@ -249,11 +249,9 @@ class FunctionMeta extends ScriptMeta{
             initLockedVariableName = `var_init_locked_${time}`,
             onceVariableName = `var_once_value_${time}`;
 
-        
+        let currentScopeVariableName = `var_current_scope_${time}`;
 
         if(!hasMain || hasMain && !isMainClass){
-
-            let currentScopeVariableName = `var_current_scope_${time}`;
 
             code = `(() =>{
 
@@ -288,6 +286,8 @@ class FunctionMeta extends ScriptMeta{
 
                 ${generate_var(initLockedVariableName , fragmentImportAllCodeDefinition)}
 
+                ${generate_var(currentScopeVariableName , fragmentImportAllCodeScopedAssignment)}
+
                 ${generate_var(classVariableNames , true)}
 
                 ${generate_var(onceVariableName , isOnce)}
@@ -295,6 +295,8 @@ class FunctionMeta extends ScriptMeta{
                 return function(${isClass ? '' : paramFullNames}){
 
                     ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
+
+                    ${generate_scoped_code(currentScopeVariableName , fragmentImportAllCodeScopedAssignment)}
 
                     ${generate_class_code(this.code.fullName , classVariableNames , body)}
 
