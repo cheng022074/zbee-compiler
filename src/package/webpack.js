@@ -11,6 +11,7 @@ webpack = require('./webpack/native');
 
 module.exports = async (codes , {
     config,
+    entry,
     webpack:webpackConfig
 } , name) =>{
 
@@ -37,7 +38,8 @@ module.exports = async (codes , {
     let data = apply('code.package.bundle.webpack' , {
             defaultFolder,
             codeMap,
-            config
+            config,
+            entry
         });
 
     if(webpackConfig){

@@ -6,7 +6,8 @@ const innerExports = {} ;
     const {
         defaultFolder,
         codeMap,
-        config
+        config,
+        entry
     } = data ;
 %>
 
@@ -32,6 +33,14 @@ const mixins = <%- apply('code.mixins') ;%>;
 
 %>
 innerExports['<%- name %>'] = <%- codeMap[name] %>;
+<%
+    }
+%>
+
+<%
+    if(entry){
+%>
+export default (...args) => include('<%- entry %>')(...args) ;
 <%
     }
 %>
