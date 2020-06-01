@@ -1,9 +1,7 @@
 const {
     APPLICATION,
-    COMPILER
 } = require('../../project'),
 webpack = require('webpack'),
-webpackMerge = require('webpack-merge'),
 {
     join
 } = require('path'),
@@ -16,7 +14,8 @@ webpackMerge = require('webpack-merge'),
 {
     writeTextFile,
     readTextFile
-} = require('../../fs');
+} = require('../../fs'),
+webpackConfig = require('./config');
 
 module.exports = (data , config , name) =>{
 
@@ -32,52 +31,7 @@ module.exports = (data , config , name) =>{
 
     return new Promise(resolve =>{
 
-        webpack(webpackMerge({
-            mode:'production',
-            optimization: {
-                minimize: false
-            },
-            context:COMPILER.rootPath,
-            entry,
-            output:{
-                filename:`${name}-dist.js`,
-                path:rootPath,
-                library:name,
-                libraryTarget:'umd'
-            },
-            resolve: {
-                modules: [
-                    join(APPLICATION.rootPath , 'node_modules'),
-                    join(COMPILER.rootPath , 'node_modules')
-                ]
-            },
-            module: {
-                rules:[{
-                    test: /\.js$/,
-                    exclude: /node_modules/,
-                    use: {
-                        loader: 'babel-loader',
-                        options: {
-                            cacheDirectory:true,
-                            presets: [
-                                '@babel/preset-env'
-                            ],
-                            plugins: [
-                                [
-                                    '@babel/plugin-transform-runtime',
-                                    {
-                                        corejs:{
-                                            version:3,
-                                            proposals:true
-                                        }
-                                    }
-                                ]
-                            ]
-                        }
-                    }
-                }]
-            }
-        } , config), (err, stats) => {
+        webpack(webpackConfig(name , entry , rootPath , config), (err, stats) => {
 
             let innerConsole = new Console(createWriteStream(join(rootPath , `${name}.log`))) ;
     
@@ -96,12 +50,16 @@ module.exports = (data , config , name) =>{
             }
             
             const info = stats.toJson();
+
+            let isError = false ;
         
             if(stats.hasErrors()){
 
                 innerConsole.error('ERROR') ;
 
                 innerConsole.error(print(info.errors));
+
+                isError
             
             }else if(stats.hasWarnings()){
 
@@ -113,22 +71,16 @@ module.exports = (data , config , name) =>{
 
                 console.warn(result) ;
 
-                let distPath = join(rootPath , `${name}-dist.js`),
-                    data = readTextFile(distPath) ;
+            }
 
+            if(!isError){
+                
                 resolve({
-                    ['index.js']:data
-                }) ;
-
-            }else{
-
-                let distPath = join(rootPath , `${name}-dist.js`),
-                    data = readTextFile(distPath) ;
-
-                resolve({
-                    ['index.js']:data
+                    ['index.js']:`/* eslint-disable */ \n ${readTextFile(join(rootPath , `${name}-dist.js`))}`
                 }) ;
             }
+
+            
         });
 
     }) ;
