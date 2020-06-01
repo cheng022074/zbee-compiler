@@ -17,7 +17,7 @@ webpack = require('webpack'),
 } = require('../../fs'),
 webpackConfig = require('./config');
 
-module.exports = (data , config , name) =>{
+module.exports = (data , config , name , isMinimize = false) =>{
 
     if(config === true){
 
@@ -31,7 +31,7 @@ module.exports = (data , config , name) =>{
 
     return new Promise(resolve =>{
 
-        webpack(webpackConfig(name , entry , rootPath , config), (err, stats) => {
+        webpack(webpackConfig(name , entry , rootPath , config , isMinimize), (err, stats) => {
 
             let innerConsole = new Console(createWriteStream(join(rootPath , `${name}.log`))) ;
     
@@ -75,12 +75,8 @@ module.exports = (data , config , name) =>{
 
             if(!isError){
                 
-                resolve({
-                    ['index.js']:`/* eslint-disable */ \n ${readTextFile(join(rootPath , `${name}-dist.js`))}`
-                }) ;
+                resolve(readTextFile(join(rootPath , `${name}-dist.js`))) ;
             }
-
-            
         });
 
     }) ;
