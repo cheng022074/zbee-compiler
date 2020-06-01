@@ -79,6 +79,11 @@ async function doPackageFromConfig(config , name){
     } , name) ;
 }
 
+function getPackageName(name){
+
+    return name.replace(/\-/g , '_').toLowerCase() ;
+}
+
 async function doPackage({
     classes,
     type = 'library',
@@ -139,7 +144,7 @@ async function doPackage({
     let files = Object.keys(result) ;
 
     result['package.json'] = apply('code.package.package' , {
-        name,
+        name:getPackageName(name),
         files,
         version:APPLICATION.version,
         dependencies
