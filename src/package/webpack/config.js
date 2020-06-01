@@ -33,7 +33,7 @@ function getLibraryName(name){
     return result.join('') ;
 }
 
-module.exports = (name , entry , outputPath , config , isMinimize = false) =>{
+module.exports = (name , entry , outputPath , config , isMinimize) =>{
 
     let webpackConfig = {
         mode:'production',
