@@ -9,7 +9,7 @@ const {
 } = require('../project'),
 webpack = require('./webpack/native');
 
-module.exports = (codes , {
+module.exports = async (codes , {
     config,
     webpack:webpackConfig
 } , name) =>{
@@ -42,7 +42,10 @@ module.exports = (codes , {
 
     if(webpackConfig){
 
-        return webpack(data , webpackConfig , name) ;
+        return {
+            ['index.js']:await webpack(data , webpackConfig , name , true),
+            ['index-debug.js']:await webpack(data , webpackConfig , name , false)
+        } ;
     
     }
 
