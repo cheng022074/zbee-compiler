@@ -4,12 +4,14 @@
         dependencies,
         version,
         type,
-        module
+        module,
+        files
     } = data ;
 %>
 {
     "name": "<%- name %>",
     "version":"<%- version %>",
     "private": true,
+    "files": <%- JSON.stringify(files , null , 2) %>,
     "dependencies": <%- JSON.stringify(dependencies , null , 2) %>
 }

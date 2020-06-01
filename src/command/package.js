@@ -136,8 +136,11 @@ async function doPackage({
         }
     }
 
+    let files = Object.keys(result) ;
+
     result['package.json'] = apply('code.package.package' , {
         name,
+        files,
         version:APPLICATION.version,
         dependencies
     }) ;

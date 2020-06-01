@@ -75,7 +75,7 @@ module.exports = (data , config , name , isMinimize = false) =>{
 
             if(!isError){
                 
-                resolve(readTextFile(join(rootPath , `${name}-dist.js`))) ;
+                resolve(`/* eslint-disable */ ${readTextFile(join(rootPath , `${name}-dist.js`))}`) ;
             }
         });
 
