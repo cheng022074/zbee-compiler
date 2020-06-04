@@ -29,5 +29,14 @@
                 "template":"code.template.script.debug"
             }
         }
+    },
+    "css":{
+        "defaultSuffix":".scss",
+        "suffixes":{
+            ".scss":{
+                "meta":"code.meta.scss",
+                "template":"code.template.scss"
+            }
+        }
     }
 }
