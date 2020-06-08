@@ -1,110 +1,37 @@
-const
+const Body = require('./body/html'),
 {
     readTextFile
-} = require('../../fs'),
-{
-    normalize
-} = require('../../name'),
-{
-    defineCacheProperties
-} = require('../../object'),
-{
-    parse,
-    stringify,
-    format
-} = require('../../html'),
-{
-    clearEmpty
-} = require('../../array');
+} = require('../../fs');
 
-module.exports = class {
+class Meta extends require('../meta')(){
 
-    constructor(code){
+    getImports(){
 
-        let me = this ;
-
-        me.target = code ;
-
-        defineCacheProperties(me , [
-            'data',
-            'importScriptNames',
-            'importCSSNames',
-            'importNames',
-            'code'
-        ]) ;
+        return this.body.imports ;
     }
 
-    applyData(){
+    getParams(){
 
-        return parse(readTextFile(this.target.path));
+        return [] ;
     }
 
-    applyImportNames(){
+    getRawBody(){
 
-        let {
-            importScriptNames,
-            importCSSNames
-        } = this ;
-
-        return [
-            ...importScriptNames,
-            ...importCSSNames
-        ] ;
+        return readTextFile(this.code.path) ;
     }
 
-    applyImportScriptNames(){
+    getBody(){
 
-        let {
-            head
-        } = this.data.window.document,
-        scriptEls = head.querySelectorAll('script[import]'),
-        names = [];
-
-        for(let scriptEl of scriptEls){
-
-            names.push(scriptEl.getAttribute('import')) ;
-        }
-
-        return clearEmpty(names) ;
+        return new Body(this) ;
     }
 
-    applyImportCSSNames(){
+    toString(){
 
-        let {
-            head
-        } = this.data.window.document,
-        styleEls = head.querySelectorAll('style[import]'),
-        names = [];
-
-        for(let styleEl of styleEls){
-
-            names.push(normalize(styleEl.getAttribute('import') , 'css')) ;
-        }
-
-        return clearEmpty(names) ;
+        return this.body.toString() ;
     }
-
-    applyCode(){
-
-        let {
-            documentElement
-        } = this.data.window.document ;
-
-        let rootEl = documentElement.cloneNode(true) ;
-
-        remove(rootEl.querySelectorAll('head > style[import]')) ;
-
-        remove(rootEl.querySelectorAll('head > script[import]')) ;
-
-        return format(stringify(rootEl)) ;
-    }
-
 }
 
-function remove(els){
+module.exports = code =>{
 
-    for(let el of els){
-
-        el.remove() ;
-    }
+    return new Meta(code) ;
 }

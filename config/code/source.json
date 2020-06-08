@@ -27,6 +27,10 @@
             ".js":{
                 "meta":"code.meta.script.function",
                 "template":"code.template.script.debug"
+            },
+            ".html":{
+                "meta":"code.meta.html",
+                "template":"code.template.html"
             }
         }
     },
