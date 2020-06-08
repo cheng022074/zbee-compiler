@@ -88,6 +88,7 @@ async function doPackage({
     classes,
     type = 'library',
     memory = false,
+    version,
     to,
     ...config
 } , name){
@@ -146,7 +147,7 @@ async function doPackage({
     result['package.json'] = apply('code.package.package' , {
         name:getPackageName(name),
         files,
-        version:APPLICATION.version,
+        version:version || APPLICATION.version,
         dependencies
     }) ;
 
