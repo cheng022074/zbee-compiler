@@ -337,7 +337,16 @@ class Application extends Project{
 
     generateBinPath(folder , name){
 
-        return join(this.getFolderPath('bin') , folder , `${name}.js`) ;
+        let suffix = '.js' ;
+
+        if(folder === 'css'){
+
+            suffix = '.scss' ;
+
+            name = `_${name}` ;
+        }
+
+        return join(this.getFolderPath('bin') , folder , `${name}${suffix}`) ;
     }
 
     getFolderName(folder){

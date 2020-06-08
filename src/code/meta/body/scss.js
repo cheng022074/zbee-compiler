@@ -23,6 +23,8 @@ module.exports = class {
 
         me.data = parse(data) ;
 
+        me.rawData = data ;
+
         defineProperties(me , [
             'params',
             'imports'

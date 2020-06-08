@@ -55,16 +55,29 @@ function compile(code){
 
     let {
         name,
-        motifyTime
+        motifyTime,
+        folder,
+        data
     } = code,
-    path = APPLICATION.generateBinPath(code.folder , name);
+    path = APPLICATION.generateBinPath(folder , name);
 
     if(!env['ZBEE-ENV'] && motifyTime === getLastCompileTime(path)){
 
         return ;
     }
 
-    let codeText = `module.exports = ${format(code.data)}` ;
+    let codeText ;
+
+    if(folder === 'css'){
+
+        codeText = data ;
+
+    }else{
+
+        codeText = `module.exports = ${format(data)}` ;
+    }
+
+    console.log(folder , codeText) ;
 
     writeTextFile(path , codeText) ;
 
@@ -87,5 +100,5 @@ function getLastCompileTime(path){
 
 function getLastCompileTimePath(path){
 
-    return path.replace(/\.js$/ , '') ;
+    return path.replace(/\.[^\.]+$/ , '') ;
 }
