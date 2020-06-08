@@ -1,10 +1,18 @@
 const {
     parse
-} = require('postcss');
+} = require('postcss'),
+{
+    defineProperties
+} = require('../../../object');
 
 module.exports = class {
 
     constructor(meta){
+
+        let me = this,
+        {
+            rawBody:data
+        } = meta;
 
         me.meta = meta ;
 

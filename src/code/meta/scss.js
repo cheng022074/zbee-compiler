@@ -1,4 +1,7 @@
-const Body = require('./body/scss') ;
+const Body = require('./body/scss'),
+{
+    readTextFile
+} = require('../../fs');
 
 class Meta extends require('../meta')(){
 
@@ -12,6 +15,11 @@ class Meta extends require('../meta')(){
         return [] ;
     }
 
+    getRawBody(){
+
+        return readTextFile(this.code.path) ;
+    }
+
     getDependentClassSuffix(name){
 
         return '.scss' ;
@@ -20,6 +28,11 @@ class Meta extends require('../meta')(){
     getBody(){
 
         return new Body(this) ;
+    }
+
+    toString(){
+
+        return this.body.toString() ;
     }
 }
 
