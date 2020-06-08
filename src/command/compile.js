@@ -77,8 +77,6 @@ function compile(code){
         codeText = `module.exports = ${format(data)}` ;
     }
 
-    console.log(folder , codeText) ;
-
     writeTextFile(path , codeText) ;
 
     writeTextFile(getLastCompileTimePath(path) , motifyTime) ;

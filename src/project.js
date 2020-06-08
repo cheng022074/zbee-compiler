@@ -16,7 +16,8 @@ const {
     defineProperties
 } = require('./object'),
 {
-    toPath
+    toPath,
+    toBinFileName
 } = require('./name'),
 {
     file:is_file,
@@ -337,16 +338,7 @@ class Application extends Project{
 
     generateBinPath(folder , name){
 
-        let suffix = '.js' ;
-
-        if(folder === 'css'){
-
-            suffix = '.scss' ;
-
-            name = `_${name}` ;
-        }
-
-        return join(this.getFolderPath('bin') , folder , `${name}${suffix}`) ;
+        return join(this.getFolderPath('bin') , folder , toBinFileName(folder , name)) ;
     }
 
     getFolderName(folder){

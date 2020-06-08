@@ -18,6 +18,19 @@ exports.toPath = (name , suffix = '') =>{
     }
 }
 
+exports.toBinFileName = (folder , name) => {
+
+    if(folder === 'css'){
+
+        return  `_${name.replace(/\./g , '_')}.scss` ;
+    }
+
+    return `${name}.js` ;
+
+} ;
+
+exports.toImportCSSFileName = name => name.replace(/\./g , '_') ;
+
 exports.toStylesheetCase = fullName =>{
 
     let {

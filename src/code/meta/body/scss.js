@@ -5,7 +5,9 @@ const {
     defineProperties
 } = require('../../../object'),
 {
-    normalize
+    normalize,
+    toImportCSSFileName,
+    parse:nameParse
 } = require('../../../name');
 
 const doubleQuoteRe = /\"([^\"]+)\"/;
@@ -21,9 +23,7 @@ module.exports = class {
 
         me.meta = meta ;
 
-        me.data = parse(data) ;
-
-        me.rawData = data ;
+        me.data = parse(data).root() ;
 
         defineProperties(me , [
             'params',
@@ -33,10 +33,12 @@ module.exports = class {
 
     getImports(){
 
-        let root = this.data.root(),
-            imports = [];
+        let {
+            data
+        } = this,
+        imports = [];
 
-        root.each(node => {
+        data.each(node => {
 
             let {
                 type,
@@ -63,7 +65,43 @@ module.exports = class {
 
     toString(){
 
-        return this.rawData ;
+        let {
+            data
+        } = this,
+        root = data.clone() ;
+
+        root.each(node => {
+
+            let {
+                type,
+                name,
+                params
+            } = node ;
+
+            if(type === 'atrule' && name === 'import'){
+
+                let [
+                    ,
+                    fullName
+                ] = params.match(doubleQuoteRe),
+                {
+                    folder,
+                    name
+                } = nameParse(fullName , 'css');
+
+                if(folder === 'css'){
+
+                    node.params = `"${toImportCSSFileName(name)}"` ;
+                
+                }else{
+
+                    root.removeChild(node) ;
+                }
+            }
+
+        }) ;
+
+        return root.toString() ;
     }
 
 } ;
