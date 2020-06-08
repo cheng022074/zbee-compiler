@@ -29,6 +29,10 @@ exports.toBinFileName = (folder , name) => {
 
 } ;
 
+exports.toBinScriptFileName = name => `${name}.js` ;
+
+exports.toBinSCSSFileName = name => `_${name.replace(/\./g , '_')}.scss` ;
+
 exports.toBinCSSFileName = name => `${name}.css` ;
 
 exports.toImportCSSFileName = name => `${name.replace(/\./g , '_')}.scss` ;

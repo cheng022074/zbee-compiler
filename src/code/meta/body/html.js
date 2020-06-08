@@ -7,7 +7,7 @@ const {
 {
     normalize,
     toImportCSSFileName,
-    parse:nameParse
+    parse
 } = require('../../../name');
 
 const doubleQuoteRe = /\"([^\"]+)\"/;
@@ -51,9 +51,31 @@ module.exports = class {
 
     toString(){
 
-       let {
-           data
-       } = this ;
+       let data = new JSDOM(this.data.serialize()),
+       {
+            document
+       } = data.window,
+       {
+           head:headEl
+       } = document,
+       styleEls = Array.from(headEl.querySelectorAll('style[import]'));
+
+       for(let styleEl of styleEls){
+
+            let linkEl = document.createElement('link') ;
+
+            linkEl.setAttribute('rel' , 'stylesheet') ;
+
+            let {
+                name
+            } = parse(styleEl.getAttribute('import') , 'css') ;
+
+            linkEl.setAttribute('href' , `../css/${toImportCSSFileName(name)}`) ;
+
+            headEl.insertBefore(linkEl , styleEl) ;
+
+            headEl.removeChild(styleEl) ;
+       }
 
        return data.serialize() ;
     }

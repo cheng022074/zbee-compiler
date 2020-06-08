@@ -369,6 +369,21 @@ class Meta{
 
         return '() =>{}' ;
     }
+
+    get binPath(){
+
+        return false ;
+    }
+
+    get binData(){
+
+        return '' ;
+    }
+
+    afterCompile(){
+
+        
+    }
 }
 
 function get_signature_name({

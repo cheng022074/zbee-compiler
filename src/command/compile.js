@@ -2,31 +2,14 @@ const {
     SourceCode
 } = require('../code'),
 {
-    APPLICATION
-} = require('../project'),
-{
     writeTextFile
 } = require('../fs'),
-{
-    format
-} = require('../script'),
 {
     readTextFile
 } = require('../fs'),
 {
     env
-} = process,
-{
-    renderSync
-} = require('node-sass'),
-{
-    basename,
-    dirname,
-    join
-} = require('path'),
-{
-    toBinCSSFileName
-} = require('../name');
+} = process ;
 
 module.exports = name =>{
 
@@ -45,20 +28,7 @@ module.exports = name =>{
             compile(code) ;
         }
 
-        {
-            let {
-                folder,
-                name
-            } = code ;
-    
-            if(folder === 'css'){
-
-                writeTextFile(join(APPLICATION.getFolderPath('bin') , folder , toBinCSSFileName(name)) , renderSync({
-                    file:APPLICATION.generateBinPath(folder , name)
-                }).css.toString('utf8')) ;
-
-            }
-        }
+        code.meta.afterCompile() ;
 
         return true ;
     
@@ -80,30 +50,19 @@ function compile(code){
 
 
     let {
-        name,
         motifyTime,
-        folder,
-        data
+        meta
     } = code,
-    path = APPLICATION.generateBinPath(folder , name);
+    {
+        binPath:path
+    } = meta;
 
-    if(!env['ZBEE-ENV'] && motifyTime === getLastCompileTime(path)){
+    if(path === false || !env['ZBEE-ENV'] && motifyTime === getLastCompileTime(path)){
 
         return ;
     }
 
-    let codeText ;
-
-    if(folder === 'css'){
-
-        codeText = data ;
-
-    }else{
-
-        codeText = `module.exports = ${format(data)}` ;
-    }
-
-    writeTextFile(path , codeText) ;
+    writeTextFile(path , meta.binData) ;
 
     writeTextFile(getLastCompileTimePath(path) , motifyTime) ;
 

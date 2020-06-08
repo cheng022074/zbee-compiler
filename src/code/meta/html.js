@@ -29,6 +29,7 @@ class Meta extends require('../meta')(){
 
         return this.body.toString() ;
     }
+    
 }
 
 module.exports = code =>{

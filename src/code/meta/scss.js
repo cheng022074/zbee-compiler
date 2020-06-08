@@ -1,7 +1,18 @@
 const Body = require('./body/scss'),
 {
-    readTextFile
-} = require('../../fs');
+    readTextFile,
+    writeTextFile
+} = require('../../fs'),
+{
+    join
+} = require('path'),
+{
+    toBinSCSSFileName,
+    toBinCSSFileName
+} = require('../../name'),
+{
+    renderSync
+} = require('node-sass');
 
 class Meta extends require('../meta')(){
 
@@ -33,6 +44,42 @@ class Meta extends require('../meta')(){
     toString(){
 
         return this.body.toString() ;
+    }
+
+    get binPath(){
+
+        let {
+            project,
+            folder,
+            name
+        } = this.code ;
+
+        return join(project.getFolderPath('bin') , folder , toBinSCSSFileName(name)) ;
+    }
+
+    get binData(){
+
+        let {
+            data
+        } = this.code ;
+
+        return data ;
+    }
+
+    afterCompile(){
+
+        let {
+            code,
+            binPath
+        } = this,{
+            folder,
+            name,
+            project
+        } = this.code ;
+
+        writeTextFile(join(project.getFolderPath('bin') , folder , toBinCSSFileName(name)) , renderSync({
+            file:binPath
+        }).css.toString('utf8')) ;
     }
 }
 
