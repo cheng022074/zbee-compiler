@@ -7,7 +7,7 @@ class Meta extends require('../meta')(){
 
     getImports(){
 
-        return [] ;
+        return this.body.imports ;
     }
 
     getParams(){

@@ -3,7 +3,12 @@ const {
 } = require('postcss'),
 {
     defineProperties
-} = require('../../../object');
+} = require('../../../object'),
+{
+    normalize
+} = require('../../../name');
+
+const doubleQuoteRe = /\"([^\"]+)\"/;
 
 module.exports = class {
 
@@ -17,13 +22,41 @@ module.exports = class {
         me.meta = meta ;
 
         me.data = parse(data) ;
-        
-        me.rawData = data ;
 
         defineProperties(me , [
             'params',
             'imports'
         ]) ;
+    }
+
+    getImports(){
+
+        let root = this.data.root(),
+            imports = [];
+
+        root.each(node => {
+
+            let {
+                type,
+                name,
+                params
+            } = node ;
+
+            if(type === 'atrule' && name === 'import'){
+
+                let [
+                    ,
+                    fullName
+                ] = params.match(doubleQuoteRe) ;
+
+                imports.push({
+                    target:normalize(fullName , 'css')
+                }) ;
+            }
+
+        }) ;
+
+        return imports ;
     }
 
     toString(){
