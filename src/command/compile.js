@@ -15,7 +15,18 @@ const {
 } = require('../fs'),
 {
     env
-} = process;
+} = process,
+{
+    renderSync
+} = require('node-sass'),
+{
+    basename,
+    dirname,
+    join
+} = require('path'),
+{
+    toBinCSSFileName
+} = require('../name');
 
 module.exports = name =>{
 
@@ -32,6 +43,21 @@ module.exports = name =>{
         for(let code of importAllSourceCodes){
 
             compile(code) ;
+        }
+
+        {
+            let {
+                folder,
+                name
+            } = code ;
+    
+            if(folder === 'css'){
+
+                writeTextFile(join(APPLICATION.getFolderPath('bin') , folder , toBinCSSFileName(name)) , renderSync({
+                    file:APPLICATION.generateBinPath(folder , name)
+                }).css.toString('utf8')) ;
+
+            }
         }
 
         return true ;
