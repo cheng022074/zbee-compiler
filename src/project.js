@@ -17,7 +17,7 @@ const {
 } = require('./object'),
 {
     toPath,
-    toBinFileName
+    toBinScriptFileName
 } = require('./name'),
 {
     file:is_file,
@@ -338,7 +338,7 @@ class Application extends Project{
 
     generateBinPath(folder , name){
 
-        return join(this.getFolderPath('bin') , folder , toBinFileName(folder , name)) ;
+        return join(this.getFolderPath('bin') , folder , toBinScriptFileName(name)) ;
     }
 
     getFolderName(folder){
