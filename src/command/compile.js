@@ -68,7 +68,7 @@ function compile(code){
         fullName
     } = code ;
 
-    writeTextFile(path , `module.exports = ${format(data)}`) ;
+    writeTextFile(path , `module.exports = ${format(data)};`) ;
 
     writeTextFile(getLastCompileTimePath(path) , motifyTime) ;
 

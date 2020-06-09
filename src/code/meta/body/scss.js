@@ -89,14 +89,7 @@ module.exports = class {
                     name
                 } = nameParse(fullName , 'css');
 
-                if(folder === 'css'){
-
-                    node.params = `"${toImportCSSFileName(name)}"` ;
-                
-                }else{
-
-                    root.removeChild(node) ;
-                }
+                node.params = `"${toImportCSSFileName(folder , name)}"` ;
             }
 
         }) ;
