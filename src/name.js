@@ -35,7 +35,7 @@ exports.toBinSCSSFileName = name => `_${name.replace(/\./g , '_')}.scss` ;
 
 exports.toBinCSSFileName = name => `${name}.css` ;
 
-exports.toImportCSSFileName = (folder , name) => `${folder}_${name.replace(/\./g , '_')}.scss` ;
+exports.toImportCSSFileName = (folder , name) => `../${folder}/${name.replace(/\./g , '_')}.scss` ;
 
 exports.toStylesheetCase = fullName =>{
 

@@ -12,7 +12,8 @@ const {
 } = process,
 {
     format
-} = require('../script');
+} = require('../script'),
+SCSSCompile = require('./compile/scss');
 
 module.exports = name =>{
 
@@ -20,7 +21,9 @@ module.exports = name =>{
 
     if(code && code.exists){
 
-        compile(code) ;
+        let codes = new Map() ;
+
+        codes.set(code , compile(code)) ;
         
         let {
             importAllSourceCodes
@@ -28,7 +31,18 @@ module.exports = name =>{
 
         for(let code of importAllSourceCodes){
 
-            compile(code) ;
+            codes.set(code , compile(code)) ;
+        }
+
+        let {
+            metaName
+        } = code;
+
+        switch(metaName){
+
+            case 'code.meta.scss':
+
+                SCSSCompile(code , codes) ;
         }
 
         return true ;
@@ -46,7 +60,7 @@ function compile(code){
 
     if(!exists){
 
-        return ;
+        return false;
     }
 
 
@@ -60,7 +74,7 @@ function compile(code){
 
     if(!env['ZBEE-ENV'] && motifyTime === getLastCompileTime(path)){
 
-        return ;
+        return false;
     }
 
     let {
@@ -73,6 +87,8 @@ function compile(code){
     writeTextFile(getLastCompileTimePath(path) , motifyTime) ;
 
     console.log('已生成' , fullName) ;
+
+    return true ;
 }
 
 function getLastCompileTime(path){

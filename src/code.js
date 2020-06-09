@@ -705,6 +705,15 @@ class SourceCode extends Code{
         return codes ;
     }
 
+    get metaName(){
+
+        let {
+            meta = 'code.meta'
+        } = this.config ;
+
+        return meta ;
+    }
+
     get config(){
 
         let me = this,
