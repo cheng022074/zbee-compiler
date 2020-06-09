@@ -708,10 +708,14 @@ class SourceCode extends Code{
     get metaName(){
 
         let {
-            meta = 'code.meta'
-        } = this.config ;
+            exists,
+            config
+        } = this; 
 
-        return meta ;
+        if(exists){
+
+            return config.meta || 'code.meta' ;
+        }
     }
 
     get config(){

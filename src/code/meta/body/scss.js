@@ -8,7 +8,10 @@ const {
     normalize,
     toImportCSSFileName,
     parse:nameParse
-} = require('../../../name');
+} = require('../../../name'),
+{
+    SourceCode
+} = require('../../../code');
 
 const doubleQuoteRe = /\"([^\"]+)\"/;
 
@@ -89,7 +92,16 @@ module.exports = class {
                     name
                 } = nameParse(fullName , 'css');
 
-                node.params = `"${toImportCSSFileName(folder , name)}"` ;
+                if(SourceCode.getProperty(SourceCode.get(`${folder}::${name}`) , 'metaName') === 'code.meta.scss'){
+
+                    node.params = `"${toImportCSSFileName(folder , name)}"` ;
+                
+                }else{
+
+                    root.removeChild(node) ;
+                }
+
+                
             }
 
         }) ;
