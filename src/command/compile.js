@@ -9,7 +9,10 @@ const {
 } = require('../fs'),
 {
     env
-} = process ;
+} = process,
+{
+    format
+} = require('../script');
 
 module.exports = name =>{
 
@@ -27,8 +30,6 @@ module.exports = name =>{
 
             compile(code) ;
         }
-
-        code.meta.afterCompile() ;
 
         return true ;
     
@@ -51,22 +52,27 @@ function compile(code){
 
     let {
         motifyTime,
-        meta
+        project,
+        folder,
+        name
     } = code,
-    {
-        binPath:path
-    } = meta;
+    path = project.generateBinPath(folder , name);
 
-    if(path === false || !env['ZBEE-ENV'] && motifyTime === getLastCompileTime(path)){
+    if(!env['ZBEE-ENV'] && motifyTime === getLastCompileTime(path)){
 
         return ;
     }
 
-    writeTextFile(path , meta.binData) ;
+    let {
+        data,
+        fullName
+    } = code ;
+
+    writeTextFile(path , `module.exports = ${format(data)}`) ;
 
     writeTextFile(getLastCompileTimePath(path) , motifyTime) ;
 
-    console.log('已生成' , code.fullName) ;
+    console.log('已生成' , fullName) ;
 }
 
 function getLastCompileTime(path){

@@ -20,14 +20,8 @@ dotPrefixRe = /^\./,
 dobuleDotPrefixRe = /^(?:\.{2})+/,
 dotRe = /\./,
 {
-    format
-} = require('../../script'),
-{
     join
-} = require('path'),
-{
-    toBinScriptFileName
-} = require('../../name');
+} = require('path');
 
 module.exports = class extends Meta{
 
@@ -247,26 +241,5 @@ module.exports = class extends Meta{
     
         return name ;
     }
-
-    get binPath(){
-
-        let {
-            project,
-            folder,
-            name
-        } = this.code ;
-
-        return join(project.getFolderPath('bin') , folder , toBinScriptFileName(name)) ;
-    }
-
-    get binData(){
-
-        let {
-            data
-        } = this.code ;
-
-        return `module.exports = ${format(data)}` ;
-    }
-
 }
 
