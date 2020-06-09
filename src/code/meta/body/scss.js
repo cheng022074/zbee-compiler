@@ -99,9 +99,7 @@ module.exports = class {
                 }else{
 
                     root.removeChild(node) ;
-                }
-
-                
+                }   
             }
 
         }) ;
