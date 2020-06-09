@@ -18,7 +18,7 @@ const {
     renderSync
 } = require('node-sass');
 
-module.exports = async (code , codes) => {
+module.exports = (code , codes) => {
 
     let sourceCodes = codes.keys(),
         isCompile = false;
