@@ -39,7 +39,7 @@ module.exports = async (code , codes) => {
 
                 let path = join(project.getFolderPath('bin') , folder , toBinSCSSFileName(name)) ;
 
-                writeTextFile(path , await run(BinCode.get(fullName).target)) ;
+                writeTextFile(path , BinCode.get(fullName).target()) ;
 
                 console.log('已完成' , path) ;
 
