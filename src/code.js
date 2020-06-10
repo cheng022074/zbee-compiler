@@ -542,28 +542,7 @@ class SourceCode extends Code{
      */
     getMeta(){
 
-        let 
-        me = this,
-        {
-            config
-        } = me ;
-
-        if(config){
-
-            let {
-                meta = 'code.meta'
-            } = config,
-            target = run(BinCode.get(meta).target , me) ;
-
-            if(!target){
-
-                return run(BinCode.get('code.meta').target , me) ;
-            }
-
-            return target ;
-        }
-
-        return run(BinCode.get('code.meta').target , me) ;
+        return require('../lib/code/source/meta').call(this) ;
     }
 
     reset(){
