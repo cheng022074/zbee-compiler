@@ -8,11 +8,13 @@ Body = require('./meta/body'),
 
 class Meta{
 
-    constructor(code){
+    constructor(code , params){
 
         let me = this ;
 
         me.code = code ;
+
+        me.params = params ;
 
         defineProperties(me , me.getPropertyNames()) ;
     }
