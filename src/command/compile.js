@@ -72,12 +72,12 @@ function compile(code){
         path
     } = code;
 
-    if(!env['ZBEE-ENV'] && !Updated.is(path)){
+    if(!env['ZBEE-ENV'] && !Updated.is(path) && !env['ZBEE-PARAM-FORCE']){
 
         return false;
     }
 
-    Updated.reset(codePath) ;
+    Updated.reset(path) ;
 
     let {
         data,
