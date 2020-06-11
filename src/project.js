@@ -227,25 +227,15 @@ class Application extends Project{
 
         const {
             apply
-        } = require('./template') ;
+        } = require('./template'),
+        Updated = require('../lib/file/updated') ;
 
         let me = this,
             binPath = me.getFolderPath('bin'),
             path = join(binPath , 'header.js'),
-            time = readTextFile(path.replace(/\.js$/ , '')) ;
+            propertiesPath = join(APPLICATION_PATH , 'properties.json');
 
-            if(time){
-        
-                time = Number(time) ;
-            
-            }else{
-
-                time = -1 ;
-            }
-
-        let updateTime = getMotifyTime(join(APPLICATION_PATH , 'properties.json'));
-
-        if(updateTime === -1 || updateTime !== time){
+        if(Updated.is(propertiesPath)){
 
             let {
                 paths:libPaths
@@ -263,7 +253,7 @@ class Application extends Project{
                 libraries:paths
             })) ;
 
-            writeTextFile(join(binPath , 'header') , updateTime) ;
+            Updated.reset(propertiesPath) ;
         }
 
         require(path) ;
