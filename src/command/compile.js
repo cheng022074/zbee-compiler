@@ -13,7 +13,8 @@ const {
 {
     format
 } = require('../script'),
-SCSSCompile = require('./compile/scss');
+SCSSCompile = require('./compile/scss'),
+Updated = require('../../lib/file/updated');
 
 module.exports = name =>{
 
@@ -65,45 +66,27 @@ function compile(code){
 
 
     let {
-        motifyTime,
         project,
         folder,
-        name
-    } = code,
-    path = project.generateBinPath(folder , name);
+        name,
+        path
+    } = code;
 
-    if(!env['ZBEE-ENV'] && motifyTime === getLastCompileTime(path)){
+    if(!env['ZBEE-ENV'] && !Updated.is(path)){
 
         return false;
     }
+
+    Updated.reset(codePath) ;
 
     let {
         data,
         fullName
     } = code ;
 
-    writeTextFile(path , `module.exports = ${format(data)};`) ;
-
-    writeTextFile(getLastCompileTimePath(path) , motifyTime) ;
+    writeTextFile(project.generateBinPath(folder , name) , `module.exports = ${format(data)};`) ;
 
     console.log('已生成' , fullName) ;
 
     return true ;
-}
-
-function getLastCompileTime(path){
-
-    let time = readTextFile(getLastCompileTimePath(path)) ;
-
-    if(time){
-
-        return Number(time) ;
-    }
-
-    return -1 ;
-}
-
-function getLastCompileTimePath(path){
-
-    return path.replace(/\.[^\.]+$/ , '') ;
 }
