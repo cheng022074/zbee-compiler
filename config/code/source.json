@@ -40,6 +40,15 @@
             ".scss":{
                 "meta":"code.meta.scss",
                 "template":"code.template.scss"
+            },
+            ".scope.scss":{
+                "meta":{
+                    "name":"code.meta.scss",
+                    "params":{
+                        "scoped":true
+                    }
+                },
+                "template":"code.template.scss"
             }
         }
     }

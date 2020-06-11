@@ -72,10 +72,10 @@ function compile(code){
     } = code,
     path = project.generateBinPath(folder , name);
 
-    if(!env['ZBEE-ENV'] && motifyTime === getLastCompileTime(path)){
+    /*if(!env['ZBEE-ENV'] && motifyTime === getLastCompileTime(path)){
 
         return false;
-    }
+    }*/
 
     let {
         data,

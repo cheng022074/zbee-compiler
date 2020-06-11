@@ -1,3 +1,4 @@
+const { isObject } = require('util');
 
 const {
     APPLICATION,
@@ -693,7 +694,14 @@ class SourceCode extends Code{
 
         if(exists){
 
-            return config.meta || 'code.meta' ;
+            let meta = config.meta || 'code.meta' ;
+
+            if(isObject(meta)){
+
+                return meta.name ;
+            }
+
+            return meta ;
         }
     }
 

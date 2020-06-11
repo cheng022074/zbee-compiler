@@ -27,7 +27,7 @@ class Meta extends require('../meta')(){
 
     getBody(){
 
-        return new Body(this , this.params) ;
+        return new Body(this , this.metaParams) ;
     }
 
     toString(){
@@ -36,7 +36,7 @@ class Meta extends require('../meta')(){
     }
 }
 
-module.exports = code =>{
+module.exports = (code , params) =>{
 
-    return new Meta(code) ;
+    return new Meta(code , params) ;
 }

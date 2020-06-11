@@ -14,7 +14,7 @@ class Meta{
 
         me.code = code ;
 
-        me.params = params ;
+        me.metaParams = params ;
 
         defineProperties(me , me.getPropertyNames()) ;
     }
