@@ -5,16 +5,14 @@ const {
     writeTextFile
 } = require('../fs'),
 {
-    readTextFile
-} = require('../fs'),
-{
     env
 } = process,
 {
     format
 } = require('../script'),
-SCSSCompile = require('./compile/scss'),
-Updated = require('../../lib/file/updated');
+SCSSCompile = require('../compile/scss'),
+Updated = require('../../lib/file/updated'),
+JSONFormat = require('../../lib/json/format');
 
 module.exports = name =>{
 
@@ -81,10 +79,18 @@ function compile(code){
 
     let {
         data,
-        fullName
-    } = code ;
+        fullName,
+        meta
+    } = code,
+    {
+        imports
+    } = meta;
 
     writeTextFile(project.generateBinPath(folder , name) , `module.exports = ${format(data)};`) ;
+
+    writeTextFile(project.generateBinPath(folder , name , '.meta.json') , JSONFormat({
+        imports
+    })) ;
 
     console.log('已生成' , fullName) ;
 

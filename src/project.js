@@ -16,8 +16,7 @@ const {
     defineProperties
 } = require('./object'),
 {
-    toPath,
-    toBinScriptFileName
+    toPath
 } = require('./name'),
 {
     file:is_file,
@@ -326,9 +325,9 @@ class Application extends Project{
         return false ;
     }
 
-    generateBinPath(folder , name){
+    generateBinPath(folder , name , suffix = '.js'){
 
-        return join(this.getFolderPath('bin') , folder , toBinScriptFileName(name)) ;
+        return join(this.getFolderPath('bin') , folder , `${name}${suffix}`) ;
     }
 
     getFolderName(folder){

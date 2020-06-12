@@ -1,16 +1,16 @@
 const {
     run
-} = require('../../runner'),
+} = require('../runner'),
 {
     BinCode
-} = require('../../code'),
+} = require('../code'),
 {
     toBinSCSSFileName,
     toBinCSSFileName
-} = require('../../name'),
+} = require('../name'),
 {
     writeTextFile
-} = require('../../fs'),
+} = require('../fs'),
 {
     join
 } = require('path'),
