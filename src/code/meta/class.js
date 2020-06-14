@@ -178,7 +178,7 @@ class Meta extends FunctionMeta{
 
         imports.push({
             name:'isObject',
-            target:'is.object.simple'
+            target:'src::is.object.simple'
         }) ;
 
         return imports ;
@@ -198,7 +198,7 @@ function import_mixins(imports , mixins){
 
             imports.push({
                 name:`${prefix}_${i + 1}`,
-                target:mixins[i]
+                target:this.getFullName(mixins[i])
             }) ;
         }
     }
@@ -217,6 +217,7 @@ function import_constructor(imports , rootName , hasConstructor){
         }else{
 
             target = `${rootName}.constructor` ;
+
         }
 
         imports.push({
@@ -347,7 +348,7 @@ function import_extend(imports , extend){
         imports.push({
             name:'extend',
             value:true,
-            target:'class.empty'
+            target:'src::class.empty'
         }) ;
     }
 }

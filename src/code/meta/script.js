@@ -4,6 +4,9 @@ textCodeMetaRe = /\/\*(?:.|[^.])+?\*\//,
 {
     readTextFile
 } = require('../../fs'),
+{
+    normalize
+} = require('../../name'),
 textCodeMetaAliasImportRe = /(\w+)\s+from\s+((?:(?:\w+\:{2})?\w+(?:\.\w+)*)|(\.*(?:\.\w+)+))/,
 textCodeMetaImportScopedRe = /\s+scoped$/,
 textCodeMetaImportValueRe = /\s+value$/,
@@ -221,10 +224,10 @@ module.exports = class extends Meta{
 
             if(names.length === 0){
 
-                return name.replace(dobuleDotPrefixRe , '') ;
+                return normalize(name.replace(dobuleDotPrefixRe , '') , 'src') ;
             }
     
-            return `${names.join('.')}${name.replace(dobuleDotPrefixRe , '.')}` ;
+            return normalize(`${names.join('.')}${name.replace(dobuleDotPrefixRe , '.')}` , 'src') ;
         
         }else if(dotPrefixRe.test(name)){
     
@@ -232,14 +235,14 @@ module.exports = class extends Meta{
 
             if(names.length === 0){
 
-                return name.replace(dotPrefixRe , '') ;
+                return normalize(name.replace(dotPrefixRe , '') , 'src') ;
             }
     
-            return `${names.join('.')}${name}` ;
+            return normalize(`${names.join('.')}${name}` , 'src') ;
         
         }
     
-        return name ;
+        return normalize(name , 'src') ;
     }
 }
 
