@@ -5,6 +5,9 @@ const {
     writeTextFile
 } = require('../fs'),
 {
+    APPLICATION
+} = require('../project'),
+{
     env
 } = process,
 {
@@ -50,17 +53,16 @@ function compile(codeName){
 
     Updated.reset(path) ;
 
+    Meta.save(codeName) ;
+    
     let {
-        project,
         data,
-        fullName,
         folder,
-        name
-    } = SourceCode.get(codeName);
+        name,
+        fullName
+    } = Meta.get(codeName);
 
-    Meta.save(fullName) ;
-
-    writeTextFile(project.generateBinPath(folder , name) , `module.exports = ${format(data)};`) ;
+    writeTextFile(APPLICATION.generateBinPath(folder , name) , `module.exports = ${format(data)};`) ;
 
     console.log('已生成' , fullName) ;
 
