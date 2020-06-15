@@ -21,10 +21,7 @@ asyncRe = /@async/,
 } = require('../../name'),
 dotPrefixRe = /^\./,
 dobuleDotPrefixRe = /^(?:\.{2})+/,
-dotRe = /\./,
-{
-    join
-} = require('path');
+dotRe = /\./;
 
 module.exports = class extends Meta{
 
