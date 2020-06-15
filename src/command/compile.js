@@ -10,65 +10,38 @@ const {
 {
     format
 } = require('../script'),
-SCSSCompile = require('../compile/scss'),
 Updated = require('../../lib/file/updated'),
-Meta = require('../../lib/code/bin/meta');
+Meta = require('../../lib/code/bin/meta'),
+getSourceCodeNames = require('../../lib/code/source/names'),
+getSourceCodePath = require('../../lib/code/source/path');
 
 module.exports = name =>{
 
-    let code = SourceCode.get(name) ;
+    let names = getSourceCodeNames(name) ;
 
-    if(code && code.exists){
+    for(let name of names){
 
-        let codes = new Map() ;
+        compile(name) ;
 
-        codes.set(code , compile(code)) ;
-        
-        let {
-            importAllSourceCodes
-        } = code ;
+        let importNames = Meta.getImportAllNames(name) ;
 
-        for(let code of importAllSourceCodes){
+        for(let importName of importNames){
 
-            codes.set(code , compile(code)) ;
+            compile(importName) ;
         }
-
-        let {
-            metaName
-        } = code;
-
-        switch(metaName){
-
-            case 'code.meta.scss':
-
-                SCSSCompile(code , codes) ;
-        }
-
-        return true ;
-    
     }
 
-    return false ;
+    return !!names.length;
 }
 
-function compile(code){
+function compile(codeName){
 
-    let {
-        exists
-    } = code ;
+    let path = getSourceCodePath(codeName) ;
 
-    if(!exists){
+    if(!path){
 
-        return false;
+        return false ;
     }
-
-
-    let {
-        project,
-        folder,
-        name,
-        path
-    } = code;
 
     if(!env['ZBEE-ENV'] && !Updated.is(path) && !env['ZBEE-PARAM-FORCE']){
 
@@ -78,9 +51,12 @@ function compile(code){
     Updated.reset(path) ;
 
     let {
+        project,
         data,
-        fullName
-    } = code;
+        fullName,
+        folder,
+        name
+    } = SourceCode.get(codeName);
 
     Meta.save(fullName) ;
 

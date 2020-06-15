@@ -1,52 +1,47 @@
 const {
     SourceCode
 } = require('../code'),
-getSourceCodeNames = require('../../lib/code/source/names');
+getSourceCodeNames = require('../../lib/code/source/names'),
+Meta = require('../../lib/code/bin/meta');
 
-module.exports = name =>{
+module.exports = codeName =>{
 
-    console.log(getSourceCodeNames('src::*')) ;
+    if(codeName){
 
-    return ;
-
-    if(name){
-
-        let {
-            fullName:currentName,
-            exists
-        } = SourceCode.get(name) ;
-
-        if(exists){
-
-            let codes = SourceCode.getMany('*'),
-                isHas = false;
-
-            for(let {
-                fullName,
-                importNames
-            } of codes){
-
-                if(importNames.includes(currentName)){
-
-                    console.info(fullName) ;
-
-                    isHas = true ;
-                }
-                
-            }
-
-            if(!isHas){
-
-                console.info('无被依赖') ;
-            }
         
+
+        if(Meta.has(codeName)){
+
+            let names = getSourceCodeNames('src::*'),
+                isHas = false;
+    
+                for(let name of names){
+
+                    let {
+                        importNames
+                    } = Meta.get(name) ;
+    
+                    if(importNames.includes(codeName)){
+    
+                        console.info(name) ;
+    
+                        isHas = true ;
+                    }
+                    
+                }
+    
+                if(!isHas){
+    
+                    console.info('无被依赖') ;
+                }
+            
         }else{
-
-            console.log('资源不存在' , name) ;
+    
+            console.log('资源不存在或者尚未编译' , name) ;
         }
-
+    
     }else{
 
-        console.warn('请指定资源名称') ;
+        console.log('请指定资源名称') ;
     }
 }
