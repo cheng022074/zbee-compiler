@@ -1,7 +1,4 @@
 const {
-    SourceCode
-} = require('../code'),
-{
     writeTextFile
 } = require('../fs'),
 {
