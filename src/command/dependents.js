@@ -1,8 +1,13 @@
 const {
     SourceCode
-} = require('../code') ;
+} = require('../code'),
+getSourceCodeNames = require('../../lib/code/source/names');
 
 module.exports = name =>{
+
+    console.log(getSourceCodeNames('src::*')) ;
+
+    return ;
 
     if(name){
 
