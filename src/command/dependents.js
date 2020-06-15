@@ -1,14 +1,11 @@
 const getSourceCodeNames = require('../../lib/code/source/names'),
-      Meta = require('../../lib/code/bin/meta'),
-      compile = require('./compile');
+      Meta = require('../../lib/code/bin/meta');
 
 module.exports = codeName =>{
 
     if(codeName){
 
         if(Meta.has(codeName)){
-
-            compile('src::*') ;
 
             let names = getSourceCodeNames('src::*'),
                 isHas = false;
