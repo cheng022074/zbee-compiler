@@ -191,7 +191,7 @@ module.exports = class extends Meta{
 
                 let target = me.getFullName(content) ;
 
-                importConfig.name = toCamelCase(target),
+                importConfig.name = toCamelCase(target.replace(/^src\:{2}/ , '')),
                 importConfig.target = target ;
             }
 
