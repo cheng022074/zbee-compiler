@@ -1,7 +1,4 @@
-const {
-    SourceCode
-} = require('../code'),
-Meta = require('../../lib/code/bin/meta');
+const Meta = require('../../lib/code/bin/meta');
 
 module.exports = name =>{
 
