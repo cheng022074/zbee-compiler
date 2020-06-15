@@ -15,7 +15,7 @@ module.exports = name =>{
         
         }else{
 
-            console.log('资源不存在' , name) ;
+            console.log('资源不存在或者尚未编译' , name) ;
         }
 
     }else{
