@@ -1,7 +1,4 @@
 const {
-    SourceCode
-} = require('../code'),
-{
     format
 } = require('../script'),
 Meta = require('../../lib/code/bin/meta');

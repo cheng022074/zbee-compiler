@@ -1,18 +1,15 @@
 const {
     SourceCode
-} = require('../code') ;
+} = require('../code'),
+Meta = require('../../lib/code/bin/meta');
 
 module.exports = name =>{
 
     if(name){
 
-        let code = SourceCode.get(name) ;
+        if(Meta.has(name)){
 
-        if(code.exists){
-
-            let {
-                importAllNames
-            } = code ;
+            let importAllNames = Meta.getImportAllNames(name) ;
 
             if(importAllNames.length){
 
