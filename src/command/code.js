@@ -3,17 +3,18 @@ const {
 } = require('../code'),
 {
     format
-} = require('../script');
+} = require('../script'),
+Meta = require('../../lib/code/bin/meta');
 
 module.exports = name =>{
 
     if(name){
 
-        let code = SourceCode.get(name) ;
+        let meta = Meta.get(name) ;
 
-        if(code.exists){
+        if(meta){
 
-            console.info(format(code.data)) ;
+            console.info(format(meta.data)) ;
         
         }else{
 
