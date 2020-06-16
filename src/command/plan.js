@@ -12,12 +12,18 @@ module.exports = (name , planedNames = []) =>{
 
     planedNames.push(name) ;
 
-    let code = SourceCode.get(name),
-        classes = code.dependentClasses,
-        names = Object.keys(classes);
+    let code = SourceCode.get(name) ;
 
-    for(let name of names){
+    if(code.exists){
 
-        generate(name , classes[name] , planedNames) ;
+        let classes = code.dependentClasses,
+            names = Object.keys(classes);
+
+        for(let name of names){
+
+            generate(name , classes[name] , planedNames) ;
+        }
     }
+
+    
 }
