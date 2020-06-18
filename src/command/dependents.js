@@ -1,7 +1,10 @@
 const getSourceCodeNames = require('../../lib/code/source/names'),
-      Meta = require('../../lib/code/bin/meta');
+      Meta = require('../../lib/code/bin/meta'),
+      getFullName = require('../../lib/code/source/name/full');
 
 module.exports = codeName =>{
+
+    codeName = getFullName(codeName) ;
 
     if(codeName){
 
@@ -9,13 +12,13 @@ module.exports = codeName =>{
 
             let names = getSourceCodeNames('src::*'),
                 isHas = false;
-    
+
                 for(let name of names){
 
                     let {
                         importNames
                     } = Meta.get(name) ;
-    
+
                     if(importNames.includes(codeName)){
     
                         console.info(name) ;
