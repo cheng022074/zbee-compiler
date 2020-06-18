@@ -1,8 +1,12 @@
-const Meta = require('../../lib/code/bin/meta');
+const
+Meta = require('../../lib/code/bin/meta'),
+getFullName = require('../../lib/code/source/name/full');
 
 module.exports = name =>{
 
     if(name){
+
+        name = getFullName(name) ;
 
         if(Meta.has(name)){
 

@@ -1,11 +1,14 @@
 const {
     format
 } = require('../script'),
-Meta = require('../../lib/code/bin/meta');
+Meta = require('../../lib/code/bin/meta'),
+getFullName = require('../../lib/code/source/name/full');
 
 module.exports = name =>{
 
     if(name){
+
+        name = getFullName(name) ;
 
         let meta = Meta.get(name) ;
 

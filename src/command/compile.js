@@ -13,11 +13,12 @@ const {
 Updated = require('../../lib/file/updated'),
 Meta = require('../../lib/code/bin/meta'),
 getSourceCodeNames = require('../../lib/code/source/names'),
-getSourceCodePath = require('../../lib/code/source/path');
+getSourceCodePath = require('../../lib/code/source/path'),
+getFullName = require('../../lib/code/source/name/full');
 
 module.exports = name =>{
 
-    let names = getSourceCodeNames(name) ;
+    let names = getSourceCodeNames(getFullName(name)) ;
 
     for(let name of names){
 
