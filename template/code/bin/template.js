@@ -1,1 +1,0 @@
-module.exports = `<%- data.meta.code.replace(/\`/g , '\\`') %>` ;

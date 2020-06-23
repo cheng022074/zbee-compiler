@@ -46,10 +46,7 @@
             className = name ;
         }
     
-        const {
-            join
-        } = require('path'),
-        fullName = `${folder}::${className}`;
+        const fullName = `${folder}::${className}`;
 
         try{
 
