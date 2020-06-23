@@ -84,6 +84,12 @@ function getPackageName(name){
     return name.replace(/\-/g , '_').toLowerCase() ;
 }
 
+const
+Meta = require('../../lib/code/bin/meta'),
+getFullName = require('../../lib/code/source/name/full');
+
+const compile = require('./compile') ;
+
 async function doPackage({
     classes,
     type = 'library',
@@ -93,53 +99,43 @@ async function doPackage({
     ...config
 } , name){
 
-    let allCodes = [] ;
+    let importAllNames = [] ;
 
     for(let name of classes){
 
-        let codes = SourceCode.getMany(name) ;
+        let compileNames = compile(name) ;
 
-        for(let code of codes){
+        for(let compileName of compileNames){
 
-            let {
-                importAllSourceCodes
-            } = code ;
+            importAllNames.push(compileName , ...Meta.getImportAllNames(compileName)) ;
 
-            allCodes.push(...importAllSourceCodes , code) ;
         }
     }
 
-    let codes = unique(allCodes),
-        {
+    importAllNames = unique(importAllNames) ;
+
+    let metas = {} ;
+
+    for(let name of importAllNames){
+
+        metas[name] = Meta.get(name) ;
+    }
+
+    let {
             dependencies = {},
             rootPath:packageRootPath = APPLICATION.getFolderPath('package'),
             ...result
-        } = await require(`../package/${type}`)(codes , config , name) ;
+        } = await require(`../package/${type}`)(metas , config , name) ;
 
     if(memory === true){
 
         return result ;
     }
 
-    for(let code of codes){
+    for(let name of importAllNames){
 
-        let data = SourceCode.getProperty(code , 'data') ;
-
-        if(data){
-
-            assign(dependencies , SourceCode.getProperty(code , 'dependentModules')) ;
-        }
-    }
-
-    let currentDependencies = APPLICATION.getDependentModules(),
-        keys = Object.keys(dependencies);
-
-    for(let key of keys){
-
-        if(currentDependencies.hasOwnProperty(key)){
-
-            dependencies[key] = currentDependencies[key] ;
-        }
+        assign(dependencies , metas[name].dependentModules) ;
+        
     }
 
     let files = Object.keys(result) ;

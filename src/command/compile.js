@@ -32,7 +32,7 @@ module.exports = name =>{
         }
     }
 
-    return !!names.length;
+    return names;
 }
 
 function compile(codeName){

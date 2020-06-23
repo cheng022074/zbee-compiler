@@ -2,55 +2,29 @@ const {
     apply
 } = require('../template'),
 {
-    SourceCode
-} = require('../code'),
-{
     format
-} = require('../script'),
-{
-    toPropertyValue:toObjectPropertyValue
-} = require('../object'),
-{
-    toPropertyValue:toArrayPropertyValue
-} = require('../array');
+} = require('../script') ;
 
-module.exports = (codes) =>{
+module.exports = metas =>{
 
-    let docs = {},
-        classes = {};
+    let classes = {},
+        names = Object.keys(metas),
+        result = {};
 
-    for(let code of codes){
+    for(let name of names){
 
-        let data = SourceCode.getProperty(code , 'data') ;
+        let {
+            standard,
+            data
+        } = metas[name] ;
 
-        if(data){
+        if(standard){
 
-            let isStandard = SourceCode.getProperty(code , 'isStandard'),
-            {
-                fullName
-            } = code;
-
-            docs[fullName] = {
-                motify:SourceCode.getProperty(code , 'motifyTime'),
-                signature:SourceCode.getProperty(code , 'signature'),
-                code:data,
-                imports:toArrayPropertyValue(SourceCode.getProperty(code , 'importAllNames')),
-                entryTypes:toArrayPropertyValue(SourceCode.getProperty(code , 'entryTypes')),
-                dependentModules:toObjectPropertyValue(SourceCode.getProperty(code , 'dependentModules')),
-                standard:SourceCode.getProperty(code , 'isStandard') ? 'yes' : 'no'
-            } ;
-
-            if(isStandard){
-
-                classes[fullName] = data ;
-            
-            }
+            classes[name] = data ;
         }
     }
 
-    let result = {
-        ['index.xml']:apply('code.package.bundle.meta' , docs)
-    } ;
+    result['meta.json'] = JSON.stringify(metas , null , 2) ;
 
     result['index.js'] =  format(apply('code.package.bundle.lib' , classes));
 
