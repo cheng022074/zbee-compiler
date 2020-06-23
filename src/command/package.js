@@ -85,8 +85,7 @@ function getPackageName(name){
 }
 
 const
-Meta = require('../../lib/code/bin/meta'),
-getFullName = require('../../lib/code/source/name/full');
+Meta = require('../../lib/code/bin/meta');
 
 const compile = require('./compile') ;
 
