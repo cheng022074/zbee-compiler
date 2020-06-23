@@ -49,13 +49,12 @@ function compile(codeName){
     let {
         data,
         folder,
-        name,
-        fullName
+        name
     } = Meta.get(codeName);
 
     writeTextFile(APPLICATION.generateBinPath(folder , name) , `module.exports = ${format(data)};`) ;
 
-    console.log('已生成' , fullName) ;
+    console.log('已生成' , codeName) ;
 
     let {
         importNames
