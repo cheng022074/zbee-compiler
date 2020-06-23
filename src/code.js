@@ -546,6 +546,11 @@ class SourceCode extends Code{
         return require('../lib/code/source/meta').call(this) ;
     }
 
+    get metaName(){
+
+        return require('../lib/code/source/meta/name').call(this) ;
+    }
+
     reset(){
 
         super.reset() ;
