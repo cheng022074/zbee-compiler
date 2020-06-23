@@ -84,8 +84,7 @@ function getPackageName(name){
     return name.replace(/\-/g , '_').toLowerCase() ;
 }
 
-const
-Meta = require('../../lib/code/bin/meta');
+const Meta = require('../../lib/code/bin/meta');
 
 const compile = require('./compile') ;
 
