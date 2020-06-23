@@ -123,13 +123,16 @@ async function doPackage({
 
     importAllNames = unique(importAllNames) ;
 
-    return ;
-
     let metas = {} ;
 
     for(let name of importAllNames){
 
-        metas[name] = Meta.get(name) ;
+        let meta = Meta.get(name) ;
+
+        if(meta){
+
+            metas[name] = meta ;
+        }
     }
 
     let {
