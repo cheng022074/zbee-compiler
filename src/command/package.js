@@ -84,7 +84,9 @@ function getPackageName(name){
     return name.replace(/\-/g , '_').toLowerCase() ;
 }
 
-const Meta = require('../../lib/code/bin/meta');
+const
+Meta = require('../../lib/code/bin/meta'),
+getFullName = require('../../lib/code/source/name/full');
 
 const compile = require('./compile') ;
 
@@ -103,14 +105,25 @@ async function doPackage({
 
         let compileNames = compile(name) ;
 
-        for(let compileName of compileNames){
+        if(compileNames.length){
 
-            importAllNames.push(compileName , ...Meta.getImportAllNames(compileName)) ;
+            for(let compileName of compileNames){
 
+                importAllNames.push(compileName , ...Meta.getImportAllNames(compileName)) ;
+    
+            }
+        
+        }else{
+
+            name = getFullName(name) ;
+
+            importAllNames.push(name , ...Meta.getImportAllNames(name)) ;
         }
     }
 
     importAllNames = unique(importAllNames) ;
+
+    return ;
 
     let metas = {} ;
 

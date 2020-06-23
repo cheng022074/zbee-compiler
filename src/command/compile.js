@@ -23,13 +23,6 @@ module.exports = name =>{
     for(let name of names){
 
         compile(name) ;
-
-        let importNames = Meta.getImportAllNames(name) ;
-
-        for(let importName of importNames){
-
-            compile(importName) ;
-        }
     }
 
     return names;
@@ -41,12 +34,12 @@ function compile(codeName){
 
     if(!path){
 
-        return false ;
+        return;
     }
 
     if(!env['ZBEE-ENV'] && !Updated.is(path) && !env['ZBEE-PARAM-FORCE']){
 
-        return false;
+        return;
     }
 
     Updated.reset(path) ;
@@ -64,5 +57,12 @@ function compile(codeName){
 
     console.log('已生成' , fullName) ;
 
-    return true ;
+    let {
+        importNames
+    } = Meta.get(codeName) ;
+
+    for(let importName of importNames){
+
+        compile(importName) ;
+    }
 }

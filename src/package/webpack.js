@@ -2,14 +2,11 @@ const {
     apply
 } = require('../template'),
 {
-    SourceCode
-} = require('../code'),
-{
     APPLICATION
 } = require('../project'),
 webpack = require('./webpack/native');
 
-module.exports = async (codes , {
+module.exports = async (metas , {
     config,
     entry,
     webpack:webpackConfig
@@ -19,20 +16,13 @@ module.exports = async (codes , {
         defaultFolder
     } = APPLICATION ;
 
-    let codeMap = {};
+    let codeMap = {},
+        names = Object.keys(metas);
 
-    for(let code of codes){
+    for(let name of names){
 
-        let data = SourceCode.getProperty(code , 'data') ;
-
-        if(data){
-
-            let {
-                fullName
-            } = code;
-
-            codeMap[fullName] = data ;
-        }
+        codeMap[name] = metas[name].data ;
+        
     }
 
     let data = apply('code.package.bundle.webpack' , {
