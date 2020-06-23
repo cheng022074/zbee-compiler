@@ -1,20 +1,25 @@
-const {
-    SourceCode
-} = require('../code') ;
+const 
+Meta = require('../../lib/code/bin/meta'),
+getFullName = require('../../lib/code/source/name/full'),
+compile = require('./compile');
 
 module.exports = name =>{
 
     if(name){
 
-        let signature = SourceCode.getProperty(SourceCode.get(name) , 'signature') ;
+        compile(name) ;
 
-        if(signature){
+        name = getFullName(name) ;
 
-            console.info(signature) ;
+        let meta = Meta.get(name) ;
+
+        if(meta){
+
+            console.info(meta.signature) ;
         
         }else{
 
-            console.log('资源不存在' , name) ;
+            console.log('资源不存在或者尚未编译' , name) ;
         }
 
     }else{
