@@ -2,11 +2,14 @@ const {
     format
 } = require('../script'),
 Meta = require('../../lib/code/bin/meta'),
-getFullName = require('../../lib/code/source/name/full');
+getFullName = require('../../lib/code/source/name/full'),
+compile = require('./compile');
 
 module.exports = name =>{
 
     if(name){
+
+        compile(name) ;
 
         name = getFullName(name) ;
 
