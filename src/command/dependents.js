@@ -1,8 +1,11 @@
 const getSourceCodeNames = require('../../lib/code/source/names'),
       Meta = require('../../lib/code/bin/meta'),
-      getFullName = require('../../lib/code/source/name/full');
+      getFullName = require('../../lib/code/source/name/full'),
+      compile = require('./compile');
 
 module.exports = codeName =>{
+
+    compile('src::*') ;
 
     codeName = getFullName(codeName) ;
 
