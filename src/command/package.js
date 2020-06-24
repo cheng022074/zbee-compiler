@@ -2,9 +2,6 @@ const {
     get
 } = require('../config'),
 {
-    SourceCode
-} = require('../code'),
-{
     APPLICATION
 } = require('../project'),
 {
@@ -24,14 +21,10 @@ const {
     writeFile
 } = require('../fs'),
 {
-    assign
-} = Object,
-{
-    apply
-} = require('../template'),
-{
     env
-} = process;
+} = process,
+doGeneratePackageJSON = require('../package/package'),
+doGenerateCSS = require('../package/scss');
 
 module.exports = async name =>{
 
@@ -79,11 +72,6 @@ async function doPackageFromConfig(config , name){
     } , name) ;
 }
 
-function getPackageName(name){
-
-    return name.replace(/\-/g , '_').toLowerCase() ;
-}
-
 const Meta = require('../../lib/code/bin/meta');
 
 const compile = require('./compile') ;
@@ -112,7 +100,9 @@ async function doPackage({
 
     importAllNames = unique(importAllNames) ;
 
-    let metas = {} ;
+    let metas = {},
+        scriptMetas = {},
+        cssMetas = {};
 
     for(let name of importAllNames){
 
@@ -121,6 +111,19 @@ async function doPackage({
         if(meta){
 
             metas[name] = meta ;
+
+            switch(Meta.getMetaType(name)){
+
+                case 'script':
+                    
+                    scriptMetas[name] = meta ;
+
+                    break ;
+
+                case 'css':
+
+                    cssMetas[name] = meta ;
+            }
         }
     }
 
@@ -128,30 +131,24 @@ async function doPackage({
             dependencies = {},
             rootPath:packageRootPath = APPLICATION.getFolderPath('package'),
             ...result
-        } = await require(`../package/${type}`)(metas , config , name) ;
+        } = await require(`../package/${type}`)(scriptMetas , config , name , metas) ;
 
     if(memory === true){
 
         return result ;
     }
 
-    for(let name of importAllNames){
+    let rootPath = join(packageRootPath , name),
+        css = doGenerateCSS(cssMetas , rootPath);
 
-        assign(dependencies , metas[name].dependentModules) ;
+    if(css){
         
+        result['index.css'] = css;
     }
 
-    let files = Object.keys(result) ;
+    result['package.json'] = doGeneratePackageJSON(name , metas , Object.keys(result) , version || APPLICATION.version) ;
 
-    result['package.json'] = apply('code.package.package' , {
-        name:getPackageName(name),
-        files,
-        version:version || APPLICATION.version,
-        dependencies
-    }) ;
-
-    let paths = Object.keys(result),
-        rootPath = join(packageRootPath , name);
+    let paths = Object.keys(result);
 
     for(let path of paths){
 

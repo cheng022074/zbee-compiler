@@ -5,10 +5,10 @@ const {
     format
 } = require('../script') ;
 
-module.exports = metas =>{
+module.exports = (scriptMetas , config , name , metas) =>{
 
     let classes = {},
-        names = Object.keys(metas),
+        names = Object.keys(scriptMetas),
         result = {};
 
     for(let name of names){
@@ -16,7 +16,7 @@ module.exports = metas =>{
         let {
             standard,
             data
-        } = metas[name] ;
+        } = scriptMetas[name] ;
 
         if(standard){
 
