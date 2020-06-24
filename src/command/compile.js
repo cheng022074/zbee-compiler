@@ -1,15 +1,26 @@
+const { BinCode } = require('../code');
+
 const {
     writeTextFile
 } = require('../fs'),
 {
+    file:is_file
+} = require('../is'),
+{
     APPLICATION
 } = require('../project'),
+{
+    runAsync
+} = require('../runner'),
 {
     env
 } = process,
 {
     format
 } = require('../script'),
+{
+    parse
+} = require('../name'),
 Updated = require('../../lib/file/updated'),
 Meta = require('../../lib/code/bin/meta'),
 getSourceCodeNames = require('../../lib/code/source/names'),
@@ -30,29 +41,41 @@ module.exports = name =>{
 
 function compile(codeName){
 
-    let path = getSourceCodePath(codeName) ;
+    let path = getSourceCodePath(codeName),
+        {
+            folder,
+            name
+        } = parse(codeName , 'src'),
+        binPath = APPLICATION.generateBinPath(folder , name);
 
-    if(!path){
+    if(path){
 
-        return;
+        if(!env['ZBEE-ENV'] && !Updated.is(path) && !env['ZBEE-PARAM-FORCE']){
+
+            return;
+        }
+    
+        Updated.reset(path) ;
+    
+        Meta.save(codeName) ;
+    
+    }else if(is_file(binPath)){
+
+        return ;
     }
-
-    if(!env['ZBEE-ENV'] && !Updated.is(path) && !env['ZBEE-PARAM-FORCE']){
-
-        return;
-    }
-
-    Updated.reset(path) ;
-
-    Meta.save(codeName) ;
     
     let {
-        data,
-        folder,
-        name
+        data
     } = Meta.get(codeName);
 
-    writeTextFile(APPLICATION.generateBinPath(folder , name) , `module.exports = ${format(data)};`) ;
+    writeTextFile(binPath , `module.exports = ${format(data)};`) ;
+
+    switch(Meta.getMetaType(codeName)){
+
+        case 'css':
+
+            writeTextFile(APPLICATION.generateBinPath(folder , name , '.scss') , runAsync(BinCode.get(codeName).target)) ;
+    }
 
     console.log('已生成' , codeName) ;
 
