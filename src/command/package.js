@@ -105,19 +105,10 @@ async function doPackage({
 
         let compileNames = compile(name) ;
 
-        if(compileNames.length){
+        for(let compileName of compileNames){
 
-            for(let compileName of compileNames){
+            importAllNames.push(compileName , ...Meta.getImportAllNames(compileName)) ;
 
-                importAllNames.push(compileName , ...Meta.getImportAllNames(compileName)) ;
-    
-            }
-        
-        }else{
-
-            name = getFullName(name) ;
-
-            importAllNames.push(name , ...Meta.getImportAllNames(name)) ;
         }
     }
 

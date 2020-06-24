@@ -4,9 +4,6 @@ const {
     writeTextFile
 } = require('../fs'),
 {
-    file:is_file
-} = require('../is'),
-{
     APPLICATION
 } = require('../project'),
 {
@@ -29,17 +26,25 @@ getFullName = require('../../lib/code/source/name/full');
 
 module.exports = name =>{
 
-    let names = getSourceCodeNames(getFullName(name)) ;
+    let names = getSourceCodeNames(getFullName(name)),
+        compiledNames = [];
 
     for(let name of names){
 
-        compile(name) ;
+        compile(name , compiledNames) ;
     }
 
     return names;
 }
 
-function compile(codeName){
+function compile(codeName , compiledNames){
+
+    if(compiledNames.includes(codeName)){
+
+        return ;
+    }
+
+    compiledNames.push(codeName) ;
 
     let path = getSourceCodePath(codeName),
         {
@@ -59,11 +64,11 @@ function compile(codeName){
     
         Meta.save(codeName) ;
     
-    }else if(is_file(binPath)){
+    }else if(!Meta.has(codeName)){
 
         return ;
     }
-    
+
     let {
         data
     } = Meta.get(codeName);
@@ -76,15 +81,16 @@ function compile(codeName){
 
             writeTextFile(APPLICATION.generateBinPath(folder , name , '.scss') , runAsync(BinCode.get(codeName).target)) ;
     }
-
+    
     console.log('已生成' , codeName) ;
-
+    
     let {
         importNames
     } = Meta.get(codeName) ;
 
     for(let importName of importNames){
 
-        compile(importName) ;
+        compile(importName , compiledNames) ;
     }
+    
 }

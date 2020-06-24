@@ -17,7 +17,7 @@ class Meta extends FunctionMeta{
 
         return [{
             name:'get',
-            target:'object.value.get'
+            target:'src::object.value.get'
         }] ;
     }
 
