@@ -66,9 +66,22 @@ function compile(codeName , compiledNames){
     
         Meta.save(codeName) ;
     
-    }else if(!Meta.has(codeName)){
+    }else{
 
-        return ;
+        Meta.remove(codeName) ;
+
+        if(!Meta.has(codeName)){
+
+            return ;
+        }
+
+        
+    }
+
+    
+    if(codeName === 'src::data.cache.clear'){
+
+        console.log(path , Meta.has(codeName)) ;
     }
 
     let {
