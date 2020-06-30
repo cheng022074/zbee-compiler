@@ -57,6 +57,8 @@ function compile(codeName , compiledNames){
 
         if(!env['ZBEE-ENV'] && !Updated.is(path) && !env['ZBEE-PARAM-FORCE']){
 
+            compileImports(codeName , compiledNames) ;
+
             return;
         }
     
@@ -83,7 +85,13 @@ function compile(codeName , compiledNames){
     }
     
     console.log('已生成' , codeName) ;
+
+    compileImports(codeName , compiledNames) ;
     
+}
+
+function compileImports(codeName , compiledNames){
+
     let {
         importNames
     } = Meta.get(codeName) ;
@@ -92,5 +100,4 @@ function compile(codeName , compiledNames){
 
         compile(importName , compiledNames) ;
     }
-    
 }
