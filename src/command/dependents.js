@@ -7,38 +7,31 @@ module.exports = codeName =>{
 
     compile('src::*') ;
 
-    codeName = getFullName(codeName) ;
-
     if(codeName){
 
-        if(Meta.has(codeName)){
+        codeName = getFullName(codeName) ;
 
-            let names = getSourceCodeNames('src::*'),
-                isHas = false;
+        let names = getSourceCodeNames('src::*'),
+            isHas = false;
 
-                for(let name of names){
+        for(let name of names){
 
-                    let {
-                        importNames
-                    } = Meta.get(name) ;
+            let {
+                importNames
+            } = Meta.get(name) ;
 
-                    if(importNames.includes(codeName)){
-    
-                        console.info(name) ;
-    
-                        isHas = true ;
-                    }
-                    
-                }
-    
-                if(!isHas){
-    
-                    console.info('无被依赖') ;
-                }
+            if(importNames.includes(codeName)){
+
+                console.info(name) ;
+
+                isHas = true ;
+            }
             
-        }else{
-    
-            console.log('资源不存在或者尚未编译' , name) ;
+        }
+
+        if(!isHas){
+
+            console.info('无被依赖') ;
         }
     
     }else{
