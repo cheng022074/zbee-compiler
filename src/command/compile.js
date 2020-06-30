@@ -74,14 +74,6 @@ function compile(codeName , compiledNames){
 
             return ;
         }
-
-        
-    }
-
-    
-    if(codeName === 'src::data.cache.clear'){
-
-        console.log(path , Meta.has(codeName)) ;
     }
 
     let {
