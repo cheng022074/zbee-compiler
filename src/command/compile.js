@@ -22,7 +22,10 @@ Updated = require('../../lib/file/updated'),
 Meta = require('../../lib/code/bin/meta'),
 getSourceCodeNames = require('../../lib/code/source/names'),
 getSourceCodePath = require('../../lib/code/source/path'),
-getFullName = require('../../lib/code/source/name/full');
+getFullName = require('../../lib/code/source/name/full'),
+{
+    libraryUpdateTime
+} = Meta;
 
 module.exports = name =>{
 
@@ -70,8 +73,17 @@ function compile(codeName , compiledNames){
 
         Meta.remove(codeName) ;
 
-        if(!Meta.has(codeName)){
+        if(Meta.has(codeName)){
 
+            Updated.reset(binPath) ;
+
+            if(Updated.get(binPath) > libraryUpdateTime){
+
+                return ;
+            }
+
+        }else{
+            
             return ;
         }
     }
