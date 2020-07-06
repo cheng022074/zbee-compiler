@@ -109,6 +109,8 @@ function compile(codeName , compiledNames){
 
 function compileImports(codeName , compiledNames){
 
+    console.log(codeName) ;
+
     let {
         importNames
     } = Meta.get(codeName) ;
