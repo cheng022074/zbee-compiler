@@ -341,14 +341,16 @@ function generate_scoped_code(varName , code){
 
     if(code){
 
-        return  `
-        if(!${varName} !== this){
+        /*return  `
+        if(${varName} !== this){
 
             ${code}
 
             ${varName} = this ;
         }
-        `;
+        `;*/
+
+        return code ;
     }
 
     return '' ;

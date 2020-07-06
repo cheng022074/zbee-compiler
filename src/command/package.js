@@ -86,7 +86,7 @@ async function doPackage({
     ...config
 } , name){
 
-    if(prefixes && !env['ZBEE-PARAM-INCREMENT']){
+    if(prefixes){
 
         const {
             env
@@ -97,8 +97,6 @@ async function doPackage({
 
             env[`ZBEE-PARAM-${folder}-PREFIX`] = prefixes[folder] ;
         }
-
-        env['ZBEE-PARAM-FORCE'] = true ;
     }
 
     let importAllNames = [] ;
