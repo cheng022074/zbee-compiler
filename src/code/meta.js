@@ -212,10 +212,14 @@ class Meta{
         } = this;
 
         for(let {
-            name
+            name,
+            scoped
         } of imports){
 
-            result.add(name) ;
+            if(!scoped){
+
+                result.add(name) ;
+            }
         }
 
         for(let {
@@ -250,7 +254,7 @@ class Meta{
 
             if(scoped){
 
-                result.push(`${name} = include('${target}').bind(this);`) ;
+                result.push(`const ${name} = include('${target}').bind(this);`) ;
 
             }
 

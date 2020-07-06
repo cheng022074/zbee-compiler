@@ -253,28 +253,50 @@ class FunctionMeta extends ScriptMeta{
 
         if(!hasMain || hasMain && !isMainClass){
 
-            code = `(() =>{
+            if(fragmentImportAllCodeScopedAssignment){
 
-                ${fragmentImportAllCodeDefinition}
+                code = `(() =>{
 
-                ${generate_var(initLockedVariableName , fragmentImportAllCodeDefinition)}
+                    ${fragmentImportAllCodeDefinition}
+    
+                    ${generate_var(initLockedVariableName , fragmentImportAllCodeDefinition)}
+ 
+                    ${generate_var(onceVariableName , isOnce)}
 
-                ${generate_var(currentScopeVariableName , fragmentImportAllCodeScopedAssignment)}
+                    const ${currentScopeVariableName} = new Map();
+    
+                    return ${isAsync ? 'async ' : ''}function(${paramFullNames}){
+    
+                        ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
+    
+                        ${generate_scoped_code(currentScopeVariableName , generate_body(body , hasMain , paramNames , isAsync) , fragmentImportAllCodeScopedAssignment)}
+    
+                        ${generate_once_code(isOnce , onceVariableName , `${isAsync ? 'await ' : ''}main.call(this ${paramNames ? `, ${paramNames}` : ''})`)}
+                    } ;
+    
+                })()` ;
 
-                ${generate_var(onceVariableName , isOnce)}
+            }else{
 
-                ${generate_body(body , hasMain , paramNames , isAsync)}
+                code = `(() =>{
 
-                return ${isAsync ? 'async ' : ''}function(${paramFullNames}){
+                    ${fragmentImportAllCodeDefinition}
+    
+                    ${generate_var(initLockedVariableName , fragmentImportAllCodeDefinition)}
+    
+                    ${generate_var(onceVariableName , isOnce)}
 
-                    ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
-
-                    ${generate_scoped_code(currentScopeVariableName , fragmentImportAllCodeScopedAssignment)}
-
-                    ${generate_once_code(isOnce , onceVariableName , `${isAsync ? 'await ' : ''}main.call(this ${paramNames ? `, ${paramNames}` : ''})`)}
-                } ;
-
-            })()` ;
+                    ${generate_body(body , hasMain , paramNames , isAsync)}
+    
+                    return ${isAsync ? 'async ' : ''}function(${paramFullNames}){
+    
+                        ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
+    
+                        ${generate_once_code(isOnce , onceVariableName , `${isAsync ? 'await ' : ''}main.call(this ${paramNames ? `, ${paramNames}` : ''})`)}
+                    } ;
+    
+                })()` ;
+            }
         
         }else{
 
@@ -286,8 +308,6 @@ class FunctionMeta extends ScriptMeta{
 
                 ${generate_var(initLockedVariableName , fragmentImportAllCodeDefinition)}
 
-                ${generate_var(currentScopeVariableName , fragmentImportAllCodeScopedAssignment)}
-
                 ${generate_var(classVariableNames , true)}
 
                 ${generate_var(onceVariableName , isOnce)}
@@ -296,7 +316,7 @@ class FunctionMeta extends ScriptMeta{
 
                     ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
 
-                    ${generate_scoped_code(currentScopeVariableName , fragmentImportAllCodeScopedAssignment)}
+                    ${fragmentImportAllCodeScopedAssignment}
 
                     ${generate_class_code(this.code.fullName , classVariableNames , body)}
 
@@ -337,20 +357,27 @@ function generate_once_code(isOnce , varName , code){
     return `return ${code} ;` ;
 }
 
-function generate_scoped_code(varName , code){
+function generate_scoped_code(varName , mainCode , code){
 
     if(code){
 
-        /*return  `
-        if(${varName} !== this){
+        return  `
+        
+        if(!${varName}.has(this)){
 
-            ${code}
+            ${varName}.set(this , (() => {
+                ${code}
 
-            ${varName} = this ;
+                ${mainCode}
+
+                return main ;
+
+            })());
         }
-        `;*/
 
-        return code ;
+        const main = ${varName}.get(this) ;
+
+        `;
     }
 
     return '' ;
