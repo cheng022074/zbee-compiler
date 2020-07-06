@@ -41,7 +41,7 @@
                 "meta":"code.meta.scss",
                 "template":"code.template.scss"
             },
-            ".scope.scss":{
+            ".class.scss":{
                 "meta":{
                     "name":"code.meta.scss",
                     "params":{

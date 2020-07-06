@@ -82,8 +82,24 @@ async function doPackage({
     memory = false,
     version,
     to,
+    prefixes,
     ...config
 } , name){
+
+    if(prefixes){
+
+        const {
+            env
+        } = process,
+        folders = Object.keys(prefixes) ;
+
+        for(let folder of folders){
+
+            env[`ZBEE-PARAM-${folder}-PREFIX`] = prefixes[folder] ;
+        }
+
+        env['ZBEE-PARAM-FORCE'] = true ;
+    }
 
     let importAllNames = [] ;
 
