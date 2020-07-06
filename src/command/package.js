@@ -86,7 +86,7 @@ async function doPackage({
     ...config
 } , name){
 
-    if(prefixes){
+    if(prefixes && !env['ZBEE-PARAM-INCREMENT']){
 
         const {
             env
