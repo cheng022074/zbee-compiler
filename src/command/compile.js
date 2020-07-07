@@ -22,7 +22,7 @@ Updated = require('../../lib/file/updated'),
 Meta = require('../../lib/code/bin/meta'),
 getSourceCodeNames = require('../../lib/code/source/names'),
 getSourceCodePath = require('../../lib/code/source/path'),
-getFullName = require('../../lib/code/source/name/full'),
+getFullName = require('../../lib/name/full'),
 {
     libraryUpdateTime
 } = Meta;
