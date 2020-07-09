@@ -1,6 +1,7 @@
-const {
-    SourceCode
-} = require('../code'),
+const
+Meta = require('../../lib/code/bin/meta'),
+getFullName = require('../../lib/name/full'),
+compile = require('./compile'),
 generate = require('./generate');
 
 module.exports = (name , planedNames = []) =>{
@@ -12,18 +13,22 @@ module.exports = (name , planedNames = []) =>{
 
     planedNames.push(name) ;
 
-    let code = SourceCode.get(name) ;
+    compile(name) ;
 
-    if(code.exists){
+    name = getFullName(name) ;
 
-        let classes = code.dependentClasses,
-            names = Object.keys(classes);
+    if(Meta.has(name)){
 
-        for(let name of names){
+        let importAllNames = Meta.getImportAllNames(name) ;
 
-            generate(name , classes[name] , planedNames) ;
+        for(let name of importAllNames){
+
+            if(/search/.test(name)){
+
+                console.log(name) ;
+            }
+
+            generate(name , '.fn.js' , planedNames) ;
         }
     }
-
-    
 }

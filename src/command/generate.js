@@ -22,9 +22,7 @@ const {
 {
     fileNormalize
 } = require('../path'),
-{
-    SourceCode
-} = require('../code'),
+Meta = require('../../lib/code/bin/meta'),
 {
     env
 } = process;
@@ -49,6 +47,7 @@ function generate(name , suffix , planedNames){
 
         let config = config_get('code.source' , `${folder}.suffixes.${suffix}`) ;
 
+
         if(config){
 
             let {
@@ -57,7 +56,7 @@ function generate(name , suffix , planedNames){
             path = join(APPLICATION.rootPath , folder , toPath(baseName)),
             filePath = fileNormalize(path);
 
-            if(!filePath && !SourceCode.getCode(SourceCode.get(name)).exists){
+            if(!filePath && !Meta.has(name)){
 
                 writeTextFile(`${path}${suffix}` , apply(template , {
                     name:baseName
