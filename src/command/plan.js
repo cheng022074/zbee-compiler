@@ -11,22 +11,17 @@ module.exports = (name , planedNames = []) =>{
         return ;
     }
 
-    planedNames.push(name) ;
-
     compile(name) ;
 
     name = getFullName(name) ;
+
+    planedNames.push(name) ;
 
     if(Meta.has(name)){
 
         let importAllNames = Meta.getImportAllNames(name) ;
 
         for(let name of importAllNames){
-
-            if(/search/.test(name)){
-
-                console.log(name) ;
-            }
 
             generate(name , '.fn.js' , planedNames) ;
         }
