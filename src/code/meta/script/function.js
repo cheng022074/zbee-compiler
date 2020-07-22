@@ -422,7 +422,7 @@ function generate_class_code(name , varName , code){
                     return true ;
                 }
 
-                get ZBEE_CURRENT_CLASS(){
+                get __ZBEE_CURRENT_CLASS__(){
 
                     return ${varName} ;
                 }
