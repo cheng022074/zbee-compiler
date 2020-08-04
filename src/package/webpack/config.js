@@ -71,6 +71,7 @@ module.exports = (name , entry , outputPath , config , isMinimize) =>{
             use: {
                 loader: 'babel-loader',
                 options: {
+                    compact:false,
                     cacheDirectory:true,
                     presets: [
                         '@babel/preset-env'
