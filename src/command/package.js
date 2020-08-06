@@ -23,6 +23,9 @@ const {
 {
     env
 } = process,
+{
+    keys
+} = Object,
 doGeneratePackageJSON = require('../package/package'),
 doGenerateCSS = require('../package/scss');
 
@@ -32,7 +35,7 @@ module.exports = async name =>{
 
         const 
         config = get('package'),
-        names = Object.keys(config);
+        names = keys(config);
 
         for(let name of names){
 
@@ -91,7 +94,7 @@ async function doPackage({
         const {
             env
         } = process,
-        folders = Object.keys(prefixes) ;
+        folders = keys(prefixes) ;
 
         for(let folder of folders){
 
@@ -141,6 +144,10 @@ async function doPackage({
         }
     }
 
+    console.log('打包脚本文件总数' , keys(scriptMetas).length) ;
+
+    console.log('打包样式文件总数' , keys(cssMetas).length) ;
+
     let {
             dependencies = {},
             rootPath:packageRootPath = APPLICATION.getFolderPath('package'),
@@ -160,9 +167,9 @@ async function doPackage({
         result['index.css'] = css;
     }
 
-    result['package.json'] = doGeneratePackageJSON(name , metas , Object.keys(result) , version || APPLICATION.version) ;
+    result['package.json'] = doGeneratePackageJSON(name , metas , keys(result) , version || APPLICATION.version) ;
 
-    let paths = Object.keys(result);
+    let paths = keys(result);
 
     for(let path of paths){
 
@@ -174,6 +181,8 @@ async function doPackage({
 
         console.log('已生成' , path) ;
     }
+
+
 
     if(env['ZBEE-PARAM-IGNORE-OUTPUT']){
 
