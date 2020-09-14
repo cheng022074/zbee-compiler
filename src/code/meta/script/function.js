@@ -302,28 +302,55 @@ class FunctionMeta extends ScriptMeta{
 
             let classVariableNames = `var_class_${time}`;
 
-            code = `(() =>{
+            if(fragmentImportAllCodeScopedAssignment){
 
-                ${fragmentImportAllCodeDefinition}
 
-                ${generate_var(initLockedVariableName , fragmentImportAllCodeDefinition)}
+                code = `(() =>{
 
-                ${generate_var(classVariableNames , true)}
+                    ${fragmentImportAllCodeDefinition}
+    
+                    ${generate_var(initLockedVariableName , fragmentImportAllCodeDefinition)}
+    
+                    ${generate_var(classVariableNames , true)}
+    
+                    ${generate_var(onceVariableName , isOnce)}
 
-                ${generate_var(onceVariableName , isOnce)}
+                    const ${currentScopeVariableName} = new Map();
+    
+                    return function(${isClass ? '' : paramFullNames}){
+    
+                        ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
+    
+                        ${generate_scoped_code(currentScopeVariableName , generate_class_code(this.code.fullName , classVariableNames , body) , fragmentImportAllCodeScopedAssignment)}
+    
+                        ${generate_once_code(isOnce , onceVariableName , `new main(${paramNames ? paramNames : ''})`)}
+                    } ;
+    
+                })()` ;
 
-                return function(${isClass ? '' : paramFullNames}){
+            }else{
 
-                    ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
+                code = `(() =>{
 
-                    ${fragmentImportAllCodeScopedAssignment}
-
-                    ${generate_class_code(this.code.fullName , classVariableNames , body)}
-
-                    ${generate_return_main_class(isOnce , isClass , onceVariableName , classVariableNames , paramNames)}
-                } ;
-
-            })()` ;
+                    ${fragmentImportAllCodeDefinition}
+    
+                    ${generate_var(initLockedVariableName , fragmentImportAllCodeDefinition)}
+    
+                    ${generate_var(classVariableNames , true)}
+    
+                    ${generate_var(onceVariableName , isOnce)}
+    
+                    return function(${isClass ? '' : paramFullNames}){
+    
+                        ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
+    
+                        ${generate_class_code(this.code.fullName , classVariableNames , body)}
+    
+                        ${generate_once_code(isOnce , onceVariableName , `new main(${paramNames ? paramNames : ''})`)}
+                    } ;
+    
+                })()` ;
+            }
         }
 
         return code ;
@@ -405,8 +432,6 @@ function generate_class_code(name , varName , code){
     if(code){
 
         return  `
-        if(!${varName}){
-
             ${code}
 
             ${varName} = class extends main{
@@ -433,7 +458,8 @@ function generate_class_code(name , varName , code){
                 }
 
             } ;
-        }
+
+            main = ${varName} ;
         `;
     }
 
