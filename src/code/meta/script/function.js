@@ -323,7 +323,7 @@ class FunctionMeta extends ScriptMeta{
     
                         ${generate_scoped_code(currentScopeVariableName , generate_class_code(this.code.fullName , classVariableNames , body) , fragmentImportAllCodeScopedAssignment)}
     
-                        ${generate_once_code(isOnce , onceVariableName , `new main(${paramNames ? paramNames : ''})`)}
+                        ${generate_once_code(isOnce , onceVariableName , isClass ? 'main' : `new main(${paramNames ? paramNames : ''})`)}
                     } ;
     
                 })()` ;
@@ -346,7 +346,7 @@ class FunctionMeta extends ScriptMeta{
     
                         ${generate_class_code(this.code.fullName , classVariableNames , body)}
     
-                        ${generate_once_code(isOnce , onceVariableName , `new main(${paramNames ? paramNames : ''})`)}
+                        ${generate_once_code(isOnce , onceVariableName , isClass ? 'main' : `new main(${paramNames ? paramNames : ''})`)}
                     } ;
     
                 })()` ;
