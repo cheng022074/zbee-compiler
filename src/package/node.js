@@ -2,17 +2,15 @@ const {
     apply
 } = require('../template'),
 {
-    SourceCode
-} = require('../code'),
-{
     APPLICATION
 } = require('../project'),
 webpack = require('./webpack/native');
 
-module.exports = (codes , {
+module.exports = (metas , {
     config,
     bootstrap,
     main,
+    api,
     compatible = false
 } , name) =>{
 
@@ -20,20 +18,13 @@ module.exports = (codes , {
         defaultFolder
     } = APPLICATION ;
 
-    let codeMap = {};
+    let codeMap = {},
+        names = Object.keys(metas);
 
-    for(let code of codes){
+    for(let name of names){
 
-        let data = SourceCode.getProperty(code , 'data') ;
-
-        if(data){
-
-            let {
-                fullName
-            } = code;
-
-            codeMap[fullName] = data ;
-        }
+        codeMap[name] = metas[name].data ;
+        
     }
 
     if(compatible){
@@ -43,7 +34,8 @@ module.exports = (codes , {
             codeMap,
             config,
             bootstrap,
-            main
+            main,
+            api
         }) , {
             target:'node'
         } , name) ;
@@ -55,7 +47,8 @@ module.exports = (codes , {
             codeMap,
             config,
             bootstrap,
-            main
+            main,
+            api
         })
      } ;
     }

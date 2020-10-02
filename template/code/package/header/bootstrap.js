@@ -1,16 +1,7 @@
-<%
+{
+    let {
+        argv
+    } = process ;
 
-    if(data){
-%>
-
-    {
-        let {
-            argv
-        } = process ;
-
-        include('<%- data %>')(...argv.slice(2)) ;
-    }
-
-<%
-    }
-%>
+    include('<%- data %>')(...argv.slice(2)) ;
+}

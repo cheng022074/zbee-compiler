@@ -4,25 +4,21 @@
         codeMap,
         config,
         bootstrap,
-        main
+        main,
+        api
     } = data ;
 
 %>
 
 const innerExports = {} ;
 
-try{
-    const {
-        env
-    } = process ;
-    
-    if(!env['ZBEE-APP-PATH']){
-    
-        env['ZBEE-APP-PATH'] = __dirname ;
-    }
-    
-}catch(err){
+const {
+    env
+} = process ;
 
+if(!env['ZBEE-APP-PATH']){
+
+    env['ZBEE-APP-PATH'] = __dirname ;
 }
 
 const include = <%- apply('code.package.header.include' , defaultFolder) ;%>;
@@ -30,7 +26,7 @@ const include = <%- apply('code.package.header.include' , defaultFolder) ;%>;
 const mixins = <%- apply('code.mixins') ;%>;
 
 <%
-    if(!main && !bootstrap){
+    if(!main && !bootstrap && !api){
 %>
 exports.include = include ;
 <%
@@ -57,6 +53,36 @@ innerExports['<%- name %>'] = <%- codeMap[name] %>;
     }
 %>
 
+<%
+
+    if(main){
+
+%>
+
 <%- apply('code.package.header.main.node' , main)%>
 
+<%
+    }
+%>
+
+<%
+
+    if(bootstrap){
+%>
+
 <%- apply('code.package.header.bootstrap' , bootstrap)%>
+
+<%
+    }
+%>
+
+<%
+    if(api){
+%>
+
+<%- apply('code.package.header.api.node' , api)%>
+
+
+<%
+    }
+%>
