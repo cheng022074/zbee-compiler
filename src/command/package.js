@@ -197,33 +197,15 @@ async function doPackage({
 
                 if(isDirectory(toPath)){
 
-                    {
+                    for(let path of paths){
 
-                        if(isDirectory(join(toPath , 'node_modules'))){
+                        let toFilePath = join(toPath , path) ;
 
-                            let rootPath = join(toPath , 'node_modules' , 'zbee-sdk/package' , name) ;
+                        writeFile(toFilePath , result[path]) ;
 
-                            for(let path of paths){
-    
-                                let toFilePath = join(rootPath , path) ;
-    
-                                writeFile(toFilePath , result[path]) ;
-    
-                                console.log('已复制' , toFilePath) ;
-                            } 
-                        
-                        }else{
-
-                            for(let path of paths){
-    
-                                let toFilePath = join(toPath , path) ;
-    
-                                writeFile(toFilePath , result[path]) ;
-    
-                                console.log('已复制' , toFilePath) ;
-                            } 
-                        }
-                    }
+                        console.log('已复制' , toFilePath) ;
+                    } 
+                    
 
                 }else if(isFile(toPath)){
 
