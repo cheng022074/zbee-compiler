@@ -167,7 +167,7 @@ async function doPackage({
         result['index.css'] = css;
     }
 
-    result['package.json'] = doGeneratePackageJSON(name , metas , keys(result) , version || APPLICATION.version) ;
+    result['package.json'] = doGeneratePackageJSON(name , metas , keys(result) , version || APPLICATION.version , APPLICATION.package) ;
 
     let paths = keys(result);
 

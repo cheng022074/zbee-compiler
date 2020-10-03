@@ -5,14 +5,18 @@
         version,
         type,
         module,
-        files
+        files,
+        engines,
+        author,
+        license
     } = data ;
 %>
 {
     "name": "<%- name %>",
     "version":"<%- version %>",
-    "author": "nero chen",
-    "license": "ISC",
+    "engines":<%- JSON.stringify(engines) %>,
+    "author": "<%- author %>",
+    "license": "<%- license %>",
     "files": <%- JSON.stringify(files , null , 2) %>,
     "dependencies": <%- JSON.stringify(dependencies , null , 2) %>
 }

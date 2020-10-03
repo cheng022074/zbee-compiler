@@ -5,7 +5,11 @@ const {
     assign
 } = Object;
 
-module.exports = (name , metas , files , version) => {
+module.exports = (name , metas , files , version , {
+    engines,
+    author,
+    license
+}) => {
 
     let importAllNames = Object.keys(metas),
         dependencies = {};
@@ -20,6 +24,9 @@ module.exports = (name , metas , files , version) => {
         name:getPackageName(name),
         files,
         version,
+        engines,
+        author,
+        license,
         dependencies
     }) ;
 } ;
