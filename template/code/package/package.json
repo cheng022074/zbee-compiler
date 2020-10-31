@@ -23,6 +23,10 @@
     <%if(license){%>
     "license": "<%- license %>",
     <%}%>
+    <%if(files.includes('index.asm.js')){%>
+    "module":"index.asm.js",
+    <%}%>
+    "main":"index.js",
     "files": <%- JSON.stringify(files , null , 2) %>,
     "dependencies": <%- JSON.stringify(dependencies , null , 2) %>
 }

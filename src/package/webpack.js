@@ -35,8 +35,17 @@ module.exports = async (metas , {
     if(webpackConfig){
 
         return {
-            ['index.js']:await webpack(data , webpackConfig , name , true),
-            ['index-debug.js']:await webpack(data , webpackConfig , name , false)
+            ['index.asm.js']:data,
+            ['index.js']:`
+              if (process.env.NODE_ENV === 'production') {
+                module.exports = require('./index.prod.js')
+              } else {
+                module.exports = require('./index.dev.js')
+              }
+              
+            `,
+            ['index.prd.js']:await webpack(data , webpackConfig , name , true),
+            ['index.dev.js']:await webpack(data , webpackConfig , name , false)
         } ;
     
     }
