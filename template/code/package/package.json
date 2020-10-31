@@ -1,7 +1,7 @@
 <%
     const {
         name,
-        dependencies,
+        dependencies = {},
         version,
         type,
         module,
@@ -14,9 +14,15 @@
 {
     "name": "<%- name %>",
     "version":"<%- version %>",
-    "engines":<%- JSON.stringify(engines) %>,
+    <%if(engines){%>
+    "engines":<%- JSON.stringify(engines , null , 2) %>,
+    <%}%>
+    <%if(author){%>
     "author": "<%- author %>",
+    <%}%>
+    <%if(license){%>
     "license": "<%- license %>",
+    <%}%>
     "files": <%- JSON.stringify(files , null , 2) %>,
     "dependencies": <%- JSON.stringify(dependencies , null , 2) %>
 }
