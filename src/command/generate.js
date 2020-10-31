@@ -23,6 +23,7 @@ const {
     fileNormalize
 } = require('../path'),
 Meta = require('../../lib/code/bin/meta'),
+compile = require('./compile'),
 {
     env
 } = process;
@@ -56,13 +57,13 @@ function generate(name , suffix , planedNames){
             path = join(APPLICATION.rootPath , folder , toPath(baseName)),
             filePath = fileNormalize(path);
 
-            if(!filePath && !Meta.has(name)){
+            if(!filePath && !Meta.externalHas(name)){
 
                 writeTextFile(`${path}${suffix}` , apply(template , {
                     name:baseName
                 })) ;
 
-                console.log('已生成' , name) ;
+                compile(name) ;
             
             }else if(env['ZBEE-PARAM-FORCE'] === 'force'){
 
