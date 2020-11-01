@@ -7,7 +7,8 @@ const innerExports = {} ;
         defaultFolder,
         codeMap,
         config,
-        entry
+        entry,
+        exports
     } = data ;
 %>
 
@@ -42,5 +43,21 @@ innerExports['<%- name %>'] = <%- codeMap[name] %>;
 %>
 export default (...args) => include('<%- entry %>')(...args) ;
 <%
+    }
+%>
+
+<%
+    if(exports){
+
+        let names = Object.keys(exports) ;
+
+        for(let name of names){
+%>
+export function <%- name %>(...args){
+    
+    return include('<%- exports[name] %>')(...args) ;
+}
+<%
+        }
     }
 %>

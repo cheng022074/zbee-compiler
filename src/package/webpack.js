@@ -14,14 +14,16 @@ module.exports = async (metas , {
     config,
     entry,
     webpack:webpackConfig,
-    packages = []
+    packages = [],
+    exports
 } , name) =>{
 
     let data = apply('code.package.bundle.webpack' , {
             defaultFolder,
             codeMap:generateCodeMap(metas),
             config,
-            entry
+            entry,
+            exports
         });
 
     if(webpackConfig){
