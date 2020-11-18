@@ -8,7 +8,9 @@ const {
 {
     rootPath:APPLICATION_ROOTPATH
 } = APPLICATION,
-webpackMerge = require('webpack-merge'),
+{
+    merge:webpackMerge
+} = require('webpack-merge'),
 {
     MAX_VALUE
 } = Number,
