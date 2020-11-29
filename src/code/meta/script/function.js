@@ -330,6 +330,8 @@ class FunctionMeta extends ScriptMeta{
 
             }else{
 
+                let globalMainVariable = `var_global_main_${time}` ;
+
                 code = `(() =>{
 
                     ${fragmentImportAllCodeDefinition}
@@ -340,13 +342,13 @@ class FunctionMeta extends ScriptMeta{
     
                     ${generate_var(onceVariableName , isOnce)}
 
-                    let globalMain ;
+                    let ${globalMainVariable} ;
     
                     return function(${isClass ? '' : paramFullNames}){
     
-                        ${generate_init_code(initLockedVariableName , `${fragmentImportAllCodeAssignment}\n${generate_class_code(this.code.fullName , classVariableNames , body)}\nglobalMain = main;`)}
+                        ${generate_init_code(initLockedVariableName , `${fragmentImportAllCodeAssignment}\n${generate_class_code(this.code.fullName , classVariableNames , body)}\n${globalMainVariable} = main;`)}
     
-                        ${generate_once_code(isOnce , onceVariableName , isClass ? 'globalMain' : `new globalMain(${paramNames ? paramNames : ''})`)}
+                        ${generate_once_code(isOnce , onceVariableName , isClass ? globalMainVariable : `new ${globalMainVariable}(${paramNames ? paramNames : ''})`)}
                     } ;
     
                 })()` ;
