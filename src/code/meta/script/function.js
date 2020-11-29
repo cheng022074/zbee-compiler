@@ -339,14 +339,14 @@ class FunctionMeta extends ScriptMeta{
                     ${generate_var(classVariableNames , true)}
     
                     ${generate_var(onceVariableName , isOnce)}
+
+                    let globalMain ;
     
                     return function(${isClass ? '' : paramFullNames}){
     
-                        ${generate_init_code(initLockedVariableName , fragmentImportAllCodeAssignment)}
+                        ${generate_init_code(initLockedVariableName , `${fragmentImportAllCodeAssignment}\n${generate_class_code(this.code.fullName , classVariableNames , body)}\nglobalMain = main;`)}
     
-                        ${generate_class_code(this.code.fullName , classVariableNames , body)}
-    
-                        ${generate_once_code(isOnce , onceVariableName , isClass ? 'main' : `new main(${paramNames ? paramNames : ''})`)}
+                        ${generate_once_code(isOnce , onceVariableName , isClass ? 'globalMain' : `new globalMain(${paramNames ? paramNames : ''})`)}
                     } ;
     
                 })()` ;
