@@ -94,6 +94,11 @@ function print(messages){
         
         }else{
 
+            if(typeof message === 'object'){
+
+                message = message.message ;
+            }
+
             result.push(message) ;
         }
     }
