@@ -32,7 +32,7 @@ class Meta extends require('../meta')(){
 
     toString(){
 
-        return `() => \`${this.body.toString()}\`` ;
+        return `prefix => \`${this.body.toString()}\`` ;
     }
 }
 

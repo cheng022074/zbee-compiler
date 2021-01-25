@@ -62,6 +62,8 @@ function compile(codeName , compiledNames){
 
             compileImports(codeName , compiledNames) ;
 
+            execute(codeName , folder , name) ;
+
             return;
         }
     
@@ -79,10 +81,14 @@ function compile(codeName , compiledNames){
 
             if(Updated.get(binPath) > libraryUpdateTime){
 
+                execute(codeName , folder , name) ;
+
                 return ;
             }
 
         }else{
+
+            execute(codeName , folder , name) ;
             
             return ;
         }
@@ -94,17 +100,22 @@ function compile(codeName , compiledNames){
 
     writeTextFile(binPath , `module.exports = ${format(data)};`) ;
 
-    switch(Meta.getMetaType(codeName)){
-
-        case 'css':
-
-            writeTextFile(APPLICATION.generateBinPath(folder , name , '.scss') , runAsync(BinCode.get(codeName).target)) ;
-    }
+    execute(codeName , folder , name) ;
     
     console.log('已生成' , codeName) ;
 
     compileImports(codeName , compiledNames) ;
     
+}
+
+function execute(codeName , folder , name){
+
+    switch(Meta.getMetaType(codeName)){
+
+        case 'css':
+
+            writeTextFile(APPLICATION.generateBinPath(folder , name , '.scss') , runAsync(BinCode.get(codeName).target , process.env[`ZBEE-PARAM-${folder}-PREFIX`])) ;
+    }
 }
 
 function compileImports(codeName , compiledNames){
