@@ -61,6 +61,7 @@ module.exports = (name , entry , outputPath , config , isMinimize) =>{
             ]
         },
         module: {
+            unknownContextCritical:false,
             rules:[]
         }
     } ;
