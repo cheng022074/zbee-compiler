@@ -193,32 +193,35 @@ async function doPackage({
 
         for(let toPath of to){
 
-            if(isAbsolute(toPath)){
+            if(!isAbsolute(toPath)){
 
-                if(isDirectory(toPath)){
+                toPath = join(APPLICATION.rootPath , '..' , toPath) ;
+            }
 
-                    for(let path of paths){
+            if(isDirectory(toPath)){
 
-                        let toFilePath = join(toPath , path) ;
+                for(let path of paths){
 
-                        writeFile(toFilePath , result[path]) ;
+                    let toFilePath = join(toPath , path) ;
 
-                        console.log('已复制' , toFilePath) ;
-                    } 
-                    
+                    writeFile(toFilePath , result[path]) ;
 
-                }else if(isFile(toPath)){
+                    console.log('已复制' , toFilePath) ;
+                } 
+                
 
-                    let data = result[`index${extname(toPath)}`] ;
+            }else if(isFile(toPath)){
 
-                    if(data){
+                let data = result[`index${extname(toPath)}`] ;
 
-                        writeFile(toPath , data) ;
+                if(data){
 
-                        console.log('已重写' , toPath) ;
-                    }
+                    writeFile(toPath , data) ;
+
+                    console.log('已重写' , toPath) ;
                 }
             }
+            
         }
     }
 }
