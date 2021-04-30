@@ -80,6 +80,7 @@ const Meta = require('../../lib/code/bin/meta');
 const compile = require('./compile') ;
 
 async function doPackage({
+    name:packageName,
     classes,
     type = 'library',
     memory = false,
@@ -152,7 +153,7 @@ async function doPackage({
             dependencies = {},
             rootPath:packageRootPath = APPLICATION.getFolderPath('package'),
             ...result
-        } = await require(`../package/${type}`)(scriptMetas , config , name , metas) ;
+        } = await require(`../package/${type}`)(scriptMetas , config , packageName || name , metas) ;
 
     if(memory === true){
 
