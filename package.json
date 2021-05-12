@@ -44,7 +44,7 @@
     "js-beautify": "^1.7.5",
     "jsdom": "^16.2.2",
     "node-sass": "^4.14.1",
-    "postcss": "^7.0.32",
+    "postcss": "^8.2.10",
     "strip-comment": "^1.1.3",
     "terser-webpack-plugin": "^2.3.5",
     "uglify-es": "^3.3.9",
